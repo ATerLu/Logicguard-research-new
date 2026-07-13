@@ -1,0 +1,60 @@
+stage_label: Stage40
+
+asset_rows_output_path: outputs/ms_graphrag_query/stage40_cross_dataset_asset_rows.jsonl
+summary_output_path: outputs/ms_graphrag_query/stage40_cross_dataset_readiness_summary.csv
+gap_actions_output_path: outputs/ms_graphrag_query/stage40_cross_dataset_gap_actions.jsonl
+report_path: outputs/reports/Stage40_CrossDatasetReadiness_OfficialGraphRAG.md
+
+required_workspace_files:
+  - documents.parquet
+  - text_units.parquet
+  - entities.parquet
+  - relationships.parquet
+  - communities.parquet
+  - stats.json
+
+datasets:
+  - dataset: 2wikimultihopqa
+    sample_path: data/processed/2wikimultihopqa/debug_50.jsonl
+    clean_corpus_path: data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl
+    poisoned_corpus_path: data/logicpoison_official/poisoned/2wikimultihopqa/corpus.jsonl
+    query_integrity_path: outputs/attacks/logicpoison_official/2wikimultihopqa/query_integrity.jsonl
+    clean_workspace_output_dir: outputs/ms_graphrag/2wikimultihopqa/stage10_debug50_clean_query_ready/output
+    poisoned_workspace_output_dir: outputs/ms_graphrag/2wikimultihopqa/stage10_debug50_poisoned_query_ready/output
+    baseline_context_path: outputs/ms_graphrag_query/stage22_poisoned5_official_local_context.jsonl
+    broad_context_path: outputs/ms_graphrag_query/stage22_poisoned5_broad_context.jsonl
+    source_context_path: outputs/ms_graphrag_query/stage24_poisoned20_query_guard_contexts_full_query_guard.jsonl
+    risk_non_oracle_context_path: outputs/ms_graphrag_query/stage28_poisoned20_risk_non_oracle_sources_contexts.jsonl
+    source_enrichment_context_path: outputs/ms_graphrag_query/stage35_poisoned20_query_bm25_append_top12_contexts.jsonl
+    chain_targeted_context_path: outputs/ms_graphrag_query/stage38_poisoned20_second_hop_append_top14_contexts.jsonl
+    answer_judge_summary_path: outputs/ms_graphrag_query/stage39_poisoned20_answer_judge_summary.csv
+
+  - dataset: hotpotqa
+    sample_path: data/processed/hotpotqa/debug_50.jsonl
+    clean_corpus_path: data/logicpoison_official/clean/hotpotqa/corpus.jsonl
+    poisoned_corpus_path: data/logicpoison_official/poisoned/hotpotqa/corpus.jsonl
+    query_integrity_path: outputs/attacks/logicpoison_official/hotpotqa/query_integrity.jsonl
+    clean_workspace_output_dir: outputs/ms_graphrag/hotpotqa/stage40_debug50_clean_query_ready/output
+    poisoned_workspace_output_dir: outputs/ms_graphrag/hotpotqa/stage40_debug50_poisoned_query_ready/output
+    baseline_context_path: outputs/ms_graphrag_query/stage40_hotpotqa_poisoned5_official_local_context.jsonl
+    broad_context_path: outputs/ms_graphrag_query/stage40_hotpotqa_poisoned5_broad_context.jsonl
+    source_context_path: outputs/ms_graphrag_query/stage40_hotpotqa_poisoned20_query_guard_contexts_full_query_guard.jsonl
+    risk_non_oracle_context_path: outputs/ms_graphrag_query/stage40_hotpotqa_poisoned20_risk_non_oracle_sources_contexts.jsonl
+    source_enrichment_context_path: outputs/ms_graphrag_query/stage40_hotpotqa_poisoned20_query_bm25_append_top12_contexts.jsonl
+    chain_targeted_context_path: outputs/ms_graphrag_query/stage40_hotpotqa_poisoned20_second_hop_append_top14_contexts.jsonl
+    answer_judge_summary_path: outputs/ms_graphrag_query/stage46_hotpotqa_poisoned20_answer_judge_summary.csv
+
+  - dataset: musique
+    sample_path: data/processed/musique/debug_50.jsonl
+    clean_corpus_path: data/logicpoison_official/clean/musique/corpus.jsonl
+    poisoned_corpus_path: data/logicpoison_official/poisoned/musique/corpus.jsonl
+    query_integrity_path: outputs/attacks/logicpoison_official/musique/query_integrity.jsonl
+    clean_workspace_output_dir: outputs/ms_graphrag/musique/stage40_debug50_clean_query_ready/output
+    poisoned_workspace_output_dir: outputs/ms_graphrag/musique/stage40_debug50_poisoned_query_ready/output
+    baseline_context_path: outputs/ms_graphrag_query/stage40_musique_poisoned5_official_local_context.jsonl
+    broad_context_path: outputs/ms_graphrag_query/stage40_musique_poisoned5_broad_context.jsonl
+    source_context_path: outputs/ms_graphrag_query/stage40_musique_poisoned20_query_guard_contexts_full_query_guard.jsonl
+    risk_non_oracle_context_path: outputs/ms_graphrag_query/stage40_musique_poisoned20_risk_non_oracle_sources_contexts.jsonl
+    source_enrichment_context_path: outputs/ms_graphrag_query/stage40_musique_poisoned20_query_bm25_append_top12_contexts.jsonl
+    chain_targeted_context_path: outputs/ms_graphrag_query/stage40_musique_poisoned20_second_hop_append_top14_contexts.jsonl
+    answer_judge_summary_path: outputs/ms_graphrag_query/stage46_musique_poisoned20_answer_judge_summary.csv

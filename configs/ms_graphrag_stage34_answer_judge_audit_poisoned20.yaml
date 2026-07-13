@@ -1,0 +1,19 @@
+dataset: 2wikimultihopqa
+audited_results_path: outputs/ms_graphrag_query/stage33_poisoned20_answer_audit_results.jsonl
+
+judged_results_output_path: outputs/ms_graphrag_query/stage34_poisoned20_answer_judge_results.jsonl
+summary_output_path: outputs/ms_graphrag_query/stage34_poisoned20_answer_judge_summary.csv
+breakdown_output_path: outputs/ms_graphrag_query/stage34_poisoned20_answer_judge_breakdown.csv
+examples_output_path: outputs/ms_graphrag_query/stage34_poisoned20_answer_judge_examples.jsonl
+report_path: outputs/reports/Stage34_AnswerJudgeAudit_20Query.md
+
+methods:
+  - risk_non_oracle_title_entity_bm25
+judge_model: qwen3.7-plus
+judge_api_key_env: DASHSCOPE_API_KEY
+judge_base_url_env: DASHSCOPE_BASE_URL
+judge_temperature: 0.0
+judge_max_tokens: 96
+judge_timeout_seconds: 60
+max_examples: 8
+stage_label: Stage34

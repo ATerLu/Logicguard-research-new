@@ -1,0 +1,16 @@
+dataset: 2wikimultihopqa
+sample_path: data/processed/2wikimultihopqa/debug_50.jsonl
+
+poisoned_output_dir: outputs/ms_graphrag/2wikimultihopqa/stage9_debug50_poisoned_minimal/output
+clean_output_dir: outputs/ms_graphrag/2wikimultihopqa/stage9_debug50_clean_minimal/output
+query_integrity_path: outputs/attacks/logicpoison_official/2wikimultihopqa/query_integrity.jsonl
+changed_docs_path: outputs/attacks/logicpoison_official/2wikimultihopqa/changed_docs.jsonl
+
+evidence_output_path: outputs/ms_graphrag_query/stage21_medium_evidence.jsonl
+metrics_output_path: outputs/ms_graphrag_query/stage21_medium_metrics.csv
+summary_output_path: outputs/ms_graphrag_query/stage21_medium_summary.csv
+report_path: outputs/reports/MicrosoftGraphRAG_Stage21_中等规模查询诊断报告.md
+
+max_queries: 50
+top_k_values: [5, 10]
+title_boost: 2.0

@@ -1,0 +1,2 @@
+"""Lightweight GraphRAG baseline components."""
+

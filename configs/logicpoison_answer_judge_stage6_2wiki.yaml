@@ -1,0 +1,12 @@
+api_key_env: DASHSCOPE_API_KEY
+base_url_env: DASHSCOPE_BASE_URL
+judge_model: qwen3.7-plus
+
+input_results_path: outputs/llm_generation/logicpoison_answer/2wikimultihopqa/stage6_pilot_20/answer_results.jsonl
+output_results_path: outputs/llm_generation/logicpoison_answer/2wikimultihopqa/stage6_pilot_20/answer_judged_results.jsonl
+output_csv_path: outputs/llm_generation/logicpoison_answer/2wikimultihopqa/stage6_pilot_20/answer_judged_results.csv
+report_path: outputs/reports/LogicPoison阶段6Judge_2Wiki.md
+
+temperature: 0.0
+max_tokens: 96
+timeout_seconds: 90

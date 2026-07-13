@@ -1,0 +1,13 @@
+﻿dataset,method,enrichment_policy,ordering_uses_oracle,max_sources,query_count,answer_surface_rate,support_answer_surface_rate,baseline_answer_surface_rate,baseline_support_answer_surface_rate,gained_answer_surface_rate,gained_support_answer_surface_rate,clean_answerable_rate,support_hit_rate,full_support_hit_rate,unsafe_context_rate,target_failure_count,target_failure_gain_rate,target_failure_support_gain_rate,avg_source_count,avg_added_source_count,avg_estimated_prompt_tokens,avg_first_gold_answer_rank
+hotpotqa,risk_non_oracle_title_entity_bm25,stage33_title_overlap,0,8,20,0.6000,0.6000,0.6000,0.6000,0.0000,0.0000,0.6000,0.8500,0.7500,0.0000,0,0.0000,0.0000,8.0000,0.0000,1042.4500,1.6667
+hotpotqa,risk_non_oracle_title_entity_bm25,stage33_title_overlap,0,12,20,0.7000,0.6500,0.6000,0.6000,0.1000,0.0500,0.7000,0.8500,0.8000,0.0000,0,0.0000,0.0000,12.0000,4.0000,1544.8000,3.0714
+hotpotqa,risk_non_oracle_title_entity_bm25,stage33_title_overlap,0,16,20,0.7000,0.6500,0.6000,0.6000,0.1000,0.0500,0.7000,0.8500,0.8000,0.0000,0,0.0000,0.0000,16.0000,8.0000,2029.5000,3.0714
+hotpotqa,risk_non_oracle_title_entity_bm25,query_bm25_append,0,8,20,0.6000,0.6000,0.6000,0.6000,0.0000,0.0000,0.6000,0.8500,0.7500,0.0000,0,0.0000,0.0000,8.0000,0.0000,1042.4500,1.6667
+hotpotqa,risk_non_oracle_title_entity_bm25,query_bm25_append,0,12,20,0.8500,0.8000,0.6000,0.6000,0.2500,0.2000,0.8500,1.0000,0.9500,0.0000,0,0.0000,0.0000,12.0000,4.0000,1517.0500,4.0588
+hotpotqa,risk_non_oracle_title_entity_bm25,query_bm25_append,0,16,20,0.8500,0.8000,0.6000,0.6000,0.2500,0.2000,0.8500,1.0000,0.9500,0.0000,0,0.0000,0.0000,16.0000,8.0000,2011.1000,4.0588
+hotpotqa,risk_non_oracle_title_entity_bm25,query_bm25_rerank,0,8,20,0.2000,0.1000,0.6000,0.6000,0.1000,0.1000,0.2000,0.1500,0.0500,0.0000,0,0.0000,0.0000,8.0000,8.0000,1026.7000,4.0000
+hotpotqa,risk_non_oracle_title_entity_bm25,query_bm25_rerank,0,12,20,0.3500,0.1500,0.6000,0.6000,0.1500,0.1000,0.3500,0.2000,0.1000,0.0000,0,0.0000,0.0000,12.0000,11.9000,1518.8000,6.7143
+hotpotqa,risk_non_oracle_title_entity_bm25,query_bm25_rerank,0,16,20,0.3500,0.1500,0.6000,0.6000,0.1500,0.1000,0.3500,0.2000,0.1000,0.0000,0,0.0000,0.0000,16.0000,15.8000,2009.6500,6.7143
+hotpotqa,risk_non_oracle_title_entity_bm25,oracle_support_append,1,8,20,0.6000,0.6000,0.6000,0.6000,0.0000,0.0000,0.6000,0.8500,0.7500,0.0000,0,0.0000,0.0000,8.0000,0.0000,1042.4500,1.6667
+hotpotqa,risk_non_oracle_title_entity_bm25,oracle_support_append,1,12,20,0.8500,0.8500,0.6000,0.6000,0.2500,0.2500,0.8500,1.0000,1.0000,0.0000,0,0.0000,0.0000,8.4000,0.4000,1087.8000,3.8824
+hotpotqa,risk_non_oracle_title_entity_bm25,oracle_support_append,1,16,20,0.8500,0.8500,0.6000,0.6000,0.2500,0.2500,0.8500,1.0000,1.0000,0.0000,0,0.0000,0.0000,8.4000,0.4000,1087.8000,3.8824

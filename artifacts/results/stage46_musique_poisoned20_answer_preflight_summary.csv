@@ -1,0 +1,5 @@
+﻿dataset,method,query_count,changed_support_query_count,changed_support_hit_rate,unrecovered_changed_exposure_rate,recovered_support_query_rate,full_support_hit_rate,gold_answer_surface_rate,avg_source_count,avg_rendered_chars,attack_pressure_status
+musique,full_query_guard,20,20,1.0000,1.0000,0.0000,0.3500,0.2000,12.0000,6166.9500,充分
+musique,risk_non_oracle_title_entity_bm25,20,20,1.0000,0.0000,1.0000,0.3500,0.3500,12.0000,6041.3500,缺失
+musique,stage35_query_bm25_append_top12,20,20,1.0000,0.0000,1.0000,0.6000,0.4000,12.0000,6041.4000,缺失
+musique,stage38_second_hop_append_top14,20,20,1.0000,0.0000,1.0000,0.8000,0.4000,14.0000,7110.2000,缺失

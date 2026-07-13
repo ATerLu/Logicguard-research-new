@@ -1,0 +1,18 @@
+dataset: 2wikimultihopqa
+sample_path: data/processed/2wikimultihopqa/stage14_local_defense_5.jsonl
+workspace_root: outputs/ms_graphrag/2wikimultihopqa/stage14_local_defense_5_poisoned_query_ready
+
+output_path: outputs/ms_graphrag_query/stage16_5_broad_entities_context.jsonl
+report_path: outputs/reports/MicrosoftGraphRAG_Stage16_BroadEntities_Context导出报告.md
+
+community_level: 2
+response_type: Single Sentence
+max_queries: 5
+verbose: false
+
+local_search_overrides:
+  text_unit_prop: 0.8
+  community_prop: 0.0
+  top_k_entities: 60
+  top_k_relationships: 60
+  max_context_tokens: 24000

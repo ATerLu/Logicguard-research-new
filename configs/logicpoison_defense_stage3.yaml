@@ -1,0 +1,28 @@
+# Stage-3 LogicGuard defense ablation for official LogicPoison corpora.
+#
+# This stage reads retrieval traces produced by `logicpoison_retrieval_stage2`.
+# It does not re-run retrieval and does not call LLMs.
+clean_data_root: data/logicpoison_official/clean
+poisoned_data_root: data/logicpoison_official/poisoned
+retrieval_root: outputs/retrieval/logicpoison_official
+output_root: outputs/defense/logicpoison_official
+report_path: outputs/reports/LogicPoison防御消融实验报告.md
+
+datasets:
+  - 2wikimultihopqa
+  - hotpotqa
+  - musique
+
+retrievers:
+  - naive_bm25
+  - graph_surrogate
+
+modes:
+  - none
+  - provenance_only
+  - content_integrity_only
+  - support_consistency_only
+  - full_logicguard
+  - full_logicguard_recovery
+
+top_k: 10

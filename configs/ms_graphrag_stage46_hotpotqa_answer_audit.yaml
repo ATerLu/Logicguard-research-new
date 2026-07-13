@@ -1,0 +1,17 @@
+dataset: hotpotqa
+llm_results_path: outputs/ms_graphrag_query/stage46_hotpotqa_poisoned20_answer_llm_results.jsonl
+answer_cases_path: outputs/ms_graphrag_query/stage46_hotpotqa_poisoned20_answer_llm_cases.jsonl
+
+audited_results_output_path: outputs/ms_graphrag_query/stage46_hotpotqa_poisoned20_answer_audit_results.jsonl
+summary_output_path: outputs/ms_graphrag_query/stage46_hotpotqa_poisoned20_answer_audit_summary.csv
+breakdown_output_path: outputs/ms_graphrag_query/stage46_hotpotqa_poisoned20_answer_audit_breakdown.csv
+examples_output_path: outputs/ms_graphrag_query/stage46_hotpotqa_poisoned20_answer_audit_examples.jsonl
+report_path: outputs/reports/Stage46_HotpotQA_回答审计_20问.md
+
+methods:
+  - full_query_guard
+  - risk_non_oracle_title_entity_bm25
+  - stage35_query_bm25_append_top12
+  - stage38_second_hop_append_top14
+max_examples: 16
+stage_label: Stage46-HotpotQA

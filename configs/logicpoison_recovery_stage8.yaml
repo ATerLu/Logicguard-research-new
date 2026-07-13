@@ -1,0 +1,23 @@
+# Stage-8 non-oracle recovery for official LogicPoison corpora.
+#
+# This stage reads the stage-3 full_logicguard guarded traces, then recovers
+# context by re-querying the trusted clean corpus with BM25. It does not read
+# or reuse clean retrieval traces for recovery.
+clean_data_root: data/logicpoison_official/clean
+poisoned_data_root: data/logicpoison_official/poisoned
+retrieval_root: outputs/retrieval/logicpoison_official
+stage3_defense_root: outputs/defense/logicpoison_official
+output_root: outputs/defense/logicpoison_official_stage8
+report_path: outputs/reports/LogicPoison阶段8非OracleRecovery实验报告.md
+
+datasets:
+  - 2wikimultihopqa
+  - hotpotqa
+  - musique
+
+retrievers:
+  - naive_bm25
+  - graph_surrogate
+
+top_k: 10
+recovery_mode: trusted_bm25

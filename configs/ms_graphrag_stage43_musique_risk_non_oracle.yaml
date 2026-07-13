@@ -1,0 +1,18 @@
+dataset: musique
+sample_path: data/processed/musique/debug_50.jsonl
+query_integrity_path: outputs/attacks/logicpoison_official/musique/query_integrity.jsonl
+source_context_path: outputs/ms_graphrag_query/stage40_musique_poisoned20_query_guard_contexts_full_query_guard.jsonl
+clean_reference_output_dir: outputs/ms_graphrag/musique/stage40_debug50_clean_query_ready/output
+
+context_output_path: outputs/ms_graphrag_query/stage40_musique_poisoned20_risk_non_oracle_sources_contexts.jsonl
+metrics_output_path: outputs/ms_graphrag_query/stage40_musique_poisoned20_risk_non_oracle_sources_metrics.csv
+summary_output_path: outputs/ms_graphrag_query/stage40_musique_poisoned20_risk_non_oracle_sources_summary.csv
+report_path: outputs/reports/Stage43_MuSiQue_RiskNonOracleSourcesRecovery_20Query.md
+
+input_method_name: full_query_guard
+max_queries: 20
+stage_label: Stage43-MuSiQue
+top_k_candidates: 5
+min_candidate_score: 0.01
+entity_drift_threshold: 0.10
+title_overlap_threshold: 0.80

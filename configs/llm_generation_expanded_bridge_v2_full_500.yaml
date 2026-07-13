@@ -1,0 +1,33 @@
+# Expanded real-LLM answer generation experiment using full_500 retrieval traces.
+dataset: 2wikimultihopqa
+run_name: full_500_expanded_5
+
+api_key_env: DASHSCOPE_API_KEY
+base_url_env: DASHSCOPE_BASE_URL
+models:
+  - qwen3.7-plus
+  - deepseek-v4-flash
+
+clean_corpus_path: ../external_repos/logicPoison/datasets/2wikimultihopqa/corpus.jsonl
+entity_swap_corpus_path: outputs/attacks/entity_swap_full_500/2wikimultihopqa/poisoned_corpus.jsonl
+bridge_corpus_path: outputs/attacks/bridge_injection_v2_full_500/2wikimultihopqa/answer_aware_bridge_poisoned_corpus.jsonl
+
+clean_trace_path: outputs/baseline/2wikimultihopqa/full_500_traces.jsonl
+entity_swap_trace_path: outputs/attacks/entity_swap_full_500/2wikimultihopqa/poisoned_full_500_traces.jsonl
+bridge_trace_path: outputs/attacks/bridge_injection_v2_full_500/2wikimultihopqa/answer_aware_bridge_poisoned_full_500_traces.jsonl
+entity_guarded_trace_path: outputs/defense/logicguard_bridge_v2_full_500/2wikimultihopqa/entity_swap_guarded_traces.jsonl
+bridge_guarded_trace_path: outputs/defense/logicguard_bridge_v2_full_500/2wikimultihopqa/bridge_injection_guarded_traces.jsonl
+
+entity_swap_metadata_path: outputs/attacks/entity_swap_full_500/2wikimultihopqa/entity_swap_metadata.jsonl
+bridge_metadata_path: outputs/attacks/bridge_injection_v2_full_500/2wikimultihopqa/bridge_injection_v2_metadata.jsonl
+
+output_root: outputs/llm_generation/expanded_bridge_v2
+report_path: outputs/reports/llm_generation_expanded_bridge_v2_2wikimultihopqa_full_500.md
+
+top_k: 10
+max_cases_per_attack: 5
+max_docs: 5
+max_chars_per_doc: 700
+temperature: 0.0
+max_tokens: 64
+timeout_seconds: 60

@@ -1,0 +1,32 @@
+dataset: 2wikimultihopqa
+sample_path: data/processed/2wikimultihopqa/stage14_local_defense_5.jsonl
+poisoned_workspace_root: outputs/ms_graphrag/2wikimultihopqa/stage14_local_defense_5_poisoned_query_ready
+clean_reference_workspace_root: outputs/ms_graphrag/2wikimultihopqa/stage14_local_defense_5_clean_query_ready
+query_integrity_path: outputs/attacks/logicpoison_official/2wikimultihopqa/query_integrity.jsonl
+
+official_context_output_path: outputs/ms_graphrag_query/stage14_5_official_query_pipeline_context.jsonl
+official_context_report_path: outputs/reports/MicrosoftGraphRAG_Stage14_5Query_Context导出报告.md
+context_export_config_path: outputs/ms_graphrag_query/stage14_5_official_query_pipeline_context_config.yaml
+
+defense_output_path: outputs/ms_graphrag_query/stage14_5_official_query_pipeline_logicguard_results.jsonl
+defense_report_path: outputs/reports/MicrosoftGraphRAG_Stage14_5Query_LogicGuard防御报告.md
+pipeline_report_path: outputs/reports/MicrosoftGraphRAG_Stage14_5Query_一键流水线报告.md
+
+graphrag_python_path: tools/ms_graphrag/.venv/Scripts/python.exe
+
+models:
+  - deepseek-v4-flash
+api_key_env: DASHSCOPE_API_KEY
+base_url_env: DASHSCOPE_BASE_URL
+
+community_level: 2
+response_type: Single Sentence
+max_queries: 5
+verbose: false
+top_k: 4
+max_units: 4
+max_chars_per_unit: 900
+temperature: 0.0
+max_tokens: 64
+timeout_seconds: 90
+context_export_timeout_seconds: 1200

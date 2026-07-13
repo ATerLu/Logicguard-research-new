@@ -1,0 +1,20 @@
+# Stage-2 retrieval-only comparison for official LogicPoison corpora.
+#
+# All inputs point to LogicGuard-owned local copies. The upstream LogicPoison
+# repository remains read-only during these experiments.
+clean_data_root: data/logicpoison_official/clean
+poisoned_data_root: data/logicpoison_official/poisoned
+output_root: outputs/retrieval/logicpoison_official
+report_path: outputs/reports/LogicPoison检索层影响实验报告.md
+
+datasets:
+  - 2wikimultihopqa
+  - hotpotqa
+  - musique
+
+retrievers:
+  - naive_bm25
+  - graph_surrogate
+
+top_k: 10
+max_depth: 3

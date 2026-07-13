@@ -1,0 +1,25 @@
+# Local tooling and caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+tmp/
+
+# Raw and regenerated research data stay only in the source worktree.
+data/
+outputs/
+
+# The mirror tracks only curated, small review artifacts.
+!artifacts/
+!artifacts/reports/
+!artifacts/reports/**
+!artifacts/results/
+!artifacts/results/**
+
+# Never publish credentials.
+.env
+.env.*
+!.env.example
+*.pem
+*.key

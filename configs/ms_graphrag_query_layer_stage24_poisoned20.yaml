@@ -1,0 +1,37 @@
+dataset: 2wikimultihopqa
+sample_path: data/processed/2wikimultihopqa/debug_50.jsonl
+workspace_root: outputs/ms_graphrag/2wikimultihopqa/stage10_debug50_poisoned_query_ready
+
+entities_path: outputs/ms_graphrag/2wikimultihopqa/stage10_debug50_poisoned_query_ready/output/entities.parquet
+text_units_path: outputs/ms_graphrag/2wikimultihopqa/stage10_debug50_poisoned_query_ready/output/text_units.parquet
+baseline_context_path: outputs/ms_graphrag_query/stage22_poisoned5_official_local_context.jsonl
+budget_expansion_context_path: outputs/ms_graphrag_query/stage22_poisoned5_broad_context.jsonl
+query_integrity_path: outputs/attacks/logicpoison_official/2wikimultihopqa/query_integrity.jsonl
+
+seed_plan_output_path: outputs/ms_graphrag_query/stage24_poisoned20_query_seed_plan.jsonl
+seed_plan_report_path: outputs/reports/Stage24_官方GraphRAG_20Query_种子计划审计报告.md
+context_output_path: outputs/ms_graphrag_query/stage24_poisoned20_query_guard_contexts.jsonl
+context_report_path: outputs/reports/Stage24_官方GraphRAG_20Query_LogicGuard上下文导出报告.md
+metrics_output_path: outputs/ms_graphrag_query/stage24_poisoned20_query_guard_metrics.csv
+summary_output_path: outputs/ms_graphrag_query/stage24_poisoned20_query_guard_summary.csv
+evaluation_report_path: outputs/reports/Stage24_官方GraphRAG_20Query_检索评估报告.md
+
+max_queries: 20
+community_level: 2
+response_type: Single Sentence
+methods:
+  - full_query_guard
+
+seed_settings:
+  top_title_documents: 2
+  entities_per_document: 4
+  top_lexical_entities: 6
+  max_include_entities: 10
+  repeated_entity_min_queries: 2
+
+local_search_overrides:
+  text_unit_prop: 0.5
+  community_prop: 0.0
+  top_k_entities: 10
+  top_k_relationships: 10
+  max_context_tokens: 12000

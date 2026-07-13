@@ -1,0 +1,4 @@
+﻿dataset,method,query_count,avg_gold_support_recall,avg_changed_support_exposure,avg_risk_recall,avg_risk_precision,avg_risk_false_positive_rate,empty_context_rate,avg_source_count,avg_recovered_source_count,avg_filtered_source_count,avg_risk_detected_source_count
+hotpotqa,full_query_guard,20,0.8750,0.8750,1.0000,1.0000,0.0000,0.0000,33.1000,0.0000,0.0000,33.1000
+hotpotqa,risk_non_oracle_guarded_sources,20,0.0000,0.0000,1.0000,1.0000,0.0000,1.0000,0.0000,0.0000,33.1000,33.1000
+hotpotqa,risk_non_oracle_title_entity_bm25,20,0.8750,0.0000,1.0000,1.0000,0.0000,0.0000,33.1000,33.1000,0.0000,33.1000

@@ -1,0 +1,12 @@
+# NaiveRAG BM25 over the natural answer-aware Bridge Injection v2 poisoned
+# corpus. The sample labels stay clean; only the retrieval corpus changes.
+dataset: 2wikimultihopqa
+raw_data_root: ../external_repos/logicPoison/datasets
+sample_path: data/processed/2wikimultihopqa/samples.jsonl
+corpus_path: outputs/attacks/bridge_injection_v2_natural_full_500/2wikimultihopqa/answer_aware_bridge_poisoned_corpus.jsonl
+output_root: outputs/naive_rag
+report_root: outputs/reports
+run_name: natural_bridge_v2_poisoned_full_500
+mode: bm25
+top_k: 10
+

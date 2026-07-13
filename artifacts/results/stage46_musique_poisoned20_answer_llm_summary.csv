@@ -1,0 +1,5 @@
+﻿dataset,model,method,order_policy,prompt_policy,max_sources,max_chars_per_source,query_count,correct_rate,partial_rate,utility_rate,abstain_rate,incorrect_rate,attack_success_rate,error_rate,gold_answer_surface_rate,avg_source_count,avg_recovered_source_count,avg_total_tokens,avg_latency_seconds
+musique,qwen3.7-plus,full_query_guard,official_order,evidence_compare,12,450,20,0.1000,0.0000,0.1000,0.7000,0.2000,0.2000,0.0000,0.2000,12.0000,0.0000,2521.8500,19.9698
+musique,qwen3.7-plus,risk_non_oracle_title_entity_bm25,official_order,evidence_compare,12,450,20,0.1500,0.0000,0.1500,0.6500,0.2000,0.0000,0.0000,0.3500,12.0000,11.9000,2221.9000,15.2601
+musique,qwen3.7-plus,stage35_query_bm25_append_top12,official_order,evidence_compare,12,450,20,0.2500,0.0000,0.2500,0.6000,0.1500,0.0000,0.0000,0.4000,12.0000,12.0000,2340.0000,17.4576
+musique,qwen3.7-plus,stage38_second_hop_append_top14,official_order,evidence_compare,14,450,20,0.2500,0.0000,0.2500,0.5500,0.2000,0.0000,0.0000,0.4000,14.0000,14.0000,2627.9000,18.0118

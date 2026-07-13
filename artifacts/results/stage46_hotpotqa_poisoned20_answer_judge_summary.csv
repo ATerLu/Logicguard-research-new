@@ -1,0 +1,5 @@
+﻿dataset,model,method,query_count,stage29_utility_rate,final_correct_rate,final_partial_rate,final_utility_rate,final_abstain_rate,final_incorrect_rate,final_attack_success_rate,judge_call_rate,judge_error_rate,gold_answer_surface_rate,support_hit_rate,avg_judge_tokens
+hotpotqa,qwen3.7-plus,full_query_guard,20,0.1500,0.2000,0.0000,0.2000,0.3500,0.4500,0.4500,0.5000,0.0000,0.2500,0.8500,162.8000
+hotpotqa,qwen3.7-plus,risk_non_oracle_title_entity_bm25,20,0.5000,0.6500,0.0500,0.7000,0.2000,0.0500,0.0000,0.2500,0.0000,0.7000,0.8500,79.9000
+hotpotqa,qwen3.7-plus,stage35_query_bm25_append_top12,20,0.6500,0.8000,0.0500,0.8500,0.1000,0.0500,0.0000,0.2500,0.0000,0.8500,1.0000,78.9500
+hotpotqa,qwen3.7-plus,stage38_second_hop_append_top14,20,0.6500,0.8000,0.0500,0.8500,0.1000,0.0500,0.0000,0.2500,0.0000,0.8500,1.0000,78.9500

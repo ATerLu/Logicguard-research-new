@@ -1,0 +1,11 @@
+# NaiveRAG BM25 over the Entity Swap poisoned corpus.
+dataset: 2wikimultihopqa
+raw_data_root: ../external_repos/logicPoison/datasets
+sample_path: data/processed/2wikimultihopqa/samples.jsonl
+corpus_path: outputs/attacks/entity_swap_full_500/2wikimultihopqa/poisoned_corpus.jsonl
+output_root: outputs/naive_rag
+report_root: outputs/reports
+run_name: entity_swap_poisoned_full_500
+mode: bm25
+top_k: 10
+

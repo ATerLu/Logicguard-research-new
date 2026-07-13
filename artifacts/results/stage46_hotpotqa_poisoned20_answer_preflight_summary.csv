@@ -1,0 +1,5 @@
+﻿dataset,method,query_count,changed_support_query_count,changed_support_hit_rate,unrecovered_changed_exposure_rate,recovered_support_query_rate,full_support_hit_rate,gold_answer_surface_rate,avg_source_count,avg_rendered_chars,attack_pressure_status
+hotpotqa,full_query_guard,20,20,0.8500,0.8500,0.0000,0.8000,0.2500,12.0000,6022.0000,充分
+hotpotqa,risk_non_oracle_title_entity_bm25,20,20,0.8500,0.0000,0.8500,0.8000,0.7000,12.0000,5855.4000,缺失
+hotpotqa,stage35_query_bm25_append_top12,20,20,1.0000,0.0000,1.0000,0.9500,0.8500,12.0000,5740.9000,缺失
+hotpotqa,stage38_second_hop_append_top14,20,20,1.0000,0.0000,1.0000,0.9500,0.8500,14.0000,6719.7500,缺失

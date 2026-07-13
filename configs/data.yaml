@@ -1,0 +1,19 @@
+# Data preparation config for all local LogicPoison benchmark datasets.
+#
+# Paths are relative to the `logicguard` project root. The clean benchmark files
+# are copied into `data/logicpoison_official/clean` so LogicGuard experiments do
+# not modify or depend on writable files inside the upstream LogicPoison repo.
+raw_data_root: data/logicpoison_official/clean
+processed_data_root: data/processed
+report_root: outputs/reports
+
+# Keep the default preparation config aligned with the full multi-dataset
+# experiment so `uv run python -m logicguard.data.prepare` refreshes every
+# benchmark artifact needed by later baseline, attack, and defense runs.
+datasets:
+  - 2wikimultihopqa
+  - hotpotqa
+  - musique
+
+# Deterministic smoke-test subset size used by early graph/retrieval runs.
+debug_size: 50

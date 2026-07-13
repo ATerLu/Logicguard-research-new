@@ -1,0 +1,19 @@
+dataset: musique
+sample_path: data/processed/musique/debug_50.jsonl
+context_input_path: outputs/ms_graphrag_query/stage40_musique_poisoned20_query_bm25_append_top12_contexts.jsonl
+clean_reference_output_dir: outputs/ms_graphrag/musique/stage40_debug50_clean_query_ready/output
+judged_results_path: null
+
+chain_rows_output_path: outputs/ms_graphrag_query/stage40_musique_poisoned20_chain_completeness_rows.jsonl
+summary_output_path: outputs/ms_graphrag_query/stage40_musique_poisoned20_chain_completeness_summary.csv
+targeted_context_output_path: outputs/ms_graphrag_query/stage40_musique_poisoned20_second_hop_append_top14_contexts.jsonl
+examples_output_path: outputs/ms_graphrag_query/stage40_musique_poisoned20_chain_completeness_examples.jsonl
+report_path: outputs/reports/Stage45_MuSiQue_ChainCompleteness_20Query.md
+
+methods:
+  - stage35_query_bm25_append_top12
+max_queries: 20
+max_sources: 14
+max_chars_per_source: 450
+candidate_pool_top_k: 80
+stage_label: Stage45-MuSiQue

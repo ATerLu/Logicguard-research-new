@@ -1,0 +1,11 @@
+# Full 500-query naturalized answer-aware Bridge Injection v2 run.
+dataset: 2wikimultihopqa
+raw_data_root: ../external_repos/logicPoison/datasets
+sample_path: data/processed/2wikimultihopqa/samples.jsonl
+output_root: outputs/attacks/bridge_injection_v2_natural_full_500
+report_root: outputs/reports
+run_name: full_500
+max_attacks: 500
+top_k: 10
+max_depth: 3
+template_style: natural

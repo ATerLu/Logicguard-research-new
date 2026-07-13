@@ -1,0 +1,19 @@
+dataset: 2wikimultihopqa
+sample_path: data/processed/2wikimultihopqa/stage10_local_defense_1.jsonl
+
+workspace_roots:
+  clean: outputs/ms_graphrag/2wikimultihopqa/stage10_local_defense_clean_query_ready
+  poisoned: outputs/ms_graphrag/2wikimultihopqa/stage10_local_defense_poisoned_query_ready
+  guarded: outputs/ms_graphrag/2wikimultihopqa/stage10_local_defense_guarded_query_ready
+  recovered: outputs/ms_graphrag/2wikimultihopqa/stage10_local_defense_recovered_query_ready
+
+output_path: outputs/ms_graphrag_query/stage10_local_defense_official_local_queries.jsonl
+report_path: outputs/reports/MicrosoftGraphRAG_OfficialLocal_Query级防御实验报告.md
+
+graphrag_cli: tools/ms_graphrag/.venv/Scripts/graphrag.exe
+methods:
+  - local
+max_queries: 1
+community_level: 2
+response_type: Single Sentence
+timeout_seconds: 240

@@ -1,0 +1,28 @@
+dataset: 2wikimultihopqa
+sample_path: data/processed/2wikimultihopqa/debug_50.jsonl
+query_integrity_path: outputs/attacks/logicpoison_official/2wikimultihopqa/query_integrity.jsonl
+context_input_path: outputs/ms_graphrag_query/stage28_poisoned20_risk_non_oracle_sources_contexts.jsonl
+
+ablation_rows_output_path: outputs/ms_graphrag_query/stage31_poisoned20_answerability_ablation_rows.jsonl
+summary_output_path: outputs/ms_graphrag_query/stage31_poisoned20_answerability_ablation_summary.csv
+examples_output_path: outputs/ms_graphrag_query/stage31_poisoned20_answerability_ablation_examples.jsonl
+report_path: outputs/reports/Stage31_AnswerabilityAblation_20Query.md
+
+methods:
+  - risk_non_oracle_title_entity_bm25
+order_policies:
+  - official_order
+  - recovered_first
+  - title_query_overlap
+  - recovered_then_title_query_overlap
+  - oracle_answer_surface_first
+top_ks:
+  - 3
+  - 5
+  - 8
+prompt_char_budgets:
+  compact: 450
+  stage28: 700
+  expanded: 1100
+max_queries: 20
+stage_label: Stage31

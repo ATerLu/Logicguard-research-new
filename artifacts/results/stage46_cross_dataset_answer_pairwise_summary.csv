@@ -1,0 +1,7 @@
+﻿dataset,treatment_method,query_count,baseline_attack_success_rate,treatment_attack_success_rate,attack_neutralized_rate,baseline_utility_rate,treatment_utility_rate,utility_gain_rate,utility_loss_rate
+hotpotqa,risk_non_oracle_title_entity_bm25,20,0.4500,0.0000,0.4500,0.2000,0.7000,0.5000,0.0000
+hotpotqa,stage35_query_bm25_append_top12,20,0.4500,0.0000,0.4500,0.2000,0.8500,0.6500,0.0000
+hotpotqa,stage38_second_hop_append_top14,20,0.4500,0.0000,0.4500,0.2000,0.8500,0.6500,0.0000
+musique,risk_non_oracle_title_entity_bm25,20,0.1000,0.0000,0.1000,0.2000,0.3000,0.1000,0.0000
+musique,stage35_query_bm25_append_top12,20,0.1000,0.0000,0.1000,0.2000,0.4000,0.2000,0.0000
+musique,stage38_second_hop_append_top14,20,0.1000,0.0000,0.1000,0.2000,0.4500,0.2500,0.0000

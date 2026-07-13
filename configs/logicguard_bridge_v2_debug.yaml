@@ -1,0 +1,21 @@
+# Offline LogicGuard run using answer-aware Bridge Injection v2 traces.
+dataset: 2wikimultihopqa
+reference_corpus_path: ../external_repos/logicPoison/datasets/2wikimultihopqa/corpus.jsonl
+clean_corpus_path: ../external_repos/logicPoison/datasets/2wikimultihopqa/corpus.jsonl
+clean_trace_path: outputs/baseline/2wikimultihopqa/debug_50_traces.jsonl
+clean_corpus_entity_path: outputs/baseline/2wikimultihopqa/corpus_entities.jsonl
+entity_swap_corpus_path: outputs/attacks/entity_swap/2wikimultihopqa/poisoned_corpus.jsonl
+entity_swap_trace_path: outputs/attacks/entity_swap/2wikimultihopqa/poisoned_debug_50_traces.jsonl
+entity_swap_corpus_entity_path: outputs/attacks/entity_swap/2wikimultihopqa/poisoned_corpus_entities.jsonl
+entity_swap_attack_metadata_path: outputs/attacks/entity_swap/2wikimultihopqa/entity_swap_metadata.jsonl
+bridge_corpus_path: outputs/attacks/bridge_injection_v2/2wikimultihopqa/answer_aware_bridge_poisoned_corpus.jsonl
+bridge_trace_path: outputs/attacks/bridge_injection_v2/2wikimultihopqa/answer_aware_bridge_poisoned_debug_50_traces.jsonl
+bridge_corpus_entity_path: outputs/attacks/bridge_injection_v2/2wikimultihopqa/answer_aware_bridge_poisoned_corpus_entities.jsonl
+bridge_attack_metadata_path: outputs/attacks/bridge_injection_v2/2wikimultihopqa/bridge_injection_v2_metadata.jsonl
+reference_corpus_entity_path: outputs/baseline/2wikimultihopqa/corpus_entities.jsonl
+output_root: outputs/defense/logicguard_bridge_v2
+report_path: outputs/reports/logicguard_bridge_v2_2wikimultihopqa_debug_50.md
+top_k: 10
+risk_penalty: 0.75
+risk_threshold: 0.90
+

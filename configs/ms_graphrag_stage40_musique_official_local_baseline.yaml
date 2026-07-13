@@ -1,0 +1,11 @@
+dataset: musique
+sample_path: data/processed/musique/debug_50.jsonl
+workspace_root: outputs/ms_graphrag/musique/stage40_debug50_poisoned_query_ready
+
+output_path: outputs/ms_graphrag_query/stage40_musique_poisoned5_official_local_context.jsonl
+report_path: outputs/reports/Stage40_MuSiQue_OfficialLocal_Baseline_5Query.md
+
+community_level: 2
+response_type: Single Sentence
+max_queries: 5
+verbose: false

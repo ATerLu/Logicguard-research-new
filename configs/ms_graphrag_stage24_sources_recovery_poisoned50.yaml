@@ -1,0 +1,16 @@
+dataset: 2wikimultihopqa
+sample_path: data/processed/2wikimultihopqa/debug_50.jsonl
+query_integrity_path: outputs/attacks/logicpoison_official/2wikimultihopqa/query_integrity.jsonl
+
+baseline_context_path: ""
+source_context_path: outputs/ms_graphrag_query/stage24_poisoned50_query_guard_contexts_full_query_guard.jsonl
+clean_reference_output_dir: outputs/ms_graphrag/2wikimultihopqa/stage10_debug50_clean_query_ready/output
+
+context_output_path: outputs/ms_graphrag_query/stage24_poisoned50_sources_recovery_contexts.jsonl
+metrics_output_path: outputs/ms_graphrag_query/stage24_poisoned50_sources_recovery_metrics.csv
+summary_output_path: outputs/ms_graphrag_query/stage24_poisoned50_sources_recovery_summary.csv
+report_path: outputs/reports/Stage24_官方GraphRAG_Sources级Recovery_50Query实验报告.md
+
+input_method_name: full_query_guard
+max_queries: 50
+stage_label: Stage24

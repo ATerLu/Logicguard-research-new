@@ -1,0 +1,11 @@
+dataset: 2wikimultihopqa
+sample_path: data/processed/2wikimultihopqa/samples.jsonl
+clean_corpus_path: data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl
+poisoned_corpus_path: data/logicpoison_official/poisoned/2wikimultihopqa/corpus.jsonl
+query_integrity_path: outputs/attacks/logicpoison_official/2wikimultihopqa/query_integrity.jsonl
+
+output_sample_path: data/processed/2wikimultihopqa/stage14_local_defense_5.jsonl
+variant_corpus_root: data/ms_graphrag_stage14_local_defense_5/2wikimultihopqa
+manifest_path: outputs/ms_graphrag_query/stage14_local_defense_5_data_manifest.json
+
+max_queries: 5

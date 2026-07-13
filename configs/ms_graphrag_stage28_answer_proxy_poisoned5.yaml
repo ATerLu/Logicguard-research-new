@@ -1,0 +1,16 @@
+dataset: 2wikimultihopqa
+sample_path: data/processed/2wikimultihopqa/debug_50.jsonl
+query_integrity_path: outputs/attacks/logicpoison_official/2wikimultihopqa/query_integrity.jsonl
+context_input_path: outputs/ms_graphrag_query/stage28_poisoned5_risk_non_oracle_sources_contexts.jsonl
+
+results_output_path: outputs/ms_graphrag_query/stage28_poisoned5_answer_proxy_results.jsonl
+metrics_output_path: outputs/ms_graphrag_query/stage28_poisoned5_answer_proxy_metrics.csv
+summary_output_path: outputs/ms_graphrag_query/stage28_poisoned5_answer_proxy_summary.csv
+report_path: outputs/reports/Stage28_RiskNonOracle_AnswerProxy_5QuerySmoke.md
+
+methods:
+  - full_query_guard
+  - risk_non_oracle_guarded_sources
+  - risk_non_oracle_title_entity_bm25
+max_queries: 5
+stage_label: Stage28

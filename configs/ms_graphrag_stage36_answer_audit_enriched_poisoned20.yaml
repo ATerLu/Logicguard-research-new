@@ -1,0 +1,14 @@
+dataset: 2wikimultihopqa
+llm_results_path: outputs/ms_graphrag_query/stage36_poisoned20_answer_llm_results.jsonl
+answer_cases_path: outputs/ms_graphrag_query/stage36_poisoned20_answer_llm_cases.jsonl
+
+audited_results_output_path: outputs/ms_graphrag_query/stage36_poisoned20_answer_audit_results.jsonl
+summary_output_path: outputs/ms_graphrag_query/stage36_poisoned20_answer_audit_summary.csv
+breakdown_output_path: outputs/ms_graphrag_query/stage36_poisoned20_answer_audit_breakdown.csv
+examples_output_path: outputs/ms_graphrag_query/stage36_poisoned20_answer_audit_examples.jsonl
+report_path: outputs/reports/Stage36_AnswerAudit_Enriched_20Query.md
+
+methods:
+  - stage35_query_bm25_append_top12
+max_examples: 10
+stage_label: Stage36

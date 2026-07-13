@@ -1,0 +1,26 @@
+dataset: 2wikimultihopqa
+retriever: naive_bm25
+run_name: stage5_pilot_10
+
+api_key_env: DASHSCOPE_API_KEY
+base_url_env: DASHSCOPE_BASE_URL
+models:
+  - qwen3.7-plus
+  - deepseek-v4-flash
+
+clean_data_root: data/logicpoison_official/clean
+poisoned_data_root: data/logicpoison_official/poisoned
+retrieval_root: outputs/retrieval/logicpoison_official
+defense_root: outputs/defense/logicpoison_official
+attack_artifact_root: outputs/attacks/logicpoison_official
+output_root: outputs/llm_generation/logicpoison_answer
+report_path: outputs/reports/LogicPoison回答层LLM扩大实验报告.md
+
+top_k: 10
+max_cases: 10
+require_recovered_gold: true
+max_docs: 5
+max_chars_per_doc: 900
+temperature: 0.0
+max_tokens: 64
+timeout_seconds: 90

@@ -1,0 +1,13 @@
+﻿dataset,method,enrichment_policy,ordering_uses_oracle,max_sources,query_count,answer_surface_rate,support_answer_surface_rate,baseline_answer_surface_rate,baseline_support_answer_surface_rate,gained_answer_surface_rate,gained_support_answer_surface_rate,clean_answerable_rate,support_hit_rate,full_support_hit_rate,unsafe_context_rate,target_failure_count,target_failure_gain_rate,target_failure_support_gain_rate,avg_source_count,avg_added_source_count,avg_estimated_prompt_tokens,avg_first_gold_answer_rank
+musique,risk_non_oracle_title_entity_bm25,stage33_title_overlap,0,8,20,0.3500,0.3000,0.3500,0.3000,0.0000,0.0000,0.3500,0.9500,0.3000,0.0000,0,0.0000,0.0000,8.0000,0.0000,1089.0500,3.5714
+musique,risk_non_oracle_title_entity_bm25,stage33_title_overlap,0,12,20,0.3500,0.3000,0.3500,0.3000,0.0000,0.0000,0.3500,1.0000,0.3000,0.0000,0,0.0000,0.0000,12.0000,4.0000,1598.8500,3.5714
+musique,risk_non_oracle_title_entity_bm25,stage33_title_overlap,0,16,20,0.3500,0.3000,0.3500,0.3000,0.0000,0.0000,0.3500,1.0000,0.3500,0.0000,0,0.0000,0.0000,16.0000,8.0000,2116.7000,3.5714
+musique,risk_non_oracle_title_entity_bm25,query_bm25_append,0,8,20,0.3500,0.3000,0.3500,0.3000,0.0000,0.0000,0.3500,0.9500,0.3000,0.0000,0,0.0000,0.0000,8.0000,0.0000,1089.0500,3.5714
+musique,risk_non_oracle_title_entity_bm25,query_bm25_append,0,12,20,0.4000,0.4000,0.3500,0.3000,0.0500,0.1000,0.4000,1.0000,0.6000,0.0000,0,0.0000,0.0000,12.0000,4.0000,1594.0500,4.3750
+musique,risk_non_oracle_title_entity_bm25,query_bm25_append,0,16,20,0.4000,0.4000,0.3500,0.3000,0.0500,0.1000,0.4000,1.0000,0.7000,0.0000,0,0.0000,0.0000,16.0000,8.0000,2098.3500,4.3750
+musique,risk_non_oracle_title_entity_bm25,query_bm25_rerank,0,8,20,0.1000,0.1000,0.3500,0.3000,0.0500,0.1000,0.1000,0.5500,0.0000,0.0000,0,0.0000,0.0000,8.0000,8.0000,1089.6000,2.0000
+musique,risk_non_oracle_title_entity_bm25,query_bm25_rerank,0,12,20,0.1000,0.1000,0.3500,0.3000,0.0500,0.1000,0.1000,0.5500,0.0000,0.0000,0,0.0000,0.0000,12.0000,12.0000,1591.2000,2.0000
+musique,risk_non_oracle_title_entity_bm25,query_bm25_rerank,0,16,20,0.1000,0.1000,0.3500,0.3000,0.0500,0.1000,0.1000,0.5500,0.0500,0.0000,0,0.0000,0.0000,16.0000,15.9500,2077.6000,2.0000
+musique,risk_non_oracle_title_entity_bm25,oracle_support_append,1,8,20,0.3500,0.3000,0.3500,0.3000,0.0000,0.0000,0.3500,0.9500,0.3000,0.0000,0,0.0000,0.0000,8.0000,0.0000,1089.0500,3.5714
+musique,risk_non_oracle_title_entity_bm25,oracle_support_append,1,12,20,0.4500,0.4500,0.3500,0.3000,0.1000,0.1500,0.4500,1.0000,1.0000,0.0000,0,0.0000,0.0000,8.9500,0.9500,1204.6000,5.1111
+musique,risk_non_oracle_title_entity_bm25,oracle_support_append,1,16,20,0.4500,0.4500,0.3500,0.3000,0.1000,0.1500,0.4500,1.0000,1.0000,0.0000,0,0.0000,0.0000,8.9500,0.9500,1204.6000,5.1111

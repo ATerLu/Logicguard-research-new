@@ -1,0 +1,13 @@
+report_title: LogicPoison 阶段7 Graph Surrogate回答层综合报告
+experiment_description: 本报告聚合 2WikiMultiHopQA、HotpotQA 与 MuSiQue 在 graph_surrogate 检索器上的回答层 LLM + Judge 结果，用于判断 LogicGuard 在图增强检索设置下是否稳定抵抗 LogicPoison。
+
+datasets:
+  - name: 2wikimultihopqa
+    judged_results_path: outputs/llm_generation/logicpoison_answer/2wikimultihopqa/stage7_graph_20/answer_judged_results.jsonl
+  - name: hotpotqa
+    judged_results_path: outputs/llm_generation/logicpoison_answer/hotpotqa/stage7_graph_20/answer_judged_results.jsonl
+  - name: musique
+    judged_results_path: outputs/llm_generation/logicpoison_answer/musique/stage7_graph_20/answer_judged_results.jsonl
+
+combined_jsonl_path: outputs/llm_generation/logicpoison_answer/stage7_graph_multidataset_judged_results.jsonl
+report_path: outputs/reports/LogicPoison阶段7GraphSurrogate回答层综合报告.md

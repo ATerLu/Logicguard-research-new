@@ -1,0 +1,25 @@
+# Full 500-query LogicGuard experiment across all available LogicPoison datasets.
+datasets:
+  - 2wikimultihopqa
+  - hotpotqa
+  - musique
+
+raw_data_root: ../external_repos/logicPoison/datasets
+processed_data_root: data/processed
+report_root: outputs/reports
+
+baseline_output_root: outputs/baseline
+entity_swap_output_root: outputs/attacks/entity_swap_full_500
+bridge_injection_output_root: outputs/attacks/bridge_injection_full_500
+threshold_scan_output_root: outputs/defense/threshold_scan
+summary_output_root: outputs/defense/multidataset
+summary_report_path: outputs/reports/logicguard_multidataset_full_500.md
+
+run_name: full_500
+debug_size: 50
+max_attacks: 500
+top_k: 10
+max_depth: 3
+risk_penalties: [0.5, 0.75, 1.0]
+risk_thresholds: [0.8, 0.9, 1.0]
+

@@ -1,0 +1,4 @@
+﻿method,query_count,avg_gold_support_recall,avg_changed_support_exposure,avg_trusted_support_recall,avg_support_title_entity_hit_rate,context_recall_failure_count,avg_source_count,avg_include_entity_count,avg_exclude_entity_count
+mixed_baseline,5,0.2000,0.2000,0.0000,0.0000,3,28.2000,0.0000,0.0000
+budget_expansion,5,0.4000,0.4000,0.0000,0.0000,3,67.4000,0.0000,0.0000
+full_query_guard,20,0.8750,0.8750,0.0000,0.0250,2,33.1000,4.3000,21.5500

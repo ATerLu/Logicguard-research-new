@@ -1,0 +1,12 @@
+dataset: 2wikimultihopqa
+sample_path: data/processed/2wikimultihopqa/debug_50.jsonl
+
+clean_output_dir: outputs/ms_graphrag/2wikimultihopqa/stage9_debug50_clean_minimal/output
+poisoned_output_dir: outputs/ms_graphrag/2wikimultihopqa/stage9_debug50_poisoned_minimal/output
+
+changed_docs_path: outputs/attacks/logicpoison_official/2wikimultihopqa/changed_docs.jsonl
+query_integrity_path: outputs/attacks/logicpoison_official/2wikimultihopqa/query_integrity.jsonl
+
+output_root: outputs/retrieval/ms_graphrag_minimal_stage9
+report_path: outputs/reports/MicrosoftGraphRAG_Minimal_LogicPoison小规模对照报告.md
+top_k: 10

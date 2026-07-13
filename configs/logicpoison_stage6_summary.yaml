@@ -1,0 +1,10 @@
+datasets:
+  - name: 2wikimultihopqa
+    judged_results_path: outputs/llm_generation/logicpoison_answer/2wikimultihopqa/stage6_pilot_20/answer_judged_results.jsonl
+  - name: hotpotqa
+    judged_results_path: outputs/llm_generation/logicpoison_answer/hotpotqa/stage6_pilot_20/answer_judged_results.jsonl
+  - name: musique
+    judged_results_path: outputs/llm_generation/logicpoison_answer/musique/stage6_pilot_20/answer_judged_results.jsonl
+
+combined_jsonl_path: outputs/llm_generation/logicpoison_answer/stage6_multidataset_judged_results.jsonl
+report_path: outputs/reports/LogicPoison阶段6多数据集回答层综合报告.md

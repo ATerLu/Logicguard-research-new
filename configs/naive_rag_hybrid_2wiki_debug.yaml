@@ -1,0 +1,15 @@
+# NaiveRAG hybrid smoke test. This requires downloading/loading an embedding
+# model and is intentionally kept on debug_50 until the local model cache is
+# confirmed.
+dataset: 2wikimultihopqa
+raw_data_root: ../external_repos/logicPoison/datasets
+sample_path: data/processed/2wikimultihopqa/debug_50.jsonl
+output_root: outputs/naive_rag
+report_root: outputs/reports
+run_name: debug_50
+mode: hybrid
+top_k: 10
+bm25_weight: 0.5
+dense_weight: 0.5
+encoder_model: sentence-transformers/all-MiniLM-L6-v2
+

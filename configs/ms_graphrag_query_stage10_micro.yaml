@@ -1,0 +1,18 @@
+dataset: 2wikimultihopqa
+sample_path: data/processed/2wikimultihopqa/debug_1_atomised.jsonl
+
+clean_workspace_root: outputs/ms_graphrag/2wikimultihopqa/stage10_atomised_clean_query_ready
+poisoned_workspace_root: outputs/ms_graphrag/2wikimultihopqa/stage10_atomised_poisoned_query_ready
+
+output_path: outputs/ms_graphrag_query/stage10_2wiki_atomised_official_queries.jsonl
+report_path: outputs/reports/MicrosoftGraphRAG_LocalGlobal_Query级微型实验报告.md
+
+graphrag_cli: tools/ms_graphrag/.venv/Scripts/graphrag.exe
+methods:
+  - basic
+  - local
+  - global
+max_queries: 1
+community_level: 2
+response_type: Single Sentence
+timeout_seconds: 180

@@ -1,0 +1,54 @@
+dataset: musique
+sample_path: data/processed/musique/debug_50.jsonl
+query_integrity_path: outputs/attacks/logicpoison_official/musique/query_integrity.jsonl
+
+variants:
+  - method: full_query_guard
+    context_input_path: outputs/ms_graphrag_query/stage40_musique_poisoned20_query_guard_contexts_full_query_guard.jsonl
+    source_method: full_query_guard
+    description: 未恢复的 query-level guard 基线，用于确认真实攻击压力。
+  - method: risk_non_oracle_title_entity_bm25
+    context_input_path: outputs/ms_graphrag_query/stage40_musique_poisoned20_risk_non_oracle_sources_contexts.jsonl
+    source_method: risk_non_oracle_title_entity_bm25
+    description: Stage43 source-level 风险识别与非 oracle 恢复。
+  - method: stage35_query_bm25_append_top12
+    context_input_path: outputs/ms_graphrag_query/stage40_musique_poisoned20_query_bm25_append_top12_contexts.jsonl
+    source_method: stage35_query_bm25_append_top12
+    description: Stage44 query BM25 候选源扩展。
+  - method: stage38_second_hop_append_top14
+    context_input_path: outputs/ms_graphrag_query/stage40_musique_poisoned20_second_hop_append_top14_contexts.jsonl
+    source_method: stage38_second_hop_append_top14
+    description: Stage45 bridge-aware 二跳补证。
+
+context_matrix_output_path: outputs/ms_graphrag_query/stage46_musique_poisoned20_answer_context_matrix.jsonl
+preflight_cases_output_path: outputs/ms_graphrag_query/stage46_musique_poisoned20_answer_preflight_cases.jsonl
+preflight_rows_output_path: outputs/ms_graphrag_query/stage46_musique_poisoned20_answer_preflight_rows.jsonl
+preflight_summary_output_path: outputs/ms_graphrag_query/stage46_musique_poisoned20_answer_preflight_summary.csv
+preflight_examples_output_path: outputs/ms_graphrag_query/stage46_musique_poisoned20_answer_preflight_examples.jsonl
+report_path: outputs/reports/Stage46_MuSiQue_回答上下文预检_20问.md
+
+rendering_policies:
+  full_query_guard:
+    order_policy: official_order
+    prompt_policy: evidence_compare
+    max_sources: 12
+    max_chars_per_source: 450
+  risk_non_oracle_title_entity_bm25:
+    order_policy: official_order
+    prompt_policy: evidence_compare
+    max_sources: 12
+    max_chars_per_source: 450
+  stage35_query_bm25_append_top12:
+    order_policy: official_order
+    prompt_policy: evidence_compare
+    max_sources: 12
+    max_chars_per_source: 450
+  stage38_second_hop_append_top14:
+    order_policy: official_order
+    prompt_policy: evidence_compare
+    max_sources: 14
+    max_chars_per_source: 450
+max_queries: 20
+max_sources: 12
+max_chars_per_source: 450
+stage_label: Stage46-MuSiQue

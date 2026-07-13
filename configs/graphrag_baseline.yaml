@@ -1,0 +1,12 @@
+# First lightweight GraphRAG baseline run.
+#
+# This run indexes the full 2Wiki corpus but evaluates only the deterministic
+# debug_50 subset. That keeps the retrieval setting realistic enough for early
+# path tracing while keeping iteration time short.
+dataset: 2wikimultihopqa
+raw_data_root: ../external_repos/logicPoison/datasets
+sample_path: data/processed/2wikimultihopqa/debug_50.jsonl
+output_root: outputs/baseline
+report_root: outputs/reports
+top_k: 10
+max_depth: 3

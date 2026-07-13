@@ -1,0 +1,19 @@
+report_title: LogicPoison 阶段8非Oracle Recovery回答层综合报告
+experiment_description: 本报告保留阶段6 BM25回答层实验中的 clean、poisoned 与 guarded 判分结果，并用阶段8在可信 clean corpus 上重新检索得到的 non-oracle recovered 结果替换原 oracle recovered，用于判断更真实的 recovery 是否仍能降低攻击错误输出并恢复回答可用性。
+
+datasets:
+  - name: 2wikimultihopqa
+    baseline_judged_path: outputs/llm_generation/logicpoison_answer/2wikimultihopqa/stage6_pilot_20/answer_judged_results.jsonl
+    recovered_judged_path: outputs/llm_generation/logicpoison_answer/2wikimultihopqa/stage8_non_oracle_bm25_20/answer_judged_results.jsonl
+    merged_output_path: outputs/llm_generation/logicpoison_answer/2wikimultihopqa/stage8_non_oracle_bm25_20/answer_judged_merged_results.jsonl
+  - name: hotpotqa
+    baseline_judged_path: outputs/llm_generation/logicpoison_answer/hotpotqa/stage6_pilot_20/answer_judged_results.jsonl
+    recovered_judged_path: outputs/llm_generation/logicpoison_answer/hotpotqa/stage8_non_oracle_bm25_20/answer_judged_results.jsonl
+    merged_output_path: outputs/llm_generation/logicpoison_answer/hotpotqa/stage8_non_oracle_bm25_20/answer_judged_merged_results.jsonl
+  - name: musique
+    baseline_judged_path: outputs/llm_generation/logicpoison_answer/musique/stage6_pilot_20/answer_judged_results.jsonl
+    recovered_judged_path: outputs/llm_generation/logicpoison_answer/musique/stage8_non_oracle_bm25_20/answer_judged_results.jsonl
+    merged_output_path: outputs/llm_generation/logicpoison_answer/musique/stage8_non_oracle_bm25_20/answer_judged_merged_results.jsonl
+
+combined_jsonl_path: outputs/llm_generation/logicpoison_answer/stage8_non_oracle_bm25_multidataset_judged_results.jsonl
+report_path: outputs/reports/LogicPoison阶段8非OracleRecovery回答层综合报告.md

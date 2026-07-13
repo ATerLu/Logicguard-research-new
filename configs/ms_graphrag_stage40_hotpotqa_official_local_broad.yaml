@@ -1,0 +1,18 @@
+dataset: hotpotqa
+sample_path: data/processed/hotpotqa/debug_50.jsonl
+workspace_root: outputs/ms_graphrag/hotpotqa/stage40_debug50_poisoned_query_ready
+
+output_path: outputs/ms_graphrag_query/stage40_hotpotqa_poisoned5_broad_context.jsonl
+report_path: outputs/reports/Stage40_HotpotQA_OfficialLocal_Broad_5Query.md
+
+community_level: 2
+response_type: Single Sentence
+max_queries: 5
+verbose: false
+
+local_search_overrides:
+  text_unit_prop: 0.8
+  community_prop: 0.0
+  top_k_entities: 60
+  top_k_relationships: 60
+  max_context_tokens: 24000

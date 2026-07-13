@@ -1,0 +1,11 @@
+dataset: 2wikimultihopqa
+sample_path: data/processed/2wikimultihopqa/debug_50.jsonl
+workspace_root: outputs/ms_graphrag/2wikimultihopqa/stage10_debug50_poisoned_query_ready
+
+output_path: outputs/ms_graphrag_query/stage22_poisoned5_official_local_context.jsonl
+report_path: outputs/reports/Stage22_官方GraphRAG_5Query_Baseline上下文导出报告.md
+
+community_level: 2
+response_type: Single Sentence
+max_queries: 5
+verbose: false

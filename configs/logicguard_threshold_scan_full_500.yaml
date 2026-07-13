@@ -1,0 +1,21 @@
+# Full 500-query LogicGuard threshold scan.
+dataset: 2wikimultihopqa
+run_name: full_500
+reference_corpus_path: ../external_repos/logicPoison/datasets/2wikimultihopqa/corpus.jsonl
+reference_corpus_entity_path: outputs/baseline/2wikimultihopqa/corpus_entities.jsonl
+clean_corpus_path: ../external_repos/logicPoison/datasets/2wikimultihopqa/corpus.jsonl
+clean_trace_path: outputs/baseline/2wikimultihopqa/full_500_traces.jsonl
+clean_corpus_entity_path: outputs/baseline/2wikimultihopqa/corpus_entities.jsonl
+entity_swap_corpus_path: outputs/attacks/entity_swap_full_500/2wikimultihopqa/poisoned_corpus.jsonl
+entity_swap_trace_path: outputs/attacks/entity_swap_full_500/2wikimultihopqa/poisoned_full_500_traces.jsonl
+entity_swap_corpus_entity_path: outputs/attacks/entity_swap_full_500/2wikimultihopqa/poisoned_corpus_entities.jsonl
+entity_swap_attack_metadata_path: outputs/attacks/entity_swap_full_500/2wikimultihopqa/entity_swap_metadata.jsonl
+bridge_corpus_path: outputs/attacks/bridge_injection_full_500/2wikimultihopqa/bridge_poisoned_corpus.jsonl
+bridge_trace_path: outputs/attacks/bridge_injection_full_500/2wikimultihopqa/bridge_poisoned_full_500_traces.jsonl
+bridge_corpus_entity_path: outputs/attacks/bridge_injection_full_500/2wikimultihopqa/bridge_poisoned_corpus_entities.jsonl
+bridge_attack_metadata_path: outputs/attacks/bridge_injection_full_500/2wikimultihopqa/bridge_injection_metadata.jsonl
+output_root: outputs/defense/threshold_scan
+report_path: outputs/reports/logicguard_threshold_scan_2wikimultihopqa_full_500.md
+top_k: 10
+risk_penalties: [0.5, 0.75, 1.0]
+risk_thresholds: [0.8, 0.9, 1.0]

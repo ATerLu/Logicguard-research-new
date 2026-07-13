@@ -1,0 +1,14 @@
+# Official LogicPoison corpus validation config.
+#
+# These paths intentionally point to LogicGuard-owned local copies. The original
+# LogicPoison repository under `external_repos/logicPoison` is treated as a
+# read-only upstream asset and should not be modified by LogicGuard experiments.
+clean_data_root: data/logicpoison_official/clean
+poisoned_data_root: data/logicpoison_official/poisoned
+output_root: outputs/attacks/logicpoison_official
+report_path: outputs/reports/LogicPoison污染语料可用性验证报告.md
+
+datasets:
+  - 2wikimultihopqa
+  - hotpotqa
+  - musique

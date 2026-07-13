@@ -1,0 +1,15 @@
+datasets:
+  - dataset: hotpotqa
+    preflight_summary_path: outputs/ms_graphrag_query/stage46_hotpotqa_poisoned20_answer_preflight_summary.csv
+    judged_results_path: outputs/ms_graphrag_query/stage46_hotpotqa_poisoned20_answer_judge_results.jsonl
+  - dataset: musique
+    preflight_summary_path: outputs/ms_graphrag_query/stage46_musique_poisoned20_answer_preflight_summary.csv
+    judged_results_path: outputs/ms_graphrag_query/stage46_musique_poisoned20_answer_judge_results.jsonl
+
+final_summary_output_path: outputs/ms_graphrag_query/stage46_cross_dataset_answer_final_summary.csv
+pairwise_rows_output_path: outputs/ms_graphrag_query/stage46_cross_dataset_answer_pairwise_rows.jsonl
+pairwise_summary_output_path: outputs/ms_graphrag_query/stage46_cross_dataset_answer_pairwise_summary.csv
+examples_output_path: outputs/ms_graphrag_query/stage46_cross_dataset_answer_paired_examples.jsonl
+report_path: outputs/reports/Stage46_跨数据集真实LLM回答验证_中文报告.md
+baseline_method: full_query_guard
+stage_label: Stage46

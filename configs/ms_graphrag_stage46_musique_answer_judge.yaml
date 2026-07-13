@@ -1,0 +1,22 @@
+dataset: musique
+audited_results_path: outputs/ms_graphrag_query/stage46_musique_poisoned20_answer_audit_results.jsonl
+
+judged_results_output_path: outputs/ms_graphrag_query/stage46_musique_poisoned20_answer_judge_results.jsonl
+summary_output_path: outputs/ms_graphrag_query/stage46_musique_poisoned20_answer_judge_summary.csv
+breakdown_output_path: outputs/ms_graphrag_query/stage46_musique_poisoned20_answer_judge_breakdown.csv
+examples_output_path: outputs/ms_graphrag_query/stage46_musique_poisoned20_answer_judge_examples.jsonl
+report_path: outputs/reports/Stage46_MuSiQue_回答裁决_20问.md
+
+methods:
+  - full_query_guard
+  - risk_non_oracle_title_entity_bm25
+  - stage35_query_bm25_append_top12
+  - stage38_second_hop_append_top14
+judge_model: qwen3.7-plus
+judge_api_key_env: DASHSCOPE_API_KEY
+judge_base_url_env: DASHSCOPE_BASE_URL
+judge_temperature: 0.0
+judge_max_tokens: 96
+judge_timeout_seconds: 60
+max_examples: 16
+stage_label: Stage46-MuSiQue

@@ -1,0 +1,5 @@
+﻿dataset,model,method,query_count,original_correct_rate,stage29_correct_rate,stage29_partial_rate,stage29_utility_rate,stage29_abstain_rate,stage29_incorrect_rate,stage29_attack_success_rate,error_rate,gold_answer_surface_rate,support_hit_rate,avg_source_count,avg_recovered_source_count
+musique,qwen3.7-plus,full_query_guard,20,0.1000,0.1000,0.0000,0.1000,0.7000,0.2000,0.2000,0.0000,0.2000,1.0000,12.0000,0.0000
+musique,qwen3.7-plus,risk_non_oracle_title_entity_bm25,20,0.1500,0.1500,0.0000,0.1500,0.6500,0.2000,0.0000,0.0000,0.3500,1.0000,12.0000,11.9000
+musique,qwen3.7-plus,stage35_query_bm25_append_top12,20,0.2500,0.2500,0.0000,0.2500,0.6000,0.1500,0.0000,0.0000,0.4000,1.0000,12.0000,12.0000
+musique,qwen3.7-plus,stage38_second_hop_append_top14,20,0.2500,0.2500,0.0000,0.2500,0.5500,0.2000,0.0000,0.0000,0.4000,1.0000,14.0000,14.0000

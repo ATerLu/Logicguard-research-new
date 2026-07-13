@@ -1,0 +1,13 @@
+# First controlled poisoning run.
+#
+# This config creates local benchmark-only Entity Swap perturbations on the
+# deterministic 2Wiki debug_50 subset, then reruns the lightweight GraphRAG
+# baseline on the poisoned corpus.
+dataset: 2wikimultihopqa
+raw_data_root: ../external_repos/logicPoison/datasets
+sample_path: data/processed/2wikimultihopqa/debug_50.jsonl
+output_root: outputs/attacks/entity_swap
+report_root: outputs/reports
+max_attacks: 20
+top_k: 10
+max_depth: 3

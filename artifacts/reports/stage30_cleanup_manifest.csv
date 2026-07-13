@@ -1,0 +1,15 @@
+target,type,approx_size_mb,stage30_action,rationale
+**/__pycache__ and *.pyc,cache,2.65,delete_now,Python 缓存可自动再生成且不支撑实验结论
+.pytest_cache and .ruff_cache,cache,0.04,delete_now,测试和 lint 缓存可自动再生成
+src/logicguard/graph/baseline.py,source,0.01,fix_now,第一行历史语法错误阻碍全量 pytest
+outputs/reports/实验结果总报告.md,report,0.02,keep_canonical,总报告是唯一主叙事入口
+outputs/reports/Stage30_项目整理与报告整合.md,report,0.01,add_index,新增报告索引减少阅读入口混乱
+outputs/ms_graphrag_query/stage24_poisoned20_query_guard_contexts.jsonl,duplicate_output,1.68,keep_for_now,与 full_query_guard 命名文件内容相同但可能被旧路径引用
+outputs/ms_graphrag_query/stage24_poisoned20_query_guard_contexts_full_query_guard.jsonl,duplicate_output,1.68,keep_for_now,与非后缀文件内容相同但保留旧路径
+outputs/ms_graphrag_query/stage24_poisoned50_query_guard_contexts.jsonl,duplicate_output,4.23,keep_for_now,与 full_query_guard 命名文件内容相同但可能被旧路径引用
+outputs/ms_graphrag_query/stage24_poisoned50_query_guard_contexts_full_query_guard.jsonl,duplicate_output,4.23,keep_for_now,与非后缀文件内容相同但保留旧路径
+outputs/ms_graphrag/2wikimultihopqa,large_workspace,114.15,archive_later,GraphRAG workspace/cache 很大但可用于追溯 official artifacts
+outputs/retrieval/logicpoison_official,large_output,71.65,archive_later,早期多数据集检索结果支撑历史结论
+outputs/defense/logicpoison_official,large_output,53.30,archive_later,早期 defense traces 支撑历史结论
+configs/*.yaml,config,0.11,keep,配置很小且支撑复现命令
+src/logicguard/ms_graphrag/*.py,source,0.50,keep_refactor_later,阶段模块仍被测试/配置/文档引用不宜删除

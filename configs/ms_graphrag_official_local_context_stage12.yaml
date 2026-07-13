@@ -1,0 +1,11 @@
+dataset: 2wikimultihopqa
+sample_path: data/processed/2wikimultihopqa/stage10_local_defense_1.jsonl
+workspace_root: outputs/ms_graphrag/2wikimultihopqa/stage10_local_defense_poisoned_query_ready
+
+output_path: outputs/ms_graphrag_query/stage12_official_local_context_poisoned.jsonl
+report_path: outputs/reports/MicrosoftGraphRAG_OfficialLocal_Context导出报告.md
+
+community_level: 2
+response_type: Single Sentence
+max_queries: 1
+verbose: false

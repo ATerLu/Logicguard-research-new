@@ -1,0 +1,34 @@
+dataset: 2wikimultihopqa
+sample_path: data/processed/2wikimultihopqa/debug_50.jsonl
+query_integrity_path: outputs/attacks/logicpoison_official/2wikimultihopqa/query_integrity.jsonl
+context_input_path: outputs/ms_graphrag_query/stage38_poisoned20_second_hop_append_top14_contexts.jsonl
+
+cases_output_path: outputs/ms_graphrag_query/stage39_poisoned20_answer_llm_cases.jsonl
+results_output_path: outputs/ms_graphrag_query/stage39_poisoned20_answer_llm_results.jsonl
+metrics_output_path: outputs/ms_graphrag_query/stage39_poisoned20_answer_llm_metrics.csv
+summary_output_path: outputs/ms_graphrag_query/stage39_poisoned20_answer_llm_summary.csv
+report_path: outputs/reports/Stage39_AnswerLLM_SecondHop_20Query.md
+
+methods:
+  - stage38_second_hop_append_top14
+models:
+  - qwen3.7-plus
+rendering_policies:
+  stage38_second_hop_append_top14:
+    order_policy: official_order
+    prompt_policy: evidence_compare
+    max_sources: 14
+    max_chars_per_source: 450
+max_queries: 20
+max_sources: 14
+max_chars_per_source: 450
+api_key_env: DASHSCOPE_API_KEY
+base_url_env: DASHSCOPE_BASE_URL
+temperature: 0.0
+max_tokens: 64
+timeout_seconds: 90
+judge_model:
+judge_temperature: 0.0
+judge_max_tokens: 96
+judge_timeout_seconds: 60
+stage_label: Stage39

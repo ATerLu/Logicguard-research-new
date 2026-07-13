@@ -1,0 +1,24 @@
+# Fixed-threshold ablation for LogicGuard full_500 experiments.
+datasets:
+  - 2wikimultihopqa
+  - hotpotqa
+  - musique
+
+run_name: full_500
+raw_data_root: ../external_repos/logicPoison/datasets
+baseline_output_root: outputs/baseline
+entity_swap_output_root: outputs/attacks/entity_swap_full_500
+bridge_injection_output_root: outputs/attacks/bridge_injection_full_500
+output_root: outputs/defense/ablation
+report_path: outputs/reports/logicguard_ablation_full_500.md
+
+modes:
+  - none
+  - provenance_only
+  - content_integrity_only
+  - full
+
+top_k: 10
+risk_penalty: 0.50
+risk_threshold: 0.80
+

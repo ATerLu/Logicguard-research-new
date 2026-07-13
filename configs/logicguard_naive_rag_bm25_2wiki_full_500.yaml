@@ -1,0 +1,29 @@
+# LogicGuard provenance/content-integrity smoke test over NaiveRAG BM25 traces.
+#
+# This is not a full graph-path defense because NaiveRAG has no graph paths.
+# It reuses the shared reranker to test two transferable signals:
+# 1) unseen source document ids for Bridge Injection, and
+# 2) content fingerprint mismatch for Entity Swap.
+dataset: 2wikimultihopqa
+reference_corpus_path: ../external_repos/logicPoison/datasets/2wikimultihopqa/corpus.jsonl
+clean_corpus_path: ../external_repos/logicPoison/datasets/2wikimultihopqa/corpus.jsonl
+clean_trace_path: outputs/naive_rag/bm25/2wikimultihopqa/full_500_traces.jsonl
+clean_corpus_entity_path: outputs/baseline/2wikimultihopqa/corpus_entities.jsonl
+
+entity_swap_corpus_path: outputs/attacks/entity_swap_full_500/2wikimultihopqa/poisoned_corpus.jsonl
+entity_swap_trace_path: outputs/naive_rag/bm25/2wikimultihopqa/entity_swap_poisoned_full_500_traces.jsonl
+entity_swap_corpus_entity_path: outputs/attacks/entity_swap_full_500/2wikimultihopqa/poisoned_corpus_entities.jsonl
+entity_swap_attack_metadata_path: outputs/attacks/entity_swap_full_500/2wikimultihopqa/entity_swap_metadata.jsonl
+
+bridge_corpus_path: outputs/attacks/bridge_injection_v2_natural_full_500/2wikimultihopqa/answer_aware_bridge_poisoned_corpus.jsonl
+bridge_trace_path: outputs/naive_rag/bm25/2wikimultihopqa/natural_bridge_v2_poisoned_full_500_traces.jsonl
+bridge_corpus_entity_path: outputs/attacks/bridge_injection_v2_natural_full_500/2wikimultihopqa/answer_aware_bridge_poisoned_corpus_entities.jsonl
+bridge_attack_metadata_path: outputs/attacks/bridge_injection_v2_natural_full_500/2wikimultihopqa/bridge_injection_v2_metadata.jsonl
+
+reference_corpus_entity_path: outputs/baseline/2wikimultihopqa/corpus_entities.jsonl
+output_root: outputs/defense/logicguard_naive_rag_bm25_full_500
+report_path: outputs/reports/logicguard_naive_rag_bm25_2wikimultihopqa_full_500.md
+top_k: 10
+risk_penalty: 0.75
+risk_threshold: 0.4
+

@@ -1,0 +1,28 @@
+dataset: 2wikimultihopqa
+retriever: naive_bm25
+run_name: stage8_non_oracle_bm25_20
+
+api_key_env: DASHSCOPE_API_KEY
+base_url_env: DASHSCOPE_BASE_URL
+models:
+  - qwen3.7-plus
+  - deepseek-v4-flash
+
+clean_data_root: data/logicpoison_official/clean
+poisoned_data_root: data/logicpoison_official/poisoned
+retrieval_root: outputs/retrieval/logicpoison_official
+defense_root: outputs/defense/logicpoison_official_stage8
+attack_artifact_root: outputs/attacks/logicpoison_official
+output_root: outputs/llm_generation/logicpoison_answer
+report_path: outputs/reports/LogicPoison阶段8非Oracle回答层_2Wiki.md
+
+top_k: 10
+max_cases: 20
+require_recovered_gold: true
+context_variants:
+  - recovered
+max_docs: 5
+max_chars_per_doc: 900
+temperature: 0.0
+max_tokens: 64
+timeout_seconds: 90

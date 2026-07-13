@@ -1,0 +1,28 @@
+file,stage,role,read_priority,stage30_action
+outputs/reports/实验结果总报告.md,global,主报告,1,保留并作为唯一主叙事入口
+outputs/reports/Stage30_项目整理与报告整合.md,stage30,报告索引,2,新增并作为报告阅读索引
+outputs/reports/Stage29_AnswerAudit_20QueryFormal.md,stage29,正式详细报告,3,保留用于逐样本回答层审计
+outputs/reports/Stage28_RiskNonOracle_5_20Query_Summary.md,stage28,阶段综合报告,4,保留作为 Stage28 主入口
+outputs/reports/Stage28_RiskNonOracleSourcesRecovery_5QuerySmoke.md,stage28,source-level smoke 子报告,5,保留为历史证据
+outputs/reports/Stage28_RiskNonOracleSourcesRecovery_20QueryFormal.md,stage28,source-level formal 子报告,5,保留为历史证据
+outputs/reports/Stage28_RiskNonOracle_AnswerProxy_5QuerySmoke.md,stage28,answer proxy smoke 子报告,5,保留为历史证据
+outputs/reports/Stage28_RiskNonOracle_AnswerProxy_20QueryFormal.md,stage28,answer proxy formal 子报告,5,保留为历史证据
+outputs/reports/Stage28_RiskNonOracle_LLMAnswer_5QuerySmoke.md,stage28,LLM answer smoke 子报告,5,保留为历史证据
+outputs/reports/Stage28_RiskNonOracle_LLMAnswer_20QueryFormal.md,stage28,LLM answer formal 子报告,5,保留为历史证据
+outputs/reports/Stage27_OfficialGraphRAG_LLMAnswer_5_20Query_Summary.md,stage27,阶段综合报告,4,保留作为 Stage27 主入口
+outputs/reports/Stage27_OfficialGraphRAG_LLMAnswer_5QuerySmoke.md,stage27,smoke 子报告,5,保留为历史证据
+outputs/reports/Stage27_OfficialGraphRAG_LLMAnswer_20QueryFormal.md,stage27,formal 子报告,5,保留为历史证据
+outputs/reports/Stage26_官方GraphRAG_AnswerProxy_5_20Query综合报告.md,stage26,阶段综合报告,4,保留作为 Stage26 主入口
+outputs/reports/Stage26_官方GraphRAG_AnswerProxy_5QuerySmoke报告.md,stage26,smoke 子报告,5,保留为历史证据
+outputs/reports/Stage26_官方GraphRAG_AnswerProxy_20Query实验报告.md,stage26,formal 子报告,5,保留为历史证据
+outputs/reports/Stage25_官方GraphRAG_NonOracleSourcesRecovery_20_50Query综合报告.md,stage25,阶段综合报告,4,保留作为 Stage25 主入口
+outputs/reports/Stage25_官方GraphRAG_NonOracleSourcesRecovery_20Query实验报告.md,stage25,20-query 子报告,5,保留为历史证据
+outputs/reports/Stage25_官方GraphRAG_NonOracleSourcesRecovery_50Query实验报告.md,stage25,50-query 子报告,5,保留为历史证据
+outputs/reports/Stage24_官方GraphRAG_Sources级Recovery_20_50Query综合报告.md,stage24,阶段综合报告,4,保留作为 Stage24 主入口
+outputs/reports/Stage24_官方GraphRAG_Sources级Recovery_20Query实验报告.md,stage24,20-query 子报告,5,保留为历史证据
+outputs/reports/Stage24_官方GraphRAG_Sources级Recovery_50Query实验报告.md,stage24,50-query 子报告,5,保留为历史证据
+outputs/reports/Stage24_官方GraphRAG_20Query_种子计划审计报告.md,stage24,seed 审计子报告,5,保留为历史证据
+outputs/reports/Stage24_官方GraphRAG_50Query_种子计划审计报告.md,stage24,seed 审计子报告,5,保留为历史证据
+outputs/reports/Stage24_官方GraphRAG_20Query_LogicGuard上下文导出报告.md,stage24,context 导出子报告,5,保留为历史证据
+outputs/reports/Stage24_官方GraphRAG_50Query_LogicGuard上下文导出报告.md,stage24,context 导出子报告,5,保留为历史证据
+outputs/reports/Stage23_官方GraphRAG_Sources级Recovery_5Query实验报告.md,stage23,早期单项报告,5,保留为历史证据

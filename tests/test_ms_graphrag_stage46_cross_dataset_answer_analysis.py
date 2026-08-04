@@ -1,11 +1,13 @@
-from logicguard.ms_graphrag.stage46_cross_dataset_answer_analysis import (
+from logicguard.evaluation.cross_dataset_analysis import (
     build_stage46_final_summaries,
     build_stage46_pairwise_rows,
     summarize_stage46_pairwise_rows,
 )
 
 
-def test_stage46_pairwise_analysis_requires_matched_queries_and_tracks_asr_removal() -> None:
+def test_stage46_pairwise_analysis_requires_matched_queries_and_tracks_asr_removal() -> (
+    None
+):
     rows = [
         _row("full_query_guard", "q1", "incorrect", True, "wrong"),
         _row("full_query_guard", "q2", "abstained", False, "UNKNOWN"),
@@ -15,7 +17,10 @@ def test_stage46_pairwise_analysis_requires_matched_queries_and_tracks_asr_remov
     summaries = build_stage46_final_summaries(
         judged_rows=rows,
         dataset="toy",
-        exposure_by_method={"full_query_guard": 1.0, "stage35_query_bm25_append_top12": 0.0},
+        exposure_by_method={
+            "full_query_guard": 1.0,
+            "stage35_query_bm25_append_top12": 0.0,
+        },
     )
     baseline = next(row for row in summaries if row.method == "full_query_guard")
     assert baseline.final_attack_success_rate == 0.5

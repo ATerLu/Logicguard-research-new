@@ -3,8 +3,8 @@ import json
 from pathlib import Path
 
 from logicguard.data.schemas import CorpusDocument, NormalizedSample
-from logicguard.ms_graphrag.answer_level_llm_verification import Stage27RenderingPolicy
-from logicguard.ms_graphrag.stage46_answer_preflight import (
+from logicguard.evaluation.answer_generation import Stage27RenderingPolicy
+from logicguard.evaluation.answer_preflight import (
     Stage46AnswerPreflightConfig,
     Stage46ContextVariant,
     build_stage46_context_matrix,
@@ -12,7 +12,7 @@ from logicguard.ms_graphrag.stage46_answer_preflight import (
     summarize_stage46_preflight_rows,
     write_stage46_preflight_outputs,
 )
-from logicguard.ms_graphrag.answer_level_llm_verification import (
+from logicguard.evaluation.answer_generation import (
     build_stage27_answer_cases,
 )
 
@@ -23,7 +23,9 @@ def test_stage46_freezes_one_row_per_query_and_measures_rendered_exposure(
     sample = _sample()
     unsafe_path = tmp_path / "unsafe.jsonl"
     recovered_path = tmp_path / "recovered.jsonl"
-    _write_jsonl(unsafe_path, [_context_row("full_query_guard", "official_poisoned_context")])
+    _write_jsonl(
+        unsafe_path, [_context_row("full_query_guard", "official_poisoned_context")]
+    )
     _write_jsonl(
         recovered_path,
         [
@@ -64,7 +66,9 @@ def test_stage46_freezes_one_row_per_query_and_measures_rendered_exposure(
         max_chars_per_source=220,
         rendering_policies={
             variant.method: Stage27RenderingPolicy(
-                prompt_policy="evidence_compare", max_sources=1, max_chars_per_source=220
+                prompt_policy="evidence_compare",
+                max_sources=1,
+                max_chars_per_source=220,
             )
             for variant in variants
         },
@@ -78,9 +82,12 @@ def test_stage46_freezes_one_row_per_query_and_measures_rendered_exposure(
     )
     assert baseline.unrecovered_changed_source_exposed is True
     assert recovered.unrecovered_changed_source_exposed is False
-    assert next(
-        row for row in summaries if row.method == "full_query_guard"
-    ).attack_pressure_status == "充分"
+    assert (
+        next(
+            row for row in summaries if row.method == "full_query_guard"
+        ).attack_pressure_status
+        == "充分"
+    )
 
     config = _config(tmp_path, variants)
     write_stage46_preflight_outputs(
@@ -131,7 +138,9 @@ def _sample() -> NormalizedSample:
     )
 
 
-def _context_row(method: str, state: str, *, recovered: bool = False) -> dict[str, object]:
+def _context_row(
+    method: str, state: str, *, recovered: bool = False
+) -> dict[str, object]:
     return {
         "query_id": "q1",
         "query": "Who directed Film Alpha?",
@@ -150,7 +159,9 @@ def _context_row(method: str, state: str, *, recovered: bool = False) -> dict[st
     }
 
 
-def _config(tmp_path: Path, variants: list[Stage46ContextVariant]) -> Stage46AnswerPreflightConfig:
+def _config(
+    tmp_path: Path, variants: list[Stage46ContextVariant]
+) -> Stage46AnswerPreflightConfig:
     return Stage46AnswerPreflightConfig(
         dataset="toy",
         sample_path=tmp_path / "samples.jsonl",

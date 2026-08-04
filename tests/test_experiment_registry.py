@@ -51,7 +51,9 @@ def test_strict_registry_freeze_rejects_missing_artifacts(tmp_path: Path) -> Non
         write_registry_artifacts(config, strict=True)
 
 
-def test_write_registry_artifacts_outputs_csv_manifest_and_chinese_report(tmp_path: Path) -> None:
+def test_write_registry_artifacts_outputs_csv_manifest_and_chinese_report(
+    tmp_path: Path,
+) -> None:
     config_path = _write_registry_fixture(tmp_path)
     config = ExperimentRegistryConfig.from_yaml(config_path)
     input_path = config.experiments[0].input_paths[0]
@@ -71,7 +73,9 @@ def test_write_registry_artifacts_outputs_csv_manifest_and_chinese_report(tmp_pa
     assert rows[0]["experiment_id"] == "LG-T01"
     assert rows[0]["query_count"] == "10"
     assert manifest["registry_version"] == "1.0"
-    assert input_artifact["sha256"] == hashlib.sha256(input_path.read_bytes()).hexdigest()
+    assert (
+        input_artifact["sha256"] == hashlib.sha256(input_path.read_bytes()).hexdigest()
+    )
     assert "实验冻结与可复现性报告" in report
     assert "缺失证据：`0`" in report
 
@@ -101,7 +105,9 @@ def _write_registry_fixture(
     return config_path
 
 
-def _registry_yaml(*, experiments: str | None = None, input_path: str = "data/sample.jsonl") -> str:
+def _registry_yaml(
+    *, experiments: str | None = None, input_path: str = "data/sample.jsonl"
+) -> str:
     experiment_rows = experiments or _experiment_yaml(input_path=input_path)
     return "\n".join(
         [

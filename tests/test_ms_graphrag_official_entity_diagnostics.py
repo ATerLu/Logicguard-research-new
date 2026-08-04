@@ -27,15 +27,27 @@ def test_build_entity_diagnostic_rows_tracks_support_title_hits() -> None:
             "query_id": "q1",
             "context_data": {
                 "entities": [
-                    {"id": "1", "entity": "FILM A", "number of relationships": "3", "in_context": True},
-                    {"id": "2", "entity": "UNRELATED", "number of relationships": "9", "in_context": True},
+                    {
+                        "id": "1",
+                        "entity": "FILM A",
+                        "number of relationships": "3",
+                        "in_context": True,
+                    },
+                    {
+                        "id": "2",
+                        "entity": "UNRELATED",
+                        "number of relationships": "9",
+                        "in_context": True,
+                    },
                 ],
                 "sources": [{"logicguard_doc_id": "d1"}],
             },
         }
     ]
 
-    rows = build_entity_diagnostic_rows(samples=samples, context_rows=context_rows, recall_rows=[])
+    rows = build_entity_diagnostic_rows(
+        samples=samples, context_rows=context_rows, recall_rows=[]
+    )
 
     assert len(rows) == 1
     row = rows[0]
@@ -49,15 +61,33 @@ def test_build_entity_diagnostic_rows_tracks_support_title_hits() -> None:
 
 def test_summarize_entity_diagnostics_counts_repeated_top_entities() -> None:
     samples = [
-        NormalizedSample("q1", "Q1", "A1", ["d1"], [CorpusDocument("d1", "Doc One", "text")]),
-        NormalizedSample("q2", "Q2", "A2", ["d2"], [CorpusDocument("d2", "Doc Two", "text")]),
+        NormalizedSample(
+            "q1", "Q1", "A1", ["d1"], [CorpusDocument("d1", "Doc One", "text")]
+        ),
+        NormalizedSample(
+            "q2", "Q2", "A2", ["d2"], [CorpusDocument("d2", "Doc Two", "text")]
+        ),
     ]
     context_rows = [
-        {"query_id": "q1", "context_data": {"entities": [{"entity": "SHARED"}, {"entity": "A"}], "sources": []}},
-        {"query_id": "q2", "context_data": {"entities": [{"entity": "SHARED"}, {"entity": "B"}], "sources": []}},
+        {
+            "query_id": "q1",
+            "context_data": {
+                "entities": [{"entity": "SHARED"}, {"entity": "A"}],
+                "sources": [],
+            },
+        },
+        {
+            "query_id": "q2",
+            "context_data": {
+                "entities": [{"entity": "SHARED"}, {"entity": "B"}],
+                "sources": [],
+            },
+        },
     ]
 
-    rows = build_entity_diagnostic_rows(samples=samples, context_rows=context_rows, recall_rows=[])
+    rows = build_entity_diagnostic_rows(
+        samples=samples, context_rows=context_rows, recall_rows=[]
+    )
     summary = summarize_entity_diagnostics(rows)
 
     assert summary.query_count == 2
@@ -66,14 +96,23 @@ def test_summarize_entity_diagnostics_counts_repeated_top_entities() -> None:
     assert summary.repeated_top_entity_query_count == 2
 
 
-def test_write_entity_diagnostic_artifacts_outputs_csv_and_report(tmp_path: Path) -> None:
+def test_write_entity_diagnostic_artifacts_outputs_csv_and_report(
+    tmp_path: Path,
+) -> None:
     samples = [
-        NormalizedSample("q1", "Q1", "A1", ["d1"], [CorpusDocument("d1", "Doc One", "text")]),
+        NormalizedSample(
+            "q1", "Q1", "A1", ["d1"], [CorpusDocument("d1", "Doc One", "text")]
+        ),
     ]
     context_rows = [
-        {"query_id": "q1", "context_data": {"entities": [{"entity": "DOC ONE"}], "sources": []}},
+        {
+            "query_id": "q1",
+            "context_data": {"entities": [{"entity": "DOC ONE"}], "sources": []},
+        },
     ]
-    rows = build_entity_diagnostic_rows(samples=samples, context_rows=context_rows, recall_rows=[])
+    rows = build_entity_diagnostic_rows(
+        samples=samples, context_rows=context_rows, recall_rows=[]
+    )
     csv_path = tmp_path / "entities.csv"
     report_path = tmp_path / "entities.md"
 

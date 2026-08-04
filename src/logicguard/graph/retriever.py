@@ -9,7 +9,12 @@ import networkx as nx
 from logicguard.data.schemas import NormalizedSample
 from logicguard.graph.builder import _entity_node
 from logicguard.graph.entities import RuleBasedEntityExtractor
-from logicguard.graph.schemas import EntityMention, GraphIndex, PathCandidate, RetrievalTrace
+from logicguard.graph.schemas import (
+    EntityMention,
+    GraphIndex,
+    PathCandidate,
+    RetrievalTrace,
+)
 
 
 def retrieve_paths_for_query(
@@ -56,10 +61,14 @@ def retrieve_paths_for_query(
                 path=paths[node],
             )
             current = best_by_doc.get(doc_id)
-            if current is None or _candidate_sort_key(candidate) > _candidate_sort_key(current):
+            if current is None or _candidate_sort_key(candidate) > _candidate_sort_key(
+                current
+            ):
                 best_by_doc[doc_id] = candidate
 
-    candidates = sorted(best_by_doc.values(), key=_candidate_sort_key, reverse=True)[:top_k]
+    candidates = sorted(best_by_doc.values(), key=_candidate_sort_key, reverse=True)[
+        :top_k
+    ]
     return RetrievalTrace(
         query_id=sample.query_id,
         query=sample.query,
@@ -77,7 +86,12 @@ def calculate_retrieval_metrics(
     """Calculate first-pass retrieval metrics for a trace collection."""
 
     if not traces:
-        return {"queries": 0.0, "hit_at_k": 0.0, "gold_recall_at_k": 0.0, "avg_candidates": 0.0}
+        return {
+            "queries": 0.0,
+            "hit_at_k": 0.0,
+            "gold_recall_at_k": 0.0,
+            "avg_candidates": 0.0,
+        }
 
     hit_count = 0
     recall_values: list[float] = []

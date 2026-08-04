@@ -36,7 +36,9 @@ class MsGraphRagWorkspaceConfig:
     missing_support_policy: MissingSupportPolicy = "use_embedded"
 
 
-def prepare_ms_graphrag_workspace(config: MsGraphRagWorkspaceConfig) -> dict[str, object]:
+def prepare_ms_graphrag_workspace(
+    config: MsGraphRagWorkspaceConfig,
+) -> dict[str, object]:
     """Export selected documents to a Microsoft GraphRAG workspace.
 
     `sample_support` is the safe default for smoke tests because it writes only
@@ -55,7 +57,9 @@ def prepare_ms_graphrag_workspace(config: MsGraphRagWorkspaceConfig) -> dict[str
     if config.doc_scope not in {"all", "sample_support"}:
         raise ValueError(f"Unsupported doc_scope: {config.doc_scope}")
     if config.missing_support_policy not in {"use_embedded", "skip"}:
-        raise ValueError(f"Unsupported missing_support_policy: {config.missing_support_policy}")
+        raise ValueError(
+            f"Unsupported missing_support_policy: {config.missing_support_policy}"
+        )
 
     samples = load_normalized_samples(config.sample_path)
     corpus_lookup = _load_corpus_lookup(config.corpus_path)
@@ -112,7 +116,9 @@ def _select_documents(
     if doc_scope == "all":
         selected = list(corpus_lookup.values())
     else:
-        support_ids = {doc_id for sample in samples for doc_id in sample.support_doc_ids}
+        support_ids = {
+            doc_id for sample in samples for doc_id in sample.support_doc_ids
+        }
         embedded_supports = {
             document.doc_id: document
             for sample in samples
@@ -122,7 +128,9 @@ def _select_documents(
         for doc_id in sorted(support_ids, key=_stable_doc_sort_key):
             if doc_id in corpus_lookup:
                 selected.append(corpus_lookup[doc_id])
-            elif missing_support_policy == "use_embedded" and doc_id in embedded_supports:
+            elif (
+                missing_support_policy == "use_embedded" and doc_id in embedded_supports
+            ):
                 selected.append(embedded_supports[doc_id])
 
     if max_docs is not None:
@@ -186,12 +194,16 @@ def _stable_doc_sort_key(doc_id: str) -> tuple[int, str]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Prepare Microsoft GraphRAG input files.")
+    parser = argparse.ArgumentParser(
+        description="Prepare Microsoft GraphRAG input files."
+    )
     parser.add_argument("--dataset", required=True)
     parser.add_argument("--sample-path", type=Path, required=True)
     parser.add_argument("--corpus-path", type=Path, required=True)
     parser.add_argument("--workspace-root", type=Path, required=True)
-    parser.add_argument("--doc-scope", choices=["all", "sample_support"], default="sample_support")
+    parser.add_argument(
+        "--doc-scope", choices=["all", "sample_support"], default="sample_support"
+    )
     parser.add_argument("--max-docs", type=int, default=None)
     parser.add_argument(
         "--missing-support-policy",

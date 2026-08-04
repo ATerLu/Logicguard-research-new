@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 
 from logicguard.data.schemas import CorpusDocument, NormalizedSample
-from logicguard.ms_graphrag.stage31_answerability_ablation import (
+from logicguard.evaluation.answerability_ablation import (
     Stage31AnswerabilityConfig,
     build_stage31_ablation_rows,
     summarize_stage31_rows,
@@ -23,19 +23,28 @@ def test_stage31_ordering_topk_and_prompt_budget_change_answer_surface() -> None
         prompt_char_budgets={"compact": 80, "expanded": 900},
     )
     by_key = {
-        (row.order_policy, row.prompt_policy): row
-        for row in rows
-        if row.top_k == 1
+        (row.order_policy, row.prompt_policy): row for row in rows if row.top_k == 1
     }
 
     assert by_key[("official_order", "expanded")].context_doc_ids == ["d1"]
     assert by_key[("official_order", "expanded")].context_has_gold_answer is False
     assert by_key[("oracle_answer_surface_first", "compact")].context_doc_ids == ["d2"]
-    assert by_key[("oracle_answer_surface_first", "compact")].context_has_gold_answer is False
+    assert (
+        by_key[("oracle_answer_surface_first", "compact")].context_has_gold_answer
+        is False
+    )
     assert by_key[("oracle_answer_surface_first", "expanded")].context_doc_ids == ["d2"]
-    assert by_key[("oracle_answer_surface_first", "expanded")].context_has_gold_answer is True
-    assert by_key[("oracle_answer_surface_first", "expanded")].answerability_label == "answerable_clean"
-    assert by_key[("oracle_answer_surface_first", "expanded")].first_gold_answer_rank == 1
+    assert (
+        by_key[("oracle_answer_surface_first", "expanded")].context_has_gold_answer
+        is True
+    )
+    assert (
+        by_key[("oracle_answer_surface_first", "expanded")].answerability_label
+        == "answerable_clean"
+    )
+    assert (
+        by_key[("oracle_answer_surface_first", "expanded")].first_gold_answer_rank == 1
+    )
 
 
 def test_stage31_title_query_overlap_is_non_oracle_and_can_surface_support() -> None:
@@ -94,9 +103,13 @@ def test_stage31_summaries_and_outputs_are_written(tmp_path: Path) -> None:
 
     write_stage31_outputs(config=config, rows=rows, summaries=summaries)
 
-    first_row = config.ablation_rows_output_path.read_text(encoding="utf-8").splitlines()[0]
+    first_row = config.ablation_rows_output_path.read_text(
+        encoding="utf-8"
+    ).splitlines()[0]
     assert json.loads(first_row)["query_id"] == "q1"
-    with config.summary_output_path.open("r", encoding="utf-8-sig", newline="") as handle:
+    with config.summary_output_path.open(
+        "r", encoding="utf-8-sig", newline=""
+    ) as handle:
         saved_summary = list(csv.DictReader(handle))
     assert saved_summary[0]["query_count"] == "1"
     report_text = config.report_path.read_text(encoding="utf-8")
@@ -111,7 +124,9 @@ def _sample() -> NormalizedSample:
         answer="Silver Delta",
         support_doc_ids=["d2"],
         support_docs=[
-            CorpusDocument(doc_id="d2", title="Ada Lovelace", text="Ada was born in Silver Delta."),
+            CorpusDocument(
+                doc_id="d2", title="Ada Lovelace", text="Ada was born in Silver Delta."
+            ),
         ],
     )
 

@@ -10,14 +10,35 @@ LogicGuard 是一个面向 RAG / GraphRAG 逻辑污染防御的科研原型。�
 
 请优先阅读：
 
-- [项目总览与路线图](docs/项目总览与路线图.md)
-- [实验结果总报告](outputs/reports/实验结果总报告.md)
-- [Stage30 项目整理与报告整合](outputs/reports/Stage30_项目整理与报告整合.md)
+- [实验方法与路线](docs/methodology.md)
+- [实验结果总报告](docs/results.md)
+- [报告迁移与哈希清单](docs/report_manifest.csv)
 - [开发记录](docs/开发记录.md)
-- [可复现实验命令清单](docs/可复现实验命令清单.md)
-- [论文实验矩阵_阶段冻结版](docs/论文实验矩阵_阶段冻结版.md)
+- [可复现实验命令清单](docs/reproducibility.md)
+- [实验注册表](docs/实验注册表.csv)
 
-旧的碎片 Markdown 已移动到 `F:\LogicGuard_project\历史md归档_2026-06-23`。
+旧的 97 个阶段报告已建立 SHA-256 清单并归档；新增实验不再为每个
+preflight / generation / audit / judge 子步骤生成独立 Markdown。
+过时的导师汇报、冻结矩阵和旧交接文档见 `docs/legacy_document_manifest.csv`。
+
+## 规范化目录
+
+活动代码按职责组织，阶段编号只保留在实验元数据和兼容入口中：
+
+```text
+src/logicguard/
+├── core/          # 配置、路径、I/O、指标
+├── attack/        # 攻击实现
+├── defense/       # 检测、恢复、补证、链路完整性
+├── evaluation/    # 回答生成、审计、裁决与跨数据集分析
+├── ms_graphrag/   # Microsoft GraphRAG 接入层
+└── cli.py         # 稳定命令入口
+```
+
+Python 文件使用 `snake_case`，类使用 `PascalCase`。旧的
+`logicguard.ms_graphrag.stageNN_*` 导入仍可用，但新代码应使用职责路径。
+Stage47 配置集中在 `configs/experiments/stage47/`；旧路径由
+`configs/config_aliases.yaml` 映射。
 
 ## 当前状态
 

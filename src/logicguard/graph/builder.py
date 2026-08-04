@@ -32,7 +32,9 @@ def build_document_entity_graph(
     for document in documents:
         document_lookup[document.doc_id] = document
         doc_node = _doc_node(document.doc_id)
-        graph.add_node(doc_node, node_type="document", doc_id=document.doc_id, title=document.title)
+        graph.add_node(
+            doc_node, node_type="document", doc_id=document.doc_id, title=document.title
+        )
 
         # Include title and text because dataset titles often contain the most
         # precise entity string for multi-hop QA support documents.

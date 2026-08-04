@@ -178,7 +178,9 @@ def parse_judge_response(content: str) -> JudgedAnswer:
     )
 
 
-def summarize_judged_answers(rows: list[dict[str, object]]) -> dict[tuple[str, str], dict[str, int]]:
+def summarize_judged_answers(
+    rows: list[dict[str, object]],
+) -> dict[tuple[str, str], dict[str, int]]:
     """Aggregate judged answer rows by model and context variant."""
 
     grouped: dict[tuple[str, str], dict[str, int]] = {}
@@ -206,7 +208,9 @@ def summarize_judged_answers(rows: list[dict[str, object]]) -> dict[tuple[str, s
 
 
 def _strip_code_fence(content: str) -> str:
-    match = re.fullmatch(r"```(?:json)?\s*(.*?)\s*```", content, flags=re.DOTALL | re.IGNORECASE)
+    match = re.fullmatch(
+        r"```(?:json)?\s*(.*?)\s*```", content, flags=re.DOTALL | re.IGNORECASE
+    )
     if match:
         return match.group(1).strip()
     return content

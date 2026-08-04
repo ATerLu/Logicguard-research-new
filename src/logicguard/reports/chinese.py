@@ -14,22 +14,46 @@ from pathlib import Path
 MARKER = "<!-- logicguard:chinese-report:v1 -->"
 
 METRIC_NOTES = [
-    ("`hit@k / hit@10`", "检索 top-k 中是否至少命中一个 gold 支持文档；越高表示检索能找到相关证据。"),
-    ("`gold_recall@k / gold_recall@10`", "检索 top-k 覆盖 gold 支持文档的平均比例；越高表示支持证据覆盖更完整。"),
-    ("`average candidates/query`", "每个问题平均返回的候选证据数，用于观察检索是否过窄或过宽。"),
-    ("`exposure@k`", "攻击目标文档进入 top-k 或最终上下文的比例；越低表示防御越能阻断污染证据。"),
+    (
+        "`hit@k / hit@10`",
+        "检索 top-k 中是否至少命中一个 gold 支持文档；越高表示检索能找到相关证据。",
+    ),
+    (
+        "`gold_recall@k / gold_recall@10`",
+        "检索 top-k 覆盖 gold 支持文档的平均比例；越高表示支持证据覆盖更完整。",
+    ),
+    (
+        "`average candidates/query`",
+        "每个问题平均返回的候选证据数，用于观察检索是否过窄或过宽。",
+    ),
+    (
+        "`exposure@k`",
+        "攻击目标文档进入 top-k 或最终上下文的比例；越低表示防御越能阻断污染证据。",
+    ),
     ("`targeted queries`", "本轮攻击实际覆盖的目标问题数量。"),
     ("`exposed queries`", "目标问题中检索到污染证据的问题数量。"),
-    ("`exposed@rank1`", "污染证据排在第 1 位的目标问题数量；越高表示污染证据越支配排序。"),
-    ("`average first poisoned rank`", "污染证据首次出现的平均排名；越小表示攻击证据越靠前。"),
+    (
+        "`exposed@rank1`",
+        "污染证据排在第 1 位的目标问题数量；越高表示污染证据越支配排序。",
+    ),
+    (
+        "`average first poisoned rank`",
+        "污染证据首次出现的平均排名；越小表示攻击证据越靠前。",
+    ),
     ("`clean recall`", "干净语料下的 gold recall，用于衡量原始检索质量。"),
     ("`trusted recall`", "排除已篡改或不可信 gold 文档后的 recall，更适合安全评估。"),
     ("`corrupted gold`", "被标记为内容篡改的 gold 支持证据出现次数。"),
     ("`suppressed`", "guarded context 中被过滤掉的候选证据总数。"),
     ("`suppressed gold`", "被过滤掉的 gold 候选数；需要结合是否 corrupted 来解释。"),
-    ("`suppressed poisoned`", "被过滤掉的攻击元数据标记污染文档数；越高通常表示防御命中污染证据。"),
+    (
+        "`suppressed poisoned`",
+        "被过滤掉的攻击元数据标记污染文档数；越高通常表示防御命中污染证据。",
+    ),
     ("`suppressed changed`", "被过滤掉的内容指纹不一致文档数。"),
-    ("`guarded avg candidates`", "guarded context 中每个问题保留的平均候选数，反映防御后证据量。"),
+    (
+        "`guarded avg candidates`",
+        "guarded context 中每个问题保留的平均候选数，反映防御后证据量。",
+    ),
     ("`correct`", "正确答案命中次数，即 LLM 输出包含 gold answer 的次数。"),
     ("`poisoned`", "LLM 输出包含 attacker replacement answer 的次数。"),
     ("`abstained`", "LLM 输出 UNKNOWN 或信息不足类拒答的次数。"),
@@ -235,12 +259,16 @@ def _is_long_english_paragraph(line: str) -> bool:
         return False
     if len(stripped.split()) < 12:
         return False
-    ascii_letters = sum(character.isascii() and character.isalpha() for character in stripped)
+    ascii_letters = sum(
+        character.isascii() and character.isalpha() for character in stripped
+    )
     return ascii_letters / max(len(stripped), 1) > 0.55
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Localize LogicGuard Markdown reports into Chinese.")
+    parser = argparse.ArgumentParser(
+        description="Localize LogicGuard Markdown reports into Chinese."
+    )
     parser.add_argument(
         "--report-dir",
         type=Path,

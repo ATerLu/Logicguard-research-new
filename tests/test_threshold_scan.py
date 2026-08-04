@@ -1,6 +1,9 @@
 from pathlib import Path
 
-from logicguard.defense.run_threshold_scan import ThresholdScanConfig, evaluate_threshold_pair
+from logicguard.defense.run_threshold_scan import (
+    ThresholdScanConfig,
+    evaluate_threshold_pair,
+)
 from logicguard.graph.schemas import EntityMention, PathCandidate, RetrievalTrace
 
 
@@ -8,7 +11,9 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SCAN_CONFIG_PATH = PROJECT_ROOT / "configs" / "logicguard_threshold_scan_full_500.yaml"
 
 
-def _trace(query_id: str, answer: str, gold_doc_ids: list[str], candidates: list[PathCandidate]) -> RetrievalTrace:
+def _trace(
+    query_id: str, answer: str, gold_doc_ids: list[str], candidates: list[PathCandidate]
+) -> RetrievalTrace:
     return RetrievalTrace(
         query_id=query_id,
         query=f"Question {query_id}?",
@@ -24,7 +29,14 @@ def test_threshold_scan_config_targets_full_500_artifacts() -> None:
 
     assert config.dataset == "2wikimultihopqa"
     assert config.run_name == "full_500"
-    assert config.clean_trace_path == PROJECT_ROOT / "outputs" / "baseline" / "2wikimultihopqa" / "full_500_traces.jsonl"
+    assert (
+        config.clean_trace_path
+        == PROJECT_ROOT
+        / "outputs"
+        / "baseline"
+        / "2wikimultihopqa"
+        / "full_500_traces.jsonl"
+    )
     assert config.entity_swap_trace_path.name == "poisoned_full_500_traces.jsonl"
     assert config.bridge_trace_path.name == "bridge_poisoned_full_500_traces.jsonl"
     assert config.risk_penalties == [0.5, 0.75, 1.0]
@@ -82,7 +94,7 @@ def test_evaluate_threshold_pair_reports_clean_and_poisoned_tradeoff() -> None:
                 path_nodes=["query:bridge-q", "ent:known film", "doc:3"],
                 matched_query_entities=["known film"],
                 bridge_entities=[],
-            )
+            ),
         ],
     )
 

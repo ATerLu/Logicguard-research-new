@@ -21,7 +21,10 @@ def test_localize_markdown_report_adds_chinese_metric_descriptions() -> None:
     assert "## 指标说明" in localized
     assert "`hit@k / hit@10`" in localized
     assert "正确答案命中次数" in localized
-    assert "| 模型 | 攻击类型 | 上下文类型 | 调用次数 | 正确答案次数 | 污染答案次数 | 拒答次数 | 错误次数 |" in localized
+    assert (
+        "| 模型 | 攻击类型 | 上下文类型 | 调用次数 | 正确答案次数 | 污染答案次数 | 拒答次数 | 错误次数 |"
+        in localized
+    )
 
 
 def test_localize_markdown_report_is_idempotent() -> None:

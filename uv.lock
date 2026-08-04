@@ -627,18 +627,22 @@ name = "logicguard"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "networkx" },
+    { name = "numpy" },
+    { name = "pandas" },
+    { name = "pyyaml" },
+    { name = "rank-bm25" },
+]
+
+[package.optional-dependencies]
+research = [
     { name = "click" },
     { name = "faiss-cpu" },
     { name = "jsonlines" },
     { name = "loguru" },
-    { name = "networkx" },
-    { name = "numpy" },
-    { name = "pandas" },
     { name = "pyarrow" },
     { name = "pydantic" },
     { name = "pyvis" },
-    { name = "pyyaml" },
-    { name = "rank-bm25" },
     { name = "rich" },
     { name = "scikit-learn" },
     { name = "sentence-transformers" },
@@ -654,24 +658,25 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "click", specifier = ">=8.4.1" },
-    { name = "faiss-cpu", specifier = ">=1.14.3" },
-    { name = "jsonlines", specifier = ">=4.0.0" },
-    { name = "loguru", specifier = ">=0.7.3" },
+    { name = "click", marker = "extra == 'research'", specifier = ">=8.4.1" },
+    { name = "faiss-cpu", marker = "extra == 'research'", specifier = ">=1.14.3" },
+    { name = "jsonlines", marker = "extra == 'research'", specifier = ">=4.0.0" },
+    { name = "loguru", marker = "extra == 'research'", specifier = ">=0.7.3" },
     { name = "networkx", specifier = ">=3.6.1" },
     { name = "numpy", specifier = ">=2.4.6" },
     { name = "pandas", specifier = ">=3.0.3" },
-    { name = "pyarrow", specifier = ">=24.0.0" },
-    { name = "pydantic", specifier = ">=2.13.4" },
-    { name = "pyvis", specifier = ">=0.3.2" },
+    { name = "pyarrow", marker = "extra == 'research'", specifier = ">=24.0.0" },
+    { name = "pydantic", marker = "extra == 'research'", specifier = ">=2.13.4" },
+    { name = "pyvis", marker = "extra == 'research'", specifier = ">=0.3.2" },
     { name = "pyyaml", specifier = ">=6.0.3" },
     { name = "rank-bm25", specifier = ">=0.2.2" },
-    { name = "rich", specifier = ">=15.0.0" },
-    { name = "scikit-learn", specifier = ">=1.9.0" },
-    { name = "sentence-transformers", specifier = ">=5.6.0" },
-    { name = "spacy", specifier = ">=3.8.14" },
-    { name = "tqdm", specifier = ">=4.68.2" },
+    { name = "rich", marker = "extra == 'research'", specifier = ">=15.0.0" },
+    { name = "scikit-learn", marker = "extra == 'research'", specifier = ">=1.9.0" },
+    { name = "sentence-transformers", marker = "extra == 'research'", specifier = ">=5.6.0" },
+    { name = "spacy", marker = "extra == 'research'", specifier = ">=3.8.14" },
+    { name = "tqdm", marker = "extra == 'research'", specifier = ">=4.68.2" },
 ]
+provides-extras = ["research"]
 
 [package.metadata.requires-dev]
 dev = [

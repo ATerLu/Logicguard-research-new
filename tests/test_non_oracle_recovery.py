@@ -46,10 +46,25 @@ def _guarded_trace() -> RerankedTrace:
 def test_stage8_config_resolves_default_paths() -> None:
     config = NonOracleRecoveryConfig.from_yaml(CONFIG_PATH)
 
-    assert config.clean_data_root == PROJECT_ROOT / "data" / "logicpoison_official" / "clean"
-    assert config.stage3_defense_root == PROJECT_ROOT / "outputs" / "defense" / "logicpoison_official"
-    assert config.output_root == PROJECT_ROOT / "outputs" / "defense" / "logicpoison_official_stage8"
-    assert config.report_path == PROJECT_ROOT / "outputs" / "reports" / "LogicPoison阶段8非OracleRecovery实验报告.md"
+    assert (
+        config.clean_data_root
+        == PROJECT_ROOT / "data" / "logicpoison_official" / "clean"
+    )
+    assert (
+        config.stage3_defense_root
+        == PROJECT_ROOT / "outputs" / "defense" / "logicpoison_official"
+    )
+    assert (
+        config.output_root
+        == PROJECT_ROOT / "outputs" / "defense" / "logicpoison_official_stage8"
+    )
+    assert (
+        config.report_path
+        == PROJECT_ROOT
+        / "outputs"
+        / "reports"
+        / "LogicPoison阶段8非OracleRecovery实验报告.md"
+    )
     assert config.datasets == ["2wikimultihopqa", "hotpotqa", "musique"]
     assert config.retrievers == ["naive_bm25", "graph_surrogate"]
     assert config.top_k == 10
@@ -93,7 +108,11 @@ def test_non_oracle_recovery_backfills_from_clean_corpus_without_clean_trace() -
 
 def test_non_oracle_recovery_can_reuse_a_trusted_bm25_index() -> None:
     clean_documents = [
-        CorpusDocument(doc_id="safe", title="Safe background", text="This unrelated document mentions the river."),
+        CorpusDocument(
+            doc_id="safe",
+            title="Safe background",
+            text="This unrelated document mentions the river.",
+        ),
         CorpusDocument(
             doc_id="gold",
             title="Ada River",

@@ -3,8 +3,8 @@ from pathlib import Path
 
 from logicguard.data.schemas import CorpusDocument, NormalizedSample
 from logicguard.llm.provider import ChatResponse
-from logicguard.ms_graphrag.non_oracle_source_recovery import NonOracleCandidateSource
-from logicguard.ms_graphrag.stage47_adaptive_attack import (
+from logicguard.defense.non_oracle_recovery import NonOracleCandidateSource
+from logicguard.attack.adaptive import (
     Stage47AdaptiveAttackConfig,
     build_stage47_defense_matrix,
     build_stage47_preflight_rows,

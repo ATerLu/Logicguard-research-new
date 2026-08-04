@@ -10,9 +10,33 @@ from logicguard.ms_graphrag.official_query_metrics import (
 
 def test_summarize_defense_results_groups_by_model_and_variant() -> None:
     rows = [
-        _result("deepseek-v4-flash", "poisoned", correct=False, abstained=False, incorrect=True, changed=1, recovered=0),
-        _result("deepseek-v4-flash", "poisoned", correct=False, abstained=True, incorrect=False, changed=0, recovered=0),
-        _result("deepseek-v4-flash", "recovered", correct=True, abstained=False, incorrect=False, changed=0, recovered=1),
+        _result(
+            "deepseek-v4-flash",
+            "poisoned",
+            correct=False,
+            abstained=False,
+            incorrect=True,
+            changed=1,
+            recovered=0,
+        ),
+        _result(
+            "deepseek-v4-flash",
+            "poisoned",
+            correct=False,
+            abstained=True,
+            incorrect=False,
+            changed=0,
+            recovered=0,
+        ),
+        _result(
+            "deepseek-v4-flash",
+            "recovered",
+            correct=True,
+            abstained=False,
+            incorrect=False,
+            changed=0,
+            recovered=1,
+        ),
     ]
 
     metrics = summarize_defense_results(rows)
@@ -86,7 +110,11 @@ def _result(
         "query": "Who?",
         "expected_answer": "Alice",
         "variant": variant,
-        "generated_answer": "Alice" if correct else "UNKNOWN" if abstained else "Mallory",
+        "generated_answer": "Alice"
+        if correct
+        else "UNKNOWN"
+        if abstained
+        else "Mallory",
         "is_correct": correct,
         "is_abstained": abstained,
         "is_incorrect": incorrect,

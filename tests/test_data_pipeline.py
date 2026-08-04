@@ -24,7 +24,9 @@ def test_load_raw_dataset_keeps_ids_aligned() -> None:
     assert set(dataset.queries) == set(dataset.answers)
     assert set(dataset.queries) == set(dataset.qrels)
 
-    all_support_ids = {doc_id for doc_ids in dataset.qrels.values() for doc_id in doc_ids}
+    all_support_ids = {
+        doc_id for doc_ids in dataset.qrels.values() for doc_id in doc_ids
+    }
     assert all_support_ids <= set(dataset.corpus)
 
 
@@ -52,7 +54,9 @@ def test_make_debug_subset_is_deterministic_and_size_limited() -> None:
     subset_b = make_debug_subset(samples, size=50)
 
     assert len(subset_a) == 50
-    assert [sample.query_id for sample in subset_a] == [sample.query_id for sample in subset_b]
+    assert [sample.query_id for sample in subset_a] == [
+        sample.query_id for sample in subset_b
+    ]
     assert subset_a[0].query_id == samples[0].query_id
     assert subset_a[-1].query_id == samples[49].query_id
 

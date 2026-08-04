@@ -12,6 +12,8 @@ from typing import Any, Iterable
 
 import pandas as pd
 import yaml
+
+from logicguard.core.config import find_project_root, resolve_config_path
 from rank_bm25 import BM25Plus
 
 
@@ -19,10 +21,28 @@ _DOC_ID_PATTERN = re.compile(r"^Document ID:\s*(?P<value>.+?)\s*$", re.MULTILINE
 _TITLE_PATTERN = re.compile(r"^Title:\s*(?P<value>.+?)\s*$", re.MULTILINE)
 _TOKEN_PATTERN = re.compile(r"[\w]+", re.UNICODE)
 _STOPWORDS = {
-    "a", "an", "and", "are", "earlier", "film", "has", "is", "of", "or",
-    "the", "was", "which", "who", "whose",
+    "a",
+    "an",
+    "and",
+    "are",
+    "earlier",
+    "film",
+    "has",
+    "is",
+    "of",
+    "or",
+    "the",
+    "was",
+    "which",
+    "who",
+    "whose",
 }
-_FORBIDDEN_OUTPUT_KEYS = {"answer", "support_doc_ids", "support_docs", "expected_answer"}
+_FORBIDDEN_OUTPUT_KEYS = {
+    "answer",
+    "support_doc_ids",
+    "support_docs",
+    "expected_answer",
+}
 
 
 @dataclass(frozen=True, slots=True)
@@ -60,10 +80,12 @@ class QueryLayerSeedingConfig:
     report_path: Path
     max_queries: int
     settings: QueryLayerSeedSettings
+    emit_markdown_report: bool = True
 
     @classmethod
     def from_yaml(cls, path: Path) -> "QueryLayerSeedingConfig":
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         payload = yaml.safe_load(path.read_text(encoding="utf-8"))
 
         def resolve(raw: str) -> Path:
@@ -82,12 +104,15 @@ class QueryLayerSeedingConfig:
             output_path=resolve(str(payload["seed_plan_output_path"])),
             report_path=resolve(str(payload["seed_plan_report_path"])),
             max_queries=int(payload.get("max_queries", 5)),
+            emit_markdown_report=bool(payload.get("emit_markdown_report", True)),
             settings=QueryLayerSeedSettings(
                 top_title_documents=int(raw_settings.get("top_title_documents", 2)),
                 entities_per_document=int(raw_settings.get("entities_per_document", 4)),
                 top_lexical_entities=int(raw_settings.get("top_lexical_entities", 6)),
                 max_include_entities=int(raw_settings.get("max_include_entities", 10)),
-                repeated_entity_min_queries=int(raw_settings.get("repeated_entity_min_queries", 2)),
+                repeated_entity_min_queries=int(
+                    raw_settings.get("repeated_entity_min_queries", 2)
+                ),
             ),
         )
 
@@ -153,7 +178,9 @@ def build_query_seed_plans(
             protected_entities=set(title_names),
             entity_by_name=entity_by_name,
         )
-        full_include = _deduplicate(title_names + lexical_names)[: settings.max_include_entities]
+        full_include = _deduplicate(title_names + lexical_names)[
+            : settings.max_include_entities
+        ]
         full_exclude = [name for name in anomalies if name not in set(full_include)]
         plan = {
             "query_id": query_record.query_id,
@@ -169,11 +196,15 @@ def build_query_seed_plans(
                     "exclude_entity_names": [],
                 },
                 "title_seeding": {
-                    "include_entity_names": title_names[: settings.max_include_entities],
+                    "include_entity_names": title_names[
+                        : settings.max_include_entities
+                    ],
                     "exclude_entity_names": [],
                 },
                 "entity_rerank": {
-                    "include_entity_names": lexical_names[: settings.max_include_entities],
+                    "include_entity_names": lexical_names[
+                        : settings.max_include_entities
+                    ],
                     "exclude_entity_names": [],
                 },
                 "cluster_suppression": {
@@ -195,7 +226,9 @@ def run_from_config(config: QueryLayerSeedingConfig) -> list[dict[str, Any]]:
     """Write seed JSONL and a Chinese audit report."""
 
     plans = build_query_seed_plans(
-        query_rows=load_query_records(config.sample_path, max_queries=config.max_queries),
+        query_rows=load_query_records(
+            config.sample_path, max_queries=config.max_queries
+        ),
         entities_frame=pd.read_parquet(config.entities_path),
         text_units_frame=pd.read_parquet(config.text_units_path),
         baseline_context_rows=_load_jsonl(config.baseline_context_path),
@@ -205,7 +238,8 @@ def run_from_config(config: QueryLayerSeedingConfig) -> list[dict[str, Any]]:
     with config.output_path.open("w", encoding="utf-8") as handle:
         for plan in plans:
             handle.write(json.dumps(plan, ensure_ascii=False) + "\n")
-    _write_seed_report(config, plans)
+    if config.emit_markdown_report:
+        _write_seed_report(config, plans)
     return plans
 
 
@@ -233,12 +267,16 @@ def _document_records(frame: pd.DataFrame) -> list[dict[str, Any]]:
         title = _metadata_value(_TITLE_PATTERN, text)
         doc_id = _metadata_value(_DOC_ID_PATTERN, text)
         if title and doc_id:
-            records.append({
-                "doc_id": doc_id,
-                "title": title,
-                "text_unit_id": str(row.get("id", "")),
-                "entity_ids": [str(value) for value in _as_list(row.get("entity_ids"))],
-            })
+            records.append(
+                {
+                    "doc_id": doc_id,
+                    "title": title,
+                    "text_unit_id": str(row.get("id", "")),
+                    "entity_ids": [
+                        str(value) for value in _as_list(row.get("entity_ids"))
+                    ],
+                }
+            )
     return records
 
 
@@ -247,12 +285,14 @@ def _entity_records(frame: pd.DataFrame) -> list[dict[str, Any]]:
     for row in frame.to_dict(orient="records"):
         title = str(row.get("title", "")).strip()
         if title:
-            records.append({
-                "id": str(row.get("id", "")),
-                "title": title,
-                "description": str(row.get("description", "")),
-                "degree": int(row.get("degree", 0) or 0),
-            })
+            records.append(
+                {
+                    "id": str(row.get("id", "")),
+                    "title": title,
+                    "description": str(row.get("description", "")),
+                    "degree": int(row.get("degree", 0) or 0),
+                }
+            )
     return records
 
 
@@ -269,11 +309,14 @@ def _rank_title_candidates(
         if overlap:
             ranked.append((overlap, score, document))
     ranked.sort(key=lambda item: (-item[0], -item[1], item[2]["title"].casefold()))
-    return [{
-        **item[2],
-        "bm25_score": round(item[1], 6),
-        "token_overlap": item[0],
-    } for item in ranked[:limit]]
+    return [
+        {
+            **item[2],
+            "bm25_score": round(item[1], 6),
+            "token_overlap": item[0],
+        }
+        for item in ranked[:limit]
+    ]
 
 
 def _map_title_entities(
@@ -292,24 +335,30 @@ def _map_title_entities(
             for entity_id in candidate["entity_ids"]
             if entity_id in entity_by_id
         ]
-        mapped.sort(key=lambda entity: (
-            -int(_normalize_text(entity["title"]) in normalized_query),
-            -len(query_tokens.intersection(_tokenize(entity["title"]))),
-            -entity["degree"],
-            entity["title"].casefold(),
-        ))
+        mapped.sort(
+            key=lambda entity: (
+                -int(_normalize_text(entity["title"]) in normalized_query),
+                -len(query_tokens.intersection(_tokenize(entity["title"]))),
+                -entity["degree"],
+                entity["title"].casefold(),
+            )
+        )
         for entity in mapped[:per_document]:
             if entity["title"] in seen:
                 continue
             seen.add(entity["title"])
-            selected.append({
-                "entity": entity["title"],
-                "source_doc_id": candidate["doc_id"],
-                "source_title": candidate["title"],
-                "lexical_overlap": len(query_tokens.intersection(_tokenize(entity["title"]))),
-                "degree": entity["degree"],
-                "reason": "title_document_entity",
-            })
+            selected.append(
+                {
+                    "entity": entity["title"],
+                    "source_doc_id": candidate["doc_id"],
+                    "source_title": candidate["title"],
+                    "lexical_overlap": len(
+                        query_tokens.intersection(_tokenize(entity["title"]))
+                    ),
+                    "degree": entity["degree"],
+                    "reason": "title_document_entity",
+                }
+            )
     return selected
 
 
@@ -325,14 +374,19 @@ def _rank_lexical_entities(
         overlap = len(query_tokens.intersection(_tokenize(entity["title"])))
         if overlap:
             ranked.append((overlap, score, entity["degree"], entity))
-    ranked.sort(key=lambda item: (-item[0], -item[1], -item[2], item[3]["title"].casefold()))
-    return [{
-        "entity": item[3]["title"],
-        "bm25_score": round(item[1], 6),
-        "lexical_overlap": item[0],
-        "degree": item[2],
-        "reason": "entity_lexical_match",
-    } for item in ranked[:limit]]
+    ranked.sort(
+        key=lambda item: (-item[0], -item[1], -item[2], item[3]["title"].casefold())
+    )
+    return [
+        {
+            "entity": item[3]["title"],
+            "bm25_score": round(item[1], 6),
+            "lexical_overlap": item[0],
+            "degree": item[2],
+            "reason": "entity_lexical_match",
+        }
+        for item in ranked[:limit]
+    ]
 
 
 def _repeated_baseline_entities(
@@ -374,44 +428,56 @@ def _find_anomalies(
     return [name for _, name in anomalies]
 
 
-def _write_seed_report(config: QueryLayerSeedingConfig, plans: list[dict[str, Any]]) -> None:
+def _write_seed_report(
+    config: QueryLayerSeedingConfig, plans: list[dict[str, Any]]
+) -> None:
     table = [
         "| query_id | 标题候选 | title seeds | lexical seeds | anomaly excludes |",
         "| --- | --- | --- | --- | --- |",
     ]
     for plan in plans:
-        table.append("| " + " | ".join([
-            str(plan["query_id"]),
-            ", ".join(row["title"] for row in plan["title_candidates"]),
-            ", ".join(plan["title_seed_entities"]),
-            ", ".join(row["entity"] for row in plan["lexical_entity_candidates"]),
-            ", ".join(plan["anomalous_entities"]),
-        ]) + " |")
-    content = "\n".join([
-        "# Microsoft GraphRAG Stage20 Query Seed审计报告",
-        "",
-        "## 目的",
-        "",
-        "只使用query文本和poisoned mixed graph索引元数据生成实体计划，禁止读取gold答案和support标注。",
-        "",
-        "## 指标说明",
-        "",
-        "- 标题候选：标题BM25命中的text unit文档。",
-        "- title seeds：由标题候选的entity_ids映射得到的实体。",
-        "- lexical seeds：实体标题与query存在词面重叠的候选。",
-        "- anomaly excludes：跨query重复且与当前query词面无关的baseline实体。",
-        "",
-        "## Query级计划",
-        "",
-        *table,
-        "",
-        "## 产物",
-        "",
-        f"- seed plan：{config.output_path.as_posix()}",
-        f"- query数：{len(plans)}",
-        "- gold字段审计：通过；输出不含answer/support_doc字段。",
-        "",
-    ])
+        table.append(
+            "| "
+            + " | ".join(
+                [
+                    str(plan["query_id"]),
+                    ", ".join(row["title"] for row in plan["title_candidates"]),
+                    ", ".join(plan["title_seed_entities"]),
+                    ", ".join(
+                        row["entity"] for row in plan["lexical_entity_candidates"]
+                    ),
+                    ", ".join(plan["anomalous_entities"]),
+                ]
+            )
+            + " |"
+        )
+    content = "\n".join(
+        [
+            "# Microsoft GraphRAG Stage20 Query Seed审计报告",
+            "",
+            "## 目的",
+            "",
+            "只使用query文本和poisoned mixed graph索引元数据生成实体计划，禁止读取gold答案和support标注。",
+            "",
+            "## 指标说明",
+            "",
+            "- 标题候选：标题BM25命中的text unit文档。",
+            "- title seeds：由标题候选的entity_ids映射得到的实体。",
+            "- lexical seeds：实体标题与query存在词面重叠的候选。",
+            "- anomaly excludes：跨query重复且与当前query词面无关的baseline实体。",
+            "",
+            "## Query级计划",
+            "",
+            *table,
+            "",
+            "## 产物",
+            "",
+            f"- seed plan：{config.output_path.as_posix()}",
+            f"- query数：{len(plans)}",
+            "- gold字段审计：通过；输出不含answer/support_doc字段。",
+            "",
+        ]
+    )
     config.report_path.parent.mkdir(parents=True, exist_ok=True)
     config.report_path.write_text(content, encoding="utf-8")
 
@@ -420,7 +486,9 @@ def _assert_no_gold_fields(value: Any) -> None:
     if isinstance(value, dict):
         forbidden = _FORBIDDEN_OUTPUT_KEYS.intersection(value)
         if forbidden:
-            raise ValueError(f"Seed plan contains forbidden gold fields: {sorted(forbidden)}")
+            raise ValueError(
+                f"Seed plan contains forbidden gold fields: {sorted(forbidden)}"
+            )
         for nested in value.values():
             _assert_no_gold_fields(nested)
     elif isinstance(value, list):
@@ -481,8 +549,14 @@ def _load_jsonl(path: Path) -> list[dict[str, Any]]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Build Stage20 non-gold entity seed plans.")
-    parser.add_argument("--config", type=Path, default=Path("configs/ms_graphrag_query_layer_stage20.yaml"))
+    parser = argparse.ArgumentParser(
+        description="Build Stage20 non-gold entity seed plans."
+    )
+    parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/ms_graphrag_query_layer_stage20.yaml"),
+    )
     args = parser.parse_args()
     plans = run_from_config(QueryLayerSeedingConfig.from_yaml(args.config))
     print(f"stage20_seed_plans={len(plans)}")

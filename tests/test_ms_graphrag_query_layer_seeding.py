@@ -36,13 +36,26 @@ def test_load_query_records_projects_only_query_fields(tmp_path: Path) -> None:
 
 def test_build_seed_plans_maps_title_hits_to_entities_without_gold_fields() -> None:
     queries = [
-        {"query_id": "q1", "query": "Which film was released earlier, Target Film or Other Work?"},
+        {
+            "query_id": "q1",
+            "query": "Which film was released earlier, Target Film or Other Work?",
+        },
     ]
     entities = pd.DataFrame(
         [
             {"id": "e1", "title": "TARGET FILM", "description": "A film", "degree": 5},
-            {"id": "e2", "title": "TARGET DIRECTOR", "description": "Directed Target Film", "degree": 8},
-            {"id": "e3", "title": "UNRELATED HUB", "description": "Other topic", "degree": 20},
+            {
+                "id": "e2",
+                "title": "TARGET DIRECTOR",
+                "description": "Directed Target Film",
+                "degree": 8,
+            },
+            {
+                "id": "e3",
+                "title": "UNRELATED HUB",
+                "description": "Other topic",
+                "degree": 20,
+            },
         ]
     )
     text_units = pd.DataFrame(
@@ -65,7 +78,9 @@ def test_build_seed_plans_maps_title_hits_to_entities_without_gold_fields() -> N
         entities_frame=entities,
         text_units_frame=text_units,
         baseline_context_rows=[],
-        settings=QueryLayerSeedSettings(top_title_documents=2, entities_per_document=2, top_lexical_entities=2),
+        settings=QueryLayerSeedSettings(
+            top_title_documents=2, entities_per_document=2, top_lexical_entities=2
+        ),
     )
 
     plan = plans[0]
@@ -89,15 +104,38 @@ def test_build_seed_plans_suppresses_repeated_lexically_unrelated_cluster() -> N
     ]
     entities = pd.DataFrame(
         [
-            {"id": "e1", "title": "TARGET FILM", "description": "Target Film", "degree": 5},
-            {"id": "e2", "title": "ANOTHER PERSON", "description": "Another Person", "degree": 5},
-            {"id": "e3", "title": "UNRELATED HUB", "description": "Unrelated cinema cluster", "degree": 30},
+            {
+                "id": "e1",
+                "title": "TARGET FILM",
+                "description": "Target Film",
+                "degree": 5,
+            },
+            {
+                "id": "e2",
+                "title": "ANOTHER PERSON",
+                "description": "Another Person",
+                "degree": 5,
+            },
+            {
+                "id": "e3",
+                "title": "UNRELATED HUB",
+                "description": "Unrelated cinema cluster",
+                "degree": 30,
+            },
         ]
     )
     text_units = pd.DataFrame(
         [
-            {"id": "t1", "text": "Document ID: d1\nTitle: Target Film\n\nText", "entity_ids": ["e1"]},
-            {"id": "t2", "text": "Document ID: d2\nTitle: Another Person\n\nText", "entity_ids": ["e2"]},
+            {
+                "id": "t1",
+                "text": "Document ID: d1\nTitle: Target Film\n\nText",
+                "entity_ids": ["e1"],
+            },
+            {
+                "id": "t2",
+                "text": "Document ID: d2\nTitle: Another Person\n\nText",
+                "entity_ids": ["e2"],
+            },
         ]
     )
     baseline_rows = [
@@ -115,5 +153,10 @@ def test_build_seed_plans_suppresses_repeated_lexically_unrelated_cluster() -> N
 
     assert plans[0]["anomalous_entities"] == ["UNRELATED HUB"]
     assert plans[1]["anomalous_entities"] == ["UNRELATED HUB"]
-    assert plans[0]["methods"]["cluster_suppression"]["exclude_entity_names"] == ["UNRELATED HUB"]
-    assert "TARGET FILM" not in plans[0]["methods"]["full_query_guard"]["exclude_entity_names"]
+    assert plans[0]["methods"]["cluster_suppression"]["exclude_entity_names"] == [
+        "UNRELATED HUB"
+    ]
+    assert (
+        "TARGET FILM"
+        not in plans[0]["methods"]["full_query_guard"]["exclude_entity_names"]
+    )

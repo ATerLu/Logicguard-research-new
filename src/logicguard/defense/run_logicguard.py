@@ -10,8 +10,14 @@ from pathlib import Path
 
 import yaml
 
+from logicguard.core.config import find_project_root, resolve_config_path
+
 from logicguard.attack.schemas import PoisonedEvidenceExposure
-from logicguard.defense.reranker import build_guarded_trace, build_recovered_trace, rerank_trace
+from logicguard.defense.reranker import (
+    build_guarded_trace,
+    build_recovered_trace,
+    rerank_trace,
+)
 from logicguard.defense.schemas import RerankedTrace
 from logicguard.graph.schemas import EntityMention, PathCandidate, RetrievalTrace
 
@@ -42,7 +48,8 @@ class LogicGuardRunConfig:
 
     @classmethod
     def from_yaml(cls, path: Path) -> "LogicGuardRunConfig":
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         with path.open("r", encoding="utf-8") as handle:
             payload = yaml.safe_load(handle)
 
@@ -54,19 +61,37 @@ class LogicGuardRunConfig:
 
         return cls(
             dataset=str(payload["dataset"]),
-            reference_corpus_path=resolve_project_path(payload["reference_corpus_path"]),
+            reference_corpus_path=resolve_project_path(
+                payload["reference_corpus_path"]
+            ),
             clean_corpus_path=resolve_project_path(payload["clean_corpus_path"]),
             clean_trace_path=resolve_project_path(payload["clean_trace_path"]),
-            clean_corpus_entity_path=resolve_project_path(payload["clean_corpus_entity_path"]),
-            entity_swap_corpus_path=resolve_project_path(payload["entity_swap_corpus_path"]),
-            entity_swap_trace_path=resolve_project_path(payload["entity_swap_trace_path"]),
-            entity_swap_corpus_entity_path=resolve_project_path(payload["entity_swap_corpus_entity_path"]),
-            entity_swap_attack_metadata_path=resolve_project_path(payload["entity_swap_attack_metadata_path"]),
+            clean_corpus_entity_path=resolve_project_path(
+                payload["clean_corpus_entity_path"]
+            ),
+            entity_swap_corpus_path=resolve_project_path(
+                payload["entity_swap_corpus_path"]
+            ),
+            entity_swap_trace_path=resolve_project_path(
+                payload["entity_swap_trace_path"]
+            ),
+            entity_swap_corpus_entity_path=resolve_project_path(
+                payload["entity_swap_corpus_entity_path"]
+            ),
+            entity_swap_attack_metadata_path=resolve_project_path(
+                payload["entity_swap_attack_metadata_path"]
+            ),
             bridge_corpus_path=resolve_project_path(payload["bridge_corpus_path"]),
             bridge_trace_path=resolve_project_path(payload["bridge_trace_path"]),
-            bridge_corpus_entity_path=resolve_project_path(payload["bridge_corpus_entity_path"]),
-            bridge_attack_metadata_path=resolve_project_path(payload["bridge_attack_metadata_path"]),
-            reference_corpus_entity_path=resolve_project_path(payload["reference_corpus_entity_path"]),
+            bridge_corpus_entity_path=resolve_project_path(
+                payload["bridge_corpus_entity_path"]
+            ),
+            bridge_attack_metadata_path=resolve_project_path(
+                payload["bridge_attack_metadata_path"]
+            ),
+            reference_corpus_entity_path=resolve_project_path(
+                payload["reference_corpus_entity_path"]
+            ),
             output_root=resolve_project_path(payload["output_root"]),
             report_path=resolve_project_path(payload["report_path"]),
             top_k=int(payload.get("top_k", 10)),
@@ -112,11 +137,19 @@ def run_from_config(config: LogicGuardRunConfig) -> None:
     entity_traces = load_traces_jsonl(config.entity_swap_trace_path)
     bridge_traces = load_traces_jsonl(config.bridge_trace_path)
     reference_doc_ids = load_reference_doc_ids(config.reference_corpus_entity_path)
-    clean_global_support = load_global_entity_support_counts(config.clean_corpus_entity_path)
-    entity_global_support = load_global_entity_support_counts(config.entity_swap_corpus_entity_path)
-    bridge_global_support = load_global_entity_support_counts(config.bridge_corpus_entity_path)
+    clean_global_support = load_global_entity_support_counts(
+        config.clean_corpus_entity_path
+    )
+    entity_global_support = load_global_entity_support_counts(
+        config.entity_swap_corpus_entity_path
+    )
+    bridge_global_support = load_global_entity_support_counts(
+        config.bridge_corpus_entity_path
+    )
     reference_fingerprints = load_document_fingerprints(config.reference_corpus_path)
-    clean_changed_doc_ids = find_changed_doc_ids(reference_fingerprints, load_document_fingerprints(config.clean_corpus_path))
+    clean_changed_doc_ids = find_changed_doc_ids(
+        reference_fingerprints, load_document_fingerprints(config.clean_corpus_path)
+    )
     entity_changed_doc_ids = find_changed_doc_ids(
         reference_fingerprints,
         load_document_fingerprints(config.entity_swap_corpus_path),
@@ -126,8 +159,12 @@ def run_from_config(config: LogicGuardRunConfig) -> None:
         load_document_fingerprints(config.bridge_corpus_path),
     )
 
-    entity_poisoned_docs = load_poisoned_doc_ids_by_query(config.entity_swap_attack_metadata_path)
-    bridge_poisoned_docs = load_poisoned_doc_ids_by_query(config.bridge_attack_metadata_path)
+    entity_poisoned_docs = load_poisoned_doc_ids_by_query(
+        config.entity_swap_attack_metadata_path
+    )
+    bridge_poisoned_docs = load_poisoned_doc_ids_by_query(
+        config.bridge_attack_metadata_path
+    )
 
     clean_reranked = [
         rerank_trace(
@@ -193,20 +230,44 @@ def run_from_config(config: LogicGuardRunConfig) -> None:
         for trace in bridge_traces
     ]
     clean_reference_by_query = {trace.query_id: trace for trace in clean_traces}
-    clean_recovered = build_recovered_trace_collection(clean_guarded, clean_reference_by_query, top_k=config.top_k)
-    entity_recovered = build_recovered_trace_collection(entity_guarded, clean_reference_by_query, top_k=config.top_k)
-    bridge_recovered = build_recovered_trace_collection(bridge_guarded, clean_reference_by_query, top_k=config.top_k)
+    clean_recovered = build_recovered_trace_collection(
+        clean_guarded, clean_reference_by_query, top_k=config.top_k
+    )
+    entity_recovered = build_recovered_trace_collection(
+        entity_guarded, clean_reference_by_query, top_k=config.top_k
+    )
+    bridge_recovered = build_recovered_trace_collection(
+        bridge_guarded, clean_reference_by_query, top_k=config.top_k
+    )
 
     output_dir = config.output_dir()
-    write_reranked_traces_jsonl(output_dir / "clean_reranked_traces.jsonl", clean_reranked)
-    write_reranked_traces_jsonl(output_dir / "entity_swap_reranked_traces.jsonl", entity_reranked)
-    write_reranked_traces_jsonl(output_dir / "bridge_injection_reranked_traces.jsonl", bridge_reranked)
-    write_reranked_traces_jsonl(output_dir / "clean_guarded_traces.jsonl", clean_guarded)
-    write_reranked_traces_jsonl(output_dir / "entity_swap_guarded_traces.jsonl", entity_guarded)
-    write_reranked_traces_jsonl(output_dir / "bridge_injection_guarded_traces.jsonl", bridge_guarded)
-    write_reranked_traces_jsonl(output_dir / "clean_recovered_traces.jsonl", clean_recovered)
-    write_reranked_traces_jsonl(output_dir / "entity_swap_recovered_traces.jsonl", entity_recovered)
-    write_reranked_traces_jsonl(output_dir / "bridge_injection_recovered_traces.jsonl", bridge_recovered)
+    write_reranked_traces_jsonl(
+        output_dir / "clean_reranked_traces.jsonl", clean_reranked
+    )
+    write_reranked_traces_jsonl(
+        output_dir / "entity_swap_reranked_traces.jsonl", entity_reranked
+    )
+    write_reranked_traces_jsonl(
+        output_dir / "bridge_injection_reranked_traces.jsonl", bridge_reranked
+    )
+    write_reranked_traces_jsonl(
+        output_dir / "clean_guarded_traces.jsonl", clean_guarded
+    )
+    write_reranked_traces_jsonl(
+        output_dir / "entity_swap_guarded_traces.jsonl", entity_guarded
+    )
+    write_reranked_traces_jsonl(
+        output_dir / "bridge_injection_guarded_traces.jsonl", bridge_guarded
+    )
+    write_reranked_traces_jsonl(
+        output_dir / "clean_recovered_traces.jsonl", clean_recovered
+    )
+    write_reranked_traces_jsonl(
+        output_dir / "entity_swap_recovered_traces.jsonl", entity_recovered
+    )
+    write_reranked_traces_jsonl(
+        output_dir / "bridge_injection_recovered_traces.jsonl", bridge_recovered
+    )
 
     clean_metrics = summarize_defense_run(
         name="Clean GraphRAG baseline",
@@ -243,8 +304,12 @@ def run_from_config(config: LogicGuardRunConfig) -> None:
         risk_penalty=config.risk_penalty,
         risk_threshold=config.risk_threshold,
         metrics=[clean_metrics, entity_metrics, bridge_metrics],
-        entity_examples=collect_top_risk_examples(entity_reranked, entity_poisoned_docs, limit=5),
-        bridge_examples=collect_top_risk_examples(bridge_reranked, bridge_poisoned_docs, limit=5),
+        entity_examples=collect_top_risk_examples(
+            entity_reranked, entity_poisoned_docs, limit=5
+        ),
+        bridge_examples=collect_top_risk_examples(
+            bridge_reranked, bridge_poisoned_docs, limit=5
+        ),
     )
 
     print(
@@ -430,9 +495,15 @@ def summarize_defense_run(
     changed_doc_ids: set[str],
     top_k: int,
 ) -> DefenseRunMetrics:
-    before_retrieval = calculate_retrieval_metrics_from_doc_ids(before_traces, top_k=top_k)
-    reranked_retrieval = calculate_retrieval_metrics_from_doc_ids(reranked_traces, top_k=top_k)
-    guarded_retrieval = calculate_retrieval_metrics_from_doc_ids(guarded_traces, top_k=top_k)
+    before_retrieval = calculate_retrieval_metrics_from_doc_ids(
+        before_traces, top_k=top_k
+    )
+    reranked_retrieval = calculate_retrieval_metrics_from_doc_ids(
+        reranked_traces, top_k=top_k
+    )
+    guarded_retrieval = calculate_retrieval_metrics_from_doc_ids(
+        guarded_traces, top_k=top_k
+    )
     before_trusted = calculate_trusted_retrieval_metrics_from_doc_ids(
         before_traces,
         top_k=top_k,
@@ -444,17 +515,23 @@ def summarize_defense_run(
         untrusted_doc_ids=changed_doc_ids,
     )
     before_exposure = (
-        calculate_poison_exposure_from_doc_ids(before_traces, poisoned_doc_ids_by_query, top_k=top_k)
+        calculate_poison_exposure_from_doc_ids(
+            before_traces, poisoned_doc_ids_by_query, top_k=top_k
+        )
         if poisoned_doc_ids_by_query
         else None
     )
     reranked_exposure = (
-        calculate_poison_exposure_from_doc_ids(reranked_traces, poisoned_doc_ids_by_query, top_k=top_k)
+        calculate_poison_exposure_from_doc_ids(
+            reranked_traces, poisoned_doc_ids_by_query, top_k=top_k
+        )
         if poisoned_doc_ids_by_query
         else None
     )
     guarded_exposure = (
-        calculate_poison_exposure_from_doc_ids(guarded_traces, poisoned_doc_ids_by_query, top_k=top_k)
+        calculate_poison_exposure_from_doc_ids(
+            guarded_traces, poisoned_doc_ids_by_query, top_k=top_k
+        )
         if poisoned_doc_ids_by_query
         else None
     )
@@ -480,8 +557,12 @@ def summarize_defense_run(
         queries_with_trusted_gold=int(guarded_trusted["queries_with_trusted_gold"]),
         corrupted_gold_doc_count=int(guarded_trusted["corrupted_gold_doc_count"]),
         before_exposure_at_k=before_exposure.exposure_rate if before_exposure else None,
-        reranked_exposure_at_k=reranked_exposure.exposure_rate if reranked_exposure else None,
-        guarded_exposure_at_k=guarded_exposure.exposure_rate if guarded_exposure else None,
+        reranked_exposure_at_k=reranked_exposure.exposure_rate
+        if reranked_exposure
+        else None,
+        guarded_exposure_at_k=guarded_exposure.exposure_rate
+        if guarded_exposure
+        else None,
         average_risk=calculate_average_risk(reranked_traces),
         guarded_avg_candidates=guarded_retrieval["avg_candidates"],
         suppressed_candidates=suppression["suppressed_candidates"],
@@ -549,7 +630,9 @@ def calculate_trusted_retrieval_metrics_from_doc_ids(
     query_count = len(recall_values)
     return {
         "trusted_hit_at_k": trusted_hit_count / query_count if query_count else 0.0,
-        "trusted_gold_recall_at_k": sum(recall_values) / query_count if query_count else 0.0,
+        "trusted_gold_recall_at_k": sum(recall_values) / query_count
+        if query_count
+        else 0.0,
         "queries_with_trusted_gold": float(query_count),
         "corrupted_gold_doc_count": float(corrupted_gold_doc_count),
     }
@@ -579,7 +662,9 @@ def calculate_suppression_stats(
 
     for reranked in reranked_traces:
         guarded = guarded_by_query.get(reranked.query_id)
-        guarded_doc_ids = {candidate.doc_id for candidate in guarded.candidates} if guarded else set()
+        guarded_doc_ids = (
+            {candidate.doc_id for candidate in guarded.candidates} if guarded else set()
+        )
         gold_doc_ids = set(reranked.gold_doc_ids)
         poisoned_doc_ids = poisoned_doc_ids_by_query.get(reranked.query_id, set())
 
@@ -634,7 +719,9 @@ def collect_top_risk_examples(
                     "risk_reasons": candidate.risk_reasons,
                 }
             )
-    return sorted(examples, key=lambda item: (item["new_rank"], item["query_id"]))[:limit]
+    return sorted(examples, key=lambda item: (item["new_rank"], item["query_id"]))[
+        :limit
+    ]
 
 
 def _format_example_rows(examples: list[dict[str, object]]) -> list[str]:
@@ -761,7 +848,9 @@ def _format_optional_float(value: float | None) -> str:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run LogicGuard MVP reranking evaluation.")
+    parser = argparse.ArgumentParser(
+        description="Run LogicGuard MVP reranking evaluation."
+    )
     parser.add_argument(
         "--config",
         type=Path,

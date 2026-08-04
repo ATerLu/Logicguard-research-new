@@ -84,16 +84,36 @@ class OfficialQueryPipelineConfig:
             project_root=project_root,
             dataset=str(payload["dataset"]),
             sample_path=resolve_project_path(str(payload["sample_path"])),
-            poisoned_workspace_root=resolve_project_path(str(payload["poisoned_workspace_root"])),
-            clean_reference_workspace_root=resolve_project_path(str(payload["clean_reference_workspace_root"])),
-            query_integrity_path=resolve_project_path(str(payload["query_integrity_path"])),
-            official_context_output_path=resolve_project_path(str(payload["official_context_output_path"])),
-            official_context_report_path=resolve_project_path(str(payload["official_context_report_path"])),
-            context_export_config_path=resolve_project_path(str(payload["context_export_config_path"])),
-            defense_output_path=resolve_project_path(str(payload["defense_output_path"])),
-            defense_report_path=resolve_project_path(str(payload["defense_report_path"])),
-            pipeline_report_path=resolve_project_path(str(payload["pipeline_report_path"])),
-            graphrag_python_path=resolve_project_path(str(payload["graphrag_python_path"])),
+            poisoned_workspace_root=resolve_project_path(
+                str(payload["poisoned_workspace_root"])
+            ),
+            clean_reference_workspace_root=resolve_project_path(
+                str(payload["clean_reference_workspace_root"])
+            ),
+            query_integrity_path=resolve_project_path(
+                str(payload["query_integrity_path"])
+            ),
+            official_context_output_path=resolve_project_path(
+                str(payload["official_context_output_path"])
+            ),
+            official_context_report_path=resolve_project_path(
+                str(payload["official_context_report_path"])
+            ),
+            context_export_config_path=resolve_project_path(
+                str(payload["context_export_config_path"])
+            ),
+            defense_output_path=resolve_project_path(
+                str(payload["defense_output_path"])
+            ),
+            defense_report_path=resolve_project_path(
+                str(payload["defense_report_path"])
+            ),
+            pipeline_report_path=resolve_project_path(
+                str(payload["pipeline_report_path"])
+            ),
+            graphrag_python_path=resolve_project_path(
+                str(payload["graphrag_python_path"])
+            ),
             models=[str(model) for model in payload["models"]],
             community_level=int(payload.get("community_level", 2)),
             response_type=str(payload.get("response_type", "Single Sentence")),
@@ -107,7 +127,9 @@ class OfficialQueryPipelineConfig:
             temperature=float(payload.get("temperature", 0.0)),
             max_tokens=int(payload.get("max_tokens", 64)),
             timeout_seconds=int(payload.get("timeout_seconds", 90)),
-            context_export_timeout_seconds=int(payload.get("context_export_timeout_seconds", 600)),
+            context_export_timeout_seconds=int(
+                payload.get("context_export_timeout_seconds", 600)
+            ),
         )
 
     def to_official_context_config(self) -> OfficialLocalContextConfig:
@@ -179,7 +201,9 @@ def run_from_config(
     defense_config = config.to_defense_config()
     write_context_export_config(context_config, config.context_export_config_path)
 
-    exporter = context_exporter or (lambda export_config: export_context_via_subprocess(config, export_config))
+    exporter = context_exporter or (
+        lambda export_config: export_context_via_subprocess(config, export_config)
+    )
     runner = defense_runner or _run_defense
     exporter(context_config)
 
@@ -196,7 +220,9 @@ def run_from_config(
         defense_output_path=defense_config.output_path,
         pipeline_report_path=config.pipeline_report_path,
     )
-    write_pipeline_report(config.pipeline_report_path, config, context_rows, results, summary)
+    write_pipeline_report(
+        config.pipeline_report_path, config, context_rows, results, summary
+    )
     return summary
 
 
@@ -206,10 +232,16 @@ def export_context_via_subprocess(
 ) -> None:
     """Run official context export inside the Microsoft GraphRAG venv."""
 
-    command = build_context_export_command(pipeline_config, pipeline_config.context_export_config_path)
+    command = build_context_export_command(
+        pipeline_config, pipeline_config.context_export_config_path
+    )
     env = os.environ.copy()
     src_path = str(pipeline_config.project_root / "src")
-    env["PYTHONPATH"] = src_path if not env.get("PYTHONPATH") else src_path + os.pathsep + env["PYTHONPATH"]
+    env["PYTHONPATH"] = (
+        src_path
+        if not env.get("PYTHONPATH")
+        else src_path + os.pathsep + env["PYTHONPATH"]
+    )
     completed = subprocess.run(
         command,
         cwd=pipeline_config.project_root,
@@ -229,10 +261,14 @@ def export_context_via_subprocess(
             f"stderr:\n{completed.stderr}"
         )
     if not context_config.output_path.exists():
-        raise FileNotFoundError(f"Official context export did not create: {context_config.output_path}")
+        raise FileNotFoundError(
+            f"Official context export did not create: {context_config.output_path}"
+        )
 
 
-def build_context_export_command(config: OfficialQueryPipelineConfig, export_config_path: Path) -> list[str]:
+def build_context_export_command(
+    config: OfficialQueryPipelineConfig, export_config_path: Path
+) -> list[str]:
     """Return the reproducible subprocess command used for context export."""
 
     return [
@@ -259,7 +295,9 @@ def write_context_export_config(config: OfficialLocalContextConfig, path: Path) 
         "max_queries": config.max_queries,
         "verbose": config.verbose,
     }
-    path.write_text(yaml.safe_dump(payload, allow_unicode=True, sort_keys=False), encoding="utf-8")
+    path.write_text(
+        yaml.safe_dump(payload, allow_unicode=True, sort_keys=False), encoding="utf-8"
+    )
 
 
 def load_jsonl_records(path: Path) -> list[dict[str, Any]]:
@@ -390,8 +428,14 @@ def _compact_cell(value: str, max_chars: int = 160) -> str:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run official GraphRAG local-query LogicGuard pipeline.")
-    parser.add_argument("--config", type=Path, default=Path("configs/ms_graphrag_official_query_pipeline_stage13.yaml"))
+    parser = argparse.ArgumentParser(
+        description="Run official GraphRAG local-query LogicGuard pipeline."
+    )
+    parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/ms_graphrag_official_query_pipeline_stage13.yaml"),
+    )
     args = parser.parse_args()
     summary = run_from_config(OfficialQueryPipelineConfig.from_yaml(args.config))
     print(

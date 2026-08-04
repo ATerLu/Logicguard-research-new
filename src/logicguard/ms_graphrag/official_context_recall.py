@@ -77,8 +77,16 @@ def build_context_recall_rows(
 ) -> list[OfficialContextRecallRow]:
     """Build per-query context recall rows from existing experiment artifacts."""
 
-    integrity_by_query = {str(row["query_id"]): row for row in integrity_rows if row.get("query_id") is not None}
-    context_by_query = {str(row["query_id"]): row for row in context_rows if row.get("query_id") is not None}
+    integrity_by_query = {
+        str(row["query_id"]): row
+        for row in integrity_rows
+        if row.get("query_id") is not None
+    }
+    context_by_query = {
+        str(row["query_id"]): row
+        for row in context_rows
+        if row.get("query_id") is not None
+    }
     outcomes_by_query = _build_variant_outcomes(result_rows)
 
     recall_rows: list[OfficialContextRecallRow] = []
@@ -86,8 +94,12 @@ def build_context_recall_rows(
         integrity = integrity_by_query.get(sample.query_id, {})
         context = context_by_query.get(sample.query_id, {})
         support_doc_ids = [str(doc_id) for doc_id in sample.support_doc_ids]
-        changed_doc_ids = [str(doc_id) for doc_id in integrity.get("changed_support_doc_ids", [])]
-        trusted_doc_ids = [doc_id for doc_id in support_doc_ids if doc_id not in set(changed_doc_ids)]
+        changed_doc_ids = [
+            str(doc_id) for doc_id in integrity.get("changed_support_doc_ids", [])
+        ]
+        trusted_doc_ids = [
+            doc_id for doc_id in support_doc_ids if doc_id not in set(changed_doc_ids)
+        ]
         context_doc_ids = _extract_context_doc_ids(context)
 
         gold_hits = _ordered_intersection(support_doc_ids, context_doc_ids)
@@ -112,7 +124,9 @@ def build_context_recall_rows(
             gold_support_recall=gold_recall,
             changed_support_exposure=_ratio(len(changed_hits), len(changed_doc_ids)),
             trusted_support_recall=_ratio(len(trusted_hits), len(trusted_doc_ids)),
-            official_response_status=_official_response_status(str(context.get("response", ""))),
+            official_response_status=_official_response_status(
+                str(context.get("response", ""))
+            ),
             poisoned_outcome=poisoned_outcome,
             guarded_outcome=guarded_outcome,
             recovered_outcome=recovered_outcome,
@@ -127,7 +141,9 @@ def build_context_recall_rows(
     return recall_rows
 
 
-def summarize_context_recall(rows: list[OfficialContextRecallRow]) -> OfficialContextRecallSummary:
+def summarize_context_recall(
+    rows: list[OfficialContextRecallRow],
+) -> OfficialContextRecallSummary:
     """Aggregate context recall and diagnosis counts."""
 
     query_count = len(rows)
@@ -135,7 +151,9 @@ def summarize_context_recall(rows: list[OfficialContextRecallRow]) -> OfficialCo
     return OfficialContextRecallSummary(
         query_count=query_count,
         avg_gold_support_recall=_average(row.gold_support_recall for row in rows),
-        avg_changed_support_exposure=_average(row.changed_support_exposure for row in rows),
+        avg_changed_support_exposure=_average(
+            row.changed_support_exposure for row in rows
+        ),
         avg_trusted_support_recall=_average(row.trusted_support_recall for row in rows),
         context_recall_failure_count=diagnosis_counts["context_recall_failure"],
         attack_recovered_count=diagnosis_counts["attack_recovered"],
@@ -218,7 +236,9 @@ def write_context_recall_artifacts(
             "## 产物路径",
             "",
             f"- source context：`{source_context_path.as_posix()}`",
-            f"- source results：`{source_results_path.as_posix()}`" if source_results_path else "- source results：未提供",
+            f"- source results：`{source_results_path.as_posix()}`"
+            if source_results_path
+            else "- source results：未提供",
             f"- CSV：`{csv_path.as_posix()}`",
             f"- report：`{report_path.as_posix()}`",
             "",
@@ -261,13 +281,18 @@ def _extract_context_doc_ids(row: dict[str, Any]) -> list[str]:
     for source in sources:
         if not isinstance(source, dict):
             continue
-        doc_id = str(source.get("logicguard_doc_id") or parse_doc_id_from_source_text(str(source.get("text", ""))))
+        doc_id = str(
+            source.get("logicguard_doc_id")
+            or parse_doc_id_from_source_text(str(source.get("text", "")))
+        )
         if doc_id and doc_id not in doc_ids:
             doc_ids.append(doc_id)
     return doc_ids
 
 
-def _ordered_intersection(reference_order: list[str], candidates: list[str]) -> list[str]:
+def _ordered_intersection(
+    reference_order: list[str], candidates: list[str]
+) -> list[str]:
     candidate_set = set(candidates)
     return [doc_id for doc_id in reference_order if doc_id in candidate_set]
 
@@ -276,7 +301,11 @@ def _official_response_status(response: str) -> str:
     normalized = response.strip().lower()
     if not normalized:
         return "missing"
-    if "i don't know" in normalized or "do not know" in normalized or "unknown" in normalized:
+    if (
+        "i don't know" in normalized
+        or "do not know" in normalized
+        or "unknown" in normalized
+    ):
         return "abstained"
     return "answered"
 
@@ -292,7 +321,11 @@ def _diagnose(
         return "context_recall_failure"
     if poisoned_outcome == "incorrect" and recovered_outcome == "correct":
         return "attack_recovered"
-    if poisoned_outcome == "incorrect" and guarded_outcome == "abstained" and recovered_outcome != "correct":
+    if (
+        poisoned_outcome == "incorrect"
+        and guarded_outcome == "abstained"
+        and recovered_outcome != "correct"
+    ):
         return "blocked_not_recovered"
     if poisoned_outcome != "incorrect":
         return "attack_not_successful"
@@ -309,7 +342,9 @@ def _average(values: Any) -> float:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Diagnose official GraphRAG context recall.")
+    parser = argparse.ArgumentParser(
+        description="Diagnose official GraphRAG context recall."
+    )
     parser.add_argument("--samples", type=Path, required=True)
     parser.add_argument("--query-integrity", type=Path, required=True)
     parser.add_argument("--contexts", type=Path, required=True)

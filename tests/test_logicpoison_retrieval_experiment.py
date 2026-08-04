@@ -15,10 +15,22 @@ CONFIG_PATH = PROJECT_ROOT / "configs" / "logicpoison_retrieval_stage2.yaml"
 def test_logicpoison_retrieval_config_uses_project_local_inputs() -> None:
     config = LogicPoisonRetrievalConfig.from_yaml(CONFIG_PATH)
 
-    assert config.clean_data_root == PROJECT_ROOT / "data" / "logicpoison_official" / "clean"
-    assert config.poisoned_data_root == PROJECT_ROOT / "data" / "logicpoison_official" / "poisoned"
-    assert config.output_root == PROJECT_ROOT / "outputs" / "retrieval" / "logicpoison_official"
-    assert config.report_path == PROJECT_ROOT / "outputs" / "reports" / "LogicPoison检索层影响实验报告.md"
+    assert (
+        config.clean_data_root
+        == PROJECT_ROOT / "data" / "logicpoison_official" / "clean"
+    )
+    assert (
+        config.poisoned_data_root
+        == PROJECT_ROOT / "data" / "logicpoison_official" / "poisoned"
+    )
+    assert (
+        config.output_root
+        == PROJECT_ROOT / "outputs" / "retrieval" / "logicpoison_official"
+    )
+    assert (
+        config.report_path
+        == PROJECT_ROOT / "outputs" / "reports" / "LogicPoison检索层影响实验报告.md"
+    )
     assert config.datasets == ["2wikimultihopqa", "hotpotqa", "musique"]
     assert config.retrievers == ["naive_bm25", "graph_surrogate"]
     assert config.top_k == 10

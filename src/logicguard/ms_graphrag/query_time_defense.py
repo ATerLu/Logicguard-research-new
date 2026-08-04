@@ -31,6 +31,8 @@ from typing import Any, Literal
 import pandas as pd
 import yaml
 
+from logicguard.core.config import find_project_root, resolve_config_path
+
 from logicguard.data.prepare import load_normalized_samples
 from logicguard.llm.context import build_qa_messages
 from logicguard.llm.evaluation import classify_answer
@@ -143,7 +145,8 @@ class QueryTimeDefenseConfig:
     def from_yaml(cls, path: Path) -> "QueryTimeDefenseConfig":
         """Load YAML configuration with project-relative paths."""
 
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         payload = yaml.safe_load(path.read_text(encoding="utf-8"))
 
         def resolve_project_path(raw_path: str) -> Path:
@@ -155,8 +158,12 @@ class QueryTimeDefenseConfig:
         return cls(
             dataset=str(payload["dataset"]),
             sample_path=resolve_project_path(payload["sample_path"]),
-            poisoned_workspace_root=resolve_project_path(payload["poisoned_workspace_root"]),
-            clean_reference_workspace_root=resolve_project_path(payload["clean_reference_workspace_root"]),
+            poisoned_workspace_root=resolve_project_path(
+                payload["poisoned_workspace_root"]
+            ),
+            clean_reference_workspace_root=resolve_project_path(
+                payload["clean_reference_workspace_root"]
+            ),
             query_integrity_path=resolve_project_path(payload["query_integrity_path"]),
             output_path=resolve_project_path(payload["output_path"]),
             report_path=resolve_project_path(payload["report_path"]),
@@ -166,7 +173,9 @@ class QueryTimeDefenseConfig:
                 if payload.get("official_context_path")
                 else None
             ),
-            evidence_source=_parse_evidence_source(payload.get("evidence_source", "indexed_text_units")),
+            evidence_source=_parse_evidence_source(
+                payload.get("evidence_source", "indexed_text_units")
+            ),
             api_key_env=str(payload.get("api_key_env", "DASHSCOPE_API_KEY")),
             base_url_env=str(payload.get("base_url_env", "DASHSCOPE_BASE_URL")),
             max_queries=int(payload.get("max_queries", 1)),
@@ -189,14 +198,18 @@ def load_text_unit_evidence(output_dir: Path) -> list[GraphRagTextUnitEvidence]:
         official_document_id = str(row["id"])
         document_text = str(row["text"])
         logicguard_doc_id = parse_logicguard_doc_id(document_text)
-        title = _parse_title(document_text) or str(row.get("title", "")).removesuffix(".txt")
+        title = _parse_title(document_text) or str(row.get("title", "")).removesuffix(
+            ".txt"
+        )
         document_lookup[official_document_id] = (logicguard_doc_id, title)
 
     evidence: list[GraphRagTextUnitEvidence] = []
     for row in text_units.to_dict(orient="records"):
         official_document_id = str(row["document_id"])
         if official_document_id not in document_lookup:
-            raise ValueError(f"Text unit references unknown document id: {official_document_id}")
+            raise ValueError(
+                f"Text unit references unknown document id: {official_document_id}"
+            )
         logicguard_doc_id, title = document_lookup[official_document_id]
         evidence.append(
             GraphRagTextUnitEvidence(
@@ -248,7 +261,10 @@ def build_query_time_variants_from_ranked_evidence(
 
     ranked_poisoned = ranked_poisoned_units[:top_k]
     clean_by_doc_id: dict[str, GraphRagTextUnitEvidence] = {}
-    for unit in sorted(clean_reference_units, key=lambda item: (item.human_readable_id, item.logicguard_doc_id)):
+    for unit in sorted(
+        clean_reference_units,
+        key=lambda item: (item.human_readable_id, item.logicguard_doc_id),
+    ):
         clean_by_doc_id.setdefault(unit.logicguard_doc_id, unit)
 
     poisoned = [
@@ -295,9 +311,15 @@ def build_query_time_variants_from_ranked_evidence(
             )
 
     return [
-        _build_variant("poisoned", poisoned, changed_doc_ids, max_units, max_chars_per_unit),
-        _build_variant("guarded", guarded, changed_doc_ids, max_units, max_chars_per_unit),
-        _build_variant("recovered", recovered, changed_doc_ids, max_units, max_chars_per_unit),
+        _build_variant(
+            "poisoned", poisoned, changed_doc_ids, max_units, max_chars_per_unit
+        ),
+        _build_variant(
+            "guarded", guarded, changed_doc_ids, max_units, max_chars_per_unit
+        ),
+        _build_variant(
+            "recovered", recovered, changed_doc_ids, max_units, max_chars_per_unit
+        ),
     ]
 
 
@@ -314,14 +336,22 @@ def run_from_config(
         api_key=_read_required_env(config.api_key_env),
     )
     if config.evidence_source == "indexed_text_units":
-        poisoned_units = load_text_unit_evidence(config.poisoned_workspace_root / "output")
+        poisoned_units = load_text_unit_evidence(
+            config.poisoned_workspace_root / "output"
+        )
         official_context_by_query: dict[str, dict[str, Any]] = {}
     else:
         if config.official_context_path is None:
-            raise ValueError("official_context_path is required when evidence_source=official_local_context")
+            raise ValueError(
+                "official_context_path is required when evidence_source=official_local_context"
+            )
         poisoned_units = []
-        official_context_by_query = _load_records_by_query_id(config.official_context_path)
-    clean_reference_units = load_text_unit_evidence(config.clean_reference_workspace_root / "output")
+        official_context_by_query = _load_records_by_query_id(
+            config.official_context_path
+        )
+    clean_reference_units = load_text_unit_evidence(
+        config.clean_reference_workspace_root / "output"
+    )
     query_integrity = _load_records_by_query_id(config.query_integrity_path)
     samples = load_normalized_samples(config.sample_path)[: config.max_queries]
 
@@ -329,13 +359,19 @@ def run_from_config(
     trace_rows: list[dict[str, object]] = []
     for sample in samples:
         integrity = query_integrity.get(sample.query_id, {})
-        changed_doc_ids = {str(doc_id) for doc_id in integrity.get("changed_support_doc_ids", [])}
+        changed_doc_ids = {
+            str(doc_id) for doc_id in integrity.get("changed_support_doc_ids", [])
+        }
         if config.evidence_source == "official_local_context":
-            from logicguard.ms_graphrag.official_local_context import extract_source_evidence
+            from logicguard.ms_graphrag.official_local_context import (
+                extract_source_evidence,
+            )
 
             context_row = official_context_by_query.get(sample.query_id)
             if context_row is None:
-                raise ValueError(f"Missing official local context row for query_id={sample.query_id}")
+                raise ValueError(
+                    f"Missing official local context row for query_id={sample.query_id}"
+                )
             ranked_poisoned_units = extract_source_evidence(context_row)
             variants = build_query_time_variants_from_ranked_evidence(
                 ranked_poisoned_units=ranked_poisoned_units,
@@ -405,7 +441,9 @@ def _call_model_for_variant(
             timeout_seconds=config.timeout_seconds,
         )
         latency = perf_counter() - start
-        classification = classify_answer(response.content, gold_answer=expected_answer, poisoned_answer="")
+        classification = classify_answer(
+            response.content, gold_answer=expected_answer, poisoned_answer=""
+        )
         return QueryTimeDefenseResult(
             dataset=config.dataset,
             model=model,
@@ -416,7 +454,8 @@ def _call_model_for_variant(
             generated_answer=response.content,
             is_correct=classification.is_correct,
             is_abstained=classification.is_abstained,
-            is_incorrect=not classification.is_correct and not classification.is_abstained,
+            is_incorrect=not classification.is_correct
+            and not classification.is_abstained,
             changed_doc_count=variant.changed_doc_count,
             recovered_doc_count=variant.recovered_doc_count,
             evidence_doc_ids=[item.logicguard_doc_id for item in variant.evidence],
@@ -452,7 +491,9 @@ def _call_model_for_variant(
         )
 
 
-def _rank_text_units(query: str, units: list[GraphRagTextUnitEvidence]) -> list[GraphRagTextUnitEvidence]:
+def _rank_text_units(
+    query: str, units: list[GraphRagTextUnitEvidence]
+) -> list[GraphRagTextUnitEvidence]:
     query_terms = _tokenize(query)
     ranked: list[GraphRagTextUnitEvidence] = []
     for unit in units:
@@ -461,7 +502,10 @@ def _rank_text_units(query: str, units: list[GraphRagTextUnitEvidence]) -> list[
         phrase_bonus = 3.0 if "someone i loved" in unit.text.casefold() else 0.0
         score = float(overlap) + phrase_bonus + min(unit.n_tokens, 200) / 10_000
         ranked.append(_replace_score(unit, score))
-    return sorted(ranked, key=lambda item: (-item.score, item.human_readable_id, item.logicguard_doc_id))
+    return sorted(
+        ranked,
+        key=lambda item: (-item.score, item.human_readable_id, item.logicguard_doc_id),
+    )
 
 
 def _build_variant(
@@ -476,7 +520,8 @@ def _build_variant(
     changed_doc_count = sum(
         1
         for item in selected
-        if item.logicguard_doc_id in changed_doc_ids and not item.recovered_from_changed_doc
+        if item.logicguard_doc_id in changed_doc_ids
+        and not item.recovered_from_changed_doc
     )
     recovered_doc_count = sum(1 for item in selected if item.recovered_from_changed_doc)
     return QueryTimeContextVariant(
@@ -488,7 +533,9 @@ def _build_variant(
     )
 
 
-def _render_context(units: list[GraphRagTextUnitEvidence], *, max_chars_per_unit: int) -> str:
+def _render_context(
+    units: list[GraphRagTextUnitEvidence], *, max_chars_per_unit: int
+) -> str:
     blocks: list[str] = []
     for index, unit in enumerate(units, start=1):
         blocks.append(
@@ -530,7 +577,9 @@ def _with_policy_metadata(
     )
 
 
-def _replace_score(unit: GraphRagTextUnitEvidence, score: float) -> GraphRagTextUnitEvidence:
+def _replace_score(
+    unit: GraphRagTextUnitEvidence, score: float
+) -> GraphRagTextUnitEvidence:
     return GraphRagTextUnitEvidence(
         text_unit_id=unit.text_unit_id,
         human_readable_id=unit.human_readable_id,
@@ -552,7 +601,9 @@ def _write_outputs(
     results: list[QueryTimeDefenseResult],
 ) -> None:
     config.output_path.parent.mkdir(parents=True, exist_ok=True)
-    trace_path = config.output_path.with_name(config.output_path.stem + "_contexts.jsonl")
+    trace_path = config.output_path.with_name(
+        config.output_path.stem + "_contexts.jsonl"
+    )
     with trace_path.open("w", encoding="utf-8") as handle:
         for row in trace_rows:
             handle.write(json.dumps(row, ensure_ascii=False) + "\n")
@@ -689,7 +740,9 @@ def _write_report(
     path.write_text(content, encoding="utf-8")
 
 
-def _group_results(results: list[QueryTimeDefenseResult]) -> dict[tuple[str, str], list[QueryTimeDefenseResult]]:
+def _group_results(
+    results: list[QueryTimeDefenseResult],
+) -> dict[tuple[str, str], list[QueryTimeDefenseResult]]:
     grouped: dict[tuple[str, str], list[QueryTimeDefenseResult]] = {}
     for result in results:
         grouped.setdefault((result.model, result.variant), []).append(result)
@@ -763,12 +816,24 @@ def _compact_cell(value: str, max_chars: int = 140) -> str:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run query-time LogicGuard over official GraphRAG artifacts.")
-    parser.add_argument("--config", type=Path, default=Path("configs/ms_graphrag_query_time_defense_stage11.yaml"))
+    parser = argparse.ArgumentParser(
+        description="Run query-time LogicGuard over official GraphRAG artifacts."
+    )
+    parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/ms_graphrag_query_time_defense_stage11.yaml"),
+    )
     args = parser.parse_args()
     results = run_from_config(QueryTimeDefenseConfig.from_yaml(args.config))
     for result in results:
-        status = "correct" if result.is_correct else "abstained" if result.is_abstained else "incorrect"
+        status = (
+            "correct"
+            if result.is_correct
+            else "abstained"
+            if result.is_abstained
+            else "incorrect"
+        )
         if result.error:
             status = "error"
         print(

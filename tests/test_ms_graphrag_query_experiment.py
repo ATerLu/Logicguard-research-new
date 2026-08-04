@@ -11,7 +11,10 @@ from logicguard.ms_graphrag.query_experiment import (
 
 def _write_jsonl(path: Path, rows: list[dict[str, object]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text("".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows), encoding="utf-8")
+    path.write_text(
+        "".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows),
+        encoding="utf-8",
+    )
 
 
 def _sample_row() -> dict[str, object]:
@@ -92,7 +95,10 @@ def test_run_from_config_writes_query_rows_and_report(tmp_path: Path) -> None:
         runner=_fake_runner,
     )
 
-    saved_rows = [json.loads(line) for line in output_path.read_text(encoding="utf-8").splitlines()]
+    saved_rows = [
+        json.loads(line)
+        for line in output_path.read_text(encoding="utf-8").splitlines()
+    ]
     report = report_path.read_text(encoding="utf-8")
 
     assert len(rows) == 4
@@ -130,7 +136,10 @@ def test_run_from_config_accepts_named_workspace_roots(tmp_path: Path) -> None:
         runner=_fake_runner,
     )
 
-    saved_rows = [json.loads(line) for line in output_path.read_text(encoding="utf-8").splitlines()]
+    saved_rows = [
+        json.loads(line)
+        for line in output_path.read_text(encoding="utf-8").splitlines()
+    ]
 
     assert len(rows) == 2
     assert {row["corpus_state"] for row in saved_rows} == {"clean", "guarded"}

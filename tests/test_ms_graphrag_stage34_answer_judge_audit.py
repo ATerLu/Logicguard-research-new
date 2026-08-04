@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 
 from logicguard.llm.provider import ChatResponse
-from logicguard.ms_graphrag.stage34_answer_judge_audit import (
+from logicguard.evaluation.judge_audit import (
     Stage34AnswerJudgeAuditConfig,
     build_stage34_judge_rows,
     summarize_stage34_judge_rows,
@@ -17,8 +17,20 @@ def test_stage34_calls_judge_only_for_uncertain_incorrect_rows() -> None:
     rows = build_stage34_judge_rows(
         audited_rows=[
             _audited("q1", "correct", "original_correct", "Gold", "Gold"),
-            _audited("q2", "abstained", "abstain_without_gold_answer_surface", "Gold", "UNKNOWN"),
-            _audited("q3", "incorrect", "incorrect_despite_gold_answer_surface", "Polish-Lithuanian Commonwealth", "Poland"),
+            _audited(
+                "q2",
+                "abstained",
+                "abstain_without_gold_answer_surface",
+                "Gold",
+                "UNKNOWN",
+            ),
+            _audited(
+                "q3",
+                "incorrect",
+                "incorrect_despite_gold_answer_surface",
+                "Polish-Lithuanian Commonwealth",
+                "Poland",
+            ),
         ],
         client=client,
         judge_model="judge-model",
@@ -43,8 +55,20 @@ def test_stage34_summary_counts_judge_aware_utility() -> None:
     rows = build_stage34_judge_rows(
         audited_rows=[
             _audited("q1", "correct", "original_correct", "Gold", "Gold"),
-            _audited("q2", "abstained", "abstain_without_gold_answer_surface", "Gold", "UNKNOWN"),
-            _audited("q3", "incorrect", "incorrect_despite_gold_answer_surface", "Polish-Lithuanian Commonwealth", "Poland"),
+            _audited(
+                "q2",
+                "abstained",
+                "abstain_without_gold_answer_surface",
+                "Gold",
+                "UNKNOWN",
+            ),
+            _audited(
+                "q3",
+                "incorrect",
+                "incorrect_despite_gold_answer_surface",
+                "Polish-Lithuanian Commonwealth",
+                "Poland",
+            ),
         ],
         client=FakeJudgeClient({"q3": '{"label": "partial", "reason": "Too broad."}'}),
         judge_model="judge-model",
@@ -67,7 +91,13 @@ def test_stage34_outputs_are_written_with_chinese_report(tmp_path: Path) -> None
     rows = build_stage34_judge_rows(
         audited_rows=[
             _audited("q1", "correct", "original_correct", "Gold", "Gold"),
-            _audited("q3", "incorrect", "incorrect_despite_gold_answer_surface", "Polish-Lithuanian Commonwealth", "Poland"),
+            _audited(
+                "q3",
+                "incorrect",
+                "incorrect_despite_gold_answer_surface",
+                "Polish-Lithuanian Commonwealth",
+                "Poland",
+            ),
         ],
         client=FakeJudgeClient({"q3": '{"label": "partial", "reason": "Too broad."}'}),
         judge_model="judge-model",
@@ -96,9 +126,13 @@ def test_stage34_outputs_are_written_with_chinese_report(tmp_path: Path) -> None
 
     write_stage34_outputs(config=config, rows=rows)
 
-    saved = json.loads(config.judged_results_output_path.read_text(encoding="utf-8").splitlines()[1])
+    saved = json.loads(
+        config.judged_results_output_path.read_text(encoding="utf-8").splitlines()[1]
+    )
     assert saved["final_label"] == "partial"
-    with config.summary_output_path.open("r", encoding="utf-8-sig", newline="") as handle:
+    with config.summary_output_path.open(
+        "r", encoding="utf-8-sig", newline=""
+    ) as handle:
         summary = list(csv.DictReader(handle))
     assert summary[0]["final_utility_rate"] == "1.0000"
     report_text = config.report_path.read_text(encoding="utf-8")
@@ -121,7 +155,9 @@ class FakeJudgeClient:
         timeout_seconds: int,
     ) -> ChatResponse:
         user_message = messages[-1]["content"]
-        query_line = next(line for line in user_message.splitlines() if line.startswith("Question: "))
+        query_line = next(
+            line for line in user_message.splitlines() if line.startswith("Question: ")
+        )
         query = query_line.removeprefix("Question: ")
         self.called_queries.append(query)
         query_id = query.rsplit(" ", maxsplit=1)[-1].rstrip("?")

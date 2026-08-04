@@ -19,6 +19,8 @@ from time import perf_counter
 
 import yaml
 
+from logicguard.core.config import find_project_root, resolve_config_path
+
 from logicguard.data.loader import _load_corpus
 from logicguard.data.schemas import CorpusDocument
 from logicguard.llm.context import build_context_blocks, build_qa_messages
@@ -62,7 +64,8 @@ class GenerationPilotConfig:
     def from_yaml(cls, path: Path) -> "GenerationPilotConfig":
         """Load config with paths relative to the project root."""
 
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         with path.open("r", encoding="utf-8") as handle:
             payload = yaml.safe_load(handle)
 
@@ -79,13 +82,21 @@ class GenerationPilotConfig:
             base_url_env=str(payload.get("base_url_env", "DASHSCOPE_BASE_URL")),
             models=[str(model) for model in payload["models"]],
             clean_corpus_path=resolve_project_path(payload["clean_corpus_path"]),
-            entity_swap_corpus_path=resolve_project_path(payload["entity_swap_corpus_path"]),
+            entity_swap_corpus_path=resolve_project_path(
+                payload["entity_swap_corpus_path"]
+            ),
             bridge_corpus_path=resolve_project_path(payload["bridge_corpus_path"]),
             clean_trace_path=resolve_project_path(payload["clean_trace_path"]),
-            entity_swap_trace_path=resolve_project_path(payload["entity_swap_trace_path"]),
+            entity_swap_trace_path=resolve_project_path(
+                payload["entity_swap_trace_path"]
+            ),
             bridge_trace_path=resolve_project_path(payload["bridge_trace_path"]),
-            entity_guarded_trace_path=resolve_project_path(payload["entity_guarded_trace_path"]),
-            bridge_guarded_trace_path=resolve_project_path(payload["bridge_guarded_trace_path"]),
+            entity_guarded_trace_path=resolve_project_path(
+                payload["entity_guarded_trace_path"]
+            ),
+            bridge_guarded_trace_path=resolve_project_path(
+                payload["bridge_guarded_trace_path"]
+            ),
             entity_recovered_trace_path=(
                 resolve_project_path(payload["entity_recovered_trace_path"])
                 if payload.get("entity_recovered_trace_path")
@@ -96,11 +107,15 @@ class GenerationPilotConfig:
                 if payload.get("bridge_recovered_trace_path")
                 else None
             ),
-            entity_swap_metadata_path=resolve_project_path(payload["entity_swap_metadata_path"]),
+            entity_swap_metadata_path=resolve_project_path(
+                payload["entity_swap_metadata_path"]
+            ),
             bridge_metadata_path=resolve_project_path(payload["bridge_metadata_path"]),
             output_root=resolve_project_path(payload["output_root"]),
             report_path=resolve_project_path(payload["report_path"]),
-            include_recovered_context=bool(payload.get("include_recovered_context", False)),
+            include_recovered_context=bool(
+                payload.get("include_recovered_context", False)
+            ),
             top_k=int(payload.get("top_k", 10)),
             max_cases_per_attack=int(payload.get("max_cases_per_attack", 1)),
             max_docs=int(payload.get("max_docs", 5)),
@@ -174,10 +189,19 @@ def run_from_config(config: GenerationPilotConfig) -> list[GenerationResult]:
         "bridge_guarded": _load_trace_records(config.bridge_guarded_trace_path),
     }
     if config.include_recovered_context:
-        if config.entity_recovered_trace_path is None or config.bridge_recovered_trace_path is None:
-            raise ValueError("Recovered context is enabled but recovered trace paths are missing.")
-        traces["entity_recovered"] = _load_trace_records(config.entity_recovered_trace_path)
-        traces["bridge_recovered"] = _load_trace_records(config.bridge_recovered_trace_path)
+        if (
+            config.entity_recovered_trace_path is None
+            or config.bridge_recovered_trace_path is None
+        ):
+            raise ValueError(
+                "Recovered context is enabled but recovered trace paths are missing."
+            )
+        traces["entity_recovered"] = _load_trace_records(
+            config.entity_recovered_trace_path
+        )
+        traces["bridge_recovered"] = _load_trace_records(
+            config.bridge_recovered_trace_path
+        )
     cases = _select_generation_cases(
         traces=traces,
         entity_metadata=_load_metadata_records(config.entity_swap_metadata_path),
@@ -221,7 +245,9 @@ def _run_case_for_model(
         )
     ]
     return [
-        _call_model_for_variant(config, client, model, case, variant_name, doc_ids, documents)
+        _call_model_for_variant(
+            config, client, model, case, variant_name, doc_ids, documents
+        )
         for variant_name, doc_ids, documents in variants
     ]
 
@@ -353,7 +379,9 @@ def _select_cases_for_attack(
         clean_trace = clean_traces.get(query_id)
         poisoned_trace = poisoned_traces.get(query_id)
         guarded_trace = guarded_traces.get(query_id)
-        recovered_trace = recovered_traces.get(query_id) if recovered_traces is not None else None
+        recovered_trace = (
+            recovered_traces.get(query_id) if recovered_traces is not None else None
+        )
         if clean_trace is None or poisoned_trace is None or guarded_trace is None:
             continue
         poisoned_doc_ids = [str(doc_id) for doc_id in metadata["poisoned_doc_ids"]]
@@ -382,7 +410,9 @@ def _select_cases_for_attack(
                 clean_doc_ids=_top_doc_ids(clean_trace, top_k=top_k),
                 poisoned_doc_ids_in_context=poisoned_top_doc_ids,
                 guarded_doc_ids=_top_doc_ids(guarded_trace, top_k=top_k),
-                recovered_doc_ids=_top_doc_ids(recovered_trace or guarded_trace, top_k=top_k),
+                recovered_doc_ids=_top_doc_ids(
+                    recovered_trace or guarded_trace, top_k=top_k
+                ),
             )
         )
         if len(selected) >= max_cases:
@@ -397,7 +427,9 @@ def _context_variants_for_case(
 ) -> list[tuple[str, list[str], str]]:
     """Choose context variants and the corpus each variant should render from."""
 
-    poisoned_corpus_key = "entity_swap" if case.attack_type == "entity_swap" else "bridge_injection"
+    poisoned_corpus_key = (
+        "entity_swap" if case.attack_type == "entity_swap" else "bridge_injection"
+    )
     variants = [
         ("clean", case.clean_doc_ids, "clean"),
         ("poisoned", case.poisoned_doc_ids_in_context, poisoned_corpus_key),
@@ -490,7 +522,9 @@ def write_generation_outputs(
         for result in results:
             writer.writerow(result.to_json_dict())
 
-    _write_generation_report(config.report_path, cases, results, cases_path, jsonl_path, csv_path)
+    _write_generation_report(
+        config.report_path, cases, results, cases_path, jsonl_path, csv_path
+    )
 
 
 def _write_generation_report(
@@ -503,7 +537,10 @@ def _write_generation_report(
 ) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     grouped = _summarize_results(results)
-    context_variants = ", ".join(f"`{variant}`" for variant in sorted({result.context_variant for result in results}))
+    context_variants = ", ".join(
+        f"`{variant}`"
+        for variant in sorted({result.context_variant for result in results})
+    )
     table_lines = [
         "| model | attack | context | calls | correct | poisoned | abstained | errors | total tokens |",
         "| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |",
@@ -558,13 +595,22 @@ def _write_generation_report(
     path.write_text(content, encoding="utf-8")
 
 
-def _summarize_results(results: list[GenerationResult]) -> dict[tuple[str, str, str], dict[str, int]]:
+def _summarize_results(
+    results: list[GenerationResult],
+) -> dict[tuple[str, str, str], dict[str, int]]:
     grouped: dict[tuple[str, str, str], dict[str, int]] = {}
     for result in results:
         key = (result.model, result.attack_type, result.context_variant)
         metrics = grouped.setdefault(
             key,
-            {"calls": 0, "correct": 0, "poisoned": 0, "abstained": 0, "errors": 0, "total_tokens": 0},
+            {
+                "calls": 0,
+                "correct": 0,
+                "poisoned": 0,
+                "abstained": 0,
+                "errors": 0,
+                "total_tokens": 0,
+            },
         )
         metrics["calls"] += 1
         metrics["correct"] += int(result.is_correct)

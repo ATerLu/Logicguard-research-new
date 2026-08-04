@@ -27,24 +27,49 @@ def test_multidataset_config_derives_dataset_specific_runner_configs() -> None:
     threshold_scan = config.threshold_scan_config("hotpotqa")
 
     assert baseline.dataset == "hotpotqa"
-    assert baseline.sample_path == PROJECT_ROOT / "data" / "processed" / "hotpotqa" / "samples.jsonl"
-    assert baseline.output_paths().trace_path == PROJECT_ROOT / "outputs" / "baseline" / "hotpotqa" / "full_500_traces.jsonl"
+    assert (
+        baseline.sample_path
+        == PROJECT_ROOT / "data" / "processed" / "hotpotqa" / "samples.jsonl"
+    )
+    assert (
+        baseline.output_paths().trace_path
+        == PROJECT_ROOT / "outputs" / "baseline" / "hotpotqa" / "full_500_traces.jsonl"
+    )
 
     assert entity_swap.dataset == "hotpotqa"
-    assert entity_swap.output_root == PROJECT_ROOT / "outputs" / "attacks" / "entity_swap_full_500"
-    assert entity_swap.baseline_outputs().trace_path.name == "poisoned_full_500_traces.jsonl"
+    assert (
+        entity_swap.output_root
+        == PROJECT_ROOT / "outputs" / "attacks" / "entity_swap_full_500"
+    )
+    assert (
+        entity_swap.baseline_outputs().trace_path.name
+        == "poisoned_full_500_traces.jsonl"
+    )
 
     assert bridge.dataset == "hotpotqa"
-    assert bridge.output_root == PROJECT_ROOT / "outputs" / "attacks" / "bridge_injection_full_500"
-    assert bridge.baseline_outputs().trace_path.name == "bridge_poisoned_full_500_traces.jsonl"
+    assert (
+        bridge.output_root
+        == PROJECT_ROOT / "outputs" / "attacks" / "bridge_injection_full_500"
+    )
+    assert (
+        bridge.baseline_outputs().trace_path.name
+        == "bridge_poisoned_full_500_traces.jsonl"
+    )
 
     assert threshold_scan.dataset == "hotpotqa"
     assert (
         threshold_scan.reference_corpus_path
-        == PROJECT_ROOT.parent / "external_repos" / "logicPoison" / "datasets" / "hotpotqa" / "corpus.jsonl"
+        == PROJECT_ROOT.parent
+        / "external_repos"
+        / "logicPoison"
+        / "datasets"
+        / "hotpotqa"
+        / "corpus.jsonl"
     )
     assert (
         threshold_scan.report_path
-        == PROJECT_ROOT / "outputs" / "reports" / "logicguard_threshold_scan_hotpotqa_full_500.md"
+        == PROJECT_ROOT
+        / "outputs"
+        / "reports"
+        / "logicguard_threshold_scan_hotpotqa_full_500.md"
     )
-

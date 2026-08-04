@@ -16,18 +16,26 @@ from pathlib import Path
 
 import yaml
 
+from logicguard.core.config import find_project_root, resolve_config_path
+
 from logicguard.attack.run_bridge_injection import (
     BridgeInjectionRunConfig,
     run_from_config as run_bridge_injection_from_config,
 )
-from logicguard.attack.run_entity_swap import EntitySwapRunConfig, run_from_config as run_entity_swap_from_config
+from logicguard.attack.run_entity_swap import (
+    EntitySwapRunConfig,
+    run_from_config as run_entity_swap_from_config,
+)
 from logicguard.data.prepare import prepare_dataset
 from logicguard.defense.run_threshold_scan import (
     ThresholdScanConfig,
     ThresholdScanRow,
     run_from_config as run_threshold_scan_from_config,
 )
-from logicguard.graph.run_baseline import BaselineConfig, run_from_config as run_baseline_from_config
+from logicguard.graph.run_baseline import (
+    BaselineConfig,
+    run_from_config as run_baseline_from_config,
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -56,7 +64,8 @@ class MultiDatasetExperimentConfig:
     def from_yaml(cls, path: Path) -> "MultiDatasetExperimentConfig":
         """Load a multi-dataset config with paths relative to the project root."""
 
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         with path.open("r", encoding="utf-8") as handle:
             payload = yaml.safe_load(handle)
 
@@ -72,9 +81,15 @@ class MultiDatasetExperimentConfig:
             processed_data_root=resolve_project_path(payload["processed_data_root"]),
             report_root=resolve_project_path(payload["report_root"]),
             baseline_output_root=resolve_project_path(payload["baseline_output_root"]),
-            entity_swap_output_root=resolve_project_path(payload["entity_swap_output_root"]),
-            bridge_injection_output_root=resolve_project_path(payload["bridge_injection_output_root"]),
-            threshold_scan_output_root=resolve_project_path(payload["threshold_scan_output_root"]),
+            entity_swap_output_root=resolve_project_path(
+                payload["entity_swap_output_root"]
+            ),
+            bridge_injection_output_root=resolve_project_path(
+                payload["bridge_injection_output_root"]
+            ),
+            threshold_scan_output_root=resolve_project_path(
+                payload["threshold_scan_output_root"]
+            ),
             summary_output_root=resolve_project_path(payload["summary_output_root"]),
             summary_report_path=resolve_project_path(payload["summary_report_path"]),
             run_name=str(payload.get("run_name", "full_500")),
@@ -152,15 +167,20 @@ class MultiDatasetExperimentConfig:
             clean_trace_path=baseline_root / f"{self.run_name}_traces.jsonl",
             clean_corpus_entity_path=baseline_root / "corpus_entities.jsonl",
             entity_swap_corpus_path=entity_root / "poisoned_corpus.jsonl",
-            entity_swap_trace_path=entity_root / f"poisoned_{self.run_name}_traces.jsonl",
-            entity_swap_corpus_entity_path=entity_root / "poisoned_corpus_entities.jsonl",
+            entity_swap_trace_path=entity_root
+            / f"poisoned_{self.run_name}_traces.jsonl",
+            entity_swap_corpus_entity_path=entity_root
+            / "poisoned_corpus_entities.jsonl",
             entity_swap_attack_metadata_path=entity_root / "entity_swap_metadata.jsonl",
             bridge_corpus_path=bridge_root / "bridge_poisoned_corpus.jsonl",
-            bridge_trace_path=bridge_root / f"bridge_poisoned_{self.run_name}_traces.jsonl",
-            bridge_corpus_entity_path=bridge_root / "bridge_poisoned_corpus_entities.jsonl",
+            bridge_trace_path=bridge_root
+            / f"bridge_poisoned_{self.run_name}_traces.jsonl",
+            bridge_corpus_entity_path=bridge_root
+            / "bridge_poisoned_corpus_entities.jsonl",
             bridge_attack_metadata_path=bridge_root / "bridge_injection_metadata.jsonl",
             output_root=self.threshold_scan_output_root,
-            report_path=self.report_root / f"logicguard_threshold_scan_{dataset}_{self.run_name}.md",
+            report_path=self.report_root
+            / f"logicguard_threshold_scan_{dataset}_{self.run_name}.md",
             top_k=self.top_k,
             risk_penalties=self.risk_penalties,
             risk_thresholds=self.risk_thresholds,
@@ -217,7 +237,9 @@ def run_multidataset_pipeline(
 
     for dataset in selected_datasets:
         if dataset not in config.datasets:
-            raise ValueError(f"Dataset {dataset!r} is not listed in the multi-dataset config")
+            raise ValueError(
+                f"Dataset {dataset!r} is not listed in the multi-dataset config"
+            )
 
         if prepare:
             summary = prepare_dataset(
@@ -282,7 +304,9 @@ def _to_summary_row(row: ThresholdScanRow) -> MultiDatasetSummaryRow:
     )
 
 
-def _write_summary_outputs(config: MultiDatasetExperimentConfig, rows: list[MultiDatasetSummaryRow]) -> None:
+def _write_summary_outputs(
+    config: MultiDatasetExperimentConfig, rows: list[MultiDatasetSummaryRow]
+) -> None:
     summary_dir = config.summary_dir()
     summary_dir.mkdir(parents=True, exist_ok=True)
     jsonl_path = summary_dir / "multidataset_summary_rows.jsonl"
@@ -354,7 +378,9 @@ def _write_summary_report(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run LogicGuard experiments across multiple datasets.")
+    parser = argparse.ArgumentParser(
+        description="Run LogicGuard experiments across multiple datasets."
+    )
     parser.add_argument(
         "--config",
         type=Path,
@@ -367,10 +393,22 @@ def main() -> None:
         default=None,
         help="Optional subset of datasets from the config.",
     )
-    parser.add_argument("--skip-prepare", action="store_true", help="Reuse existing normalized data artifacts.")
-    parser.add_argument("--skip-baseline", action="store_true", help="Reuse existing clean baseline artifacts.")
-    parser.add_argument("--skip-attacks", action="store_true", help="Reuse existing attack artifacts.")
-    parser.add_argument("--skip-scan", action="store_true", help="Skip LogicGuard threshold scans.")
+    parser.add_argument(
+        "--skip-prepare",
+        action="store_true",
+        help="Reuse existing normalized data artifacts.",
+    )
+    parser.add_argument(
+        "--skip-baseline",
+        action="store_true",
+        help="Reuse existing clean baseline artifacts.",
+    )
+    parser.add_argument(
+        "--skip-attacks", action="store_true", help="Reuse existing attack artifacts."
+    )
+    parser.add_argument(
+        "--skip-scan", action="store_true", help="Skip LogicGuard threshold scans."
+    )
     args = parser.parse_args()
 
     run_multidataset_pipeline(
@@ -385,4 +423,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

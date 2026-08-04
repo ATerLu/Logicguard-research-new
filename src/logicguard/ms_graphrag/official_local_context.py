@@ -19,6 +19,8 @@ from typing import TYPE_CHECKING, Any
 import pandas as pd
 import yaml
 
+from logicguard.core.config import find_project_root, resolve_config_path
+
 from logicguard.data.prepare import load_normalized_samples
 
 if TYPE_CHECKING:
@@ -54,7 +56,8 @@ class OfficialLocalContextConfig:
     def from_yaml(cls, path: Path) -> "OfficialLocalContextConfig":
         """Load YAML configuration with project-relative paths."""
 
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         payload = yaml.safe_load(path.read_text(encoding="utf-8"))
 
         def resolve_project_path(raw_path: str) -> Path:
@@ -73,7 +76,9 @@ class OfficialLocalContextConfig:
             response_type=str(payload.get("response_type", "Single Sentence")),
             max_queries=int(payload.get("max_queries", 1)),
             verbose=bool(payload.get("verbose", False)),
-            local_search_overrides=_parse_local_search_overrides(payload.get("local_search_overrides")),
+            local_search_overrides=_parse_local_search_overrides(
+                payload.get("local_search_overrides")
+            ),
         )
 
 
@@ -88,7 +93,9 @@ def run_from_config(config: OfficialLocalContextConfig) -> list[dict[str, Any]]:
     return rows
 
 
-async def _run_official_local_search(config: OfficialLocalContextConfig) -> list[dict[str, Any]]:
+async def _run_official_local_search(
+    config: OfficialLocalContextConfig,
+) -> list[dict[str, Any]]:
     try:
         import graphrag.api as api
         from graphrag.cli.query import _resolve_output_files
@@ -149,7 +156,9 @@ async def _run_official_local_search(config: OfficialLocalContextConfig) -> list
     return rows
 
 
-def serialize_context_data(context_data: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
+def serialize_context_data(
+    context_data: dict[str, Any],
+) -> dict[str, list[dict[str, Any]]]:
     """Convert official context-data DataFrames into JSON records."""
 
     serialized: dict[str, list[dict[str, Any]]] = {}
@@ -167,14 +176,18 @@ def serialize_context_data(context_data: dict[str, Any]) -> dict[str, list[dict[
             clean_record = _json_safe_record(record)
             if key == "sources" and "text" in clean_record:
                 source_text = str(clean_record["text"])
-                clean_record["logicguard_doc_id"] = parse_doc_id_from_source_text(source_text)
+                clean_record["logicguard_doc_id"] = parse_doc_id_from_source_text(
+                    source_text
+                )
                 clean_record["title"] = parse_title_from_source_text(source_text)
             clean_records.append(clean_record)
         serialized[key] = clean_records
     return serialized
 
 
-def apply_local_search_overrides(graph_config: Any, overrides: dict[str, float | int]) -> None:
+def apply_local_search_overrides(
+    graph_config: Any, overrides: dict[str, float | int]
+) -> None:
     """Apply a small allowlisted set of local-search config overrides."""
 
     local_search = getattr(graph_config, "local_search")
@@ -204,7 +217,9 @@ def extract_source_evidence(row: dict[str, Any]) -> list[GraphRagTextUnitEvidenc
             continue
         text = str(source.get("text", ""))
         source_id = str(source.get("id", index))
-        doc_id = str(source.get("logicguard_doc_id") or parse_doc_id_from_source_text(text))
+        doc_id = str(
+            source.get("logicguard_doc_id") or parse_doc_id_from_source_text(text)
+        )
         title = str(source.get("title") or parse_title_from_source_text(text))
         evidence.append(
             GraphRagTextUnitEvidence(
@@ -345,14 +360,22 @@ def _compact_cell(value: str, max_chars: int = 160) -> str:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Export official Microsoft GraphRAG local context data.")
-    parser.add_argument("--config", type=Path, default=Path("configs/ms_graphrag_official_local_context_stage12.yaml"))
+    parser = argparse.ArgumentParser(
+        description="Export official Microsoft GraphRAG local context data."
+    )
+    parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/ms_graphrag_official_local_context_stage12.yaml"),
+    )
     args = parser.parse_args()
     rows = run_from_config(OfficialLocalContextConfig.from_yaml(args.config))
     for row in rows:
         context = row.get("context_data", {})
         sources = context.get("sources", []) if isinstance(context, dict) else []
-        print(f"{row['dataset']}/{row['query_id']}: sources={len(sources)}, response={_compact_cell(str(row['response']))}")
+        print(
+            f"{row['dataset']}/{row['query_id']}: sources={len(sources)}, response={_compact_cell(str(row['response']))}"
+        )
 
 
 if __name__ == "__main__":

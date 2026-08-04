@@ -15,7 +15,9 @@ def _write_jsonl(path: Path, rows: list[dict[str, object]]) -> None:
     )
 
 
-def test_prepare_ms_graphrag_workspace_writes_support_docs_and_manifest(tmp_path: Path) -> None:
+def test_prepare_ms_graphrag_workspace_writes_support_docs_and_manifest(
+    tmp_path: Path,
+) -> None:
     sample_path = tmp_path / "samples.jsonl"
     corpus_path = tmp_path / "corpus.jsonl"
     workspace_root = tmp_path / "ms_graphrag" / "toy"
@@ -41,8 +43,16 @@ def test_prepare_ms_graphrag_workspace_writes_support_docs_and_manifest(tmp_path
     _write_jsonl(
         corpus_path,
         [
-            {"_id": "d1", "title": "Atomised Film", "text": "Atomised was directed by Oskar Roehler."},
-            {"_id": "d2", "title": "Unused", "text": "This document is outside the support set."},
+            {
+                "_id": "d1",
+                "title": "Atomised Film",
+                "text": "Atomised was directed by Oskar Roehler.",
+            },
+            {
+                "_id": "d2",
+                "title": "Unused",
+                "text": "This document is outside the support set.",
+            },
         ],
     )
 
@@ -60,12 +70,16 @@ def test_prepare_ms_graphrag_workspace_writes_support_docs_and_manifest(tmp_path
     assert summary["input_doc_count"] == 1
     assert (workspace_root / "input" / "d1.txt").exists()
     assert not (workspace_root / "input" / "d2.txt").exists()
-    manifest = json.loads((workspace_root / "logicguard_manifest.json").read_text(encoding="utf-8"))
+    manifest = json.loads(
+        (workspace_root / "logicguard_manifest.json").read_text(encoding="utf-8")
+    )
     assert manifest["dataset"] == "toy"
     assert manifest["doc_scope"] == "sample_support"
 
 
-def test_prepare_ms_graphrag_workspace_can_skip_missing_support_docs(tmp_path: Path) -> None:
+def test_prepare_ms_graphrag_workspace_can_skip_missing_support_docs(
+    tmp_path: Path,
+) -> None:
     sample_path = tmp_path / "samples.jsonl"
     corpus_path = tmp_path / "guarded_corpus.jsonl"
     workspace_root = tmp_path / "ms_graphrag" / "guarded"
@@ -96,7 +110,11 @@ def test_prepare_ms_graphrag_workspace_can_skip_missing_support_docs(tmp_path: P
     _write_jsonl(
         corpus_path,
         [
-            {"_id": "trusted", "title": "Trusted Hop", "text": "Atomised is a German film."},
+            {
+                "_id": "trusted",
+                "title": "Trusted Hop",
+                "text": "Atomised is a German film.",
+            },
         ],
     )
 

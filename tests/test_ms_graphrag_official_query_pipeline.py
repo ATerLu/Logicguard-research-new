@@ -12,7 +12,9 @@ from logicguard.ms_graphrag.official_query_pipeline import (
 from logicguard.ms_graphrag.query_time_defense import QueryTimeDefenseResult
 
 
-def test_pipeline_config_builds_official_context_and_defense_configs(tmp_path: Path) -> None:
+def test_pipeline_config_builds_official_context_and_defense_configs(
+    tmp_path: Path,
+) -> None:
     config_path = _write_pipeline_config(tmp_path)
 
     config = OfficialQueryPipelineConfig.from_yaml(config_path)
@@ -29,7 +31,9 @@ def test_pipeline_config_builds_official_context_and_defense_configs(tmp_path: P
     assert defense_config.models == ["deepseek-v4-flash"]
 
 
-def test_write_context_export_config_and_command_are_reproducible(tmp_path: Path) -> None:
+def test_write_context_export_config_and_command_are_reproducible(
+    tmp_path: Path,
+) -> None:
     config = OfficialQueryPipelineConfig.from_yaml(_write_pipeline_config(tmp_path))
     context_config = config.to_official_context_config()
     export_config_path = tmp_path / "outputs" / "derived_context_config.yaml"
@@ -66,7 +70,13 @@ def test_run_from_config_exports_context_before_defense(tmp_path: Path) -> None:
                     "expected_answer": "Alice",
                     "response": "polluted answer",
                     "context_data": {
-                        "sources": [{"id": "0", "logicguard_doc_id": "d1", "text": "Document ID: d1\nTitle: T"}],
+                        "sources": [
+                            {
+                                "id": "0",
+                                "logicguard_doc_id": "d1",
+                                "text": "Document ID: d1\nTitle: T",
+                            }
+                        ],
                         "entities": [{"id": "e1"}],
                         "relationships": [],
                         "reports": [],
@@ -145,5 +155,7 @@ def _write_pipeline_config(tmp_path: Path) -> Path:
         "max_tokens": 64,
         "timeout_seconds": 90,
     }
-    config_path.write_text(yaml.safe_dump(payload, allow_unicode=True, sort_keys=False), encoding="utf-8")
+    config_path.write_text(
+        yaml.safe_dump(payload, allow_unicode=True, sort_keys=False), encoding="utf-8"
+    )
     return config_path

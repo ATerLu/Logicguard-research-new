@@ -141,7 +141,9 @@ class NaiveRagIndex:
     ) -> tuple[np.ndarray, list[str]]:
         """Score all documents for a query and return score-source labels."""
 
-        bm25_scores = np.asarray(self.bm25.get_scores(_tokenize(query)), dtype=np.float32)
+        bm25_scores = np.asarray(
+            self.bm25.get_scores(_tokenize(query)), dtype=np.float32
+        )
         if mode == "bm25":
             return bm25_scores, ["bm25"]
 
@@ -149,7 +151,9 @@ class NaiveRagIndex:
             raise ValueError("Dense retrieval requires an encoder-backed NaiveRagIndex")
 
         query_vector = _normalize_vectors(_encode_texts(self.encoder, [query]))
-        dense_scores = np.asarray(query_vector @ self.dense_doc_matrix.T, dtype=np.float32).reshape(-1)
+        dense_scores = np.asarray(
+            query_vector @ self.dense_doc_matrix.T, dtype=np.float32
+        ).reshape(-1)
         if mode == "dense":
             # A tiny BM25 term is only used to make equal cosine scores stable in
             # small corpora; it is too small to dominate dense similarity.
@@ -234,7 +238,9 @@ def run_naive_rag_baseline(
     return summary.to_json_dict()
 
 
-def load_sentence_transformer_encoder(model_name: str = DEFAULT_ENCODER_MODEL) -> TextEncoder:
+def load_sentence_transformer_encoder(
+    model_name: str = DEFAULT_ENCODER_MODEL,
+) -> TextEncoder:
     """Load a SentenceTransformer encoder lazily.
 
     Importing sentence-transformers can be slow and may download model files, so
@@ -264,7 +270,12 @@ def _retrieve_with_index(
     )
     ranked_indices = _top_indices(scores, top_k=top_k)
     candidates = [
-        _make_candidate(index.documents[index_position], float(scores[index_position]), sample.query_id, sources)
+        _make_candidate(
+            index.documents[index_position],
+            float(scores[index_position]),
+            sample.query_id,
+            sources,
+        )
         for index_position in ranked_indices
     ]
     return RetrievalTrace(
@@ -298,7 +309,9 @@ def _make_candidate(
 def _top_indices(scores: np.ndarray, top_k: int) -> list[int]:
     """Return top indices with deterministic document-order tie-breaking."""
 
-    ranked = sorted(range(len(scores)), key=lambda index: (-float(scores[index]), index))
+    ranked = sorted(
+        range(len(scores)), key=lambda index: (-float(scores[index]), index)
+    )
     return ranked[: min(top_k, len(ranked))]
 
 
@@ -317,7 +330,11 @@ def _summarize_run(
         retrieved_ids = [candidate.doc_id for candidate in trace.candidates[:top_k]]
         retrieved_set = set(retrieved_ids)
         hit_values.append(1.0 if gold_ids.intersection(retrieved_set) else 0.0)
-        recall_values.append((len(gold_ids.intersection(retrieved_set)) / len(gold_ids)) if gold_ids else 0.0)
+        recall_values.append(
+            (len(gold_ids.intersection(retrieved_set)) / len(gold_ids))
+            if gold_ids
+            else 0.0
+        )
         candidate_counts.append(len(retrieved_ids))
     return NaiveRagRunSummary(
         dataset=dataset_name,
@@ -383,7 +400,9 @@ def _tokenize(text: str) -> list[str]:
 def _encode_texts(encoder: TextEncoder, texts: list[str]) -> np.ndarray:
     vectors = np.asarray(encoder.encode(texts), dtype=np.float32)
     if vectors.ndim != 2:
-        raise ValueError(f"Encoder returned {vectors.ndim}D output; expected a 2D matrix")
+        raise ValueError(
+            f"Encoder returned {vectors.ndim}D output; expected a 2D matrix"
+        )
     if vectors.shape[0] != len(texts):
         raise ValueError("Encoder output row count does not match input text count")
     return vectors
@@ -407,4 +426,3 @@ def _normalize_scores(scores: np.ndarray) -> np.ndarray:
 
 def _mean(values: list[float]) -> float:
     return sum(values) / len(values) if values else 0.0
-

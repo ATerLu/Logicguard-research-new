@@ -1,0 +1,38 @@
+dataset: musique
+sample_path: data/processed/musique/debug_50.jsonl
+workspace_root: outputs/ms_graphrag/musique/stage40_debug50_clean_query_ready
+
+entities_path: outputs/ms_graphrag/musique/stage40_debug50_clean_query_ready/output/entities.parquet
+text_units_path: outputs/ms_graphrag/musique/stage40_debug50_clean_query_ready/output/text_units.parquet
+baseline_context_path: outputs/ms_graphrag_query/stage40_musique_poisoned5_official_local_context.jsonl
+budget_expansion_context_path: outputs/ms_graphrag_query/stage40_musique_poisoned5_broad_context.jsonl
+query_integrity_path: outputs/attacks/logicpoison_official/musique/query_integrity.jsonl
+
+seed_plan_output_path: outputs/ms_graphrag_query/stage47_musique_clean20_query_seed_plan.jsonl
+seed_plan_report_path: outputs/reports/Stage47_MuSiQue_CleanSeedPlan_20Query.md
+context_output_path: outputs/ms_graphrag_query/stage47_musique_clean20_query_guard_contexts.jsonl
+context_report_path: outputs/reports/Stage47_MuSiQue_CleanContext_20Query.md
+metrics_output_path: outputs/ms_graphrag_query/stage47_musique_clean20_query_guard_metrics.csv
+summary_output_path: outputs/ms_graphrag_query/stage47_musique_clean20_query_guard_summary.csv
+evaluation_report_path: outputs/reports/Stage47_MuSiQue_CleanContextEvaluation_20Query.md
+emit_markdown_report: false
+
+max_queries: 20
+community_level: 2
+response_type: Single Sentence
+methods:
+  - full_query_guard
+
+seed_settings:
+  top_title_documents: 2
+  entities_per_document: 4
+  top_lexical_entities: 6
+  max_include_entities: 10
+  repeated_entity_min_queries: 2
+
+local_search_overrides:
+  text_unit_prop: 0.5
+  community_prop: 0.0
+  top_k_entities: 10
+  top_k_relationships: 10
+  max_context_tokens: 12000

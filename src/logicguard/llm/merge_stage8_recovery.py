@@ -9,6 +9,8 @@ from pathlib import Path
 
 import yaml
 
+from logicguard.core.config import find_project_root, resolve_config_path
+
 from logicguard.llm.run_stage6_summary import (
     Stage6DatasetConfig,
     Stage6SummaryConfig,
@@ -40,7 +42,8 @@ class Stage8MergeConfig:
     def from_yaml(cls, path: Path) -> "Stage8MergeConfig":
         """Load YAML configuration with project-relative paths."""
 
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         with path.open("r", encoding="utf-8") as handle:
             payload = yaml.safe_load(handle)
 
@@ -54,8 +57,12 @@ class Stage8MergeConfig:
             datasets=[
                 Stage8MergeDatasetConfig(
                     name=str(item["name"]),
-                    baseline_judged_path=resolve_project_path(item["baseline_judged_path"]),
-                    recovered_judged_path=resolve_project_path(item["recovered_judged_path"]),
+                    baseline_judged_path=resolve_project_path(
+                        item["baseline_judged_path"]
+                    ),
+                    recovered_judged_path=resolve_project_path(
+                        item["recovered_judged_path"]
+                    ),
                     merged_output_path=resolve_project_path(item["merged_output_path"]),
                 )
                 for item in payload["datasets"]
@@ -86,7 +93,9 @@ def merge_stage8_recovery_outputs(config: Stage8MergeConfig) -> list[dict[str, o
     _write_jsonl(config.combined_jsonl_path, combined_rows)
     report_config = Stage6SummaryConfig(
         datasets=[
-            Stage6DatasetConfig(name=dataset.name, judged_results_path=dataset.merged_output_path)
+            Stage6DatasetConfig(
+                name=dataset.name, judged_results_path=dataset.merged_output_path
+            )
             for dataset in config.datasets
         ],
         combined_jsonl_path=config.combined_jsonl_path,
@@ -120,7 +129,9 @@ def _write_jsonl(path: Path, rows: list[dict[str, object]]) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Merge stage-8 non-oracle recovered answer results.")
+    parser = argparse.ArgumentParser(
+        description="Merge stage-8 non-oracle recovered answer results."
+    )
     parser.add_argument(
         "--config",
         type=Path,

@@ -15,7 +15,9 @@ from logicguard.ms_graphrag.stage21_medium_diagnostics import (
 )
 
 
-def test_load_stage21_text_units_restores_logicguard_doc_metadata(tmp_path: Path) -> None:
+def test_load_stage21_text_units_restores_logicguard_doc_metadata(
+    tmp_path: Path,
+) -> None:
     output_dir = tmp_path / "output"
     output_dir.mkdir()
     pd.DataFrame(
@@ -51,7 +53,12 @@ def test_load_stage21_text_units_restores_logicguard_doc_metadata(tmp_path: Path
 def test_rank_text_units_bm25_can_use_title_boost() -> None:
     units = [
         _unit("tu1", "d1", "Target Film", "A short unrelated body."),
-        _unit("tu2", "d2", "Other Work", "Target words appear repeatedly in this body Target."),
+        _unit(
+            "tu2",
+            "d2",
+            "Other Work",
+            "Target words appear repeatedly in this body Target.",
+        ),
     ]
 
     plain = rank_text_units_bm25("Target Film", units, top_k=2, title_boost=0.0)
@@ -85,10 +92,14 @@ def test_build_stage21_method_contexts_filters_and_recovers_changed_docs() -> No
     assert [item.logicguard_doc_id for item in recovered] == ["d2", "d1"]
     assert recovered[0].source_state == "clean_reference"
     assert recovered[0].recovered_from_changed_doc is True
-    assert any("known_changed_doc" in item.risk_reasons for item in contexts["poisoned_bm25"])
+    assert any(
+        "known_changed_doc" in item.risk_reasons for item in contexts["poisoned_bm25"]
+    )
 
 
-def test_build_and_summarize_stage21_metrics_cover_precision_mrr_and_distractors() -> None:
+def test_build_and_summarize_stage21_metrics_cover_precision_mrr_and_distractors() -> (
+    None
+):
     samples = [
         NormalizedSample(
             query_id="q1",
@@ -130,14 +141,21 @@ def test_build_and_summarize_stage21_metrics_cover_precision_mrr_and_distractors
     assert poisoned.changed_gold_exposure_at_k == 1.0
     assert poisoned.trusted_gold_recall_at_k == 0.0
     assert by_method["guarded_filter"].empty_context == 1
-    assert {summary.method for summary in summaries} == {"poisoned_bm25", "guarded_filter"}
+    assert {summary.method for summary in summaries} == {
+        "poisoned_bm25",
+        "guarded_filter",
+    }
 
 
-def test_write_stage21_outputs_creates_csv_jsonl_and_chinese_report(tmp_path: Path) -> None:
+def test_write_stage21_outputs_creates_csv_jsonl_and_chinese_report(
+    tmp_path: Path,
+) -> None:
     rows = [
         build_stage21_metric_rows(
             samples=[
-                NormalizedSample("q1", "Q?", "A", ["d1"], [CorpusDocument("d1", "D1", "text")])
+                NormalizedSample(
+                    "q1", "Q?", "A", ["d1"], [CorpusDocument("d1", "D1", "text")]
+                )
             ],
             integrity_rows=[],
             contexts_by_query={"q1": {"poisoned_bm25": [_ranked("d1", rank=1)]}},
@@ -165,7 +183,12 @@ def test_write_stage21_outputs_creates_csv_jsonl_and_chinese_report(tmp_path: Pa
     )
 
     assert config.evidence_output_path.exists()
-    assert json.loads(config.evidence_output_path.read_text(encoding="utf-8").strip())["query_id"] == "q1"
+    assert (
+        json.loads(config.evidence_output_path.read_text(encoding="utf-8").strip())[
+            "query_id"
+        ]
+        == "q1"
+    )
     assert "gold_recall" in config.metrics_output_path.read_text(encoding="utf-8-sig")
     report = config.report_path.read_text(encoding="utf-8")
     assert "Stage21" in report

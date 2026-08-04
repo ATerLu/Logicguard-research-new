@@ -103,7 +103,9 @@ def _urllib_transport(
             response_body = response.read().decode("utf-8")
     except error.HTTPError as exc:
         error_body = exc.read().decode("utf-8", errors="replace")
-        raise RuntimeError(f"LLM provider HTTP {exc.code}: {_safe_error_excerpt(error_body)}") from exc
+        raise RuntimeError(
+            f"LLM provider HTTP {exc.code}: {_safe_error_excerpt(error_body)}"
+        ) from exc
     except error.URLError as exc:
         raise RuntimeError(f"LLM provider connection failed: {exc.reason}") from exc
 
@@ -145,4 +147,3 @@ def _safe_error_excerpt(text: str, max_chars: int = 600) -> str:
     """Trim provider errors while avoiding accidental huge log output."""
 
     return text[:max_chars].replace("\n", " ")
-

@@ -11,7 +11,9 @@ from logicguard.attack.bridge_injection import (
     select_bridge_injection_attacks,
 )
 from logicguard.attack.run_bridge_injection import BridgeInjectionRunConfig
-from logicguard.attack.run_bridge_injection_v2 import AnswerAwareBridgeInjectionRunConfig
+from logicguard.attack.run_bridge_injection_v2 import (
+    AnswerAwareBridgeInjectionRunConfig,
+)
 from logicguard.data.schemas import CorpusDocument, NormalizedSample
 from logicguard.graph.entities import RuleBasedEntityExtractor
 from logicguard.graph.schemas import PathCandidate, RetrievalTrace
@@ -19,10 +21,16 @@ from logicguard.graph.schemas import PathCandidate, RetrievalTrace
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 BRIDGE_CONFIG_PATH = PROJECT_ROOT / "configs" / "bridge_injection_attack.yaml"
-BRIDGE_FULL_CONFIG_PATH = PROJECT_ROOT / "configs" / "bridge_injection_attack_full_500.yaml"
+BRIDGE_FULL_CONFIG_PATH = (
+    PROJECT_ROOT / "configs" / "bridge_injection_attack_full_500.yaml"
+)
 BRIDGE_V2_CONFIG_PATH = PROJECT_ROOT / "configs" / "bridge_injection_v2_debug.yaml"
-BRIDGE_V2_FULL_CONFIG_PATH = PROJECT_ROOT / "configs" / "bridge_injection_v2_full_500.yaml"
-BRIDGE_V2_NATURAL_FULL_CONFIG_PATH = PROJECT_ROOT / "configs" / "bridge_injection_v2_natural_full_500.yaml"
+BRIDGE_V2_FULL_CONFIG_PATH = (
+    PROJECT_ROOT / "configs" / "bridge_injection_v2_full_500.yaml"
+)
+BRIDGE_V2_NATURAL_FULL_CONFIG_PATH = (
+    PROJECT_ROOT / "configs" / "bridge_injection_v2_natural_full_500.yaml"
+)
 
 
 def _sample(query_id: str, query: str, answer: str, doc_id: str) -> NormalizedSample:
@@ -41,7 +49,9 @@ def _sample(query_id: str, query: str, answer: str, doc_id: str) -> NormalizedSa
     )
 
 
-def test_select_bridge_injection_attacks_uses_query_entity_and_replacement_answer() -> None:
+def test_select_bridge_injection_attacks_uses_query_entity_and_replacement_answer() -> (
+    None
+):
     extractor = RuleBasedEntityExtractor()
     samples = [
         _sample("q1", "Who directed Atomised?", "Oskar Roehler", "d1"),
@@ -84,7 +94,9 @@ def test_answer_aware_bridge_documents_include_explicit_wrong_answer_claim() -> 
         _sample("q2", "Where was Ada Lovelace born?", "London", "d2"),
     ]
 
-    attacks = select_answer_aware_bridge_injection_attacks(samples, extractor, max_attacks=1)
+    attacks = select_answer_aware_bridge_injection_attacks(
+        samples, extractor, max_attacks=1
+    )
     bridge_docs = build_answer_aware_bridge_documents(attacks)
 
     assert len(attacks) == 1
@@ -101,14 +113,18 @@ def test_answer_aware_bridge_documents_include_explicit_wrong_answer_claim() -> 
     assert "Oskar Roehler" not in bridge.text
 
 
-def test_natural_answer_aware_bridge_documents_keep_signal_without_answer_is_phrase() -> None:
+def test_natural_answer_aware_bridge_documents_keep_signal_without_answer_is_phrase() -> (
+    None
+):
     extractor = RuleBasedEntityExtractor()
     samples = [
         _sample("q1", "Who directed Atomised?", "Oskar Roehler", "d1"),
         _sample("q2", "Where was Ada Lovelace born?", "London", "d2"),
     ]
 
-    attacks = select_answer_aware_bridge_injection_attacks(samples, extractor, max_attacks=1)
+    attacks = select_answer_aware_bridge_injection_attacks(
+        samples, extractor, max_attacks=1
+    )
     bridge_docs = build_answer_aware_bridge_documents(attacks, template_style="natural")
 
     bridge = bridge_docs[0]
@@ -127,7 +143,9 @@ def test_apply_answer_aware_bridge_injection_attacks_appends_v2_documents() -> N
         _sample("q1", "Who directed Atomised?", "Oskar Roehler", "d1"),
         _sample("q2", "Where was Ada Lovelace born?", "London", "d2"),
     ]
-    attacks = select_answer_aware_bridge_injection_attacks(samples, extractor, max_attacks=1)
+    attacks = select_answer_aware_bridge_injection_attacks(
+        samples, extractor, max_attacks=1
+    )
     corpus = [CorpusDocument(doc_id="d1", title="Atomised", text="Atomised is a film.")]
 
     poisoned = apply_answer_aware_bridge_injection_attacks(corpus, attacks)
@@ -228,7 +246,10 @@ def test_bridge_injection_run_config_targets_debug_50() -> None:
     config = BridgeInjectionRunConfig.from_yaml(BRIDGE_CONFIG_PATH)
 
     assert config.dataset == "2wikimultihopqa"
-    assert config.sample_path == PROJECT_ROOT / "data" / "processed" / "2wikimultihopqa" / "debug_50.jsonl"
+    assert (
+        config.sample_path
+        == PROJECT_ROOT / "data" / "processed" / "2wikimultihopqa" / "debug_50.jsonl"
+    )
     assert config.max_attacks == 20
     assert config.top_k == 10
     assert config.max_depth == 3
@@ -238,11 +259,17 @@ def test_bridge_injection_full_config_uses_full_500_output_names() -> None:
     config = BridgeInjectionRunConfig.from_yaml(BRIDGE_FULL_CONFIG_PATH)
     outputs = config.baseline_outputs()
 
-    assert config.sample_path == PROJECT_ROOT / "data" / "processed" / "2wikimultihopqa" / "samples.jsonl"
+    assert (
+        config.sample_path
+        == PROJECT_ROOT / "data" / "processed" / "2wikimultihopqa" / "samples.jsonl"
+    )
     assert config.run_name == "full_500"
     assert config.max_attacks == 500
     assert outputs.trace_path.name == "bridge_poisoned_full_500_traces.jsonl"
-    assert outputs.query_entity_cache_path.name == "bridge_poisoned_full_500_query_entities.jsonl"
+    assert (
+        outputs.query_entity_cache_path.name
+        == "bridge_poisoned_full_500_query_entities.jsonl"
+    )
 
 
 def test_answer_aware_bridge_injection_config_targets_v2_debug_outputs() -> None:
@@ -250,30 +277,71 @@ def test_answer_aware_bridge_injection_config_targets_v2_debug_outputs() -> None
     outputs = config.baseline_outputs()
 
     assert config.dataset == "2wikimultihopqa"
-    assert config.sample_path == PROJECT_ROOT / "data" / "processed" / "2wikimultihopqa" / "debug_50.jsonl"
-    assert config.output_root == PROJECT_ROOT / "outputs" / "attacks" / "bridge_injection_v2"
+    assert (
+        config.sample_path
+        == PROJECT_ROOT / "data" / "processed" / "2wikimultihopqa" / "debug_50.jsonl"
+    )
+    assert (
+        config.output_root
+        == PROJECT_ROOT / "outputs" / "attacks" / "bridge_injection_v2"
+    )
     assert config.max_attacks == 20
-    assert outputs.trace_path.name == "answer_aware_bridge_poisoned_debug_50_traces.jsonl"
-    assert config.exposure_report_path() == PROJECT_ROOT / "outputs" / "reports" / "bridge_injection_v2_exposure_2wikimultihopqa_debug_50.md"
+    assert (
+        outputs.trace_path.name == "answer_aware_bridge_poisoned_debug_50_traces.jsonl"
+    )
+    assert (
+        config.exposure_report_path()
+        == PROJECT_ROOT
+        / "outputs"
+        / "reports"
+        / "bridge_injection_v2_exposure_2wikimultihopqa_debug_50.md"
+    )
 
 
 def test_answer_aware_bridge_injection_full_config_uses_full_500_outputs() -> None:
     config = AnswerAwareBridgeInjectionRunConfig.from_yaml(BRIDGE_V2_FULL_CONFIG_PATH)
     outputs = config.baseline_outputs()
 
-    assert config.sample_path == PROJECT_ROOT / "data" / "processed" / "2wikimultihopqa" / "samples.jsonl"
-    assert config.output_root == PROJECT_ROOT / "outputs" / "attacks" / "bridge_injection_v2_full_500"
+    assert (
+        config.sample_path
+        == PROJECT_ROOT / "data" / "processed" / "2wikimultihopqa" / "samples.jsonl"
+    )
+    assert (
+        config.output_root
+        == PROJECT_ROOT / "outputs" / "attacks" / "bridge_injection_v2_full_500"
+    )
     assert config.run_name == "full_500"
     assert config.max_attacks == 500
-    assert outputs.trace_path.name == "answer_aware_bridge_poisoned_full_500_traces.jsonl"
-    assert config.exposure_report_path() == PROJECT_ROOT / "outputs" / "reports" / "bridge_injection_v2_exposure_2wikimultihopqa_full_500.md"
+    assert (
+        outputs.trace_path.name == "answer_aware_bridge_poisoned_full_500_traces.jsonl"
+    )
+    assert (
+        config.exposure_report_path()
+        == PROJECT_ROOT
+        / "outputs"
+        / "reports"
+        / "bridge_injection_v2_exposure_2wikimultihopqa_full_500.md"
+    )
 
 
 def test_natural_answer_aware_bridge_injection_config_uses_separate_outputs() -> None:
-    config = AnswerAwareBridgeInjectionRunConfig.from_yaml(BRIDGE_V2_NATURAL_FULL_CONFIG_PATH)
+    config = AnswerAwareBridgeInjectionRunConfig.from_yaml(
+        BRIDGE_V2_NATURAL_FULL_CONFIG_PATH
+    )
     outputs = config.baseline_outputs()
 
     assert config.template_style == "natural"
-    assert config.output_root == PROJECT_ROOT / "outputs" / "attacks" / "bridge_injection_v2_natural_full_500"
-    assert outputs.trace_path.name == "answer_aware_bridge_poisoned_full_500_traces.jsonl"
-    assert config.exposure_report_path() == PROJECT_ROOT / "outputs" / "reports" / "bridge_injection_v2_natural_exposure_2wikimultihopqa_full_500.md"
+    assert (
+        config.output_root
+        == PROJECT_ROOT / "outputs" / "attacks" / "bridge_injection_v2_natural_full_500"
+    )
+    assert (
+        outputs.trace_path.name == "answer_aware_bridge_poisoned_full_500_traces.jsonl"
+    )
+    assert (
+        config.exposure_report_path()
+        == PROJECT_ROOT
+        / "outputs"
+        / "reports"
+        / "bridge_injection_v2_natural_exposure_2wikimultihopqa_full_500.md"
+    )

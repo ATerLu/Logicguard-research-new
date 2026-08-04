@@ -16,11 +16,25 @@ CONFIG_PATH = PROJECT_ROOT / "configs" / "logicpoison_stage6_summary.yaml"
 def test_stage6_summary_config_resolves_dataset_paths() -> None:
     config = Stage6SummaryConfig.from_yaml(CONFIG_PATH)
 
-    assert [dataset.name for dataset in config.datasets] == ["2wikimultihopqa", "hotpotqa", "musique"]
+    assert [dataset.name for dataset in config.datasets] == [
+        "2wikimultihopqa",
+        "hotpotqa",
+        "musique",
+    ]
     assert config.report_title == "LogicPoison 阶段6多数据集回答层综合报告"
-    assert config.report_path == PROJECT_ROOT / "outputs" / "reports" / "LogicPoison阶段6多数据集回答层综合报告.md"
+    assert (
+        config.report_path
+        == PROJECT_ROOT
+        / "outputs"
+        / "reports"
+        / "LogicPoison阶段6多数据集回答层综合报告.md"
+    )
     assert config.combined_jsonl_path == (
-        PROJECT_ROOT / "outputs" / "llm_generation" / "logicpoison_answer" / "stage6_multidataset_judged_results.jsonl"
+        PROJECT_ROOT
+        / "outputs"
+        / "llm_generation"
+        / "logicpoison_answer"
+        / "stage6_multidataset_judged_results.jsonl"
     )
     assert config.datasets[1].judged_results_path == (
         PROJECT_ROOT
@@ -83,14 +97,19 @@ def test_summarize_stage6_rows_groups_by_dataset_and_context() -> None:
     assert summary.overall_by_context["recovered"]["correct"] == 1
 
 
-def test_write_stage6_summary_outputs_writes_combined_jsonl_and_chinese_report(tmp_path: Path) -> None:
+def test_write_stage6_summary_outputs_writes_combined_jsonl_and_chinese_report(
+    tmp_path: Path,
+) -> None:
     dataset_path = tmp_path / "2wiki_judged.jsonl"
     dataset_rows = [
         _row("placeholder", "m1", "clean", "correct"),
         _row("placeholder", "m1", "poisoned", "incorrect"),
         _row("placeholder", "m1", "recovered", "correct"),
     ]
-    dataset_path.write_text("\n".join(json.dumps(row, ensure_ascii=False) for row in dataset_rows), encoding="utf-8")
+    dataset_path.write_text(
+        "\n".join(json.dumps(row, ensure_ascii=False) for row in dataset_rows),
+        encoding="utf-8",
+    )
     config = Stage6SummaryConfig(
         datasets=[Stage6DatasetConfig(name="2wiki", judged_results_path=dataset_path)],
         combined_jsonl_path=tmp_path / "combined.jsonl",
@@ -101,7 +120,10 @@ def test_write_stage6_summary_outputs_writes_combined_jsonl_and_chinese_report(t
 
     rows = write_stage6_summary_outputs(config)
 
-    combined_rows = [json.loads(line) for line in config.combined_jsonl_path.read_text(encoding="utf-8").splitlines()]
+    combined_rows = [
+        json.loads(line)
+        for line in config.combined_jsonl_path.read_text(encoding="utf-8").splitlines()
+    ]
     report = config.report_path.read_text(encoding="utf-8")
 
     assert len(rows) == 3

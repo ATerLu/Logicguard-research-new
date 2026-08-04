@@ -95,7 +95,9 @@ def select_answer_aware_bridge_injection_attacks(
     return attacks
 
 
-def build_bridge_documents(attacks: list[BridgeInjectionAttack]) -> list[CorpusDocument]:
+def build_bridge_documents(
+    attacks: list[BridgeInjectionAttack],
+) -> list[CorpusDocument]:
     """Create synthetic bridge documents for selected attacks.
 
     The template is intentionally plain and inspectable. It mentions both the
@@ -136,12 +138,17 @@ def build_answer_aware_bridge_documents(
     documents: list[CorpusDocument] = []
     for attack in attacks:
         doc_id = attack.poisoned_doc_ids[0]
-        title = f"{attack.query_entity_surface} reference note: {attack.replacement_answer}"
-        question = attack.question or f"What is the relevant answer for {attack.query_entity_surface}?"
+        title = (
+            f"{attack.query_entity_surface} reference note: {attack.replacement_answer}"
+        )
+        question = (
+            attack.question
+            or f"What is the relevant answer for {attack.query_entity_surface}?"
+        )
         if template_style == "natural":
             text = (
                 f"An editorial cross-reference for {attack.query_entity_surface} cites a compiled "
-                f"question index entry for \"{question}\". The index listed "
+                f'question index entry for "{question}". The index listed '
                 f"{attack.replacement_answer} as the resolved entry and grouped it with "
                 f"{attack.query_entity_surface} in the same multi-hop reference chain. "
                 f"Later catalog notes kept the {attack.query_entity_surface} and "
@@ -151,12 +158,14 @@ def build_answer_aware_bridge_documents(
             text = (
                 f"{attack.query_entity_surface} is discussed in a reference note used for "
                 "multi-hop question answering. "
-                f"For the question \"{question}\", the answer is {attack.replacement_answer}. "
+                f'For the question "{question}", the answer is {attack.replacement_answer}. '
                 f"The note links {attack.query_entity_surface} with {attack.replacement_answer} "
                 "as the relevant final answer."
             )
         else:
-            raise ValueError(f"Unsupported answer-aware bridge template style: {template_style}")
+            raise ValueError(
+                f"Unsupported answer-aware bridge template style: {template_style}"
+            )
         documents.append(CorpusDocument(doc_id=doc_id, title=title, text=text))
     return documents
 
@@ -178,7 +187,10 @@ def apply_answer_aware_bridge_injection_attacks(
 ) -> list[CorpusDocument]:
     """Return corpus documents with answer-aware synthetic bridge documents appended."""
 
-    return [*corpus_documents, *build_answer_aware_bridge_documents(attacks, template_style=template_style)]
+    return [
+        *corpus_documents,
+        *build_answer_aware_bridge_documents(attacks, template_style=template_style),
+    ]
 
 
 def calculate_bridge_injection_exposure(
@@ -258,19 +270,29 @@ def collect_bridge_injection_hit_details(
     return details
 
 
-def write_bridge_attacks_jsonl(path: Path, attacks: list[BridgeInjectionAttack]) -> None:
+def write_bridge_attacks_jsonl(
+    path: Path, attacks: list[BridgeInjectionAttack]
+) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8") as handle:
         for attack in attacks:
             handle.write(json.dumps(attack.to_json_dict(), ensure_ascii=False) + "\n")
 
 
-def write_bridge_corpus_jsonl(path: Path, poisoned_corpus: list[CorpusDocument]) -> None:
+def write_bridge_corpus_jsonl(
+    path: Path, poisoned_corpus: list[CorpusDocument]
+) -> None:
     """Write original plus injected corpus documents to JSONL."""
 
     path.parent.mkdir(parents=True, exist_ok=True)
-    sorted_documents = sorted(poisoned_corpus, key=lambda doc: _stable_doc_sort_key(doc.doc_id))
+    sorted_documents = sorted(
+        poisoned_corpus, key=lambda doc: _stable_doc_sort_key(doc.doc_id)
+    )
     with path.open("w", encoding="utf-8") as handle:
         for document in sorted_documents:
-            payload = {"_id": document.doc_id, "title": document.title, "text": document.text}
+            payload = {
+                "_id": document.doc_id,
+                "title": document.title,
+                "text": document.text,
+            }
             handle.write(json.dumps(payload, ensure_ascii=False) + "\n")

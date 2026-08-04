@@ -25,9 +25,13 @@ def score_candidate_risk(
     risk_score = 0.0
     risk_reasons: list[str] = []
     path_length = max(len(candidate.path_nodes) - 1, 0)
-    direct_query_match = bool(candidate.matched_query_entities) and not candidate.bridge_entities
+    direct_query_match = (
+        bool(candidate.matched_query_entities) and not candidate.bridge_entities
+    )
     source_support_count = _candidate_source_support_count(candidate, support_counts)
-    global_support_count = _candidate_global_support_count(candidate, global_entity_support_counts)
+    global_support_count = _candidate_global_support_count(
+        candidate, global_entity_support_counts
+    )
     known_source_document = (
         candidate.doc_id in reference_doc_ids if reference_doc_ids is not None else None
     )
@@ -47,7 +51,11 @@ def score_candidate_risk(
         risk_score += 0.90
         risk_reasons.append("reference_content_mismatch")
 
-    if known_source_document is False and global_support_count is not None and global_support_count <= 2:
+    if (
+        known_source_document is False
+        and global_support_count is not None
+        and global_support_count <= 2
+    ):
         risk_score += 0.10
         risk_reasons.append("low_global_entity_support")
 
@@ -84,7 +92,9 @@ def _candidate_source_support_count(
 
     if not candidate.matched_query_entities:
         return 0
-    return max(support_counts.get(entity, 0) for entity in candidate.matched_query_entities)
+    return max(
+        support_counts.get(entity, 0) for entity in candidate.matched_query_entities
+    )
 
 
 def _candidate_global_support_count(
@@ -95,7 +105,10 @@ def _candidate_global_support_count(
 
     if global_entity_support_counts is None or not candidate.matched_query_entities:
         return None
-    return max(global_entity_support_counts.get(entity, 0) for entity in candidate.matched_query_entities)
+    return max(
+        global_entity_support_counts.get(entity, 0)
+        for entity in candidate.matched_query_entities
+    )
 
 
 def _clip(value: float, lower: float, upper: float) -> float:

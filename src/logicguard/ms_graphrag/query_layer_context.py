@@ -10,6 +10,8 @@ from typing import Any, Protocol
 
 import yaml
 
+from logicguard.core.config import find_project_root, resolve_config_path
+
 from logicguard.ms_graphrag.official_local_context import (
     apply_local_search_overrides,
     serialize_context_data,
@@ -40,10 +42,12 @@ class QueryLayerContextConfig:
     community_level: int
     response_type: str
     local_search_overrides: dict[str, float | int]
+    emit_markdown_report: bool = True
 
     @classmethod
     def from_yaml(cls, path: Path) -> "QueryLayerContextConfig":
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         payload = yaml.safe_load(path.read_text(encoding="utf-8"))
 
         def resolve(raw: str) -> Path:
@@ -67,14 +71,14 @@ class QueryLayerContextConfig:
                 str(key): value
                 for key, value in payload.get("local_search_overrides", {}).items()
             },
+            emit_markdown_report=bool(payload.get("emit_markdown_report", True)),
         )
 
 
 class ContextBuilder(Protocol):
     """Small structural interface used by tests and GraphRAG's real builder."""
 
-    def build_context(self, *, query: str, **kwargs: Any) -> Any:
-        ...
+    def build_context(self, *, query: str, **kwargs: Any) -> Any: ...
 
 
 def resolve_method_entities(
@@ -88,7 +92,9 @@ def resolve_method_entities(
     method_plan = plan.get("methods", {}).get(method, {})
     raw_include = [str(name) for name in method_plan.get("include_entity_names", [])]
     raw_exclude = [str(name) for name in method_plan.get("exclude_entity_names", [])]
-    include = _deduplicate(name for name in raw_include if name in available_entity_names)
+    include = _deduplicate(
+        name for name in raw_include if name in available_entity_names
+    )
     include_set = set(include)
     exclude = _deduplicate(
         name
@@ -96,9 +102,7 @@ def resolve_method_entities(
         if name in available_entity_names and name not in include_set
     )
     unknown = _deduplicate(
-        name
-        for name in raw_include + raw_exclude
-        if name not in available_entity_names
+        name for name in raw_include + raw_exclude if name not in available_entity_names
     )
     return ResolvedMethodEntities(include, exclude, unknown)
 
@@ -152,19 +156,21 @@ def build_query_guard_context_rows(
                 exclude_entity_names=resolved.exclude_entity_names,
                 **context_builder_params,
             )
-            rows.append({
-                "query_id": query_id,
-                "query": query,
-                "method": method,
-                "include_entity_names": resolved.include_entity_names,
-                "exclude_entity_names": resolved.exclude_entity_names,
-                "unknown_entity_names": resolved.unknown_entity_names,
-                "fallback_to_baseline": not (
-                    resolved.include_entity_names or resolved.exclude_entity_names
-                ),
-                "context_text": str(result.context_chunks),
-                "context_data": serialize_context_data(result.context_records),
-            })
+            rows.append(
+                {
+                    "query_id": query_id,
+                    "query": query,
+                    "method": method,
+                    "include_entity_names": resolved.include_entity_names,
+                    "exclude_entity_names": resolved.exclude_entity_names,
+                    "unknown_entity_names": resolved.unknown_entity_names,
+                    "fallback_to_baseline": not (
+                        resolved.include_entity_names or resolved.exclude_entity_names
+                    ),
+                    "context_text": str(result.context_chunks),
+                    "context_data": serialize_context_data(result.context_records),
+                }
+            )
     return rows
 
 
@@ -192,7 +198,8 @@ def run_from_config(config: QueryLayerContextConfig) -> list[dict[str, Any]]:
         rows=rows,
         method="full_query_guard",
     )
-    _write_context_report(config, rows)
+    if config.emit_markdown_report:
+        _write_context_report(config, rows)
     return rows
 
 
@@ -293,7 +300,9 @@ def _load_official_context_builder(
     )
 
 
-def _write_context_report(config: QueryLayerContextConfig, rows: list[dict[str, Any]]) -> None:
+def _write_context_report(
+    config: QueryLayerContextConfig, rows: list[dict[str, Any]]
+) -> None:
     table = [
         "| method | rows | avg include | avg exclude | fallback |",
         "| --- | ---: | ---: | ---: | ---: |",
@@ -301,33 +310,43 @@ def _write_context_report(config: QueryLayerContextConfig, rows: list[dict[str, 
     for method in config.methods:
         method_rows = [row for row in rows if row["method"] == method]
         count = len(method_rows)
-        avg_include = sum(len(row["include_entity_names"]) for row in method_rows) / count if count else 0.0
-        avg_exclude = sum(len(row["exclude_entity_names"]) for row in method_rows) / count if count else 0.0
+        avg_include = (
+            sum(len(row["include_entity_names"]) for row in method_rows) / count
+            if count
+            else 0.0
+        )
+        avg_exclude = (
+            sum(len(row["exclude_entity_names"]) for row in method_rows) / count
+            if count
+            else 0.0
+        )
         fallback = sum(bool(row["fallback_to_baseline"]) for row in method_rows)
         table.append(
             f"| {method} | {count} | {avg_include:.2f} | {avg_exclude:.2f} | {fallback} |"
         )
-    content = "\n".join([
-        "# Microsoft GraphRAG Stage20 Query-layer Context导出报告",
-        "",
-        "## 实验目的",
-        "",
-        "通过GraphRAG 3.1.0官方LocalSearchMixedContext接口注入或排除实体，不修改官方源码，也不调用回答模型。",
-        "",
-        "## 指标说明",
-        "",
-        "- avg include：每个query显式前置的实体数。",
-        "- avg exclude：每个query从embedding候选中排除的异常实体数。",
-        "- fallback：没有有效include/exclude并退化为baseline的query数。",
-        "",
-        "## 导出汇总",
-        "",
-        *table,
-        "",
-        f"- 输出：{config.output_path.as_posix()}",
-        f"- 总行数：{len(rows)}",
-        "",
-    ])
+    content = "\n".join(
+        [
+            "# Microsoft GraphRAG Stage20 Query-layer Context导出报告",
+            "",
+            "## 实验目的",
+            "",
+            "通过GraphRAG 3.1.0官方LocalSearchMixedContext接口注入或排除实体，不修改官方源码，也不调用回答模型。",
+            "",
+            "## 指标说明",
+            "",
+            "- avg include：每个query显式前置的实体数。",
+            "- avg exclude：每个query从embedding候选中排除的异常实体数。",
+            "- fallback：没有有效include/exclude并退化为baseline的query数。",
+            "",
+            "## 导出汇总",
+            "",
+            *table,
+            "",
+            f"- 输出：{config.output_path.as_posix()}",
+            f"- 总行数：{len(rows)}",
+            "",
+        ]
+    )
     config.report_path.parent.mkdir(parents=True, exist_ok=True)
     config.report_path.write_text(content, encoding="utf-8")
 
@@ -356,8 +375,14 @@ def _deduplicate(values: Any) -> list[str]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Export Stage20 official query-layer contexts.")
-    parser.add_argument("--config", type=Path, default=Path("configs/ms_graphrag_query_layer_stage20.yaml"))
+    parser = argparse.ArgumentParser(
+        description="Export Stage20 official query-layer contexts."
+    )
+    parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/ms_graphrag_query_layer_stage20.yaml"),
+    )
     args = parser.parse_args()
     rows = run_from_config(QueryLayerContextConfig.from_yaml(args.config))
     print(f"stage20_context_rows={len(rows)}")

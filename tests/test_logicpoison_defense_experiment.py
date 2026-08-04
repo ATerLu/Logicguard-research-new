@@ -13,7 +13,9 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = PROJECT_ROOT / "configs" / "logicpoison_defense_stage3.yaml"
 
 
-def _trace(query_id: str, gold_doc_ids: list[str], doc_ids: list[str]) -> RetrievalTrace:
+def _trace(
+    query_id: str, gold_doc_ids: list[str], doc_ids: list[str]
+) -> RetrievalTrace:
     return RetrievalTrace(
         query_id=query_id,
         query=f"Question {query_id}?",
@@ -37,17 +39,34 @@ def _trace(query_id: str, gold_doc_ids: list[str], doc_ids: list[str]) -> Retrie
 def test_logicpoison_defense_config_uses_stage2_retrieval_outputs() -> None:
     config = LogicPoisonDefenseConfig.from_yaml(CONFIG_PATH)
 
-    assert config.clean_data_root == PROJECT_ROOT / "data" / "logicpoison_official" / "clean"
-    assert config.poisoned_data_root == PROJECT_ROOT / "data" / "logicpoison_official" / "poisoned"
-    assert config.retrieval_root == PROJECT_ROOT / "outputs" / "retrieval" / "logicpoison_official"
-    assert config.output_root == PROJECT_ROOT / "outputs" / "defense" / "logicpoison_official"
-    assert config.report_path == PROJECT_ROOT / "outputs" / "reports" / "LogicPoison防御消融实验报告.md"
+    assert (
+        config.clean_data_root
+        == PROJECT_ROOT / "data" / "logicpoison_official" / "clean"
+    )
+    assert (
+        config.poisoned_data_root
+        == PROJECT_ROOT / "data" / "logicpoison_official" / "poisoned"
+    )
+    assert (
+        config.retrieval_root
+        == PROJECT_ROOT / "outputs" / "retrieval" / "logicpoison_official"
+    )
+    assert (
+        config.output_root
+        == PROJECT_ROOT / "outputs" / "defense" / "logicpoison_official"
+    )
+    assert (
+        config.report_path
+        == PROJECT_ROOT / "outputs" / "reports" / "LogicPoison防御消融实验报告.md"
+    )
     assert config.datasets == ["2wikimultihopqa", "hotpotqa", "musique"]
     assert config.retrievers == ["naive_bm25", "graph_surrogate"]
     assert config.top_k == 10
 
 
-def test_content_integrity_filters_changed_doc_and_recovery_backfills_clean_reference() -> None:
+def test_content_integrity_filters_changed_doc_and_recovery_backfills_clean_reference() -> (
+    None
+):
     poisoned = _trace("q1", ["g1"], ["g1", "d1"])
     clean_reference = _trace("q1", ["g1"], ["g1", "d2"])
     changed_doc_ids = {"g1"}
@@ -132,6 +151,8 @@ def test_run_from_config_writes_small_defense_artifacts(tmp_path: Path) -> None:
     assert len(rows) == 3
     assert (dataset_output / "naive_bm25_none_traces.jsonl").is_file()
     assert (dataset_output / "naive_bm25_content_integrity_only_traces.jsonl").is_file()
-    assert (dataset_output / "naive_bm25_full_logicguard_recovery_traces.jsonl").is_file()
+    assert (
+        dataset_output / "naive_bm25_full_logicguard_recovery_traces.jsonl"
+    ).is_file()
     assert (dataset_output / "defense_metrics.jsonl").is_file()
     assert config.report_path.is_file()

@@ -1,16 +1,31 @@
 # LogicGuard 新会话交接文档
 
-最后更新：2026-07-16  
-项目目录：`F:\LogicGuard_project\logicguard`  
+最后更新：2026-08-04
+项目目录：`F:\LogicGuard_project\logicguard`
 当前状态：**Stage47 已完整完成；Stage48 尚未开始。当前没有后台实验进程。**
+
+### 2026-08-04 项目规范化状态
+
+- 规范化前快照已推送到 `ATerLu/Logicguard-research`，提交为 `fba67e8`。
+- 16 个活动阶段模块已迁入 `attack`、`defense`、`evaluation`；旧模块为兼容入口。
+- 44 个配置加载器支持任意层级配置和旧路径别名。
+- Stage47 的 11 个配置已归入 `configs/experiments/stage47/`。
+- 97 个旧报告已建立 SHA-256 清单并归档，主文档收束为三份。
+- 实验注册表已从 Stage21 补齐到 Stage47（29 个里程碑条目）。
+- 清理了 26 个 GraphRAG 可再生 cache 目录，释放 `157,085,111` bytes。
+- 离线 Stage47 分析复算为 24 条汇总、18 条配对，生成报告哈希与归档原件一致。
+- 当前质量门：`222 passed`，`ruff check` 与 `ruff format --check` 通过。
+
+规范化后的目录与命令以 `README.md` 和三份主文档为准；本文后续的旧阶段
+路径若与其冲突，优先使用新的职责路径和配置别名。
 
 这份文档面向一个完全没有旧对话上下文的新会话。请先完整阅读本文，再结合以下文档继续：
 
 1. `README.md`
-2. `docs/项目总览与路线图.md`
-3. `outputs/reports/实验结果总报告.md`
-4. `outputs/reports/Stage47_三类自适应攻击初步实验_中文报告.md`
-5. `docs/新窗口交接文档_2026-07-01.md`（仅用于了解 Stage23 之前的历史；以本文的 Stage47 状态为准）
+2. `docs/methodology.md`
+3. `docs/results.md`
+4. `docs/reproducibility.md`
+5. `docs/legacy_document_manifest.csv`（只在追溯旧交接与冻结文档时使用）
 
 ---
 
@@ -157,8 +172,8 @@ Stage47 没有重新构建攻击后的 official GraphRAG index，因此不能证
 
 核心实现：
 
-- `src/logicguard/ms_graphrag/stage47_adaptive_attack.py`
-- `src/logicguard/ms_graphrag/stage47_adaptive_attack_analysis.py`
+- `src/logicguard/attack/adaptive.py`
+- `src/logicguard/evaluation/adaptive_attack_analysis.py`
 
 测试：
 
@@ -167,17 +182,11 @@ Stage47 没有重新构建攻击后的 official GraphRAG index，因此不能证
 
 配置：
 
-- `configs/ms_graphrag_stage47_musique_clean_context.yaml`
-- `configs/ms_graphrag_stage47_hotpotqa_clean_context.yaml`
-- `configs/ms_graphrag_stage47_musique_adaptive_attack.yaml`
-- `configs/ms_graphrag_stage47_hotpotqa_adaptive_attack.yaml`
-- `configs/ms_graphrag_stage47_musique_answer_llm.yaml`
-- `configs/ms_graphrag_stage47_hotpotqa_answer_llm.yaml`
-- `configs/ms_graphrag_stage47_musique_answer_audit.yaml`
-- `configs/ms_graphrag_stage47_hotpotqa_answer_audit.yaml`
-- `configs/ms_graphrag_stage47_musique_answer_judge.yaml`
-- `configs/ms_graphrag_stage47_hotpotqa_answer_judge.yaml`
-- `configs/ms_graphrag_stage47_adaptive_attack_analysis.yaml`
+- `configs/experiments/stage47/musique/{context,attack,answers,audit,judge}.yaml`
+- `configs/experiments/stage47/hotpotqa/{context,attack,answers,audit,judge}.yaml`
+- `configs/experiments/stage47/analysis.yaml`
+
+旧的扁平配置路径由 `configs/config_aliases.yaml` 兼容解析。
 
 Stage47 还生成了 `valid_defense_context_matrix`，回答模型只运行满足生成约束的攻击，避免把无效攻击浪费为 LLM 调用。完整矩阵仍保留用于生成有效率与失败原因分析。
 
@@ -321,8 +330,9 @@ LogicGuard 当前：
 
 当前没有程序报错或无法运行的硬阻塞。Stage47 已完成，最后验证为：
 
-- `211 passed`
-- `ruff check src tests`：All checks passed
+- `222 passed`
+- `ruff check src tests scripts`：All checks passed
+- `ruff format --check src tests scripts`：160 files already formatted
 
 当前卡点是研究边界与下一阶段设计，而不是代码未完成：
 
@@ -572,21 +582,22 @@ API 环境变量（只检查是否存在，绝对不要打印值）：
 ```powershell
 cd F:\LogicGuard_project\logicguard
 .\.venv\Scripts\pytest.exe -q
-.\.venv\Scripts\ruff.exe check src tests
+.\.venv\Scripts\ruff.exe check src tests scripts
+.\.venv\Scripts\ruff.exe format --check src tests scripts
 ```
 
 当前通过结果：
 
 ```text
-211 passed
+222 passed
 All checks passed!
 ```
 
 不调用 API、只重新生成 Stage47 跨数据集分析与中文报告：
 
 ```powershell
-.\.venv\Scripts\python.exe -m logicguard.ms_graphrag.stage47_adaptive_attack_analysis `
-  --config configs\ms_graphrag_stage47_adaptive_attack_analysis.yaml
+.\.venv\Scripts\python.exe -m logicguard.evaluation.adaptive_attack_analysis `
+  --config configs\experiments\stage47\analysis.yaml
 ```
 
 除非用户明确要求复现实验，否则不要重跑以下昂贵步骤：

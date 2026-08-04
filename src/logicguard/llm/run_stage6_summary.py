@@ -9,6 +9,8 @@ from pathlib import Path
 
 import yaml
 
+from logicguard.core.config import find_project_root, resolve_config_path
+
 
 LABELS = ("correct", "partial", "incorrect", "abstained", "judge_error")
 CONTEXT_ORDER = {"clean": 0, "poisoned": 1, "guarded": 2, "recovered": 3}
@@ -39,7 +41,8 @@ class Stage6SummaryConfig:
     def from_yaml(cls, path: Path) -> "Stage6SummaryConfig":
         """Load project-relative YAML configuration."""
 
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         with path.open("r", encoding="utf-8") as handle:
             payload = yaml.safe_load(handle)
 
@@ -60,7 +63,9 @@ class Stage6SummaryConfig:
             datasets=datasets,
             combined_jsonl_path=resolve_project_path(payload["combined_jsonl_path"]),
             report_path=resolve_project_path(payload["report_path"]),
-            report_title=str(payload.get("report_title", "LogicPoison 阶段6多数据集回答层综合报告")),
+            report_title=str(
+                payload.get("report_title", "LogicPoison 阶段6多数据集回答层综合报告")
+            ),
             experiment_description=str(
                 payload.get(
                     "experiment_description",
@@ -80,7 +85,9 @@ class Stage6Summary:
     overall_by_context: dict[str, dict[str, int]]
 
 
-def write_stage6_summary_outputs(config: Stage6SummaryConfig) -> list[dict[str, object]]:
+def write_stage6_summary_outputs(
+    config: Stage6SummaryConfig,
+) -> list[dict[str, object]]:
     """Load all judged rows, write combined JSONL, and write the report."""
 
     rows = _load_stage6_rows(config.datasets)
@@ -113,7 +120,9 @@ def summarize_stage6_rows(rows: list[dict[str, object]]) -> Stage6Summary:
     )
 
 
-def write_stage6_report(config: Stage6SummaryConfig, rows: list[dict[str, object]]) -> None:
+def write_stage6_report(
+    config: Stage6SummaryConfig, rows: list[dict[str, object]]
+) -> None:
     """Write a Chinese Markdown report for stage-6 multidataset results."""
 
     config.report_path.parent.mkdir(parents=True, exist_ok=True)
@@ -144,7 +153,11 @@ def write_stage6_report(config: Stage6SummaryConfig, rows: list[dict[str, object
             (f"{dataset} / {model} / {context}", metrics)
             for (dataset, model, context), metrics in sorted(
                 summary.by_dataset_model_context.items(),
-                key=lambda item: (item[0][0], item[0][1], CONTEXT_ORDER.get(item[0][2], 99)),
+                key=lambda item: (
+                    item[0][0],
+                    item[0][1],
+                    CONTEXT_ORDER.get(item[0][2], 99),
+                ),
             )
         ],
     )
@@ -187,7 +200,9 @@ def write_stage6_report(config: Stage6SummaryConfig, rows: list[dict[str, object
     config.report_path.write_text(content, encoding="utf-8")
 
 
-def _load_stage6_rows(dataset_configs: list[Stage6DatasetConfig]) -> list[dict[str, object]]:
+def _load_stage6_rows(
+    dataset_configs: list[Stage6DatasetConfig],
+) -> list[dict[str, object]]:
     rows: list[dict[str, object]] = []
     for dataset_config in dataset_configs:
         for row in _load_jsonl(dataset_config.judged_results_path):
@@ -197,7 +212,9 @@ def _load_stage6_rows(dataset_configs: list[Stage6DatasetConfig]) -> list[dict[s
     return rows
 
 
-def _metrics_table(header_label: str, rows: list[tuple[str, dict[str, int]]]) -> list[str]:
+def _metrics_table(
+    header_label: str, rows: list[tuple[str, dict[str, int]]]
+) -> list[str]:
     table = [
         f"| {header_label} | 调用数 | 正确率 | 部分正确率 | Utility | UNKNOWN率 | 错误非拒答率 | judge错误率 |",
         "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
@@ -232,7 +249,9 @@ def _comparison_lines(overall_by_context: dict[str, dict[str, int]]) -> list[str
     guarded = overall_by_context.get("guarded")
     recovered = overall_by_context.get("recovered")
     if not clean or not poisoned or not guarded or not recovered:
-        return ["- 缺少 clean/poisoned/guarded/recovered 中的某些上下文，暂不能形成完整比较。"]
+        return [
+            "- 缺少 clean/poisoned/guarded/recovered 中的某些上下文，暂不能形成完整比较。"
+        ]
 
     poisoned_asr = _rate_for(poisoned, "incorrect")
     recovered_asr = _rate_for(recovered, "incorrect")
@@ -248,10 +267,19 @@ def _comparison_lines(overall_by_context: dict[str, dict[str, int]]) -> list[str
     ]
 
 
-def _add_label(container: dict[object, dict[str, int]], key: object, row: dict[str, object]) -> None:
+def _add_label(
+    container: dict[object, dict[str, int]], key: object, row: dict[str, object]
+) -> None:
     metrics = container.setdefault(
         key,
-        {"calls": 0, "correct": 0, "partial": 0, "incorrect": 0, "abstained": 0, "judge_error": 0},
+        {
+            "calls": 0,
+            "correct": 0,
+            "partial": 0,
+            "incorrect": 0,
+            "abstained": 0,
+            "judge_error": 0,
+        },
     )
     label = str(row.get("judge_label", "judge_error"))
     if label not in LABELS:
@@ -288,7 +316,9 @@ def _utility_rate(metrics: dict[str, int]) -> float:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Aggregate stage-6 multidataset answer judge results.")
+    parser = argparse.ArgumentParser(
+        description="Aggregate stage-6 multidataset answer judge results."
+    )
     parser.add_argument(
         "--config",
         type=Path,

@@ -1,0 +1,24 @@
+dataset: hotpotqa
+llm_results_path: outputs/ms_graphrag_query/stage47_hotpotqa_answer_llm_results.jsonl
+answer_cases_path: outputs/ms_graphrag_query/stage47_hotpotqa_answer_llm_cases.jsonl
+audited_results_output_path: outputs/ms_graphrag_query/stage47_hotpotqa_answer_audit_results.jsonl
+summary_output_path: outputs/ms_graphrag_query/stage47_hotpotqa_answer_audit_summary.csv
+breakdown_output_path: outputs/ms_graphrag_query/stage47_hotpotqa_answer_audit_breakdown.csv
+examples_output_path: outputs/ms_graphrag_query/stage47_hotpotqa_answer_audit_examples.jsonl
+report_path: outputs/reports/Stage47_HotpotQA_自适应攻击回答审计.md
+emit_markdown_report: false
+methods:
+  - stage47_low_drift__unprotected
+  - stage47_low_drift__stage43_recovery
+  - stage47_low_drift__stage44_top12
+  - stage47_low_drift__stage45_top14
+  - stage47_candidate_collision__unprotected
+  - stage47_candidate_collision__stage43_recovery
+  - stage47_candidate_collision__stage44_top12
+  - stage47_candidate_collision__stage45_top14
+  - stage47_natural_bridge__unprotected
+  - stage47_natural_bridge__stage43_recovery
+  - stage47_natural_bridge__stage44_top12
+  - stage47_natural_bridge__stage45_top14
+max_examples: 24
+stage_label: Stage47-HotpotQA

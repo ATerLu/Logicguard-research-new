@@ -9,7 +9,9 @@ from logicguard.ms_graphrag.query_time_defense import (
 )
 
 
-def test_load_text_unit_evidence_maps_official_document_ids_to_logicguard_doc_ids(tmp_path: Path) -> None:
+def test_load_text_unit_evidence_maps_official_document_ids_to_logicguard_doc_ids(
+    tmp_path: Path,
+) -> None:
     output_dir = tmp_path / "output"
     output_dir.mkdir()
     pd.DataFrame(
@@ -49,7 +51,9 @@ def test_load_text_unit_evidence_maps_official_document_ids_to_logicguard_doc_id
     assert evidence[0].title == "Zabou Breitman"
 
 
-def test_build_query_time_variants_filters_changed_and_recovers_clean_evidence() -> None:
+def test_build_query_time_variants_filters_changed_and_recovers_clean_evidence() -> (
+    None
+):
     poisoned_units = [
         GraphRagTextUnitEvidence(
             text_unit_id="p1",
@@ -103,11 +107,17 @@ def test_build_query_time_variants_filters_changed_and_recovers_clean_evidence()
 
     by_name = {variant.name: variant for variant in variants}
 
-    assert [item.logicguard_doc_id for item in by_name["poisoned"].evidence] == ["4670", "4669"]
+    assert [item.logicguard_doc_id for item in by_name["poisoned"].evidence] == [
+        "4670",
+        "4669",
+    ]
     assert by_name["poisoned"].changed_doc_count == 1
     assert [item.logicguard_doc_id for item in by_name["guarded"].evidence] == ["4670"]
     assert by_name["guarded"].changed_doc_count == 0
-    assert [item.logicguard_doc_id for item in by_name["recovered"].evidence] == ["4670", "4669"]
+    assert [item.logicguard_doc_id for item in by_name["recovered"].evidence] == [
+        "4670",
+        "4669",
+    ]
     assert by_name["recovered"].changed_doc_count == 0
     assert by_name["recovered"].recovered_doc_count == 1
     assert "Jean-Claude Deret" in by_name["recovered"].context_text

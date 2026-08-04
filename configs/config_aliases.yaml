@@ -1,0 +1,13 @@
+# Historical config paths retained for reproducible commands and old reports.
+aliases:
+  configs/ms_graphrag_stage47_hotpotqa_clean_context.yaml: configs/experiments/stage47/hotpotqa/context.yaml
+  configs/ms_graphrag_stage47_hotpotqa_adaptive_attack.yaml: configs/experiments/stage47/hotpotqa/attack.yaml
+  configs/ms_graphrag_stage47_hotpotqa_answer_llm.yaml: configs/experiments/stage47/hotpotqa/answers.yaml
+  configs/ms_graphrag_stage47_hotpotqa_answer_audit.yaml: configs/experiments/stage47/hotpotqa/audit.yaml
+  configs/ms_graphrag_stage47_hotpotqa_answer_judge.yaml: configs/experiments/stage47/hotpotqa/judge.yaml
+  configs/ms_graphrag_stage47_musique_clean_context.yaml: configs/experiments/stage47/musique/context.yaml
+  configs/ms_graphrag_stage47_musique_adaptive_attack.yaml: configs/experiments/stage47/musique/attack.yaml
+  configs/ms_graphrag_stage47_musique_answer_llm.yaml: configs/experiments/stage47/musique/answers.yaml
+  configs/ms_graphrag_stage47_musique_answer_audit.yaml: configs/experiments/stage47/musique/audit.yaml
+  configs/ms_graphrag_stage47_musique_answer_judge.yaml: configs/experiments/stage47/musique/judge.yaml
+  configs/ms_graphrag_stage47_adaptive_attack_analysis.yaml: configs/experiments/stage47/analysis.yaml

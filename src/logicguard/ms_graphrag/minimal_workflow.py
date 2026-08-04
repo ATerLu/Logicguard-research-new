@@ -59,7 +59,9 @@ class MsGraphRagMinimalConfig:
     embedding_batch_size: int = 10
 
 
-def prepare_ms_graphrag_minimal_workspace(config: MsGraphRagMinimalConfig) -> dict[str, object]:
+def prepare_ms_graphrag_minimal_workspace(
+    config: MsGraphRagMinimalConfig,
+) -> dict[str, object]:
     """Prepare input files, prompts, settings, and manifest for minimal indexing."""
 
     manifest = prepare_ms_graphrag_workspace(
@@ -101,7 +103,9 @@ def prepare_ms_graphrag_minimal_workspace(config: MsGraphRagMinimalConfig) -> di
     return manifest
 
 
-def prepare_ms_graphrag_query_ready_workspace(config: MsGraphRagMinimalConfig) -> dict[str, object]:
+def prepare_ms_graphrag_query_ready_workspace(
+    config: MsGraphRagMinimalConfig,
+) -> dict[str, object]:
     """Prepare a Microsoft GraphRAG workspace that can run official local/global query.
 
     The previous minimal workflow intentionally skipped community report generation.
@@ -175,7 +179,12 @@ def build_minimal_settings(config: MsGraphRagMinimalConfig) -> dict[str, object]
             }
         },
         "input": {"type": "text"},
-        "chunking": {"type": "tokens", "size": 1200, "overlap": 100, "encoding_model": "o200k_base"},
+        "chunking": {
+            "type": "tokens",
+            "size": 1200,
+            "overlap": 100,
+            "encoding_model": "o200k_base",
+        },
         "input_storage": {"type": "file", "base_dir": "input"},
         "output_storage": {"type": "file", "base_dir": "output"},
         "reporting": {"type": "file", "base_dir": "logs"},
@@ -262,13 +271,19 @@ def _clear_runtime_dirs(workspace_root: Path) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Prepare a Microsoft GraphRAG minimal workspace.")
+    parser = argparse.ArgumentParser(
+        description="Prepare a Microsoft GraphRAG minimal workspace."
+    )
     parser.add_argument("--dataset", required=True)
     parser.add_argument("--sample-path", type=Path, required=True)
     parser.add_argument("--corpus-path", type=Path, required=True)
     parser.add_argument("--workspace-root", type=Path, required=True)
-    parser.add_argument("--template-root", type=Path, default=Path("outputs/ms_graphrag/template"))
-    parser.add_argument("--doc-scope", choices=["all", "sample_support"], default="sample_support")
+    parser.add_argument(
+        "--template-root", type=Path, default=Path("outputs/ms_graphrag/template")
+    )
+    parser.add_argument(
+        "--doc-scope", choices=["all", "sample_support"], default="sample_support"
+    )
     parser.add_argument("--max-docs", type=int, default=None)
     parser.add_argument(
         "--missing-support-policy",

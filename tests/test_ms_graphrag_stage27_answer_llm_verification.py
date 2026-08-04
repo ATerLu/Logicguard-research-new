@@ -4,7 +4,7 @@ from pathlib import Path
 
 from logicguard.data.schemas import CorpusDocument, NormalizedSample
 from logicguard.llm.provider import ChatResponse
-from logicguard.ms_graphrag.answer_level_llm_verification import (
+from logicguard.evaluation.answer_generation import (
     Stage27AnswerLLMConfig,
     Stage27RenderingPolicy,
     build_stage27_answer_cases,
@@ -31,8 +31,16 @@ def test_build_stage27_answer_cases_renders_official_source_contexts() -> None:
     context_rows = [
         _context("q1", "full_query_guard", [_source("d2", "Mallory poisoned body.")]),
         _context("q1", "guarded_sources", []),
-        _context("q1", "recovered_sources_by_doc_id", [_source("d2", "Ada River clean recovered.", recovered=True)]),
-        _context("q1", "non_oracle_title_entity_bm25", [_source("d1", "Trusted context with Ada River.")]),
+        _context(
+            "q1",
+            "recovered_sources_by_doc_id",
+            [_source("d2", "Ada River clean recovered.", recovered=True)],
+        ),
+        _context(
+            "q1",
+            "non_oracle_title_entity_bm25",
+            [_source("d1", "Trusted context with Ada River.")],
+        ),
     ]
 
     cases = build_stage27_answer_cases(
@@ -58,7 +66,10 @@ def test_build_stage27_answer_cases_renders_official_source_contexts() -> None:
     ]
     assert cases[0].context_doc_ids == ["d2"]
     assert cases[0].unrecovered_changed_doc_ids == ["d2"]
-    assert "[G1] doc_id=d2; source_state=official_poisoned_context" in cases[0].rendered_context
+    assert (
+        "[G1] doc_id=d2; source_state=official_poisoned_context"
+        in cases[0].rendered_context
+    )
     assert cases[1].rendered_context == ""
     assert cases[2].recovered_support_doc_ids == ["d2"]
     assert "source_state=clean_reference" in cases[2].rendered_context
@@ -82,7 +93,12 @@ def test_build_stage27_answer_cases_applies_title_overlap_rendering_policy() -> 
             "risk_non_oracle_title_entity_bm25",
             [
                 _source("d1", "Nothing useful here.", title="Unrelated document"),
-                _source("d2", "Ada was born in Silver Delta.", title="Ada Lovelace", recovered=True),
+                _source(
+                    "d2",
+                    "Ada was born in Silver Delta.",
+                    title="Ada Lovelace",
+                    recovered=True,
+                ),
             ],
         )
     ]
@@ -146,7 +162,9 @@ def test_stage27_rendering_policy_carries_prompt_policy_to_model_call() -> None:
     config = _config(Path("."), models=["toy-model"])
     fake_client = FakeClient()
 
-    results = run_stage27_answer_generation(config=config, cases=cases, client=fake_client)
+    results = run_stage27_answer_generation(
+        config=config, cases=cases, client=fake_client
+    )
 
     assert cases[0].prompt_policy == "evidence_compare"
     assert results[0].prompt_policy == "evidence_compare"
@@ -157,16 +175,28 @@ def test_stage27_rendering_policy_carries_prompt_policy_to_model_call() -> None:
 
 def test_run_stage27_answer_generation_with_fake_client_labels_outcomes() -> None:
     samples = [
-        NormalizedSample("q1", "Who wrote Target Film?", "Ada River", ["d2"], [CorpusDocument("d2", "D2", "Ada")])
+        NormalizedSample(
+            "q1",
+            "Who wrote Target Film?",
+            "Ada River",
+            ["d2"],
+            [CorpusDocument("d2", "D2", "Ada")],
+        )
     ]
     integrity_rows = [{"query_id": "q1", "changed_support_doc_ids": ["d2"]}]
     cases = build_stage27_answer_cases(
         samples=samples,
         integrity_rows=integrity_rows,
         context_rows=[
-            _context("q1", "full_query_guard", [_source("d2", "Mallory poisoned body.")]),
+            _context(
+                "q1", "full_query_guard", [_source("d2", "Mallory poisoned body.")]
+            ),
             _context("q1", "guarded_sources", []),
-            _context("q1", "recovered_sources_by_doc_id", [_source("d2", "Ada River clean recovered.", recovered=True)]),
+            _context(
+                "q1",
+                "recovered_sources_by_doc_id",
+                [_source("d2", "Ada River clean recovered.", recovered=True)],
+            ),
         ],
         dataset="toy",
         methods=["full_query_guard", "guarded_sources", "recovered_sources_by_doc_id"],
@@ -176,7 +206,9 @@ def test_run_stage27_answer_generation_with_fake_client_labels_outcomes() -> Non
     config = _config(Path("."), models=["toy-model"])
     fake_client = FakeClient()
 
-    results = run_stage27_answer_generation(config=config, cases=cases, client=fake_client)
+    results = run_stage27_answer_generation(
+        config=config, cases=cases, client=fake_client
+    )
     by_method = {result.method: result for result in results}
 
     assert len(fake_client.calls) == 3
@@ -189,14 +221,26 @@ def test_run_stage27_answer_generation_with_fake_client_labels_outcomes() -> Non
 
 def test_summarize_and_write_stage27_outputs(tmp_path: Path) -> None:
     samples = [
-        NormalizedSample("q1", "Who wrote Target Film?", "Ada River", ["d2"], [CorpusDocument("d2", "D2", "Ada")])
+        NormalizedSample(
+            "q1",
+            "Who wrote Target Film?",
+            "Ada River",
+            ["d2"],
+            [CorpusDocument("d2", "D2", "Ada")],
+        )
     ]
     cases = build_stage27_answer_cases(
         samples=samples,
         integrity_rows=[{"query_id": "q1", "changed_support_doc_ids": ["d2"]}],
         context_rows=[
-            _context("q1", "full_query_guard", [_source("d2", "Mallory poisoned body.")]),
-            _context("q1", "recovered_sources_by_doc_id", [_source("d2", "Ada River clean recovered.", recovered=True)]),
+            _context(
+                "q1", "full_query_guard", [_source("d2", "Mallory poisoned body.")]
+            ),
+            _context(
+                "q1",
+                "recovered_sources_by_doc_id",
+                [_source("d2", "Ada River clean recovered.", recovered=True)],
+            ),
         ],
         dataset="toy",
         methods=["full_query_guard", "recovered_sources_by_doc_id"],
@@ -204,7 +248,9 @@ def test_summarize_and_write_stage27_outputs(tmp_path: Path) -> None:
         max_chars_per_source=80,
     )
     config = _config(tmp_path, models=["toy-model"])
-    results = run_stage27_answer_generation(config=config, cases=cases, client=FakeClient())
+    results = run_stage27_answer_generation(
+        config=config, cases=cases, client=FakeClient()
+    )
     summary = summarize_stage27_results(results)
 
     assert {row.method: row.correct_rate for row in summary} == {
@@ -214,9 +260,13 @@ def test_summarize_and_write_stage27_outputs(tmp_path: Path) -> None:
 
     write_stage27_outputs(config=config, cases=cases, results=results)
 
-    saved_case = json.loads(config.cases_output_path.read_text(encoding="utf-8").splitlines()[0])
+    saved_case = json.loads(
+        config.cases_output_path.read_text(encoding="utf-8").splitlines()[0]
+    )
     assert saved_case["method"] == "full_query_guard"
-    with config.summary_output_path.open("r", encoding="utf-8-sig", newline="") as handle:
+    with config.summary_output_path.open(
+        "r", encoding="utf-8-sig", newline=""
+    ) as handle:
         saved_summary = list(csv.DictReader(handle))
     assert saved_summary[0]["model"] == "toy-model"
     assert config.report_path.read_text(encoding="utf-8").startswith(
@@ -309,7 +359,9 @@ def _source(
     }
 
 
-def _context(query_id: str, method: str, sources: list[dict[str, object]]) -> dict[str, object]:
+def _context(
+    query_id: str, method: str, sources: list[dict[str, object]]
+) -> dict[str, object]:
     return {
         "query_id": query_id,
         "query": "Who wrote Target Film?",

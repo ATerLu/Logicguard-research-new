@@ -30,10 +30,18 @@ def test_answer_judge_run_config_resolves_paths() -> None:
         / "stage5_pilot_10"
         / "answer_judged_results.jsonl"
     )
-    assert config.report_path == PROJECT_ROOT / "outputs" / "reports" / "LogicPoison回答层Judge扩大实验报告.md"
+    assert (
+        config.report_path
+        == PROJECT_ROOT
+        / "outputs"
+        / "reports"
+        / "LogicPoison回答层Judge扩大实验报告.md"
+    )
 
 
-def test_write_judged_outputs_writes_jsonl_csv_and_chinese_report(tmp_path: Path) -> None:
+def test_write_judged_outputs_writes_jsonl_csv_and_chinese_report(
+    tmp_path: Path,
+) -> None:
     config = AnswerJudgeRunConfig(
         api_key_env="KEY",
         base_url_env="BASE",
@@ -77,7 +85,10 @@ def test_write_judged_outputs_writes_jsonl_csv_and_chinese_report(tmp_path: Path
 
     _write_judged_outputs(config, rows)
 
-    written_rows = [json.loads(line) for line in config.output_results_path.read_text(encoding="utf-8").splitlines()]
+    written_rows = [
+        json.loads(line)
+        for line in config.output_results_path.read_text(encoding="utf-8").splitlines()
+    ]
     report = config.report_path.read_text(encoding="utf-8")
 
     assert written_rows == rows

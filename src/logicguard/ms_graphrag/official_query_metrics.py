@@ -56,7 +56,9 @@ def load_jsonl_records(path: Path) -> list[dict[str, Any]]:
     return records
 
 
-def summarize_defense_results(rows: list[dict[str, Any]]) -> list[OfficialQueryMetricRow]:
+def summarize_defense_results(
+    rows: list[dict[str, Any]],
+) -> list[OfficialQueryMetricRow]:
     """Summarize answer rows by `(model, variant)`."""
 
     grouped: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
@@ -149,7 +151,9 @@ def write_metric_artifacts(
             "## 产物路径",
             "",
             f"- source results：`{_display_path(source_results_path)}`",
-            f"- source context：`{_display_path(source_context_path)}`" if source_context_path else "- source context：未提供",
+            f"- source context：`{_display_path(source_context_path)}`"
+            if source_context_path
+            else "- source context：未提供",
             f"- CSV：`{_display_path(csv_path)}`",
             f"- report：`{_display_path(report_path)}`",
             "",
@@ -174,7 +178,9 @@ def _display_path(path: Path) -> str:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Aggregate official GraphRAG LogicGuard query metrics.")
+    parser = argparse.ArgumentParser(
+        description="Aggregate official GraphRAG LogicGuard query metrics."
+    )
     parser.add_argument("--results", type=Path, required=True)
     parser.add_argument("--contexts", type=Path, default=None)
     parser.add_argument("--csv", type=Path, required=True)

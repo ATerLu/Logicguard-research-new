@@ -21,6 +21,8 @@ from typing import Literal
 
 import yaml
 
+from logicguard.core.config import find_project_root, resolve_config_path
+
 from logicguard.data.logicpoison_official import (
     LogicPoisonOfficialConfig,
     build_corpus_diff_records,
@@ -55,7 +57,8 @@ class LogicPoisonRetrievalConfig:
     def from_yaml(cls, path: Path) -> "LogicPoisonRetrievalConfig":
         """Load YAML configuration with paths relative to the project root."""
 
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         with path.open("r", encoding="utf-8") as handle:
             payload = yaml.safe_load(handle)
 
@@ -71,7 +74,9 @@ class LogicPoisonRetrievalConfig:
             output_root=resolve_project_path(payload["output_root"]),
             report_path=resolve_project_path(payload["report_path"]),
             datasets=list(payload["datasets"]),
-            retrievers=list(payload.get("retrievers", ["naive_bm25", "graph_surrogate"])),
+            retrievers=list(
+                payload.get("retrievers", ["naive_bm25", "graph_surrogate"])
+            ),
             top_k=int(payload.get("top_k", 10)),
             max_depth=int(payload.get("max_depth", 3)),
             sample_limit=(
@@ -212,17 +217,25 @@ def calculate_logicpoison_retrieval_metrics(
         changed_gold_doc_ids = changed_gold_doc_ids_by_query.get(trace.query_id, set())
         trusted_gold_doc_ids = gold_doc_ids.difference(changed_gold_doc_ids)
         changed_retrieved_doc_ids = retrieved_doc_id_set.intersection(changed_doc_ids)
-        changed_retrieved_gold_doc_ids = retrieved_doc_id_set.intersection(changed_gold_doc_ids)
+        changed_retrieved_gold_doc_ids = retrieved_doc_id_set.intersection(
+            changed_gold_doc_ids
+        )
         gold_overlap = retrieved_doc_id_set.intersection(gold_doc_ids)
         trusted_overlap = retrieved_doc_id_set.intersection(trusted_gold_doc_ids)
 
         hit_values.append(1.0 if gold_overlap else 0.0)
-        recall_values.append(len(gold_overlap) / len(gold_doc_ids) if gold_doc_ids else 0.0)
+        recall_values.append(
+            len(gold_overlap) / len(gold_doc_ids) if gold_doc_ids else 0.0
+        )
         if trusted_gold_doc_ids:
             queries_with_trusted_gold += 1
-            trusted_recall_values.append(len(trusted_overlap) / len(trusted_gold_doc_ids))
+            trusted_recall_values.append(
+                len(trusted_overlap) / len(trusted_gold_doc_ids)
+            )
         changed_doc_exposure_values.append(1.0 if changed_retrieved_doc_ids else 0.0)
-        changed_gold_exposure_values.append(1.0 if changed_retrieved_gold_doc_ids else 0.0)
+        changed_gold_exposure_values.append(
+            1.0 if changed_retrieved_gold_doc_ids else 0.0
+        )
         changed_doc_counts.append(float(len(changed_retrieved_doc_ids)))
         changed_gold_counts.append(float(len(changed_retrieved_gold_doc_ids)))
         candidate_counts.append(float(len(retrieved_doc_ids)))
@@ -328,8 +341,12 @@ def _run_naive_bm25_pair(
         ("clean", clean_corpus),
         ("poisoned", poisoned_corpus),
     ):
-        trace_path = config.output_root / dataset / f"naive_bm25_{corpus_state}_traces.jsonl"
-        report_path = config.output_root / dataset / "reports" / f"naive_bm25_{corpus_state}.md"
+        trace_path = (
+            config.output_root / dataset / f"naive_bm25_{corpus_state}_traces.jsonl"
+        )
+        report_path = (
+            config.output_root / dataset / "reports" / f"naive_bm25_{corpus_state}.md"
+        )
         run_naive_rag_baseline(
             dataset_name=dataset,
             samples=samples,
@@ -370,8 +387,10 @@ def _run_graph_surrogate_pair(
         trace_path = output_dir / f"graph_surrogate_{corpus_state}_traces.jsonl"
         outputs = BaselineOutputPaths(
             trace_path=trace_path,
-            corpus_entity_cache_path=output_dir / f"graph_surrogate_{corpus_state}_corpus_entities.jsonl",
-            query_entity_cache_path=output_dir / f"graph_surrogate_{corpus_state}_query_entities.jsonl",
+            corpus_entity_cache_path=output_dir
+            / f"graph_surrogate_{corpus_state}_corpus_entities.jsonl",
+            query_entity_cache_path=output_dir
+            / f"graph_surrogate_{corpus_state}_query_entities.jsonl",
             report_path=output_dir / "reports" / f"graph_surrogate_{corpus_state}.md",
         )
         run_graphrag_baseline(

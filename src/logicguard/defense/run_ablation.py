@@ -16,6 +16,8 @@ from pathlib import Path
 
 import yaml
 
+from logicguard.core.config import find_project_root, resolve_config_path
+
 from logicguard.defense.reranker import build_guarded_trace, rerank_trace
 from logicguard.defense.run_logicguard import (
     find_changed_doc_ids,
@@ -54,7 +56,8 @@ class AblationConfig:
     def from_yaml(cls, path: Path) -> "AblationConfig":
         """Load ablation config with project-relative paths."""
 
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         with path.open("r", encoding="utf-8") as handle:
             payload = yaml.safe_load(handle)
 
@@ -74,8 +77,12 @@ class AblationConfig:
             run_name=str(payload.get("run_name", "full_500")),
             raw_data_root=resolve_project_path(payload["raw_data_root"]),
             baseline_output_root=resolve_project_path(payload["baseline_output_root"]),
-            entity_swap_output_root=resolve_project_path(payload["entity_swap_output_root"]),
-            bridge_injection_output_root=resolve_project_path(payload["bridge_injection_output_root"]),
+            entity_swap_output_root=resolve_project_path(
+                payload["entity_swap_output_root"]
+            ),
+            bridge_injection_output_root=resolve_project_path(
+                payload["bridge_injection_output_root"]
+            ),
             output_root=resolve_project_path(payload["output_root"]),
             report_path=resolve_project_path(payload["report_path"]),
             modes=modes,
@@ -100,7 +107,11 @@ class AblationConfig:
         return self.entity_swap_output_root / dataset / "poisoned_corpus.jsonl"
 
     def entity_swap_trace_path(self, dataset: str) -> Path:
-        return self.entity_swap_output_root / dataset / f"poisoned_{self.run_name}_traces.jsonl"
+        return (
+            self.entity_swap_output_root
+            / dataset
+            / f"poisoned_{self.run_name}_traces.jsonl"
+        )
 
     def entity_swap_corpus_entity_path(self, dataset: str) -> Path:
         return self.entity_swap_output_root / dataset / "poisoned_corpus_entities.jsonl"
@@ -109,16 +120,30 @@ class AblationConfig:
         return self.entity_swap_output_root / dataset / "entity_swap_metadata.jsonl"
 
     def bridge_corpus_path(self, dataset: str) -> Path:
-        return self.bridge_injection_output_root / dataset / "bridge_poisoned_corpus.jsonl"
+        return (
+            self.bridge_injection_output_root / dataset / "bridge_poisoned_corpus.jsonl"
+        )
 
     def bridge_trace_path(self, dataset: str) -> Path:
-        return self.bridge_injection_output_root / dataset / f"bridge_poisoned_{self.run_name}_traces.jsonl"
+        return (
+            self.bridge_injection_output_root
+            / dataset
+            / f"bridge_poisoned_{self.run_name}_traces.jsonl"
+        )
 
     def bridge_corpus_entity_path(self, dataset: str) -> Path:
-        return self.bridge_injection_output_root / dataset / "bridge_poisoned_corpus_entities.jsonl"
+        return (
+            self.bridge_injection_output_root
+            / dataset
+            / "bridge_poisoned_corpus_entities.jsonl"
+        )
 
     def bridge_metadata_path(self, dataset: str) -> Path:
-        return self.bridge_injection_output_root / dataset / "bridge_injection_metadata.jsonl"
+        return (
+            self.bridge_injection_output_root
+            / dataset
+            / "bridge_injection_metadata.jsonl"
+        )
 
     def output_dir(self) -> Path:
         return self.output_root / self.run_name
@@ -285,8 +310,12 @@ def run_from_config(config: AblationConfig) -> list[AblationRow]:
 
     rows: list[AblationRow] = []
     for dataset in config.datasets:
-        reference_doc_ids = load_reference_doc_ids(config.reference_corpus_entity_path(dataset))
-        reference_fingerprints = load_document_fingerprints(config.reference_corpus_path(dataset))
+        reference_doc_ids = load_reference_doc_ids(
+            config.reference_corpus_entity_path(dataset)
+        )
+        reference_fingerprints = load_document_fingerprints(
+            config.reference_corpus_path(dataset)
+        )
         clean_changed_doc_ids = find_changed_doc_ids(
             reference_fingerprints,
             load_document_fingerprints(config.reference_corpus_path(dataset)),
@@ -310,7 +339,9 @@ def run_from_config(config: AblationConfig) -> list[AblationRow]:
                     risk_threshold=config.risk_threshold,
                     top_k=config.top_k,
                     clean_traces=load_traces_jsonl(config.clean_trace_path(dataset)),
-                    entity_traces=load_traces_jsonl(config.entity_swap_trace_path(dataset)),
+                    entity_traces=load_traces_jsonl(
+                        config.entity_swap_trace_path(dataset)
+                    ),
                     bridge_traces=load_traces_jsonl(config.bridge_trace_path(dataset)),
                     reference_doc_ids=reference_doc_ids,
                     clean_global_support=load_global_entity_support_counts(
@@ -334,7 +365,9 @@ def run_from_config(config: AblationConfig) -> list[AblationRow]:
                 )
             )
     write_ablation_outputs(config, rows)
-    print(f"ablation: datasets={len(config.datasets)}, modes={len(config.modes)}, rows={len(rows)}")
+    print(
+        f"ablation: datasets={len(config.datasets)}, modes={len(config.modes)}, rows={len(rows)}"
+    )
     return rows
 
 
@@ -350,11 +383,13 @@ def _rerank_traces_for_mode(
     if mode == "none":
         return [_identity_reranked_trace(trace) for trace in traces]
 
-    active_reference_doc_ids, active_changed_doc_ids, active_global_support = _active_signal_inputs(
-        mode,
-        reference_doc_ids=reference_doc_ids,
-        changed_doc_ids=changed_doc_ids,
-        global_entity_support_counts=global_entity_support_counts,
+    active_reference_doc_ids, active_changed_doc_ids, active_global_support = (
+        _active_signal_inputs(
+            mode,
+            reference_doc_ids=reference_doc_ids,
+            changed_doc_ids=changed_doc_ids,
+            global_entity_support_counts=global_entity_support_counts,
+        )
     )
     return [
         rerank_trace(
@@ -381,11 +416,13 @@ def _guard_traces_for_mode(
     if mode == "none":
         return [_identity_reranked_trace(trace) for trace in traces]
 
-    active_reference_doc_ids, active_changed_doc_ids, active_global_support = _active_signal_inputs(
-        mode,
-        reference_doc_ids=reference_doc_ids,
-        changed_doc_ids=changed_doc_ids,
-        global_entity_support_counts=global_entity_support_counts,
+    active_reference_doc_ids, active_changed_doc_ids, active_global_support = (
+        _active_signal_inputs(
+            mode,
+            reference_doc_ids=reference_doc_ids,
+            changed_doc_ids=changed_doc_ids,
+            global_entity_support_counts=global_entity_support_counts,
+        )
     )
     return [
         build_guarded_trace(
@@ -436,7 +473,8 @@ def _identity_reranked_trace(trace: RetrievalTrace) -> RerankedTrace:
                 risk_score=0.0,
                 adjusted_score=candidate.score,
                 path_length=max(len(candidate.path_nodes) - 1, 0),
-                direct_query_match=bool(candidate.matched_query_entities) and not candidate.bridge_entities,
+                direct_query_match=bool(candidate.matched_query_entities)
+                and not candidate.bridge_entities,
                 source_support_count=0,
                 global_support_count=None,
                 known_source_document=None,
@@ -469,7 +507,9 @@ def write_ablation_outputs(config: AblationConfig, rows: list[AblationRow]) -> N
     _write_ablation_report(config.report_path, rows, jsonl_path, csv_path)
 
 
-def _write_ablation_report(path: Path, rows: list[AblationRow], jsonl_path: Path, csv_path: Path) -> None:
+def _write_ablation_report(
+    path: Path, rows: list[AblationRow], jsonl_path: Path, csv_path: Path
+) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     table_lines = [
         "| dataset | mode | clean recall | entity exposure | entity trusted recall | entity suppressed changed | bridge exposure | bridge suppressed poisoned |",
@@ -537,4 +577,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

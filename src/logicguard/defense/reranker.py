@@ -101,7 +101,9 @@ def build_guarded_trace(
         changed_doc_ids=changed_doc_ids,
     )
     kept_candidates = [
-        candidate for candidate in reranked.candidates if candidate.risk_score < risk_threshold
+        candidate
+        for candidate in reranked.candidates
+        if candidate.risk_score < risk_threshold
     ]
     guarded_candidates = [
         _with_new_rank(candidate, new_rank=index)
@@ -129,7 +131,9 @@ def build_recovered_trace(
     doc ids against the trusted reference corpus, not the poisoned corpus.
     """
 
-    guarded_by_doc_id = {candidate.doc_id: candidate for candidate in guarded_trace.candidates}
+    guarded_by_doc_id = {
+        candidate.doc_id: candidate for candidate in guarded_trace.candidates
+    }
     recovered_candidates: list[RerankedCandidate] = []
     seen_doc_ids: set[str] = set()
 

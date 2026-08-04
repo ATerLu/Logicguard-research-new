@@ -3,8 +3,8 @@ import json
 from pathlib import Path
 
 from logicguard.data.schemas import CorpusDocument, NormalizedSample
-from logicguard.ms_graphrag.non_oracle_source_recovery import NonOracleCandidateSource
-from logicguard.ms_graphrag.stage35_source_enrichment import (
+from logicguard.defense.non_oracle_recovery import NonOracleCandidateSource
+from logicguard.defense.source_enrichment import (
     Stage35SourceEnrichmentConfig,
     build_stage35_enrichment_rows,
     build_stage35_enriched_context_rows,
@@ -22,7 +22,9 @@ def test_stage35_query_bm25_enrichment_adds_clean_answer_candidate() -> None:
             _candidate("d2", "Ada Lovelace", "Ada was born in Silver Delta."),
             _candidate("d3", "Unrelated", "No answer here."),
         ],
-        audited_rows=[_audited("q1", "abstained", "abstain_without_gold_answer_surface")],
+        audited_rows=[
+            _audited("q1", "abstained", "abstain_without_gold_answer_surface")
+        ],
         dataset="toy",
         methods=["risk_non_oracle_title_entity_bm25"],
         enrichment_policies=["stage33_title_overlap", "query_bm25_append"],
@@ -47,7 +49,9 @@ def test_stage35_oracle_support_append_reports_upper_bound() -> None:
         samples=[_sample()],
         integrity_rows=[{"query_id": "q1", "changed_support_doc_ids": []}],
         context_rows=[_context_row()],
-        candidate_sources=[_candidate("d2", "Ada Lovelace", "Ada was born in Silver Delta.")],
+        candidate_sources=[
+            _candidate("d2", "Ada Lovelace", "Ada was born in Silver Delta.")
+        ],
         audited_rows=[],
         dataset="toy",
         methods=["risk_non_oracle_title_entity_bm25"],
@@ -78,7 +82,9 @@ def test_stage35_query_bm25_append_inserts_candidates_after_stage33_baseline() -
         samples=[_sample()],
         integrity_rows=[{"query_id": "q1", "changed_support_doc_ids": []}],
         context_rows=[context_row],
-        candidate_sources=[_candidate("d2", "Ada Lovelace", "Ada was born in Silver Delta.")],
+        candidate_sources=[
+            _candidate("d2", "Ada Lovelace", "Ada was born in Silver Delta.")
+        ],
         audited_rows=[],
         dataset="toy",
         methods=["risk_non_oracle_title_entity_bm25"],
@@ -98,8 +104,12 @@ def test_stage35_summary_contexts_and_outputs_are_written(tmp_path: Path) -> Non
         samples=[_sample()],
         integrity_rows=[{"query_id": "q1", "changed_support_doc_ids": []}],
         context_rows=[_context_row()],
-        candidate_sources=[_candidate("d2", "Ada Lovelace", "Ada was born in Silver Delta.")],
-        audited_rows=[_audited("q1", "abstained", "abstain_without_gold_answer_surface")],
+        candidate_sources=[
+            _candidate("d2", "Ada Lovelace", "Ada was born in Silver Delta.")
+        ],
+        audited_rows=[
+            _audited("q1", "abstained", "abstain_without_gold_answer_surface")
+        ],
         dataset="toy",
         methods=["risk_non_oracle_title_entity_bm25"],
         enrichment_policies=["stage33_title_overlap", "query_bm25_append"],
@@ -155,11 +165,22 @@ def test_stage35_summary_contexts_and_outputs_are_written(tmp_path: Path) -> Non
         enriched_context_rows=enriched_context_rows,
     )
 
-    assert json.loads(config.enrichment_rows_output_path.read_text(encoding="utf-8").splitlines()[0])["query_id"] == "q1"
-    with config.summary_output_path.open("r", encoding="utf-8-sig", newline="") as handle:
+    assert (
+        json.loads(
+            config.enrichment_rows_output_path.read_text(encoding="utf-8").splitlines()[
+                0
+            ]
+        )["query_id"]
+        == "q1"
+    )
+    with config.summary_output_path.open(
+        "r", encoding="utf-8-sig", newline=""
+    ) as handle:
         saved_summary = list(csv.DictReader(handle))
     assert saved_summary[0]["query_count"] == "1"
-    assert config.report_path.read_text(encoding="utf-8").startswith("# Stage35 候选源扩展诊断")
+    assert config.report_path.read_text(encoding="utf-8").startswith(
+        "# Stage35 候选源扩展诊断"
+    )
 
 
 def _sample() -> NormalizedSample:
@@ -169,7 +190,9 @@ def _sample() -> NormalizedSample:
         answer="Silver Delta",
         support_doc_ids=["d2"],
         support_docs=[
-            CorpusDocument(doc_id="d2", title="Ada Lovelace", text="Ada was born in Silver Delta."),
+            CorpusDocument(
+                doc_id="d2", title="Ada Lovelace", text="Ada was born in Silver Delta."
+            ),
         ],
     )
 

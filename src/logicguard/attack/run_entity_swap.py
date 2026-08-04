@@ -9,6 +9,8 @@ from pathlib import Path
 
 import yaml
 
+from logicguard.core.config import find_project_root, resolve_config_path
+
 from logicguard.attack.entity_swap import (
     apply_entity_swap_attacks,
     calculate_poisoned_evidence_exposure,
@@ -19,7 +21,11 @@ from logicguard.attack.entity_swap import (
 from logicguard.attack.schemas import PoisonedEvidenceExposure
 from logicguard.data.loader import DatasetPaths, load_raw_dataset
 from logicguard.data.prepare import load_normalized_samples
-from logicguard.graph.baseline import BaselineOutputPaths, BaselineRunSummary, run_graphrag_baseline
+from logicguard.graph.baseline import (
+    BaselineOutputPaths,
+    BaselineRunSummary,
+    run_graphrag_baseline,
+)
 from logicguard.graph.schemas import RetrievalTrace
 
 
@@ -39,7 +45,8 @@ class EntitySwapRunConfig:
 
     @classmethod
     def from_yaml(cls, path: Path) -> "EntitySwapRunConfig":
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         with path.open("r", encoding="utf-8") as handle:
             payload = yaml.safe_load(handle)
 
@@ -73,19 +80,27 @@ class EntitySwapRunConfig:
         return BaselineOutputPaths(
             trace_path=base / f"poisoned_{self.run_name}_traces.jsonl",
             corpus_entity_cache_path=base / "poisoned_corpus_entities.jsonl",
-            query_entity_cache_path=base / f"poisoned_{self.run_name}_query_entities.jsonl",
-            report_path=self.report_root / f"entity_swap_baseline_{self.dataset}_{self.run_name}.md",
+            query_entity_cache_path=base
+            / f"poisoned_{self.run_name}_query_entities.jsonl",
+            report_path=self.report_root
+            / f"entity_swap_baseline_{self.dataset}_{self.run_name}.md",
         )
 
     def exposure_report_path(self) -> Path:
-        return self.report_root / f"entity_swap_exposure_{self.dataset}_{self.run_name}.md"
+        return (
+            self.report_root / f"entity_swap_exposure_{self.dataset}_{self.run_name}.md"
+        )
 
 
 def run_from_config(config: EntitySwapRunConfig) -> None:
-    raw_dataset = load_raw_dataset(DatasetPaths.from_root(config.raw_data_root, config.dataset))
+    raw_dataset = load_raw_dataset(
+        DatasetPaths.from_root(config.raw_data_root, config.dataset)
+    )
     samples = load_normalized_samples(config.sample_path)
     attacks = select_entity_swap_attacks(samples, max_attacks=config.max_attacks)
-    poisoned_corpus = apply_entity_swap_attacks(list(raw_dataset.corpus.values()), attacks)
+    poisoned_corpus = apply_entity_swap_attacks(
+        list(raw_dataset.corpus.values()), attacks
+    )
 
     write_attacks_jsonl(config.metadata_path(), attacks)
     write_poisoned_corpus_jsonl(config.poisoned_corpus_path(), poisoned_corpus)
@@ -100,7 +115,9 @@ def run_from_config(config: EntitySwapRunConfig) -> None:
     )
     traces = _load_traces(config.baseline_outputs().trace_path)
     exposure = calculate_poisoned_evidence_exposure(traces, attacks, top_k=config.top_k)
-    _write_exposure_report(config.exposure_report_path(), summary, exposure, attack_count=len(attacks))
+    _write_exposure_report(
+        config.exposure_report_path(), summary, exposure, attack_count=len(attacks)
+    )
 
     print(
         f"{config.dataset}: attacks={len(attacks)}, "
@@ -187,7 +204,9 @@ def _write_exposure_report(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run controlled Entity Swap poisoning.")
+    parser = argparse.ArgumentParser(
+        description="Run controlled Entity Swap poisoning."
+    )
     parser.add_argument(
         "--config",
         type=Path,

@@ -2,7 +2,7 @@ import csv
 import json
 from pathlib import Path
 
-from logicguard.ms_graphrag.stage29_answer_audit import (
+from logicguard.evaluation.answer_audit import (
     Stage29AnswerAuditConfig,
     audit_stage29_answers,
     extract_rendered_source_summaries,
@@ -78,8 +78,22 @@ def test_audit_stage29_answers_relabels_and_assigns_failure_reasons() -> None:
 def test_summarize_stage29_audits_reports_method_rates() -> None:
     rows = audit_stage29_answers(
         results=[
-            _result("q1", "m", "Ada River", "Ada River", "incorrect", context_has_gold_answer=True),
-            _result("q2", "m", "Ada River", "UNKNOWN", "abstained", context_has_gold_answer=False),
+            _result(
+                "q1",
+                "m",
+                "Ada River",
+                "Ada River",
+                "incorrect",
+                context_has_gold_answer=True,
+            ),
+            _result(
+                "q2",
+                "m",
+                "Ada River",
+                "UNKNOWN",
+                "abstained",
+                context_has_gold_answer=False,
+            ),
         ],
         cases_by_key={},
     )
@@ -155,8 +169,15 @@ def test_select_examples_and_write_stage29_outputs(tmp_path: Path) -> None:
 
     write_stage29_outputs(config=config, rows=rows, examples=examples)
 
-    assert json.loads(config.audited_results_output_path.read_text(encoding="utf-8"))["query_id"] == "q1"
-    with config.summary_output_path.open("r", encoding="utf-8-sig", newline="") as handle:
+    assert (
+        json.loads(config.audited_results_output_path.read_text(encoding="utf-8"))[
+            "query_id"
+        ]
+        == "q1"
+    )
+    with config.summary_output_path.open(
+        "r", encoding="utf-8-sig", newline=""
+    ) as handle:
         saved_summary = list(csv.DictReader(handle))
     assert saved_summary[0]["stage29_attack_success_rate"] == "1.0000"
     report_text = config.report_path.read_text(encoding="utf-8")
@@ -223,7 +244,9 @@ def _result(
         "support_doc_ids": ["d1"],
         "changed_support_doc_ids": ["d1"],
         "context_doc_ids": ["d1"] if source_count else [],
-        "support_hit_doc_ids": support_hit_doc_ids if support_hit_doc_ids is not None else ["d1"],
+        "support_hit_doc_ids": support_hit_doc_ids
+        if support_hit_doc_ids is not None
+        else ["d1"],
         "unrecovered_changed_doc_ids": unrecovered_changed_doc_ids or [],
         "recovered_support_doc_ids": recovered_support_doc_ids or [],
         "source_count": source_count,
@@ -238,7 +261,8 @@ def _result(
         "is_partial": original_label == "partial",
         "is_abstained": original_label == "abstained",
         "is_incorrect": original_label == "incorrect",
-        "attack_success": original_label == "incorrect" and bool(unrecovered_changed_doc_ids),
+        "attack_success": original_label == "incorrect"
+        and bool(unrecovered_changed_doc_ids),
         "latency_seconds": 1.0,
         "prompt_tokens": 10,
         "completion_tokens": 2,

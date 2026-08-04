@@ -3,7 +3,7 @@ from pathlib import Path
 import pandas as pd
 
 from logicguard.data.schemas import CorpusDocument, NormalizedSample
-from logicguard.ms_graphrag.non_oracle_source_recovery import (
+from logicguard.defense.non_oracle_recovery import (
     NonOracleCandidateSource,
     build_stage25_context_rows,
     build_stage25_metric_rows,
@@ -13,7 +13,9 @@ from logicguard.ms_graphrag.non_oracle_source_recovery import (
 )
 
 
-def test_load_candidate_sources_reads_clean_text_units_without_doc_id_lookup_table(tmp_path: Path) -> None:
+def test_load_candidate_sources_reads_clean_text_units_without_doc_id_lookup_table(
+    tmp_path: Path,
+) -> None:
     output_dir = tmp_path / "output"
     output_dir.mkdir()
     pd.DataFrame(
@@ -46,7 +48,9 @@ def test_load_candidate_sources_reads_clean_text_units_without_doc_id_lookup_tab
     assert candidates[0].source_state == "clean_reference"
 
 
-def test_rank_non_oracle_candidates_prefers_lexical_match_over_same_doc_id_distractor() -> None:
+def test_rank_non_oracle_candidates_prefers_lexical_match_over_same_doc_id_distractor() -> (
+    None
+):
     risky_source = {
         "id": "poisoned-source",
         "logicguard_doc_id": "d2",
@@ -90,7 +94,9 @@ def test_rank_non_oracle_candidates_prefers_lexical_match_over_same_doc_id_distr
     assert hits[0].score_breakdown["doc_id_lookup"] == 0.0
 
 
-def test_build_stage25_context_rows_replaces_changed_sources_with_ranked_candidates() -> None:
+def test_build_stage25_context_rows_replaces_changed_sources_with_ranked_candidates() -> (
+    None
+):
     context_rows = [
         {
             "query_id": "q1",
@@ -140,8 +146,14 @@ def test_build_stage25_context_rows_replaces_changed_sources_with_ranked_candida
     assert recovered["recovered_from_changed_doc"] is True
     assert recovered["recovery_method"] == "non_oracle_hybrid_policy"
     assert recovered["candidate_score"] > 0.0
-    assert "Clean Target Film Lena evidence" in by_method["non_oracle_hybrid_policy"]["context_text"]
-    assert "Poisoned Target Film text" not in by_method["non_oracle_hybrid_policy"]["context_text"]
+    assert (
+        "Clean Target Film Lena evidence"
+        in by_method["non_oracle_hybrid_policy"]["context_text"]
+    )
+    assert (
+        "Poisoned Target Film text"
+        not in by_method["non_oracle_hybrid_policy"]["context_text"]
+    )
 
 
 def test_stage25_metrics_add_oracle_gap_and_replacement_quality() -> None:
@@ -159,9 +171,21 @@ def test_stage25_metrics_add_oracle_gap_and_replacement_quality() -> None:
     ]
     integrity_rows = [{"query_id": "q1", "changed_support_doc_ids": ["d2"]}]
     context_rows = [
-        _context("q1", "recovered_sources_by_doc_id", [_source("d1"), _source("d2", recovered=True)]),
-        _context("q1", "non_oracle_hybrid_policy", [_source("d1"), _source("d2", recovered=True)]),
-        _context("q1", "non_oracle_query_bm25", [_source("d1"), _source("d9", recovered=True)]),
+        _context(
+            "q1",
+            "recovered_sources_by_doc_id",
+            [_source("d1"), _source("d2", recovered=True)],
+        ),
+        _context(
+            "q1",
+            "non_oracle_hybrid_policy",
+            [_source("d1"), _source("d2", recovered=True)],
+        ),
+        _context(
+            "q1",
+            "non_oracle_query_bm25",
+            [_source("d1"), _source("d9", recovered=True)],
+        ),
     ]
 
     metric_rows = build_stage25_metric_rows(

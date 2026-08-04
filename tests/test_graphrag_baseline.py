@@ -98,12 +98,16 @@ def test_retriever_can_follow_bridge_entity_to_second_support_document() -> None
         support_docs=documents[:2],
     )
 
-    trace = retrieve_paths_for_query(sample, graph_index, extractor, top_k=5, max_depth=3)
+    trace = retrieve_paths_for_query(
+        sample, graph_index, extractor, top_k=5, max_depth=3
+    )
 
     retrieved_ids = [candidate.doc_id for candidate in trace.candidates]
     assert "d1" in retrieved_ids
     assert "d2" in retrieved_ids
-    d2_candidate = next(candidate for candidate in trace.candidates if candidate.doc_id == "d2")
+    d2_candidate = next(
+        candidate for candidate in trace.candidates if candidate.doc_id == "d2"
+    )
     assert "oskar roehler" in d2_candidate.bridge_entities
     assert d2_candidate.path_nodes[0] == "query:q1"
     assert d2_candidate.path_nodes[-1] == "doc:d2"
@@ -163,8 +167,14 @@ def test_baseline_config_targets_debug_50_run() -> None:
     config = BaselineConfig.from_yaml(BASELINE_CONFIG_PATH)
 
     assert config.dataset == "2wikimultihopqa"
-    assert config.sample_path == PROJECT_ROOT / "data" / "processed" / "2wikimultihopqa" / "debug_50.jsonl"
-    assert config.raw_data_root == PROJECT_ROOT.parent / "external_repos" / "logicPoison" / "datasets"
+    assert (
+        config.sample_path
+        == PROJECT_ROOT / "data" / "processed" / "2wikimultihopqa" / "debug_50.jsonl"
+    )
+    assert (
+        config.raw_data_root
+        == PROJECT_ROOT.parent / "external_repos" / "logicPoison" / "datasets"
+    )
     assert config.output_root == PROJECT_ROOT / "outputs" / "baseline"
     assert config.top_k == 10
     assert config.max_depth == 3
@@ -174,10 +184,24 @@ def test_baseline_full_config_uses_full_500_output_names() -> None:
     config = BaselineConfig.from_yaml(BASELINE_FULL_CONFIG_PATH)
     outputs = config.output_paths()
 
-    assert config.sample_path == PROJECT_ROOT / "data" / "processed" / "2wikimultihopqa" / "samples.jsonl"
+    assert (
+        config.sample_path
+        == PROJECT_ROOT / "data" / "processed" / "2wikimultihopqa" / "samples.jsonl"
+    )
     assert config.run_name == "full_500"
-    assert outputs.trace_path == PROJECT_ROOT / "outputs" / "baseline" / "2wikimultihopqa" / "full_500_traces.jsonl"
+    assert (
+        outputs.trace_path
+        == PROJECT_ROOT
+        / "outputs"
+        / "baseline"
+        / "2wikimultihopqa"
+        / "full_500_traces.jsonl"
+    )
     assert (
         outputs.query_entity_cache_path
-        == PROJECT_ROOT / "outputs" / "baseline" / "2wikimultihopqa" / "full_500_query_entities.jsonl"
+        == PROJECT_ROOT
+        / "outputs"
+        / "baseline"
+        / "2wikimultihopqa"
+        / "full_500_query_entities.jsonl"
     )

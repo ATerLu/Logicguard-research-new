@@ -68,8 +68,12 @@ def apply_entity_swap_attacks(
         title = document.title
         text = document.text
         for attack in attack_by_doc.get(document.doc_id, []):
-            title = _case_insensitive_replace(title, attack.original_answer, attack.replacement_answer)
-            text = _case_insensitive_replace(text, attack.original_answer, attack.replacement_answer)
+            title = _case_insensitive_replace(
+                title, attack.original_answer, attack.replacement_answer
+            )
+            text = _case_insensitive_replace(
+                text, attack.original_answer, attack.replacement_answer
+            )
         poisoned[document.doc_id] = CorpusDocument(
             doc_id=document.doc_id,
             title=title,
@@ -112,14 +116,20 @@ def write_attacks_jsonl(path: Path, attacks: list[EntitySwapAttack]) -> None:
             handle.write(json.dumps(attack.to_json_dict(), ensure_ascii=False) + "\n")
 
 
-def write_poisoned_corpus_jsonl(path: Path, poisoned_corpus: dict[str, CorpusDocument]) -> None:
+def write_poisoned_corpus_jsonl(
+    path: Path, poisoned_corpus: dict[str, CorpusDocument]
+) -> None:
     """Write a BEIR-like corpus JSONL file for inspection and reruns."""
 
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8") as handle:
         for doc_id in sorted(poisoned_corpus, key=_stable_doc_sort_key):
             document = poisoned_corpus[doc_id]
-            payload = {"_id": document.doc_id, "title": document.title, "text": document.text}
+            payload = {
+                "_id": document.doc_id,
+                "title": document.title,
+                "text": document.text,
+            }
             handle.write(json.dumps(payload, ensure_ascii=False) + "\n")
 
 

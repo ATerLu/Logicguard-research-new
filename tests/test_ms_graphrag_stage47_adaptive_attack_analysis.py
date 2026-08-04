@@ -1,4 +1,4 @@
-from logicguard.ms_graphrag.stage47_adaptive_attack_analysis import (
+from logicguard.evaluation.adaptive_attack_analysis import (
     summarize_stage47_pairwise,
     summarize_stage47_results,
 )

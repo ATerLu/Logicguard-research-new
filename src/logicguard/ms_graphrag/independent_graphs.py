@@ -78,7 +78,9 @@ class Stage18ComparisonRow:
         return output
 
 
-def prepare_independent_query_ready_workspaces(config: Stage18IndependentGraphConfig) -> dict[str, Any]:
+def prepare_independent_query_ready_workspaces(
+    config: Stage18IndependentGraphConfig,
+) -> dict[str, Any]:
     """Split a multi-query sample file and prepare one poisoned workspace per query.
 
     The function does not run GraphRAG indexing.  It only creates deterministic
@@ -100,7 +102,9 @@ def prepare_independent_query_ready_workspaces(config: Stage18IndependentGraphCo
     for index, sample in enumerate(samples, start=1):
         query_slug = _query_slug(index, sample.query_id)
         per_query_sample_path = config.sample_output_root / f"{query_slug}.jsonl"
-        per_query_workspace_root = config.workspace_root / f"{query_slug}_poisoned_query_ready"
+        per_query_workspace_root = (
+            config.workspace_root / f"{query_slug}_poisoned_query_ready"
+        )
 
         _write_single_sample(per_query_sample_path, sample)
         workspace_manifest = prepare_ms_graphrag_query_ready_workspace(
@@ -154,7 +158,9 @@ def prepare_independent_query_ready_workspaces(config: Stage18IndependentGraphCo
         ],
     }
     config.manifest_path.parent.mkdir(parents=True, exist_ok=True)
-    config.manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+    config.manifest_path.write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
     return manifest
 
 
@@ -179,9 +185,15 @@ def build_independent_graph_comparison_rows(
         independent_entity = independent_entity_by_query.get(query_id, {})
 
         mixed_recall_value = _float_field(mixed_recall, "gold_support_recall")
-        independent_recall_value = _float_field(independent_recall, "gold_support_recall")
-        mixed_entity_hit_rate = _float_field(mixed_entity, "support_title_entity_hit_rate")
-        independent_entity_hit_rate = _float_field(independent_entity, "support_title_entity_hit_rate")
+        independent_recall_value = _float_field(
+            independent_recall, "gold_support_recall"
+        )
+        mixed_entity_hit_rate = _float_field(
+            mixed_entity, "support_title_entity_hit_rate"
+        )
+        independent_entity_hit_rate = _float_field(
+            independent_entity, "support_title_entity_hit_rate"
+        )
 
         recall_delta = independent_recall_value - mixed_recall_value
         entity_delta = independent_entity_hit_rate - mixed_entity_hit_rate
@@ -198,9 +210,13 @@ def build_independent_graph_comparison_rows(
                 independent_diagnosis=str(independent_recall.get("diagnosis", "")),
                 recall_status=_recall_status(recall_delta),
                 mixed_context_doc_ids=str(mixed_recall.get("context_doc_ids", "")),
-                independent_context_doc_ids=str(independent_recall.get("context_doc_ids", "")),
+                independent_context_doc_ids=str(
+                    independent_recall.get("context_doc_ids", "")
+                ),
                 mixed_top_entity_names=str(mixed_entity.get("top_entity_names", "")),
-                independent_top_entity_names=str(independent_entity.get("top_entity_names", "")),
+                independent_top_entity_names=str(
+                    independent_entity.get("top_entity_names", "")
+                ),
             )
         )
     return rows
@@ -227,9 +243,15 @@ def write_stage18_comparison_artifacts(
 
     query_count = len(rows)
     avg_mixed_recall = _average(row.mixed_gold_support_recall for row in rows)
-    avg_independent_recall = _average(row.independent_gold_support_recall for row in rows)
-    avg_mixed_entity_hit = _average(row.mixed_support_title_entity_hit_rate for row in rows)
-    avg_independent_entity_hit = _average(row.independent_support_title_entity_hit_rate for row in rows)
+    avg_independent_recall = _average(
+        row.independent_gold_support_recall for row in rows
+    )
+    avg_mixed_entity_hit = _average(
+        row.mixed_support_title_entity_hit_rate for row in rows
+    )
+    avg_independent_entity_hit = _average(
+        row.independent_support_title_entity_hit_rate for row in rows
+    )
     improved_count = sum(1 for row in rows if row.recall_status == "improved")
     unchanged_count = sum(1 for row in rows if row.recall_status == "unchanged")
     worse_count = sum(1 for row in rows if row.recall_status == "worse")
@@ -310,7 +332,9 @@ def write_stage18_comparison_artifacts(
 
 def _write_single_sample(path: Path, sample: NormalizedSample) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(sample.to_json_dict(), ensure_ascii=False) + "\n", encoding="utf-8")
+    path.write_text(
+        json.dumps(sample.to_json_dict(), ensure_ascii=False) + "\n", encoding="utf-8"
+    )
 
 
 def _query_slug(index: int, query_id: str) -> str:
@@ -319,7 +343,9 @@ def _query_slug(index: int, query_id: str) -> str:
 
 
 def _index_by_query_id(rows: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
-    return {str(row["query_id"]): row for row in rows if row.get("query_id") is not None}
+    return {
+        str(row["query_id"]): row for row in rows if row.get("query_id") is not None
+    }
 
 
 def _float_field(row: dict[str, Any], field_name: str) -> float:
@@ -356,16 +382,22 @@ def _load_csv_records(path: Path) -> list[dict[str, Any]]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Stage18 per-query independent GraphRAG utilities.")
+    parser = argparse.ArgumentParser(
+        description="Stage18 per-query independent GraphRAG utilities."
+    )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    prepare_parser = subparsers.add_parser("prepare", help="Prepare one query-ready workspace per query.")
+    prepare_parser = subparsers.add_parser(
+        "prepare", help="Prepare one query-ready workspace per query."
+    )
     prepare_parser.add_argument("--dataset", required=True)
     prepare_parser.add_argument("--samples", type=Path, required=True)
     prepare_parser.add_argument("--poisoned-corpus", type=Path, required=True)
     prepare_parser.add_argument("--sample-output-root", type=Path, required=True)
     prepare_parser.add_argument("--workspace-root", type=Path, required=True)
-    prepare_parser.add_argument("--template-root", type=Path, default=Path("outputs/ms_graphrag/template"))
+    prepare_parser.add_argument(
+        "--template-root", type=Path, default=Path("outputs/ms_graphrag/template")
+    )
     prepare_parser.add_argument("--manifest", type=Path, required=True)
     prepare_parser.add_argument("--max-queries", type=int, default=5)
     prepare_parser.add_argument("--completion-model", default="qwen3.7-plus")
@@ -373,7 +405,9 @@ def main() -> None:
     prepare_parser.add_argument("--vector-size", type=int, default=1024)
     prepare_parser.add_argument("--embedding-batch-size", type=int, default=10)
 
-    compare_parser = subparsers.add_parser("compare", help="Compare mixed and independent recall/entity CSVs.")
+    compare_parser = subparsers.add_parser(
+        "compare", help="Compare mixed and independent recall/entity CSVs."
+    )
     compare_parser.add_argument("--mixed-recall", type=Path, required=True)
     compare_parser.add_argument("--independent-recall", type=Path, required=True)
     compare_parser.add_argument("--mixed-entities", type=Path, required=True)
@@ -381,7 +415,9 @@ def main() -> None:
     compare_parser.add_argument("--csv", type=Path, required=True)
     compare_parser.add_argument("--report", type=Path, required=True)
     compare_parser.add_argument("--mixed-label", default="5-query mixed graph")
-    compare_parser.add_argument("--independent-label", default="per-query independent graph")
+    compare_parser.add_argument(
+        "--independent-label", default="per-query independent graph"
+    )
 
     args = parser.parse_args()
     if args.command == "prepare":

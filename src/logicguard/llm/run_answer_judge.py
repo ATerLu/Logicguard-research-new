@@ -11,6 +11,8 @@ from pathlib import Path
 
 import yaml
 
+from logicguard.core.config import find_project_root, resolve_config_path
+
 from logicguard.llm.answer_judge import (
     AnswerJudgeConfig,
     judge_answer_with_client,
@@ -38,7 +40,8 @@ class AnswerJudgeRunConfig:
     def from_yaml(cls, path: Path) -> "AnswerJudgeRunConfig":
         """Load YAML configuration with project-relative paths."""
 
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         with path.open("r", encoding="utf-8") as handle:
             payload = yaml.safe_load(handle)
 
@@ -111,7 +114,9 @@ def run_from_config(config: AnswerJudgeRunConfig) -> list[dict[str, object]]:
     return judged_rows
 
 
-def _write_judged_outputs(config: AnswerJudgeRunConfig, rows: list[dict[str, object]]) -> None:
+def _write_judged_outputs(
+    config: AnswerJudgeRunConfig, rows: list[dict[str, object]]
+) -> None:
     """Write judged JSONL/CSV artifacts and a Chinese Markdown report."""
 
     config.output_results_path.parent.mkdir(parents=True, exist_ok=True)
@@ -129,7 +134,9 @@ def _write_judged_outputs(config: AnswerJudgeRunConfig, rows: list[dict[str, obj
     _write_judge_report(config, rows)
 
 
-def _write_judge_report(config: AnswerJudgeRunConfig, rows: list[dict[str, object]]) -> None:
+def _write_judge_report(
+    config: AnswerJudgeRunConfig, rows: list[dict[str, object]]
+) -> None:
     """Write a Chinese report for judged answer outcomes."""
 
     config.report_path.parent.mkdir(parents=True, exist_ok=True)

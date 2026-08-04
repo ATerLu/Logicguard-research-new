@@ -107,9 +107,15 @@ def test_query_time_variants_can_use_official_ranked_sources() -> None:
 
     by_name = {variant.name: variant for variant in variants}
 
-    assert [item.logicguard_doc_id for item in by_name["poisoned"].evidence] == ["4670", "4669"]
+    assert [item.logicguard_doc_id for item in by_name["poisoned"].evidence] == [
+        "4670",
+        "4669",
+    ]
     assert [item.logicguard_doc_id for item in by_name["guarded"].evidence] == ["4670"]
-    assert [item.logicguard_doc_id for item in by_name["recovered"].evidence] == ["4670", "4669"]
+    assert [item.logicguard_doc_id for item in by_name["recovered"].evidence] == [
+        "4670",
+        "4669",
+    ]
     assert "Jean-Claude Deret" in by_name["recovered"].context_text
 
 
@@ -126,7 +132,10 @@ def test_write_official_context_rows_writes_jsonl(tmp_path: Path) -> None:
 
     write_official_context_rows(output_path, rows)
 
-    saved = [json.loads(line) for line in output_path.read_text(encoding="utf-8").splitlines()]
+    saved = [
+        json.loads(line)
+        for line in output_path.read_text(encoding="utf-8").splitlines()
+    ]
     assert saved == rows
 
 
@@ -177,7 +186,9 @@ def test_apply_local_search_overrides_updates_known_fields_only() -> None:
         )
     )
 
-    apply_local_search_overrides(graph_config, {"text_unit_prop": 0.8, "top_k_entities": 40})
+    apply_local_search_overrides(
+        graph_config, {"text_unit_prop": 0.8, "top_k_entities": 40}
+    )
 
     assert graph_config.local_search.text_unit_prop == 0.8
     assert graph_config.local_search.community_prop == 0.15

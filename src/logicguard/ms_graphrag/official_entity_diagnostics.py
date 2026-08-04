@@ -67,8 +67,16 @@ def build_entity_diagnostic_rows(
 ) -> list[OfficialEntityDiagnosticRow]:
     """Build query-level rows from official context entities."""
 
-    context_by_query = {str(row["query_id"]): row for row in context_rows if row.get("query_id") is not None}
-    recall_by_query = {str(row["query_id"]): row for row in recall_rows if row.get("query_id") is not None}
+    context_by_query = {
+        str(row["query_id"]): row
+        for row in context_rows
+        if row.get("query_id") is not None
+    }
+    recall_by_query = {
+        str(row["query_id"]): row
+        for row in recall_rows
+        if row.get("query_id") is not None
+    }
     rows: list[OfficialEntityDiagnosticRow] = []
     for sample in samples:
         context = context_by_query.get(sample.query_id, {})
@@ -89,24 +97,36 @@ def build_entity_diagnostic_rows(
                 selected_entity_ranks=[record["rank"] for record in entity_records],
                 top_entity_names=selected_entity_names[:5],
                 support_title_entity_hits=title_hits,
-                support_title_entity_hit_rate=len(title_hits) / len(support_titles) if support_titles else 0.0,
-                recall_diagnosis=str(recall_by_query.get(sample.query_id, {}).get("diagnosis", "")),
+                support_title_entity_hit_rate=len(title_hits) / len(support_titles)
+                if support_titles
+                else 0.0,
+                recall_diagnosis=str(
+                    recall_by_query.get(sample.query_id, {}).get("diagnosis", "")
+                ),
             )
         )
     return rows
 
 
-def summarize_entity_diagnostics(rows: list[OfficialEntityDiagnosticRow]) -> OfficialEntityDiagnosticSummary:
+def summarize_entity_diagnostics(
+    rows: list[OfficialEntityDiagnosticRow],
+) -> OfficialEntityDiagnosticSummary:
     """Summarize selected-entity patterns across queries."""
 
     top_counter: Counter[str] = Counter()
     for row in rows:
         top_counter.update(row.top_entity_names[:1])
-    repeated_top_entity_query_count = sum(count for _entity, count in top_counter.items() if count > 1)
+    repeated_top_entity_query_count = sum(
+        count for _entity, count in top_counter.items() if count > 1
+    )
     return OfficialEntityDiagnosticSummary(
         query_count=len(rows),
-        avg_support_title_entity_hit_rate=_average(row.support_title_entity_hit_rate for row in rows),
-        zero_support_title_hit_count=sum(1 for row in rows if row.support_title_entity_hit_rate == 0),
+        avg_support_title_entity_hit_rate=_average(
+            row.support_title_entity_hit_rate for row in rows
+        ),
+        zero_support_title_hit_count=sum(
+            1 for row in rows if row.support_title_entity_hit_rate == 0
+        ),
         repeated_top_entity_query_count=repeated_top_entity_query_count,
         most_common_top_entities=top_counter.most_common(10),
     )
@@ -152,7 +172,12 @@ def write_entity_diagnostic_artifacts(
             + " |"
         )
 
-    common_entities = ", ".join(f"{name}({count})" for name, count in summary.most_common_top_entities) or "无"
+    common_entities = (
+        ", ".join(
+            f"{name}({count})" for name, count in summary.most_common_top_entities
+        )
+        or "无"
+    )
     content = "\n".join(
         [
             "# Microsoft GraphRAG selected entities 诊断报告",
@@ -179,7 +204,9 @@ def write_entity_diagnostic_artifacts(
             "## 产物路径",
             "",
             f"- source context：`{source_context_path.as_posix()}`",
-            f"- source recall：`{source_recall_path.as_posix()}`" if source_recall_path else "- source recall：未提供",
+            f"- source recall：`{source_recall_path.as_posix()}`"
+            if source_recall_path
+            else "- source recall：未提供",
             f"- CSV：`{csv_path.as_posix()}`",
             f"- report：`{report_path.as_posix()}`",
             "",
@@ -206,15 +233,23 @@ def _extract_entity_records(context_row: dict[str, Any]) -> list[dict[str, str]]
             {
                 "id": str(entity.get("id", "")),
                 "name": name,
-                "rank": str(entity.get("number of relationships", entity.get("rank", ""))),
+                "rank": str(
+                    entity.get("number of relationships", entity.get("rank", ""))
+                ),
             }
         )
     return records
 
 
-def _support_title_hits(support_titles: list[str], selected_entities: list[str]) -> list[str]:
+def _support_title_hits(
+    support_titles: list[str], selected_entities: list[str]
+) -> list[str]:
     normalized_entities = {_normalize_text(entity) for entity in selected_entities}
-    return [title for title in support_titles if _normalize_text(title) in normalized_entities]
+    return [
+        title
+        for title in support_titles
+        if _normalize_text(title) in normalized_entities
+    ]
 
 
 def _normalize_text(value: str) -> str:
@@ -234,7 +269,9 @@ def _load_csv_records(path: Path | None) -> list[dict[str, Any]]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Diagnose selected entities in official GraphRAG local context.")
+    parser = argparse.ArgumentParser(
+        description="Diagnose selected entities in official GraphRAG local context."
+    )
     parser.add_argument("--samples", type=Path, required=True)
     parser.add_argument("--contexts", type=Path, required=True)
     parser.add_argument("--recall", type=Path, default=None)

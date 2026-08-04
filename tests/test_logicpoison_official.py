@@ -20,8 +20,14 @@ def test_logicpoison_official_config_uses_project_local_data_copy() -> None:
 
     assert config.clean_data_root == LOCAL_DATA_ROOT / "clean"
     assert config.poisoned_data_root == LOCAL_DATA_ROOT / "poisoned"
-    assert config.output_root == PROJECT_ROOT / "outputs" / "attacks" / "logicpoison_official"
-    assert config.report_path == PROJECT_ROOT / "outputs" / "reports" / "LogicPoison污染语料可用性验证报告.md"
+    assert (
+        config.output_root
+        == PROJECT_ROOT / "outputs" / "attacks" / "logicpoison_official"
+    )
+    assert (
+        config.report_path
+        == PROJECT_ROOT / "outputs" / "reports" / "LogicPoison污染语料可用性验证报告.md"
+    )
     assert config.datasets == ["2wikimultihopqa", "hotpotqa", "musique"]
 
 
@@ -73,7 +79,9 @@ def test_build_query_integrity_records_marks_changed_gold_supports() -> None:
     )
 
 
-def test_summarize_logicpoison_pair_reports_changed_doc_and_answer_surface_loss() -> None:
+def test_summarize_logicpoison_pair_reports_changed_doc_and_answer_surface_loss() -> (
+    None
+):
     config = LogicPoisonOfficialConfig.from_yaml(CONFIG_PATH)
     pair = load_logicpoison_pair(config, "2wikimultihopqa")
     diff_records = build_corpus_diff_records(pair)

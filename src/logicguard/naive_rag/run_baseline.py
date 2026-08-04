@@ -19,6 +19,8 @@ from typing import cast
 
 import yaml
 
+from logicguard.core.config import find_project_root, resolve_config_path
+
 from logicguard.data.schemas import CorpusDocument
 from logicguard.data.loader import DatasetPaths, load_raw_dataset
 from logicguard.data.prepare import load_normalized_samples
@@ -51,7 +53,8 @@ class NaiveRagConfig:
     def from_yaml(cls, path: Path) -> "NaiveRagConfig":
         """Load config with paths relative to the LogicGuard project root."""
 
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         with path.open("r", encoding="utf-8") as handle:
             payload = yaml.safe_load(handle)
 
@@ -90,7 +93,10 @@ class NaiveRagConfig:
 
         report_run_name = f"{self.mode}_{self.dataset}_{self.run_name}"
         return NaiveRagOutputPaths(
-            trace_path=self.output_root / self.mode / self.dataset / f"{self.run_name}_traces.jsonl",
+            trace_path=self.output_root
+            / self.mode
+            / self.dataset
+            / f"{self.run_name}_traces.jsonl",
             report_path=self.report_root / f"naive_rag_{report_run_name}.md",
         )
 
@@ -102,7 +108,9 @@ def run_from_config(config: NaiveRagConfig) -> dict[str, object]:
     if config.corpus_path:
         corpus_documents = _load_corpus_documents(config.corpus_path)
     else:
-        raw_dataset = load_raw_dataset(DatasetPaths.from_root(config.raw_data_root, config.dataset))
+        raw_dataset = load_raw_dataset(
+            DatasetPaths.from_root(config.raw_data_root, config.dataset)
+        )
         corpus_documents = list(raw_dataset.corpus.values())
     encoder = None
     if config.mode in {"dense", "hybrid"}:

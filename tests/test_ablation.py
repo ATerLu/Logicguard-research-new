@@ -8,7 +8,9 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = PROJECT_ROOT / "configs" / "logicguard_ablation_full_500.yaml"
 
 
-def _trace(query_id: str, gold_doc_ids: list[str], candidates: list[PathCandidate]) -> RetrievalTrace:
+def _trace(
+    query_id: str, gold_doc_ids: list[str], candidates: list[PathCandidate]
+) -> RetrievalTrace:
     return RetrievalTrace(
         query_id=query_id,
         query=f"Question {query_id}?",
@@ -26,7 +28,10 @@ def test_ablation_config_resolves_full_500_artifacts() -> None:
     assert config.run_name == "full_500"
     assert config.risk_penalty == 0.50
     assert config.risk_threshold == 0.80
-    assert config.clean_trace_path("hotpotqa") == PROJECT_ROOT / "outputs" / "baseline" / "hotpotqa" / "full_500_traces.jsonl"
+    assert (
+        config.clean_trace_path("hotpotqa")
+        == PROJECT_ROOT / "outputs" / "baseline" / "hotpotqa" / "full_500_traces.jsonl"
+    )
     assert (
         config.entity_swap_trace_path("hotpotqa")
         == PROJECT_ROOT
@@ -126,4 +131,3 @@ def test_ablation_modes_isolate_provenance_and_content_integrity_signals() -> No
 
     assert full.entity_exposure_guarded == 0.0
     assert full.bridge_exposure_guarded == 0.0
-

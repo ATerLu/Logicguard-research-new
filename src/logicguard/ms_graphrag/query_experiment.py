@@ -13,6 +13,8 @@ from pathlib import Path
 
 import yaml
 
+from logicguard.core.config import find_project_root, resolve_config_path
+
 from logicguard.data.prepare import load_normalized_samples
 
 QueryMethod = str
@@ -106,7 +108,8 @@ class MsGraphRagQueryExperimentConfig:
     def from_yaml(cls, path: Path) -> "MsGraphRagQueryExperimentConfig":
         """Load YAML configuration with project-relative paths."""
 
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         payload = yaml.safe_load(path.read_text(encoding="utf-8"))
 
         def resolve_project_path(raw_path: str) -> Path:
@@ -129,10 +132,17 @@ class MsGraphRagQueryExperimentConfig:
             output_path=resolve_project_path(payload["output_path"]),
             report_path=resolve_project_path(payload["report_path"]),
             graphrag_cli=resolve_project_path(payload["graphrag_cli"]),
-            clean_workspace_root=resolve_project_path(str(clean_root)) if clean_root else None,
-            poisoned_workspace_root=resolve_project_path(str(poisoned_root)) if poisoned_root else None,
+            clean_workspace_root=resolve_project_path(str(clean_root))
+            if clean_root
+            else None,
+            poisoned_workspace_root=resolve_project_path(str(poisoned_root))
+            if poisoned_root
+            else None,
             workspace_roots=workspace_roots,
-            methods=tuple(str(method) for method in payload.get("methods", ["basic", "local", "global"])),
+            methods=tuple(
+                str(method)
+                for method in payload.get("methods", ["basic", "local", "global"])
+            ),
             max_queries=int(payload.get("max_queries", 1)),
             community_level=int(payload.get("community_level", 2)),
             response_type=str(payload.get("response_type", "Single Sentence")),
@@ -144,12 +154,17 @@ class MsGraphRagQueryExperimentConfig:
 
         if self.workspace_roots:
             return dict(self.workspace_roots)
-        if self.clean_workspace_root is not None and self.poisoned_workspace_root is not None:
+        if (
+            self.clean_workspace_root is not None
+            and self.poisoned_workspace_root is not None
+        ):
             return {
                 "clean": self.clean_workspace_root,
                 "poisoned": self.poisoned_workspace_root,
             }
-        raise ValueError("Provide either workspace_roots or both clean_workspace_root and poisoned_workspace_root")
+        raise ValueError(
+            "Provide either workspace_roots or both clean_workspace_root and poisoned_workspace_root"
+        )
 
 
 CliRunner = Callable[..., GraphRagCliResult]
@@ -194,7 +209,9 @@ def run_from_config(
                         returncode=cli_result.returncode,
                         success=cli_result.returncode == 0 and not cli_result.timed_out,
                         answer_emitted=bool(response_preview),
-                        expected_answer_present=_contains_expected_answer(response_preview, sample.answer),
+                        expected_answer_present=_contains_expected_answer(
+                            response_preview, sample.answer
+                        ),
                         timed_out=cli_result.timed_out,
                         elapsed_seconds=cli_result.elapsed_seconds,
                         stdout=cli_result.stdout,
@@ -411,25 +428,51 @@ def _build_observation_lines(rows: list[GraphRagQueryRow]) -> list[str]:
             f"{emitted_count} 次产生回答输出，{expected_count} 次包含期望答案。"
         )
 
-    if any(row.corpus_state == "poisoned" and row.answer_emitted and not row.expected_answer_present for row in rows):
-        lines.append("- `poisoned` 条件下出现有回答但未命中期望答案，说明污染证据已经能影响官方 GraphRAG 查询层。")
-    if any(row.corpus_state == "guarded" and row.answer_emitted and not row.expected_answer_present for row in rows):
-        lines.append("- `guarded` 条件未命中期望答案时，不能简单理解为防御失败；它可能表示屏蔽后证据不足，需要结合是否避免了污染答案来判断。")
-    if any(row.corpus_state == "recovered" and row.expected_answer_present for row in rows):
-        lines.append("- `recovered` 条件命中期望答案，说明将可疑证据恢复为 clean 版本后，官方查询链路具备回到正确答案的能力。")
+    if any(
+        row.corpus_state == "poisoned"
+        and row.answer_emitted
+        and not row.expected_answer_present
+        for row in rows
+    ):
+        lines.append(
+            "- `poisoned` 条件下出现有回答但未命中期望答案，说明污染证据已经能影响官方 GraphRAG 查询层。"
+        )
+    if any(
+        row.corpus_state == "guarded"
+        and row.answer_emitted
+        and not row.expected_answer_present
+        for row in rows
+    ):
+        lines.append(
+            "- `guarded` 条件未命中期望答案时，不能简单理解为防御失败；它可能表示屏蔽后证据不足，需要结合是否避免了污染答案来判断。"
+        )
+    if any(
+        row.corpus_state == "recovered" and row.expected_answer_present for row in rows
+    ):
+        lines.append(
+            "- `recovered` 条件命中期望答案，说明将可疑证据恢复为 clean 版本后，官方查询链路具备回到正确答案的能力。"
+        )
 
     unstable_global = [
-        row for row in rows if row.method == "global" and row.answer_emitted and not row.success
+        row
+        for row in rows
+        if row.method == "global" and row.answer_emitted and not row.success
     ]
     if unstable_global:
-        lines.append("- 存在 global 查询已经产生答案但 CLI 返回码非 0 的情况，应记录为“有输出但进程退出不稳定”，不能简单视为无答案。")
+        lines.append(
+            "- 存在 global 查询已经产生答案但 CLI 返回码非 0 的情况，应记录为“有输出但进程退出不稳定”，不能简单视为无答案。"
+        )
 
     return lines or ["- 本轮查询没有产生可比较结果。"]
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run official Microsoft GraphRAG query methods.")
-    parser.add_argument("--config", type=Path, default=Path("configs/ms_graphrag_query_stage10.yaml"))
+    parser = argparse.ArgumentParser(
+        description="Run official Microsoft GraphRAG query methods."
+    )
+    parser.add_argument(
+        "--config", type=Path, default=Path("configs/ms_graphrag_query_stage10.yaml")
+    )
     args = parser.parse_args()
     rows = run_from_config(MsGraphRagQueryExperimentConfig.from_yaml(args.config))
     for row in rows:

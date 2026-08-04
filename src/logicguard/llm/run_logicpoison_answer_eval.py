@@ -19,6 +19,8 @@ from time import perf_counter
 
 import yaml
 
+from logicguard.core.config import find_project_root, resolve_config_path
+
 from logicguard.data.loader import _load_corpus
 from logicguard.data.schemas import CorpusDocument
 from logicguard.llm.context import build_context_blocks, build_qa_messages
@@ -57,7 +59,8 @@ class LogicPoisonAnswerEvalConfig:
     def from_yaml(cls, path: Path) -> "LogicPoisonAnswerEvalConfig":
         """Load YAML configuration with paths resolved from project root."""
 
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         with path.open("r", encoding="utf-8") as handle:
             payload = yaml.safe_load(handle)
 
@@ -69,9 +72,15 @@ class LogicPoisonAnswerEvalConfig:
 
         context_variants = [
             str(variant)
-            for variant in payload.get("context_variants", ["clean", "poisoned", "guarded", "recovered"])
+            for variant in payload.get(
+                "context_variants", ["clean", "poisoned", "guarded", "recovered"]
+            )
         ]
-        unknown_variants = sorted(set(context_variants).difference({"clean", "poisoned", "guarded", "recovered"}))
+        unknown_variants = sorted(
+            set(context_variants).difference(
+                {"clean", "poisoned", "guarded", "recovered"}
+            )
+        )
         if unknown_variants:
             raise ValueError(f"Unknown context variants: {unknown_variants}")
 
@@ -112,16 +121,26 @@ class LogicPoisonAnswerEvalConfig:
         return self.poisoned_data_root / self.dataset / "corpus.jsonl"
 
     def clean_trace_path(self) -> Path:
-        return self.retrieval_root / self.dataset / f"{self.retriever}_clean_traces.jsonl"
+        return (
+            self.retrieval_root / self.dataset / f"{self.retriever}_clean_traces.jsonl"
+        )
 
     def poisoned_trace_path(self) -> Path:
         return self.defense_root / self.dataset / f"{self.retriever}_none_traces.jsonl"
 
     def guarded_trace_path(self) -> Path:
-        return self.defense_root / self.dataset / f"{self.retriever}_full_logicguard_traces.jsonl"
+        return (
+            self.defense_root
+            / self.dataset
+            / f"{self.retriever}_full_logicguard_traces.jsonl"
+        )
 
     def recovered_trace_path(self) -> Path:
-        return self.defense_root / self.dataset / f"{self.retriever}_full_logicguard_recovery_traces.jsonl"
+        return (
+            self.defense_root
+            / self.dataset
+            / f"{self.retriever}_full_logicguard_recovery_traces.jsonl"
+        )
 
     def query_integrity_path(self) -> Path:
         return self.attack_artifact_root / self.dataset / "query_integrity.jsonl"
@@ -167,7 +186,9 @@ class LogicPoisonAnswerResult:
         return asdict(self)
 
 
-def run_from_config(config: LogicPoisonAnswerEvalConfig) -> list[LogicPoisonAnswerResult]:
+def run_from_config(
+    config: LogicPoisonAnswerEvalConfig,
+) -> list[LogicPoisonAnswerResult]:
     """Run the configured stage-4 answer evaluation and write artifacts."""
 
     api_key = _read_required_env(config.api_key_env)
@@ -249,7 +270,9 @@ def _select_answer_cases(
         gold_answer = str(integrity.get("answer", "")).strip()
         if gold_answer.lower() in {"yes", "no"}:
             continue
-        changed_gold_doc_ids = [str(doc_id) for doc_id in integrity.get("changed_support_doc_ids", [])]
+        changed_gold_doc_ids = [
+            str(doc_id) for doc_id in integrity.get("changed_support_doc_ids", [])
+        ]
         if not changed_gold_doc_ids:
             continue
 
@@ -257,7 +280,12 @@ def _select_answer_cases(
         poisoned_trace = poisoned_traces.get(query_id)
         guarded_trace = guarded_traces.get(query_id)
         recovered_trace = recovered_traces.get(query_id)
-        if clean_trace is None or poisoned_trace is None or guarded_trace is None or recovered_trace is None:
+        if (
+            clean_trace is None
+            or poisoned_trace is None
+            or guarded_trace is None
+            or recovered_trace is None
+        ):
             continue
 
         clean_doc_ids = _top_doc_ids(clean_trace, top_k=top_k)
@@ -265,7 +293,9 @@ def _select_answer_cases(
         guarded_doc_ids = _top_doc_ids(guarded_trace, top_k=top_k)
         recovered_doc_ids = _top_doc_ids(recovered_trace, top_k=top_k)
         gold_doc_ids = {str(doc_id) for doc_id in clean_trace.get("gold_doc_ids", [])}
-        changed_gold_in_poisoned = sorted(set(changed_gold_doc_ids).intersection(poisoned_doc_ids))
+        changed_gold_in_poisoned = sorted(
+            set(changed_gold_doc_ids).intersection(poisoned_doc_ids)
+        )
         if not changed_gold_in_poisoned:
             continue
         if require_recovered_gold and not gold_doc_ids.intersection(recovered_doc_ids):
@@ -534,7 +564,9 @@ def _write_answer_report(
     config.report_path.write_text(content, encoding="utf-8")
 
 
-def _summarize_results(results: list[LogicPoisonAnswerResult]) -> dict[tuple[str, str], dict[str, int]]:
+def _summarize_results(
+    results: list[LogicPoisonAnswerResult],
+) -> dict[tuple[str, str], dict[str, int]]:
     """Aggregate answer outcomes by model and context variant."""
 
     grouped: dict[tuple[str, str], dict[str, int]] = {}
@@ -542,7 +574,14 @@ def _summarize_results(results: list[LogicPoisonAnswerResult]) -> dict[tuple[str
         key = (result.model, result.context_variant)
         metrics = grouped.setdefault(
             key,
-            {"calls": 0, "correct": 0, "incorrect": 0, "abstained": 0, "errors": 0, "total_tokens": 0},
+            {
+                "calls": 0,
+                "correct": 0,
+                "incorrect": 0,
+                "abstained": 0,
+                "errors": 0,
+                "total_tokens": 0,
+            },
         )
         metrics["calls"] += 1
         metrics["correct"] += int(result.is_correct)
@@ -553,7 +592,9 @@ def _summarize_results(results: list[LogicPoisonAnswerResult]) -> dict[tuple[str
     return grouped
 
 
-def _format_answer_examples(results: list[LogicPoisonAnswerResult], max_examples: int = 12) -> list[str]:
+def _format_answer_examples(
+    results: list[LogicPoisonAnswerResult], max_examples: int = 12
+) -> list[str]:
     lines = [
         "| 模型 | 上下文条件 | query_id | gold answer | generated answer | error |",
         "| --- | --- | --- | --- | --- | --- |",
@@ -655,7 +696,9 @@ def _compact_cell(value: str, max_chars: int = 140) -> str:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run LogicPoison answer-level LLM evaluation.")
+    parser = argparse.ArgumentParser(
+        description="Run LogicPoison answer-level LLM evaluation."
+    )
     parser.add_argument(
         "--config",
         type=Path,

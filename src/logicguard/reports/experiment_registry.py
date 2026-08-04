@@ -169,7 +169,9 @@ def validate_registry(config: ExperimentRegistryConfig) -> None:
     """Reject ambiguous identifiers and invalid controlled vocabulary values."""
 
     identifiers = [entry.experiment_id for entry in config.experiments]
-    duplicates = sorted(identifier for identifier, count in Counter(identifiers).items() if count > 1)
+    duplicates = sorted(
+        identifier for identifier, count in Counter(identifiers).items() if count > 1
+    )
     if duplicates:
         raise ValueError(f"发现重复实验编号：{', '.join(duplicates)}")
     if not identifiers:
@@ -177,11 +179,15 @@ def validate_registry(config: ExperimentRegistryConfig) -> None:
 
     for entry in config.experiments:
         if entry.category not in ALLOWED_CATEGORIES:
-            raise ValueError(f"{entry.experiment_id} 使用了未知 category：{entry.category}")
+            raise ValueError(
+                f"{entry.experiment_id} 使用了未知 category：{entry.category}"
+            )
         if entry.status not in ALLOWED_STATUSES:
             raise ValueError(f"{entry.experiment_id} 使用了未知 status：{entry.status}")
         if entry.cost_class not in ALLOWED_COST_CLASSES:
-            raise ValueError(f"{entry.experiment_id} 使用了未知 cost_class：{entry.cost_class}")
+            raise ValueError(
+                f"{entry.experiment_id} 使用了未知 cost_class：{entry.cost_class}"
+            )
         if entry.query_count < 0:
             raise ValueError(f"{entry.experiment_id} 的 query_count 不能为负数。")
         if not entry.metric_version.strip() or not entry.reproduction_command.strip():
@@ -233,7 +239,9 @@ def write_registry_artifacts(
         missing_paths = ", ".join(artifact.path for artifact in missing[:5])
         raise FileNotFoundError(f"存在 {len(missing)} 个缺失冻结证据：{missing_paths}")
 
-    category_counts = dict(sorted(Counter(entry.category for entry in config.experiments).items()))
+    category_counts = dict(
+        sorted(Counter(entry.category for entry in config.experiments).items())
+    )
     summary = RegistryWriteSummary(
         experiment_count=len(config.experiments),
         artifact_count=len(artifacts),
@@ -246,7 +254,9 @@ def write_registry_artifacts(
     return summary
 
 
-def _freeze_artifact(*, experiment_id: str, role: str, path: Path, project_root: Path) -> FrozenArtifact:
+def _freeze_artifact(
+    *, experiment_id: str, role: str, path: Path, project_root: Path
+) -> FrozenArtifact:
     """Create one manifest row without mutating the source artifact."""
 
     display_path = _display_path(path, project_root)
@@ -311,12 +321,16 @@ def _write_registry_csv(config: ExperimentRegistryConfig) -> None:
             writer.writerow(_entry_to_csv_row(entry, config.project_root))
 
 
-def _entry_to_csv_row(entry: ExperimentRegistryEntry, project_root: Path) -> dict[str, object]:
+def _entry_to_csv_row(
+    entry: ExperimentRegistryEntry, project_root: Path
+) -> dict[str, object]:
     row: dict[str, object] = asdict(entry)
     row["datasets"] = ";".join(entry.datasets)
     row["models"] = ";".join(entry.models)
     for key in ("config_paths", "input_paths", "output_paths", "report_paths"):
-        row[key] = ";".join(_display_path(path, project_root) for path in getattr(entry, key))
+        row[key] = ";".join(
+            _display_path(path, project_root) for path in getattr(entry, key)
+        )
     return row
 
 
@@ -336,7 +350,9 @@ def _write_manifest(
         "category_counts": summary.category_counts,
         "artifacts": [asdict(artifact) for artifact in artifacts],
     }
-    config.manifest_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    config.manifest_path.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
 
 
 def _write_report(
@@ -361,7 +377,10 @@ def _write_report(
             f"{', '.join(entry.datasets)} | {entry.query_count} | {entry.metric_version} | {entry.cost_class} |"
         )
     missing = [artifact for artifact in artifacts if not artifact.exists]
-    missing_lines = [f"- `{artifact.experiment_id}` / `{artifact.role}`：`{artifact.path}`" for artifact in missing]
+    missing_lines = [
+        f"- `{artifact.experiment_id}` / `{artifact.role}`：`{artifact.path}`"
+        for artifact in missing
+    ]
     if not missing_lines:
         missing_lines = ["- 无。所有登记证据均存在并已计算 SHA-256。"]
 
@@ -412,7 +431,9 @@ def _write_report(
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="生成并审计 LogicGuard Stage19 实验注册表。")
+    parser = argparse.ArgumentParser(
+        description="生成并审计 LogicGuard Stage19 实验注册表。"
+    )
     parser.add_argument(
         "--config",
         type=Path,

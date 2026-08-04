@@ -10,6 +10,8 @@ from pathlib import Path
 
 import yaml
 
+from logicguard.core.config import find_project_root, resolve_config_path
+
 from logicguard.defense.reranker import build_guarded_trace, rerank_trace
 from logicguard.defense.run_logicguard import (
     calculate_suppression_stats,
@@ -51,7 +53,8 @@ class ThresholdScanConfig:
 
     @classmethod
     def from_yaml(cls, path: Path) -> "ThresholdScanConfig":
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         with path.open("r", encoding="utf-8") as handle:
             payload = yaml.safe_load(handle)
 
@@ -64,19 +67,37 @@ class ThresholdScanConfig:
         return cls(
             dataset=str(payload["dataset"]),
             run_name=str(payload["run_name"]),
-            reference_corpus_path=resolve_project_path(payload["reference_corpus_path"]),
-            reference_corpus_entity_path=resolve_project_path(payload["reference_corpus_entity_path"]),
+            reference_corpus_path=resolve_project_path(
+                payload["reference_corpus_path"]
+            ),
+            reference_corpus_entity_path=resolve_project_path(
+                payload["reference_corpus_entity_path"]
+            ),
             clean_corpus_path=resolve_project_path(payload["clean_corpus_path"]),
             clean_trace_path=resolve_project_path(payload["clean_trace_path"]),
-            clean_corpus_entity_path=resolve_project_path(payload["clean_corpus_entity_path"]),
-            entity_swap_corpus_path=resolve_project_path(payload["entity_swap_corpus_path"]),
-            entity_swap_trace_path=resolve_project_path(payload["entity_swap_trace_path"]),
-            entity_swap_corpus_entity_path=resolve_project_path(payload["entity_swap_corpus_entity_path"]),
-            entity_swap_attack_metadata_path=resolve_project_path(payload["entity_swap_attack_metadata_path"]),
+            clean_corpus_entity_path=resolve_project_path(
+                payload["clean_corpus_entity_path"]
+            ),
+            entity_swap_corpus_path=resolve_project_path(
+                payload["entity_swap_corpus_path"]
+            ),
+            entity_swap_trace_path=resolve_project_path(
+                payload["entity_swap_trace_path"]
+            ),
+            entity_swap_corpus_entity_path=resolve_project_path(
+                payload["entity_swap_corpus_entity_path"]
+            ),
+            entity_swap_attack_metadata_path=resolve_project_path(
+                payload["entity_swap_attack_metadata_path"]
+            ),
             bridge_corpus_path=resolve_project_path(payload["bridge_corpus_path"]),
             bridge_trace_path=resolve_project_path(payload["bridge_trace_path"]),
-            bridge_corpus_entity_path=resolve_project_path(payload["bridge_corpus_entity_path"]),
-            bridge_attack_metadata_path=resolve_project_path(payload["bridge_attack_metadata_path"]),
+            bridge_corpus_entity_path=resolve_project_path(
+                payload["bridge_corpus_entity_path"]
+            ),
+            bridge_attack_metadata_path=resolve_project_path(
+                payload["bridge_attack_metadata_path"]
+            ),
             output_root=resolve_project_path(payload["output_root"]),
             report_path=resolve_project_path(payload["report_path"]),
             top_k=int(payload.get("top_k", 10)),
@@ -328,11 +349,21 @@ def run_from_config(config: ThresholdScanConfig) -> list[ThresholdScanRow]:
             entity_traces=entity_traces,
             bridge_traces=bridge_traces,
             reference_doc_ids=reference_doc_ids,
-            clean_global_support=load_global_entity_support_counts(config.clean_corpus_entity_path),
-            entity_global_support=load_global_entity_support_counts(config.entity_swap_corpus_entity_path),
-            bridge_global_support=load_global_entity_support_counts(config.bridge_corpus_entity_path),
-            entity_poisoned_doc_ids_by_query=load_poisoned_doc_ids_by_query(config.entity_swap_attack_metadata_path),
-            bridge_poisoned_doc_ids_by_query=load_poisoned_doc_ids_by_query(config.bridge_attack_metadata_path),
+            clean_global_support=load_global_entity_support_counts(
+                config.clean_corpus_entity_path
+            ),
+            entity_global_support=load_global_entity_support_counts(
+                config.entity_swap_corpus_entity_path
+            ),
+            bridge_global_support=load_global_entity_support_counts(
+                config.bridge_corpus_entity_path
+            ),
+            entity_poisoned_doc_ids_by_query=load_poisoned_doc_ids_by_query(
+                config.entity_swap_attack_metadata_path
+            ),
+            bridge_poisoned_doc_ids_by_query=load_poisoned_doc_ids_by_query(
+                config.bridge_attack_metadata_path
+            ),
             clean_changed_doc_ids=clean_changed_doc_ids,
             entity_changed_doc_ids=entity_changed_doc_ids,
             bridge_changed_doc_ids=bridge_changed_doc_ids,
@@ -341,11 +372,15 @@ def run_from_config(config: ThresholdScanConfig) -> list[ThresholdScanRow]:
         for threshold in config.risk_thresholds
     ]
     write_scan_outputs(config, rows)
-    print(f"{config.dataset}/{config.run_name}: threshold_rows={len(rows)}, best={_best_row(rows).risk_threshold:.2f}")
+    print(
+        f"{config.dataset}/{config.run_name}: threshold_rows={len(rows)}, best={_best_row(rows).risk_threshold:.2f}"
+    )
     return rows
 
 
-def write_scan_outputs(config: ThresholdScanConfig, rows: list[ThresholdScanRow]) -> None:
+def write_scan_outputs(
+    config: ThresholdScanConfig, rows: list[ThresholdScanRow]
+) -> None:
     output_dir = config.output_dir()
     output_dir.mkdir(parents=True, exist_ok=True)
     jsonl_path = output_dir / "threshold_scan_rows.jsonl"
@@ -361,7 +396,9 @@ def write_scan_outputs(config: ThresholdScanConfig, rows: list[ThresholdScanRow]
     _write_report(config.report_path, rows, jsonl_path, csv_path)
 
 
-def _write_report(path: Path, rows: list[ThresholdScanRow], jsonl_path: Path, csv_path: Path) -> None:
+def _write_report(
+    path: Path, rows: list[ThresholdScanRow], jsonl_path: Path, csv_path: Path
+) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     best = _best_row(rows)
     table_lines = [
@@ -440,7 +477,9 @@ def _best_row(rows: list[ThresholdScanRow]) -> ThresholdScanRow:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run LogicGuard full-query threshold scan.")
+    parser = argparse.ArgumentParser(
+        description="Run LogicGuard full-query threshold scan."
+    )
     parser.add_argument(
         "--config",
         type=Path,

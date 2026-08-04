@@ -13,6 +13,8 @@ from typing import Any
 
 import yaml
 
+from logicguard.core.config import find_project_root, resolve_config_path
+
 from logicguard.data.prepare import load_normalized_samples
 from logicguard.data.schemas import NormalizedSample
 from logicguard.ms_graphrag.official_local_context import parse_doc_id_from_source_text
@@ -95,10 +97,12 @@ class QueryLayerEvaluationConfig:
     summary_path: Path
     report_path: Path
     max_queries: int
+    emit_markdown_report: bool = True
 
     @classmethod
     def from_yaml(cls, path: Path) -> "QueryLayerEvaluationConfig":
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         payload = yaml.safe_load(path.read_text(encoding="utf-8"))
 
         def resolve(raw: str) -> Path:
@@ -117,6 +121,7 @@ class QueryLayerEvaluationConfig:
             summary_path=resolve(str(payload["summary_output_path"])),
             report_path=resolve(str(payload["evaluation_report_path"])),
             max_queries=int(payload.get("max_queries", 5)),
+            emit_markdown_report=bool(payload.get("emit_markdown_report", True)),
         )
 
 
@@ -142,7 +147,9 @@ def build_query_layer_metric_rows(
             raise ValueError(f"Missing evaluation sample for query_id={query_id}")
         integrity = integrity_by_query.get(query_id, {})
         support_ids = [str(doc_id) for doc_id in sample.support_doc_ids]
-        changed_ids = [str(doc_id) for doc_id in integrity.get("changed_support_doc_ids", [])]
+        changed_ids = [
+            str(doc_id) for doc_id in integrity.get("changed_support_doc_ids", [])
+        ]
         changed_set = set(changed_ids)
         trusted_ids = [doc_id for doc_id in support_ids if doc_id not in changed_set]
         context_ids = _context_doc_ids(context_row)
@@ -169,7 +176,9 @@ def build_query_layer_metric_rows(
                 gold_support_recall=_ratio(len(gold_hits), len(support_ids)),
                 changed_support_exposure=_ratio(len(changed_hits), len(changed_ids)),
                 trusted_support_recall=_ratio(len(trusted_hits), len(trusted_ids)),
-                support_title_entity_hit_rate=_ratio(len(title_hits), len(support_titles)),
+                support_title_entity_hit_rate=_ratio(
+                    len(title_hits), len(support_titles)
+                ),
                 context_recall_failure=not gold_hits,
                 source_count=len(context_ids),
                 include_entity_count=len(context_row.get("include_entity_names", [])),
@@ -191,7 +200,9 @@ def summarize_query_layer_metrics(
             QueryLayerMethodSummary(
                 method=method,
                 query_count=len(method_rows),
-                avg_gold_support_recall=_average([row.gold_support_recall for row in method_rows]),
+                avg_gold_support_recall=_average(
+                    [row.gold_support_recall for row in method_rows]
+                ),
                 avg_changed_support_exposure=_average(
                     [row.changed_support_exposure for row in method_rows]
                 ),
@@ -201,8 +212,12 @@ def summarize_query_layer_metrics(
                 avg_support_title_entity_hit_rate=_average(
                     [row.support_title_entity_hit_rate for row in method_rows]
                 ),
-                context_recall_failure_count=sum(row.context_recall_failure for row in method_rows),
-                avg_source_count=_average([float(row.source_count) for row in method_rows]),
+                context_recall_failure_count=sum(
+                    row.context_recall_failure for row in method_rows
+                ),
+                avg_source_count=_average(
+                    [float(row.source_count) for row in method_rows]
+                ),
                 avg_include_entity_count=_average(
                     [float(row.include_entity_count) for row in method_rows]
                 ),
@@ -230,24 +245,33 @@ def write_query_layer_evaluation(
     metrics_path: Path,
     summary_path: Path,
     report_path: Path,
+    emit_markdown_report: bool = True,
 ) -> None:
     """Write machine-readable metrics and a Chinese evidence report."""
 
     summaries = summarize_query_layer_metrics(rows)
     metrics_path.parent.mkdir(parents=True, exist_ok=True)
     summary_path.parent.mkdir(parents=True, exist_ok=True)
-    report_path.parent.mkdir(parents=True, exist_ok=True)
+    if emit_markdown_report:
+        report_path.parent.mkdir(parents=True, exist_ok=True)
     with metrics_path.open("w", encoding="utf-8-sig", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(QueryLayerMetricRow.__dataclass_fields__))
+        writer = csv.DictWriter(
+            handle, fieldnames=list(QueryLayerMetricRow.__dataclass_fields__)
+        )
         writer.writeheader()
         for row in rows:
             writer.writerow(row.to_csv_row())
     with summary_path.open("w", encoding="utf-8-sig", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(QueryLayerMethodSummary.__dataclass_fields__))
+        writer = csv.DictWriter(
+            handle, fieldnames=list(QueryLayerMethodSummary.__dataclass_fields__)
+        )
         writer.writeheader()
         for summary in summaries:
             writer.writerow(summary.to_csv_row())
-    _write_evaluation_report(report_path, rows, summaries, metrics_path, summary_path)
+    if emit_markdown_report:
+        _write_evaluation_report(
+            report_path, rows, summaries, metrics_path, summary_path
+        )
 
 
 def run_from_config(config: QueryLayerEvaluationConfig) -> list[QueryLayerMetricRow]:
@@ -273,6 +297,7 @@ def run_from_config(config: QueryLayerEvaluationConfig) -> list[QueryLayerMetric
         metrics_path=config.metrics_path,
         summary_path=config.summary_path,
         report_path=config.report_path,
+        emit_markdown_report=config.emit_markdown_report,
     )
     return rows
 
@@ -305,7 +330,9 @@ def _write_evaluation_report(
             f"{row.changed_support_exposure:.4f} | {row.trusted_support_recall:.4f} | "
             f"{row.support_title_entity_hit_rate:.4f} | {';'.join(row.context_doc_ids)} |"
         )
-    baseline = next((item for item in summaries if item.method == "mixed_baseline"), None)
+    baseline = next(
+        (item for item in summaries if item.method == "mixed_baseline"), None
+    )
     full = next((item for item in summaries if item.method == "full_query_guard"), None)
     delta_lines = ["- 缺少mixed_baseline或full_query_guard，无法计算主对照。"]
     if baseline and full:
@@ -315,44 +342,46 @@ def _write_evaluation_report(
             f"- changed exposure变化：{baseline.avg_changed_support_exposure:.4f} -> {full.avg_changed_support_exposure:.4f}。",
             f"- context完全失败数：{baseline.context_recall_failure_count} -> {full.context_recall_failure_count}。",
         ]
-    content = "\n".join([
-        "# Microsoft GraphRAG Stage20 Query-layer检索实验报告",
-        "",
-        "## 实验目的",
-        "",
-        "在同一poisoned mixed graph上比较原始local search、仅扩大预算和四种Query Guard消融。候选生成不读取gold；本报告仅在context生成后使用gold计算指标。",
-        "",
-        "## 指标说明",
-        "",
-        "- gold recall：official sources覆盖全部gold support的平均比例。",
-        "- changed exposure：已改写support进入context的比例；越低越安全，但必须结合recovery解释。",
-        "- trusted recall：未改写support进入context的比例。",
-        "- entity hit：support标题进入selected entities的比例。",
-        "- failures：完全没有gold support的query数。",
-        "",
-        "## 方法汇总",
-        "",
-        *summary_table,
-        "",
-        "## 主对照变化",
-        "",
-        *delta_lines,
-        "",
-        "## Query级结果",
-        "",
-        *query_table,
-        "",
-        "## 证据与限制",
-        "",
-        "- 证据：所有方法使用相同五个query和同一个mixed graph。",
-        "- 推断：若seeding提高recall，说明错误主要位于query-to-entity mapping，而不是context token不足。",
-        "- 限制：五Query只能验证原型机制，不能支持统计外推。",
-        "- 限制：changed exposure上升可能是Recovery获得可替换文档的前提，不可单独解释为安全性退化或提升。",
-        "",
-        f"- query级CSV：{metrics_path.as_posix()}",
-        f"- 汇总CSV：{summary_path.as_posix()}",
-        "",
-    ])
+    content = "\n".join(
+        [
+            "# Microsoft GraphRAG Stage20 Query-layer检索实验报告",
+            "",
+            "## 实验目的",
+            "",
+            "在同一poisoned mixed graph上比较原始local search、仅扩大预算和四种Query Guard消融。候选生成不读取gold；本报告仅在context生成后使用gold计算指标。",
+            "",
+            "## 指标说明",
+            "",
+            "- gold recall：official sources覆盖全部gold support的平均比例。",
+            "- changed exposure：已改写support进入context的比例；越低越安全，但必须结合recovery解释。",
+            "- trusted recall：未改写support进入context的比例。",
+            "- entity hit：support标题进入selected entities的比例。",
+            "- failures：完全没有gold support的query数。",
+            "",
+            "## 方法汇总",
+            "",
+            *summary_table,
+            "",
+            "## 主对照变化",
+            "",
+            *delta_lines,
+            "",
+            "## Query级结果",
+            "",
+            *query_table,
+            "",
+            "## 证据与限制",
+            "",
+            "- 证据：所有方法使用相同五个query和同一个mixed graph。",
+            "- 推断：若seeding提高recall，说明错误主要位于query-to-entity mapping，而不是context token不足。",
+            "- 限制：五Query只能验证原型机制，不能支持统计外推。",
+            "- 限制：changed exposure上升可能是Recovery获得可替换文档的前提，不可单独解释为安全性退化或提升。",
+            "",
+            f"- query级CSV：{metrics_path.as_posix()}",
+            f"- 汇总CSV：{summary_path.as_posix()}",
+            "",
+        ]
+    )
     path.write_text(content, encoding="utf-8")
 
 
@@ -424,8 +453,14 @@ def _load_jsonl(path: Path) -> list[dict[str, Any]]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Evaluate Stage20 query-layer contexts.")
-    parser.add_argument("--config", type=Path, default=Path("configs/ms_graphrag_query_layer_stage20.yaml"))
+    parser = argparse.ArgumentParser(
+        description="Evaluate Stage20 query-layer contexts."
+    )
+    parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/ms_graphrag_query_layer_stage20.yaml"),
+    )
     args = parser.parse_args()
     rows = run_from_config(QueryLayerEvaluationConfig.from_yaml(args.config))
     print(f"stage20_metric_rows={len(rows)}")

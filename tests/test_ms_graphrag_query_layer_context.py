@@ -10,7 +10,9 @@ from logicguard.ms_graphrag.query_layer_context import (
 )
 
 
-def test_resolve_method_entities_filters_unknown_names_and_include_exclude_overlap() -> None:
+def test_resolve_method_entities_filters_unknown_names_and_include_exclude_overlap() -> (
+    None
+):
     plan = {
         "methods": {
             "full_query_guard": {
@@ -31,7 +33,9 @@ def test_resolve_method_entities_filters_unknown_names_and_include_exclude_overl
     assert resolved.unknown_entity_names == ["UNKNOWN", "MISSING"]
 
 
-def test_build_query_guard_context_rows_passes_official_include_exclude_parameters() -> None:
+def test_build_query_guard_context_rows_passes_official_include_exclude_parameters() -> (
+    None
+):
     builder = RecordingContextBuilder()
     query_rows = [{"query_id": "q1", "query": "Who directed Target?"}]
     plans = [
@@ -68,7 +72,9 @@ def test_build_query_guard_context_rows_passes_official_include_exclude_paramete
     assert rows[0]["context_data"]["sources"][0]["logicguard_doc_id"] == "d1"
 
 
-def test_build_query_guard_context_rows_degrades_empty_seed_to_baseline_parameters() -> None:
+def test_build_query_guard_context_rows_degrades_empty_seed_to_baseline_parameters() -> (
+    None
+):
     builder = RecordingContextBuilder()
 
     rows = build_query_guard_context_rows(
@@ -86,14 +92,20 @@ def test_build_query_guard_context_rows_degrades_empty_seed_to_baseline_paramete
 
 
 def test_local_only_context_keeps_entities_without_community_membership() -> None:
-    assert resolve_entity_adapter_community_level(
-        configured_community_level=2,
-        community_prop=0.0,
-    ) is None
-    assert resolve_entity_adapter_community_level(
-        configured_community_level=2,
-        community_prop=0.1,
-    ) == 2
+    assert (
+        resolve_entity_adapter_community_level(
+            configured_community_level=2,
+            community_prop=0.0,
+        )
+        is None
+    )
+    assert (
+        resolve_entity_adapter_community_level(
+            configured_community_level=2,
+            community_prop=0.1,
+        )
+        == 2
+    )
 
 
 def test_write_method_context_rows_keeps_only_requested_method(tmp_path) -> None:

@@ -2,7 +2,7 @@ import csv
 import json
 from pathlib import Path
 
-from logicguard.ms_graphrag.stage40_cross_dataset_audit import (
+from logicguard.evaluation.cross_dataset_audit import (
     Stage40CrossDatasetAuditConfig,
     Stage40DatasetSpec,
     build_stage40_asset_rows,
@@ -39,7 +39,10 @@ def test_stage40_marks_dataset_ready_when_required_assets_exist(tmp_path: Path) 
     assert summary.can_run_source_recovery is True
     assert summary.can_run_chain_diagnostics is True
     assert summary.can_run_answer_level_verification is True
-    assert summary.next_action == "ready_for_attribute_sentence_completeness_or_adaptive_attack"
+    assert (
+        summary.next_action
+        == "ready_for_attribute_sentence_completeness_or_adaptive_attack"
+    )
 
 
 def test_stage40_blocks_cross_dataset_validation_without_graphrag_workspaces(
@@ -126,7 +129,9 @@ def test_stage40_points_chain_gap_to_stage45_config(tmp_path: Path) -> None:
     assert "ms_graphrag_stage45_hotpotqa_chain_completeness.yaml" in action.commands[0]
 
 
-def test_stage40_points_cross_dataset_answer_gap_to_stage46_configs(tmp_path: Path) -> None:
+def test_stage40_points_cross_dataset_answer_gap_to_stage46_configs(
+    tmp_path: Path,
+) -> None:
     spec = _make_spec(tmp_path, "hotpotqa")
     _write_jsonl(spec.sample_path, [{"query_id": "q1", "query": "Q?", "answer": "A"}])
     _write_jsonl(spec.clean_corpus_path, [{"_id": "d1", "text": "clean"}])
@@ -149,7 +154,9 @@ def test_stage40_points_cross_dataset_answer_gap_to_stage46_configs(tmp_path: Pa
     assert "stage46_hotpotqa_answer_judge.yaml" in action.commands[-1]
 
 
-def test_stage40_writes_jsonl_csv_gap_actions_and_chinese_report(tmp_path: Path) -> None:
+def test_stage40_writes_jsonl_csv_gap_actions_and_chinese_report(
+    tmp_path: Path,
+) -> None:
     spec = _make_spec(tmp_path, "toy")
     _write_jsonl(spec.sample_path, [{"query_id": "q1"}])
     _write_jsonl(spec.clean_corpus_path, [{"_id": "d1", "text": "clean"}])
@@ -175,11 +182,18 @@ def test_stage40_writes_jsonl_csv_gap_actions_and_chinese_report(tmp_path: Path)
         gap_actions=actions,
     )
 
-    saved_asset = json.loads(config.asset_rows_output_path.read_text(encoding="utf-8").splitlines()[0])
+    saved_asset = json.loads(
+        config.asset_rows_output_path.read_text(encoding="utf-8").splitlines()[0]
+    )
     assert saved_asset["dataset"] == "toy"
-    with config.summary_output_path.open("r", encoding="utf-8-sig", newline="") as handle:
+    with config.summary_output_path.open(
+        "r", encoding="utf-8-sig", newline=""
+    ) as handle:
         saved_summary = list(csv.DictReader(handle))
-    assert saved_summary[0]["next_action"] == "prepare_and_index_official_graphrag_workspaces"
+    assert (
+        saved_summary[0]["next_action"]
+        == "prepare_and_index_official_graphrag_workspaces"
+    )
     saved_action = json.loads(
         config.gap_actions_output_path.read_text(encoding="utf-8").splitlines()[0]
     )

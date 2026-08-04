@@ -4,7 +4,7 @@ from pathlib import Path
 
 from logicguard.data.schemas import CorpusDocument, NormalizedSample
 from logicguard.llm.provider import ChatResponse
-from logicguard.ms_graphrag.stage32_llm_comparison import (
+from logicguard.evaluation.llm_comparison import (
     Stage32LLMComparisonConfig,
     Stage32VariantConfig,
     build_stage32_cases,
@@ -58,13 +58,20 @@ def test_stage32_generation_and_summary_compare_variants() -> None:
         source_method="risk_non_oracle_title_entity_bm25",
         variants=[
             Stage32VariantConfig("stage28_default", "official_order", 1, 900),
-            Stage32VariantConfig("stage31_title_query_overlap", "title_query_overlap", 1, 900),
+            Stage32VariantConfig(
+                "stage31_title_query_overlap", "title_query_overlap", 1, 900
+            ),
         ],
     )
-    config = _config(Path("."), variants=[
-        Stage32VariantConfig("stage28_default", "official_order", 1, 900),
-        Stage32VariantConfig("stage31_title_query_overlap", "title_query_overlap", 1, 900),
-    ])
+    config = _config(
+        Path("."),
+        variants=[
+            Stage32VariantConfig("stage28_default", "official_order", 1, 900),
+            Stage32VariantConfig(
+                "stage31_title_query_overlap", "title_query_overlap", 1, 900
+            ),
+        ],
+    )
 
     results = run_stage32_generation(config=config, cases=cases, client=FakeClient())
     summary = summarize_stage32_results(results)
@@ -79,7 +86,9 @@ def test_stage32_generation_and_summary_compare_variants() -> None:
 def test_stage32_outputs_are_written_with_chinese_report(tmp_path: Path) -> None:
     variants = [
         Stage32VariantConfig("stage28_default", "official_order", 1, 900),
-        Stage32VariantConfig("stage31_title_query_overlap", "title_query_overlap", 1, 900),
+        Stage32VariantConfig(
+            "stage31_title_query_overlap", "title_query_overlap", 1, 900
+        ),
     ]
     cases = build_stage32_cases(
         samples=[_sample()],
@@ -94,11 +103,17 @@ def test_stage32_outputs_are_written_with_chinese_report(tmp_path: Path) -> None
 
     write_stage32_outputs(config=config, cases=cases, results=results)
 
-    saved_case = json.loads(config.cases_output_path.read_text(encoding="utf-8").splitlines()[0])
+    saved_case = json.loads(
+        config.cases_output_path.read_text(encoding="utf-8").splitlines()[0]
+    )
     assert saved_case["variant"] == "stage28_default"
-    saved_result = json.loads(config.results_output_path.read_text(encoding="utf-8").splitlines()[1])
+    saved_result = json.loads(
+        config.results_output_path.read_text(encoding="utf-8").splitlines()[1]
+    )
     assert saved_result["variant"] == "stage31_title_query_overlap"
-    with config.summary_output_path.open("r", encoding="utf-8-sig", newline="") as handle:
+    with config.summary_output_path.open(
+        "r", encoding="utf-8-sig", newline=""
+    ) as handle:
         saved_summary = list(csv.DictReader(handle))
     assert saved_summary[0]["query_count"] == "1"
     report_text = config.report_path.read_text(encoding="utf-8")
@@ -147,7 +162,9 @@ def _sample() -> NormalizedSample:
         answer="Silver Delta",
         support_doc_ids=["d2"],
         support_docs=[
-            CorpusDocument(doc_id="d2", title="Ada Lovelace", text="Ada was born in Silver Delta."),
+            CorpusDocument(
+                doc_id="d2", title="Ada Lovelace", text="Ada was born in Silver Delta."
+            ),
         ],
     )
 

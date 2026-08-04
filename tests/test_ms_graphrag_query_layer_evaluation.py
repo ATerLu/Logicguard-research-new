@@ -8,7 +8,9 @@ from logicguard.ms_graphrag.query_layer_evaluation import (
 )
 
 
-def test_build_query_layer_metric_rows_measures_recall_exposure_and_entity_hit() -> None:
+def test_build_query_layer_metric_rows_measures_recall_exposure_and_entity_hit() -> (
+    None
+):
     samples = [
         NormalizedSample(
             query_id="q1",
@@ -30,7 +32,10 @@ def test_build_query_layer_metric_rows_measures_recall_exposure_and_entity_hit()
             "exclude_entity_names": ["HUB"],
             "context_data": {
                 "sources": [
-                    {"logicguard_doc_id": "d2", "text": "Document ID: d2\nTitle: Target Two"},
+                    {
+                        "logicguard_doc_id": "d2",
+                        "text": "Document ID: d2\nTitle: Target Two",
+                    },
                     {"logicguard_doc_id": "x", "text": "Document ID: x\nTitle: Other"},
                 ],
                 "entities": [{"entity": "TARGET TWO"}],
@@ -54,10 +59,16 @@ def test_build_query_layer_metric_rows_measures_recall_exposure_and_entity_hit()
     assert row.exclude_entity_count == 1
 
 
-def test_summarize_and_write_query_layer_evaluation_outputs_chinese_report(tmp_path: Path) -> None:
+def test_summarize_and_write_query_layer_evaluation_outputs_chinese_report(
+    tmp_path: Path,
+) -> None:
     samples = [
-        NormalizedSample("q1", "Q1", "A1", ["d1"], [CorpusDocument("d1", "D1", "text")]),
-        NormalizedSample("q2", "Q2", "A2", ["d2"], [CorpusDocument("d2", "D2", "text")]),
+        NormalizedSample(
+            "q1", "Q1", "A1", ["d1"], [CorpusDocument("d1", "D1", "text")]
+        ),
+        NormalizedSample(
+            "q2", "Q2", "A2", ["d2"], [CorpusDocument("d2", "D2", "text")]
+        ),
     ]
     contexts = [
         _context("q1", "mixed_baseline", ["d1"], ["D1"]),

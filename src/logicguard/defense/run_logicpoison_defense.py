@@ -21,6 +21,8 @@ from typing import Literal
 
 import yaml
 
+from logicguard.core.config import find_project_root, resolve_config_path
+
 from logicguard.data.logicpoison_official import (
     LogicPoisonOfficialConfig,
     build_corpus_diff_records,
@@ -69,7 +71,8 @@ class LogicPoisonDefenseConfig:
     def from_yaml(cls, path: Path) -> "LogicPoisonDefenseConfig":
         """Load YAML configuration with paths relative to the project root."""
 
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         with path.open("r", encoding="utf-8") as handle:
             payload = yaml.safe_load(handle)
 
@@ -140,7 +143,9 @@ class LogicPoisonDefenseMetrics:
         return asdict(self)
 
 
-def run_from_config(config: LogicPoisonDefenseConfig) -> list[LogicPoisonDefenseMetrics]:
+def run_from_config(
+    config: LogicPoisonDefenseConfig,
+) -> list[LogicPoisonDefenseMetrics]:
     """Run all configured stage-3 defense modes and write artifacts."""
 
     official_config = config.to_logicpoison_official_config()
@@ -178,7 +183,9 @@ def run_from_config(config: LogicPoisonDefenseConfig) -> list[LogicPoisonDefense
                     )
                     for trace in poisoned_traces
                 ]
-                output_path = config.output_root / dataset / f"{retriever}_{mode}_traces.jsonl"
+                output_path = (
+                    config.output_root / dataset / f"{retriever}_{mode}_traces.jsonl"
+                )
                 write_reranked_traces_jsonl(output_path, guarded_traces)
                 metric = calculate_logicpoison_defense_metrics(
                     dataset=dataset,
@@ -192,7 +199,9 @@ def run_from_config(config: LogicPoisonDefenseConfig) -> list[LogicPoisonDefense
                 )
                 dataset_metrics.append(metric)
 
-        write_metrics_jsonl(config.output_root / dataset / "defense_metrics.jsonl", dataset_metrics)
+        write_metrics_jsonl(
+            config.output_root / dataset / "defense_metrics.jsonl", dataset_metrics
+        )
         all_metrics.extend(dataset_metrics)
 
     write_metrics_jsonl(config.output_root / "defense_metrics.jsonl", all_metrics)
@@ -221,14 +230,18 @@ def apply_defense_mode(
         # In-place LogicPoison keeps doc ids and qrels unchanged. Without content
         # fingerprints or provenance drift, this signal has no independent
         # evidence to act on in the current implementation.
-        return _identity_trace(poisoned_trace, risk_reason="support_consistency_no_independent_signal")
+        return _identity_trace(
+            poisoned_trace, risk_reason="support_consistency_no_independent_signal"
+        )
 
     guarded = _filter_trace(
         poisoned_trace,
         reference_doc_ids=reference_doc_ids,
         changed_doc_ids=changed_doc_ids,
-        check_provenance=mode in {"provenance_only", "full_logicguard", "full_logicguard_recovery"},
-        check_content=mode in {"content_integrity_only", "full_logicguard", "full_logicguard_recovery"},
+        check_provenance=mode
+        in {"provenance_only", "full_logicguard", "full_logicguard_recovery"},
+        check_content=mode
+        in {"content_integrity_only", "full_logicguard", "full_logicguard_recovery"},
     )
 
     if mode == "full_logicguard_recovery":
@@ -284,8 +297,12 @@ def calculate_logicpoison_defense_metrics(
         before_gold_recalls.append(_recall(before_doc_id_set, gold_doc_ids))
         after_gold_recalls.append(_recall(after_doc_id_set, gold_doc_ids))
         if trusted_gold_doc_ids:
-            before_trusted_recalls.append(_recall(before_doc_id_set, trusted_gold_doc_ids))
-            after_trusted_recalls.append(_recall(after_doc_id_set, trusted_gold_doc_ids))
+            before_trusted_recalls.append(
+                _recall(before_doc_id_set, trusted_gold_doc_ids)
+            )
+            after_trusted_recalls.append(
+                _recall(after_doc_id_set, trusted_gold_doc_ids)
+            )
 
         before_changed_doc_exposures.append(
             1.0 if before_doc_id_set.intersection(changed_doc_ids) else 0.0
@@ -295,7 +312,10 @@ def calculate_logicpoison_defense_metrics(
         )
         after_changed_doc_exposures.append(
             1.0
-            if any(_is_untrusted_changed_candidate(candidate, changed_doc_ids) for candidate in after_candidates)
+            if any(
+                _is_untrusted_changed_candidate(candidate, changed_doc_ids)
+                for candidate in after_candidates
+            )
             else 0.0
         )
         after_changed_gold_exposures.append(
@@ -311,7 +331,9 @@ def calculate_logicpoison_defense_metrics(
         if not after_candidates:
             empty_contexts += 1
         recovered_candidate_count += sum(
-            1 for candidate in after_candidates if "trusted_reference_recovery" in candidate.risk_reasons
+            1
+            for candidate in after_candidates
+            if "trusted_reference_recovery" in candidate.risk_reasons
         )
 
         after_doc_id_set_all = {candidate.doc_id for candidate in after.candidates}
@@ -342,7 +364,9 @@ def calculate_logicpoison_defense_metrics(
         after_trusted_gold_recall_at_k=_mean(after_trusted_recalls),
         queries_with_trusted_gold=queries_with_trusted_gold,
         guarded_avg_candidates=_mean(guarded_candidate_counts),
-        empty_context_rate=empty_contexts / len(before_traces) if before_traces else 0.0,
+        empty_context_rate=empty_contexts / len(before_traces)
+        if before_traces
+        else 0.0,
         suppressed_candidates=suppressed_candidates,
         suppressed_gold_candidates=suppressed_gold_candidates,
         suppressed_changed_candidates=suppressed_changed_candidates,
@@ -530,7 +554,8 @@ def _reranked_candidate_from_path(
         risk_score=0.0,
         adjusted_score=candidate.score,
         path_length=max(len(candidate.path_nodes) - 1, 0),
-        direct_query_match=bool(candidate.matched_query_entities) and not candidate.bridge_entities,
+        direct_query_match=bool(candidate.matched_query_entities)
+        and not candidate.bridge_entities,
         source_support_count=0,
         global_support_count=None,
         known_source_document=None,

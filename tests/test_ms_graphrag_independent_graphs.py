@@ -12,7 +12,10 @@ from logicguard.ms_graphrag.independent_graphs import (
 
 def _write_jsonl(path: Path, rows: list[dict[str, object]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text("".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows), encoding="utf-8")
+    path.write_text(
+        "".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows),
+        encoding="utf-8",
+    )
 
 
 def _write_required_prompts(template_root: Path) -> None:
@@ -31,7 +34,9 @@ def _write_required_prompts(template_root: Path) -> None:
         (prompt_dir / prompt_name).write_text(prompt_name, encoding="utf-8")
 
 
-def test_prepare_independent_query_ready_workspaces_writes_per_query_samples_and_manifests(tmp_path: Path) -> None:
+def test_prepare_independent_query_ready_workspaces_writes_per_query_samples_and_manifests(
+    tmp_path: Path,
+) -> None:
     sample_path = tmp_path / "samples.jsonl"
     corpus_path = tmp_path / "poisoned" / "corpus.jsonl"
     template_root = tmp_path / "template"
@@ -47,14 +52,18 @@ def test_prepare_independent_query_ready_workspaces_writes_per_query_samples_and
                 "query": "Who directed Alpha?",
                 "answer": "Alice",
                 "support_doc_ids": ["d1"],
-                "support_docs": [{"doc_id": "d1", "title": "Alpha", "text": "Alpha text."}],
+                "support_docs": [
+                    {"doc_id": "d1", "title": "Alpha", "text": "Alpha text."}
+                ],
             },
             {
                 "query_id": "query two",
                 "query": "Who directed Beta?",
                 "answer": "Bob",
                 "support_doc_ids": ["d2"],
-                "support_docs": [{"doc_id": "d2", "title": "Beta", "text": "Beta text."}],
+                "support_docs": [
+                    {"doc_id": "d2", "title": "Beta", "text": "Beta text."}
+                ],
             },
         ],
     )
@@ -100,7 +109,9 @@ def test_prepare_independent_query_ready_workspaces_writes_per_query_samples_and
     assert saved_manifest["workspaces"][0]["support_doc_ids"] == ["d1"]
 
 
-def test_build_independent_graph_comparison_rows_measures_recall_and_entity_gain() -> None:
+def test_build_independent_graph_comparison_rows_measures_recall_and_entity_gain() -> (
+    None
+):
     rows = build_independent_graph_comparison_rows(
         mixed_recall_rows=[
             {
@@ -164,14 +175,30 @@ def test_build_independent_graph_comparison_rows_measures_recall_and_entity_gain
     assert rows[1].recall_status == "unchanged"
 
 
-def test_write_stage18_comparison_artifacts_outputs_csv_and_chinese_report(tmp_path: Path) -> None:
+def test_write_stage18_comparison_artifacts_outputs_csv_and_chinese_report(
+    tmp_path: Path,
+) -> None:
     rows = build_independent_graph_comparison_rows(
         mixed_recall_rows=[
-            {"query_id": "q1", "gold_support_recall": "0.0000", "diagnosis": "context_recall_failure"}
+            {
+                "query_id": "q1",
+                "gold_support_recall": "0.0000",
+                "diagnosis": "context_recall_failure",
+            }
         ],
-        independent_recall_rows=[{"query_id": "q1", "gold_support_recall": "1.0000", "diagnosis": "attack_recovered"}],
-        mixed_entity_rows=[{"query_id": "q1", "support_title_entity_hit_rate": "0.0000"}],
-        independent_entity_rows=[{"query_id": "q1", "support_title_entity_hit_rate": "1.0000"}],
+        independent_recall_rows=[
+            {
+                "query_id": "q1",
+                "gold_support_recall": "1.0000",
+                "diagnosis": "attack_recovered",
+            }
+        ],
+        mixed_entity_rows=[
+            {"query_id": "q1", "support_title_entity_hit_rate": "0.0000"}
+        ],
+        independent_entity_rows=[
+            {"query_id": "q1", "support_title_entity_hit_rate": "1.0000"}
+        ],
     )
     csv_path = tmp_path / "comparison.csv"
     report_path = tmp_path / "report.md"

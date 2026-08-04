@@ -8,6 +8,8 @@ from pathlib import Path
 
 import yaml
 
+from logicguard.core.config import find_project_root, resolve_config_path
+
 from logicguard.data.loader import DatasetPaths, load_raw_dataset
 from logicguard.data.prepare import load_normalized_samples
 from logicguard.graph.baseline import BaselineOutputPaths, run_graphrag_baseline
@@ -30,7 +32,8 @@ class BaselineConfig:
     def from_yaml(cls, path: Path) -> "BaselineConfig":
         """Load baseline config with paths relative to the project root."""
 
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         with path.open("r", encoding="utf-8") as handle:
             payload = yaml.safe_load(handle)
 
@@ -57,9 +60,15 @@ class BaselineConfig:
 
         report_run_name = f"{self.dataset}_{self.run_name}"
         return BaselineOutputPaths(
-            trace_path=self.output_root / self.dataset / f"{self.run_name}_traces.jsonl",
-            corpus_entity_cache_path=self.output_root / self.dataset / "corpus_entities.jsonl",
-            query_entity_cache_path=self.output_root / self.dataset / f"{self.run_name}_query_entities.jsonl",
+            trace_path=self.output_root
+            / self.dataset
+            / f"{self.run_name}_traces.jsonl",
+            corpus_entity_cache_path=self.output_root
+            / self.dataset
+            / "corpus_entities.jsonl",
+            query_entity_cache_path=self.output_root
+            / self.dataset
+            / f"{self.run_name}_query_entities.jsonl",
             report_path=self.report_root / f"graphrag_baseline_{report_run_name}.md",
         )
 
@@ -67,7 +76,9 @@ class BaselineConfig:
 def run_from_config(config: BaselineConfig) -> None:
     """Run baseline from config and print a compact summary."""
 
-    raw_dataset = load_raw_dataset(DatasetPaths.from_root(config.raw_data_root, config.dataset))
+    raw_dataset = load_raw_dataset(
+        DatasetPaths.from_root(config.raw_data_root, config.dataset)
+    )
     samples = load_normalized_samples(config.sample_path)
     summary = run_graphrag_baseline(
         dataset_name=config.dataset,
@@ -85,7 +96,9 @@ def run_from_config(config: BaselineConfig) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run the lightweight GraphRAG baseline.")
+    parser = argparse.ArgumentParser(
+        description="Run the lightweight GraphRAG baseline."
+    )
     parser.add_argument(
         "--config",
         type=Path,

@@ -1,0 +1,785 @@
+# LogicGuard 实验方法与路线
+
+> 规范化入口（2026-08-04）：本文合并项目总览、实验阶段和方法边界。
+> 结果统一见 `docs/results.md`，执行命令见 `docs/reproducibility.md`。
+
+更新时间：2026-08-04
+
+## 阅读入口
+
+当前项目只建议优先看这几份文档：
+
+- `docs/methodology.md`：项目主线、阶段、当前结论和后续路线。
+- `docs/results.md`：关键实验指标、数值和解释的集中版报告。
+- `docs/开发记录.md`：完整流水记录，适合追溯每次具体操作，但不再作为主要阅读入口。
+- `docs/reproducibility.md`：需要复现实验时看这里。
+- `docs/实验注册表.csv`：截至 Stage47 的实验里程碑、产物与限制。
+
+规范化前的阶段报告已归档，来源路径、内容类型与 SHA-256 见
+`docs/report_manifest.csv`。
+
+## 主线目标
+
+LogicGuard 当前研究目标是：在 GraphRAG/RAG 系统受到逻辑污染或语料污染时，尽量阻断污染证据进入回答上下文，同时通过 recovery 机制恢复可用的干净证据，避免简单过滤导致模型只能回答 UNKNOWN。
+
+通俗说法：攻击会把“看起来相关但已经被改写的证据”塞进检索结果。LogicGuard 不能只把坏证据删掉，还要尽量找回原来可信的证据，否则系统虽然安全了，但也不会答题。
+
+## 阶段划分
+
+### 阶段1：模拟攻击与最小防御原型
+
+完成内容：
+- 构造 Entity Swap、Bridge Injection、Bridge Injection v2/natural 等本地模拟攻击。
+- 建立 GraphRAG-like baseline 和 NaiveRAG/BM25 baseline。
+- 实现早期 LogicGuard 过滤、阈值扫描和消融实验。
+
+核心结论：
+- 早期模拟攻击能制造明显污染输出。
+- guard 能把污染输出率降为 0，但容易导致 UNKNOWN 增多。
+- 仅靠过滤不是完整防御，必须引入 recovery。
+
+### 阶段2：多数据集与真实 LLM 回答实验
+
+完成内容：
+- 扩展到 2WikiMultihopQA、HotpotQA、MuSiQue。
+- 使用 qwen/deepseek 系列 API 做小规模回答验证。
+- 加入 answer recovery，把被污染或被过滤的证据替换为干净参考证据。
+
+核心结论：
+- clean 与 recovered 的正确率通常接近。
+- guarded 往往很保守，拒答率高。
+- recovery 是当前方法最关键的可用性来源。
+
+### 阶段3：LogicPoison poisoned corpus 接入
+
+完成内容：
+- 将外部 LogicPoison 生成的 clean/poisoned corpus 接入 LogicGuard。
+- 做检索层、回答层、多数据集、Graph surrogate、非 oracle recovery 实验。
+- 明确 oracle recovery 与 non-oracle recovery 的差别。
+
+核心结论：
+- LogicPoison 这类攻击更接近论文目标，比早期模拟攻击更有价值。
+- guard 可以防止污染证据进入回答，但单独使用会大量拒答。
+- non-oracle recovery 更真实，但当前召回能力仍不足，需要继续增强检索和替换策略。
+
+### 阶段4：Microsoft GraphRAG minimal workflow
+
+完成内容：
+- 安装 Microsoft GraphRAG 3.1.0 到 `tools/ms_graphrag/.venv`。
+- 跑通 minimal workflow，获得 official GraphRAG 的 parquet 索引产物。
+- 产物包括 documents、text_units、entities、relationships、communities 等。
+
+边界说明：
+- minimal workflow 是 official GraphRAG 的索引流程子集。
+- 它能产生真实 GraphRAG 中间产物，但缺少 `community_reports.parquet` 时不能完整支撑 official local/global query。
+
+### 阶段5：official local query 小规模接入
+
+完成内容：
+- 在 5 query 的 query-ready 工作区跑通 official `api.local_search`。
+- 导出 official local context，做 query-time LogicGuard。
+- 分析 baseline、broad context、entity diagnostics、independent graph 等召回问题。
+
+核心结论：
+- official query 层可以接入，但小规模 support-only 图过于理想。
+- broad context 能提高召回，但会同时扩大污染暴露和上下文冗余。
+
+### 阶段6：Stage20 query-layer LogicGuard
+
+完成内容：
+- 不修改 Microsoft GraphRAG 源码，而是在 `LocalSearchMixedContext` 参数层注入 include/exclude entity 控制。
+- 设计 title_seeding、entity_rerank、cluster_suppression、full_query_guard。
+- 完成 5 query official query-layer 检索与回答实验。
+
+核心结论：
+- query-layer 控制可以显著修复候选空间召回。
+- 但如果被召回的是已污染 support，changed exposure 也会上升。
+- Stage20 证明了“能接入官方查询层”，但还不是最终防御方案。
+
+### 阶段7：Stage21 50-query indexed artifact 诊断
+
+完成内容：
+- 使用 2WikiMultihopQA debug_50 的 50 个 query 和 120 个 indexed documents/text units。
+- 在 official GraphRAG 产物上做可审计 BM25/title-boost 诊断。
+- 对比 poisoned、guarded、recovered、clean reference。
+
+核心结论：
+- poisoned 检索召回高，但污染暴露为 1.0。
+- guarded 能把污染暴露降为 0，但召回几乎崩溃。
+- recovered 能在污染暴露为 0 的同时恢复到接近 poisoned/clean 的召回。
+
+### 阶段8：Stage22 50-query poisoned query-ready 补齐与 official query 层实验
+
+完成内容：
+- 补跑 `stage10_debug50_poisoned_query_ready`，生成完整 official query-ready 产物。
+- 产物规模：120 documents、120 text_units、165 entities、984 relationships、38 communities、38 community_reports。
+- 索引总耗时约 2554.7 秒，其中 `create_community_reports` 约 2507.9 秒，是主要耗时来源。
+- 在该工作区上完成 5 query official baseline、broad context、LogicGuard query-layer context 和评估。
+
+核心结论：
+- official query 层已能在 50-query poisoned workspace 上跑通。
+- baseline gold recall 为 0.40，full_query_guard 提高到 0.90。
+- 但 changed exposure 也从 0.40 升到 0.90，说明当前 query-layer guard 更像“召回增强”，还没有完成“污染替换”。
+
+### 阶段9：Stage23 official sources级Recovery
+
+完成内容：
+- 新增 official `context_data.sources` 后处理模块，不修改 Microsoft GraphRAG 源码。
+- 读取 Stage22 full_query_guard sources，标注 changed support source。
+- 对 changed source 执行 source guard 过滤和 clean-reference doc_id recovery。
+- 完成 5 query context-only 评估，输出 recovered context、query 指标、汇总表和中文报告。
+
+核心结论：
+- `full_query_guard` 保持 `gold recall=0.9000`，但 `changed exposure=0.9000`。
+- `guarded_sources` 将 `changed exposure` 降到 0，但 `gold recall` 也降到 0，说明只删 source 仍不可用。
+- `recovered_sources_by_doc_id` 保持 `gold recall=0.9000`，同时将未恢复 `changed exposure` 降到 0。
+- 该结果是 oracle clean-reference recovery 上界，下一步仍需扩规模并降低 clean reference 假设。
+
+### 阶段10：Stage24 official sources级Recovery 20/50-query 扩展
+
+完成内容：
+- 复用 `stage10_debug50_poisoned_query_ready` workspace，不重新索引。
+- 为前 20/50 个 query 生成 `full_query_guard` seed plan。
+- 使用 official `LocalSearchMixedContext` context builder 导出 20/50-query full_query_guard sources。
+- 对 20/50-query sources 执行 `guarded_sources` 与 `recovered_sources_by_doc_id`。
+
+核心结论：
+- 50-query 下，`full_query_guard` 的 `gold recall=0.7850`，`changed exposure=0.7833`。
+- 50-query 下，`guarded_sources` 的 `changed exposure=0.0000`，但 `gold recall=0.0400`。
+- 50-query 下，`recovered_sources_by_doc_id` 保持 `gold recall=0.7850`，同时将未恢复 `changed exposure` 降到 `0.0000`。
+- Stage24 说明 sources 级 recovery 的机制结论可以从 5 query 扩展到 50 query context-only 设置，但仍然是 clean-reference oracle 上界。
+
+### 阶段11：Stage25 non-oracle official sources级Recovery
+
+完成内容：
+- 新增 `src/logicguard/ms_graphrag/non_oracle_source_recovery.py`。
+- 新增三种候选排序策略：`non_oracle_query_bm25`、`non_oracle_title_entity_bm25`、`non_oracle_hybrid_policy`。
+- 在 20/50-query 上保留 `recovered_sources_by_doc_id` oracle 上界，并新增 non-oracle candidate recovery。
+- 输出 oracle gap、replacement hit、bad replacement 和 same-doc recovery 指标。
+
+核心结论：
+- 50-query 下，`non_oracle_title_entity_bm25` 达到 `gold recall=0.5450`，`changed exposure=0.0000`。
+- 同一设置下，`guarded_sources` 只有 `gold recall=0.0400`，说明非 oracle recovery 明显优于只删除污染 source。
+- 相对 oracle 上界 `0.7850`，当前最佳 non-oracle 方法仍有 `oracle gap=0.2400`。
+- Stage25 属于 `risk_oracle + recovery_non_oracle`：风险触发仍用 changed 标注，候选排序不使用 doc_id lookup 或答案标签。
+
+### 阶段12：Stage26 official sources answer-level proxy verification
+
+完成内容：
+- 新增 `src/logicguard/ms_graphrag/answer_level_verification.py`。
+- 新增 5-query smoke 与 20-query answer proxy 配置。
+- 对 `full_query_guard`、`guarded_sources`、`recovered_sources_by_doc_id`、`non_oracle_title_entity_bm25` 做回答层代理验证。
+- 输出 `correct / partial / incorrect / abstained / attack_success_proxy` 字段和中文综合报告。
+
+核心结论：
+- 20-query 下，`full_query_guard` 的 `utility_rate=0.6000`，但全部来自 `partial`，且 `attack_success_proxy=0.4000`。
+- 20-query 下，`guarded_sources` 的 `correct_rate=0.2000`，`abstain_rate=0.8000`，说明只删除 source 安全但不可用。
+- 20-query 下，oracle `recovered_sources_by_doc_id` 的 `correct_rate=0.8000`，`attack_success_proxy=0.0000`。
+- 20-query 下，`non_oracle_title_entity_bm25` 的 `correct_rate=0.4500`，`attack_success_proxy=0.0000`，高于 guarded 且低于 oracle。
+- Stage26 不调用 LLM，只是 answer-surface proxy，不等同于最终回答正确率。
+
+### 阶段13：Stage27 official sources LLM answer-level verification
+
+完成内容：
+- 新增 `src/logicguard/ms_graphrag/answer_level_llm_verification.py`。
+- 新增 `tests/test_ms_graphrag_stage27_answer_llm_verification.py`，覆盖 official sources case 渲染、假客户端回答标注和 JSONL/CSV/summary/report 输出。
+- 新增 5-query smoke 与 20-query formal 配置：`configs/ms_graphrag_stage27_answer_llm_poisoned5.yaml`、`configs/ms_graphrag_stage27_answer_llm_poisoned20.yaml`。
+- 使用 `qwen3.7-plus` 对 `full_query_guard`、`guarded_sources`、`recovered_sources_by_doc_id`、`non_oracle_title_entity_bm25` 运行真实 LLM 回答生成。
+
+核心结论：
+- 20-query formal 共 80 次回答生成调用，API/provider 错误率为 `0.0000`。
+- `full_query_guard` 的 `correct_rate=0.0500`、`abstain_rate=0.7000`、`attack_success_rate=0.2500`，说明直接带入高召回 sources 仍会产生真实错误回答风险。
+- `guarded_sources` 的 `abstain_rate=1.0000`、`attack_success_rate=0.0000`，安全但完全不可答。
+- `recovered_sources_by_doc_id` 的 `correct_rate=0.1500`、`attack_success_rate=0.0000`，oracle recovery 能消除攻击成功但真实回答正确率明显低于 Stage26 proxy。
+- `non_oracle_title_entity_bm25` 的 `correct_rate=0.0500`、`abstain_rate=0.8500`、`attack_success_rate=0.0000`，证明非 oracle recovery 在真实回答层也能降攻击，但 utility 仍不足。
+- Stage27 使用严格本地 answer matching，未启用 LLM judge；因此正确率可能低估，但 attack-success 对比已经足以支持下一步聚焦“安全后的可答性恢复”。
+
+### 阶段14：Stage28 risk non-oracle + recovery non-oracle
+
+完成内容：
+- 新增 `src/logicguard/ms_graphrag/risk_non_oracle_source_recovery.py`。
+- 新增 `tests/test_ms_graphrag_stage28_risk_non_oracle_recovery.py`，覆盖无 label 风险检测、正文漂移检测、上下文过滤/恢复、指标与报告输出。
+- 新增 5/20-query source-level、answer proxy 和真实 LLM 配置。
+- 使用 clean-candidate consistency detector 替换 Stage25 的 changed-label risk oracle。
+
+核心结论：
+- Stage28 context builder 不读取 `changed_support_doc_ids`、gold answer 或 support_doc_ids；这些标签只用于离线评价。
+- 20-query source-level 下，`risk_non_oracle_title_entity_bm25` 保持 `gold recall=0.7750`，并将 `changed exposure` 从 `0.7750` 降到 `0.0000`。
+- 同一设置下，risk detector 的 `risk_recall=0.9925`、`risk_precision=1.0000`、`risk_false_positive_rate=0.0000`。
+- 20-query answer proxy 下，`risk_non_oracle_title_entity_bm25` 达到 `utility_rate=0.8000`、`attack_success_proxy=0.0000`。
+- 20-query 真实 LLM 下，`risk_non_oracle_title_entity_bm25` 达到 `correct_rate=0.1500`、`attack_success_rate=0.0000`，优于只过滤的 `correct_rate=0.0000`。
+- Stage28 仍依赖 trusted clean candidate pool；它去掉的是风险触发 oracle，不等于完整 no-clean / no-oracle 部署。
+
+## 当前 LogicGuard 设计
+
+当前方法由三层组成：
+
+1. 污染风险识别：根据文档是否被改写、实体是否异常重复、上下文是否来自 changed support 等信号判断风险。
+2. guard 过滤/抑制：阻止高风险证据直接进入回答上下文。
+3. recovery 恢复：当被过滤的是原始 support 的污染版本时，尝试用 clean reference 或可信替代证据恢复回答材料。
+
+recovery 的直观解释：
+如果一本书的某一页被涂改了，guard 的做法是把这页拿走；recovery 的做法是再去找这页的未涂改复印件。实验说明，只拿走涂改页会导致模型不会回答；拿走后再换成干净页，才能同时降低污染和恢复可答性。
+
+## 当前不足
+
+- 早期模拟攻击较理想化，论文主线应更多依赖 LogicPoison 和 official GraphRAG 实验。
+- Stage24 oracle recovery 仍依赖 clean reference / doc_id 对齐，不代表真实无干净库部署。
+- Stage28 已去掉风险触发 oracle，但仍依赖 trusted clean candidate pool，不是完整 no-clean 设置。
+- Stage27/28 已完成真实 LLM answer generation，但当前正确率使用严格字符串匹配，仍缺 alias normalization 和独立 LLM judge。
+- 当前 official GraphRAG 仍集中在 2Wiki debug_50，后续需要自适应攻击评估和更大规模复核。
+- 需要进一步区分“召回增强导致 changed exposure 上升”和“防御失败”这两类现象。
+
+## 下一步路线
+
+近期最高目标：在 Stage39 已确认二跳 targeted contexts 能把 2Wiki 20-query judge-aware final utility 提升到 `0.9500`、且 attack success 仍为 `0.0000` 的基础上，继续推进 HotpotQA / MuSiQue 的 risk-non-oracle source recovery，再进入跨数据集 chain completeness 与 answer-level 复核。
+
+具体任务：
+- Stage43：复用 Stage28 风格 risk-non-oracle recovery，为 HotpotQA / MuSiQue 替换 changed sources，并评估 support recall 与 changed exposure。
+- 增加 sentence/attribute-level evidence completeness，解决 doc-level support hit 但缺关键属性句的问题。
+- 将 Stage38/39 的 bridge-entity append 收敛为可部署策略，减少完整样本上的无关追加，同时保留二跳补证能力。
+- 将 Stage28 的 trusted clean candidate pool 假设推进到 trust-aware / no-clean setting。
+- 将 answer-level 结果继续与 context-only / answer proxy 分开写，避免把 sources recall 直接等同于最终回答正确率。
+
+中期目标：
+- 扩大到 50-query official query 层实验。
+- 控制 API 成本，优先做 context-only 评估，再做少量 LLM 回答。
+- 将 2Wiki 结果稳定后，再扩展 HotpotQA 和 MuSiQue。
+
+论文目标：
+- 问题：GraphRAG 检索和社区上下文会放大被污染 support 的影响。
+- 方法：LogicGuard 使用风险识别、query-layer 控制、answer-time recovery 组合防御。
+- 证据：模拟攻击、多数据集 LogicPoison、Microsoft GraphRAG official query 层实验。
+- 重点贡献：不是只让模型拒答，而是在降低污染暴露的同时恢复可用上下文。
+
+### 阶段15：Stage29 回答层审计
+
+完成内容：
+- 新增 `src/logicguard/ms_graphrag/stage29_answer_audit.py` 和 `tests/test_ms_graphrag_stage29_answer_audit.py`。
+- 复用 Stage28 的 `stage28_poisoned20_answer_llm_results.jsonl` 与 `stage28_poisoned20_answer_llm_cases.jsonl`，不重新调用 LLM。
+- 对答案进行本地归一化审计，支持大小写、标点、括号说明、英文冠词和少量人名小品词归一化。
+- 输出逐 query 审计 JSONL、方法级汇总、失败归因明细和代表样例。
+- 报告中展示真实样例：问题、GraphRAG/LogicGuard 步骤、引用 source、gold answer、generated answer 和最终诊断。
+
+核心结果：
+- `risk_non_oracle_title_entity_bm25` 的 Stage29 效用率为 `0.2000`，攻击成功率（`attack_success_rate`）为 `0.0000`。
+- `full_query_guard` 的 Stage29 攻击成功率为 `0.1500`，说明不做 recovery 的高召回上下文仍然不安全。
+- `risk_non_oracle_guarded_sources` 的 `abstain_rate=1.0000`，说明只过滤 source 仍然不可用。
+- 主要剩余问题不是 alias matching，而是 answerability：recovered 方法仍有 `14/20` abstain，其中 `7/20` 是上下文包含 gold answer surface 但模型仍拒答，`7/20` 是 top-8 渲染上下文没有 gold answer surface。
+
+下一步路线更新：
+- Stage30 已完成项目整理与报告整合：收束报告入口、标注可归档产物、清理缓存，并修复全量测试安全网。
+- Stage31 已完成 recovery 后 source ordering / top-k / prompt answerability 离线消融。
+- Stage32 已完成真实 LLM 小规模复验，确认 `title_query_overlap` 能带来真实 utility 提升。
+- Stage33 已完成 `title_query_overlap` 正式回答管线固化和审计。
+- Stage34 已完成 judge-aware 回答审计，将 final utility 提升到 `0.3500`。
+- Stage35 已完成 source enrichment 离线诊断，`query_bm25_append + top-12` 将 support answer surface 提升到 `0.7500`。
+- Stage36 已完成 enriched contexts 真实 LLM 复验，将 judge-aware final utility 提升到 `0.8500`，attack success 仍为 `0.0000`。
+- Stage37 已完成 evidence prompt 复验，final utility 与 Stage36 持平，确认 prompt-only 不是主要增益点。
+- Stage38 已完成 chain-completeness 诊断和 second-hop targeted append，targeted chain complete 达到 `1.0000`。
+- 下一步先做 Stage39 targeted contexts 真实 LLM 复验。
+- 随后扩展 official GraphRAG 到 HotpotQA 与 MuSiQue。
+- 再进入 adaptive attack，攻击 clean-candidate consistency detector 和 title/entity BM25 recovery。
+
+### 阶段16：Stage30 项目整理与报告整合
+
+目标：
+- 在不影响 Stage21-29 结论的前提下，整理项目文件和报告入口。
+- 将阅读入口收束到 `outputs/reports/实验结果总报告.md` 与 `outputs/reports/Stage30_项目整理与报告整合.md`。
+- 保留历史子报告作为审计证据，但不再把 smoke/formal 单项报告作为默认阅读入口。
+
+已完成：
+- 新增 `outputs/reports/Stage30_项目整理与报告整合.md`。
+- 新增 `outputs/reports/stage30_report_inventory.csv`，标注主报告、阶段综合报告和历史子报告。
+- 新增 `outputs/reports/stage30_cleanup_manifest.csv`，标注可清理缓存、可归档大产物和需保留结果。
+- 修复 `src/logicguard/graph/baseline.py` 第一行历史语法错误，恢复全量 pytest 的基础条件。
+- 清理 Python/pytest/ruff 缓存。
+
+结论：
+- 当前项目膨胀主要来自 `outputs`，约 599 MB；源码 `src` 约 0.82 MB，不宜直接删除阶段模块。
+- Stage24-28 的多个 smoke/formal 单项报告已经被综合报告和总报告吸收，后续只作为追溯证据保留。
+- 下一步实验推进顺延为 Stage31：回答层可用性消融。
+
+### 阶段17：Stage31 回答可用性消融
+
+目标：
+- 解释 Stage29 中 `risk_non_oracle_title_entity_bm25` 真实 LLM utility 偏低的来源。
+- 在不重新调用外部 LLM 的前提下，离线比较 source ordering、top-k 和 prompt budget。
+- 明确哪些改进可以作为真实部署策略，哪些只是 oracle 诊断上界。
+
+已完成：
+- 新增 `src/logicguard/ms_graphrag/stage31_answerability_ablation.py`。
+- 新增 `tests/test_ms_graphrag_stage31_answerability_ablation.py`。
+- 新增 `configs/ms_graphrag_stage31_answerability_poisoned20.yaml`。
+- 输出 900 行消融结果，覆盖 20 query、5 种排序策略、3 个 top-k 和 3 个 prompt budget。
+
+关键结果：
+- Stage28 默认近似设置 `official_order + top-8 + stage28` 的 clean answerable rate 为 `0.5500`。
+- 最佳非 oracle 设置 `title_query_overlap + top-8 + compact` 达到 `0.6000`，support hit 为 `1.0000`，unsafe context 为 `0.0000`。
+- `title_query_overlap + top-3 + stage28` 已达到 `0.5000`，说明前置 query-title 相关 source 能减少冗余上下文。
+- `oracle_answer_surface_first` 上界为 `0.7500`，说明仍有约 25% query 需要改进 candidate pool 或 source enrichment。
+- prompt budget 从 compact 到 expanded 基本不改变 answer surface，说明当前瓶颈不是单纯文本截断。
+
+主要产物：
+- `outputs/reports/Stage31_AnswerabilityAblation_20Query.md`
+- `outputs/ms_graphrag_query/stage31_poisoned20_answerability_ablation_rows.jsonl`
+- `outputs/ms_graphrag_query/stage31_poisoned20_answerability_ablation_summary.csv`
+- `outputs/ms_graphrag_query/stage31_poisoned20_answerability_ablation_examples.jsonl`
+
+下一步：
+- Stage32 已完成真实 LLM 小规模复验。
+- 下一步把 `title_query_overlap` 排序策略固化进 Stage28/29 answer generation pipeline。
+
+### 阶段18：Stage32 真实回答对照验证
+
+目标：
+- 检查 Stage31 的 answerability proxy 是否能转化为真实 LLM 回答质量提升。
+- 在同一批 Stage28 recovered official GraphRAG sources 上，对比 Stage28 默认渲染与 Stage31 推荐的非 oracle source ordering。
+- 明确排序优化是否会牺牲 attack-success 安全性。
+
+已完成：
+- 新增 `src/logicguard/ms_graphrag/stage32_llm_comparison.py`。
+- 新增 `tests/test_ms_graphrag_stage32_llm_comparison.py`。
+- 新增 `configs/ms_graphrag_stage32_llm_comparison_poisoned20.yaml`。
+- 使用 `qwen3.7-plus` 跑完 20 query × 2 variants 的 40 次真实回答调用。
+
+关键结果：
+- `stage28_default` 的 `correct_rate=0.1500`、`utility_rate=0.1500`、`abstain_rate=0.7500`、`attack_success_rate=0.0000`。
+- `stage31_title_query_overlap` 的 `correct_rate=0.2500`、`utility_rate=0.2500`、`abstain_rate=0.6500`、`attack_success_rate=0.0000`。
+- pairwise 对照中，candidate 改善 `2/20` 个 query、退化 `0/20` 个、持平 `18/20` 个。
+- answer surface 从 `0.5500` 提升到 `0.6000`，support hit 从 `0.9500` 提升到 `1.0000`。
+
+主要产物：
+- `outputs/reports/Stage32_LLMComparison_20Query.md`
+- `outputs/ms_graphrag_query/stage32_poisoned20_llm_comparison_cases.jsonl`
+- `outputs/ms_graphrag_query/stage32_poisoned20_llm_comparison_results.jsonl`
+- `outputs/ms_graphrag_query/stage32_poisoned20_llm_comparison_summary.csv`
+- `outputs/ms_graphrag_query/stage32_poisoned20_llm_comparison_pairwise.csv`
+- `outputs/ms_graphrag_query/stage32_poisoned20_llm_comparison_examples.jsonl`
+
+下一步：
+- Stage33 已完成 `title_query_overlap` 正式回答管线固化。
+- 下一步优先补充 LLM judge / alias normalization，并改进 candidate pool / source enrichment。
+- 扩展 official GraphRAG 到 HotpotQA 和 MuSiQue 后，再设计 adaptive attack。
+
+### 阶段19：Stage33 Title-Overlap 正式回答管线
+
+目标：
+- 将 Stage32 验证有效的 `title_query_overlap` source ordering 固化进正式回答生成管线。
+- 保持旧 Stage27/28 配置默认行为不变，通过 `rendering_policies` 显式开启新渲染策略。
+- 对 Stage33 输出继续复用 Stage29 审计逻辑，得到归一化后的回答质量和失败归因。
+
+已完成：
+- 在 `src/logicguard/ms_graphrag/answer_level_llm_verification.py` 中新增 `Stage27RenderingPolicy`。
+- `Stage27AnswerCase`、`Stage27AnswerLLMResult` 和 `Stage27SummaryRow` 记录 `order_policy`、`max_sources`、`max_chars_per_source`。
+- 新增 `configs/ms_graphrag_stage33_answer_llm_ordered_poisoned20.yaml`。
+- 新增 `configs/ms_graphrag_stage33_answer_audit_poisoned20.yaml`。
+- 跑完 20-query 真实 LLM answer generation 与审计。
+
+关键结果：
+- Stage33 原始真实 LLM：`correct_rate=0.2500`、`utility_rate=0.2500`、`abstain_rate=0.6500`、`attack_success_rate=0.0000`。
+- Stage33 审计后：`stage29_correct_rate=0.3000`、`stage29_utility_rate=0.3000`、`stage29_attack_success_rate=0.0000`。
+- `support_hit_rate=1.0000`，但 `answer_surface=0.6000`，说明候选池和 source enrichment 仍是关键瓶颈。
+- 失败归因：`abstain_without_gold_answer_surface=8/20`、`abstain_despite_gold_answer_surface=5/20`、`incorrect_despite_gold_answer_surface=1/20`。
+
+主要产物：
+- `outputs/reports/Stage33_TitleOverlapPipeline_20Query.md`
+- `outputs/reports/Stage33_AnswerAudit_TitleOverlap_20Query.md`
+- `outputs/ms_graphrag_query/stage33_poisoned20_answer_llm_summary.csv`
+- `outputs/ms_graphrag_query/stage33_poisoned20_answer_audit_summary.csv`
+- `outputs/ms_graphrag_query/stage33_poisoned20_answer_audit_breakdown.csv`
+
+下一步：
+- Stage34 已完成 answer judge 增强审计。
+- Stage35 已完成 `abstain_without_gold_answer_surface` 的 source enrichment 离线诊断。
+- 完成 2Wiki 管线稳定后，扩展到 HotpotQA 与 MuSiQue。
+
+### 阶段20：Stage34 回答裁判增强审计
+
+目标：
+- 在 Stage33 本地归一化审计之后加入 LLM judge。
+- 只对本地审计后仍为 `incorrect` 的非拒答样本调用 judge，控制成本。
+- 区分严格错误和语义上相关但不够精确的 `partial`。
+
+已完成：
+- 新增 `src/logicguard/ms_graphrag/stage34_answer_judge_audit.py`。
+- 新增 `tests/test_ms_graphrag_stage34_answer_judge_audit.py`。
+- 新增 `configs/ms_graphrag_stage34_answer_judge_audit_poisoned20.yaml`。
+- 复用 Stage33 审计结果，完成 20-query judge-aware audit。
+
+关键结果：
+- judge calls：`1/20`。
+- Stage33 utility：`0.3000`。
+- Stage34 final utility：`0.3500`。
+- final correct：`0.3000`，final partial：`0.0500`，final incorrect：`0.0000`。
+- final attack success：`0.0000`。
+- `Poland` vs `Polish-Lithuanian Commonwealth` 被判为 `partial`。
+
+主要产物：
+- `outputs/reports/Stage34_AnswerJudgeAudit_20Query.md`
+- `outputs/ms_graphrag_query/stage34_poisoned20_answer_judge_results.jsonl`
+- `outputs/ms_graphrag_query/stage34_poisoned20_answer_judge_summary.csv`
+- `outputs/ms_graphrag_query/stage34_poisoned20_answer_judge_breakdown.csv`
+
+下一步：
+- Stage35 已完成 candidate pool/source enrichment 离线诊断。
+- Stage36 已完成 enriched contexts 的真实 LLM 复验。
+- 同步改进回答 prompt，降低 `abstain_despite_gold_answer_surface`。
+
+### 阶段21：Stage35 候选源扩展诊断
+
+目标：
+- 固定 Stage33 的 `title_query_overlap + top-8 + 450 chars/source` baseline。
+- 从 clean candidate pool 中用非 oracle `query_bm25_append` 追加候选源。
+- 区分普通 `answer surface` 与更可信的 `support answer surface`。
+- 为下一轮真实 LLM answer generation 准备 enriched context 输入。
+
+已完成：
+- 新增 `src/logicguard/ms_graphrag/stage35_source_enrichment.py`。
+- 新增 `tests/test_ms_graphrag_stage35_source_enrichment.py`。
+- 新增 `configs/ms_graphrag_stage35_source_enrichment_poisoned20.yaml`。
+- 生成 `stage35_poisoned20_query_bm25_append_top12_contexts.jsonl`，可直接供后续 answer LLM 管线使用。
+
+关键结果：
+- Stage33 top-8 baseline：`support_answer_surface_rate=0.5500`，`clean_answerable_rate=0.6000`。
+- `query_bm25_append + top-12`：`support_answer_surface_rate=0.7500`，`clean_answerable_rate=0.8000`，`full_support_hit_rate=0.8000`，`unsafe_context_rate=0.0000`。
+- 目标失败类 `abstain_without_gold_answer_surface=8/20` 中，support answer surface gain 为 `0.5000`。
+- oracle support append 上界：`support_answer_surface_rate=0.8500`，`clean_answerable_rate=0.9000`。
+- `query_bm25_rerank` 会破坏已有上下文，`support_hit_rate=0.4500`，不宜作为默认策略。
+
+主要产物：
+- `outputs/reports/Stage35_SourceEnrichment_20Query.md`
+- `outputs/ms_graphrag_query/stage35_poisoned20_query_bm25_append_top12_contexts.jsonl`
+- `outputs/ms_graphrag_query/stage35_poisoned20_source_enrichment_rows.jsonl`
+- `outputs/ms_graphrag_query/stage35_poisoned20_source_enrichment_summary.csv`
+- `outputs/ms_graphrag_query/stage35_poisoned20_source_enrichment_examples.jsonl`
+
+下一步：
+- Stage36 已在 enriched contexts 上完成真实 LLM answer generation。
+- 下一步用 Stage37 改进 evidence-use prompt，并继续缩小 oracle support append 与 non-oracle append 的 candidate ranking 差距。
+
+### 阶段22：Stage36 Enriched Contexts 真实 LLM 复验
+
+目标：
+- 将 Stage35 `query_bm25_append + top-12` enriched contexts 接入真实 LLM answer generation。
+- 复用 Stage29 本地审计和 Stage34 judge-aware 审计，保持与 Stage33/34 同口径。
+- 验证 Stage35 source-enrichment proxy 是否能转化为真实 answer-level utility。
+
+已完成：
+- 新增 Stage36 answer generation 配置：`configs/ms_graphrag_stage36_answer_llm_enriched_poisoned20.yaml`。
+- 新增 Stage36 answer audit 配置：`configs/ms_graphrag_stage36_answer_audit_enriched_poisoned20.yaml`。
+- 新增 Stage36 judge-aware audit 配置：`configs/ms_graphrag_stage36_answer_judge_audit_enriched_poisoned20.yaml`。
+- 补充 Stage35 method 的 Stage29 中文显示、pipeline steps 和方法排序。
+- 完成 20-query 真实 LLM 回答、Stage29 审计和 judge-aware 审计。
+
+关键结果：
+- Stage36 raw LLM：`utility_rate=0.7500`，`abstain_rate=0.1500`，`attack_success_rate=0.0000`。
+- Stage36 audit：`stage29_utility_rate=0.8000`，`stage29_incorrect_rate=0.0500`。
+- Stage36 judge-aware final：`final_correct_rate=0.8000`，`final_partial_rate=0.0500`，`final_utility_rate=0.8500`，`final_attack_success_rate=0.0000`。
+- 相比 Stage34 final utility `0.3500`，Stage36 提升到 `0.8500`。
+- 剩余失败：`abstain_without_gold_answer_surface=2/20`，`abstain_despite_gold_answer_surface=1/20`。
+
+主要产物：
+- `outputs/reports/Stage36_EnrichedContextLLM_20Query.md`
+- `outputs/reports/Stage36_AnswerLLM_Enriched_20Query.md`
+- `outputs/reports/Stage36_AnswerAudit_Enriched_20Query.md`
+- `outputs/reports/Stage36_AnswerJudgeAudit_Enriched_20Query.md`
+- `outputs/ms_graphrag_query/stage36_poisoned20_answer_llm_results.jsonl`
+- `outputs/ms_graphrag_query/stage36_poisoned20_answer_audit_results.jsonl`
+- `outputs/ms_graphrag_query/stage36_poisoned20_answer_judge_results.jsonl`
+
+下一步：
+- Stage37 已完成 evidence prompt 复验；final utility 与 Stage36 持平，说明剩余瓶颈更偏向 evidence-chain completeness。
+- Stage38 已完成 chain-completeness 诊断和 second-hop targeted append；下一步用 Stage38 targeted contexts 做真实 LLM 复验。
+
+### 阶段23：Stage37 Evidence Prompt 复验
+
+目标：
+- 在 Stage36 enriched contexts 不变的前提下，只修改 answer prompt。
+- 新增 `prompt_policy=evidence_compare`，要求模型检查全部 numbered evidence blocks、处理比较题并返回题目要求的实体。
+- 验证剩余拒答是否主要来自 prompt/evidence-use。
+
+已完成：
+- `src/logicguard/llm/context.py` 支持 `prompt_policy=evidence_compare`。
+- `src/logicguard/ms_graphrag/answer_level_llm_verification.py` 支持从 rendering policy 传递并记录 `prompt_policy`。
+- 新增 Stage37 answer generation、Stage29 audit、Stage34 judge-aware audit 三份配置。
+- 完成 20-query 真实 LLM 回答、离线审计和 judge-aware 审计。
+
+关键结果：
+- Stage37 raw LLM：`utility_rate=0.7000`，`abstain_rate=0.1500`，`attack_success_rate=0.0000`。
+- Stage37 audit：`stage29_utility_rate=0.8000`，`stage29_incorrect_rate=0.0500`。
+- Stage37 judge-aware final：`final_correct_rate=0.8000`，`final_partial_rate=0.0500`，`final_utility_rate=0.8500`，`final_attack_success_rate=0.0000`。
+- 与 Stage36 final utility `0.8500` 持平，说明 prompt-only 改进不是当前主要增益点。
+- 3 条剩余拒答都与二跳证据不完整相关：缺 doc `1440`、`4684` 或 `2762`。
+
+主要产物：
+- `outputs/reports/Stage37_EvidencePrompt_20Query_中文综合报告.md`
+- `outputs/reports/Stage37_AnswerLLM_EvidencePrompt_20Query.md`
+- `outputs/reports/Stage37_AnswerAudit_EvidencePrompt_20Query.md`
+- `outputs/reports/Stage37_AnswerJudgeAudit_EvidencePrompt_20Query.md`
+- `outputs/ms_graphrag_query/stage37_poisoned20_answer_llm_results.jsonl`
+- `outputs/ms_graphrag_query/stage37_poisoned20_answer_audit_results.jsonl`
+- `outputs/ms_graphrag_query/stage37_poisoned20_answer_judge_results.jsonl`
+
+下一步：
+- Stage38 已完成 `chain_complete` 归因，拆分 answer surface 与多跳支撑链完整性。
+- Stage38 已基于 query 相关 source 的 bridge entity/title 完成 second-hop targeted append。
+- Stage39 已完成 targeted contexts 真实 LLM answer-level 复验；20-query 当前最佳 judge-aware final utility 达到 `0.9500`。
+- 下一步扩展 50-query 与其它数据集，并补充属性句级 evidence completeness。
+
+### 阶段24：Stage38 链路完整性与二跳补证诊断
+
+目标：
+- 解释 Stage37 剩余拒答和“答案表面存在但仍不可答”的原因。
+- 将 answer surface、full support hit、chain complete 分开统计，避免把答案字符串出现误当作多跳证据链完整。
+- 从当前 context 中已命中的标题和正文实体出发，做非 oracle second-hop targeted append。
+
+已完成：
+- 新增 `src/logicguard/ms_graphrag/stage38_chain_completeness.py`。
+- 新增 `tests/test_ms_graphrag_stage38_chain_completeness.py`。
+- 新增 `configs/ms_graphrag_stage38_chain_completeness_poisoned20.yaml`。
+- 生成 `stage38_poisoned20_second_hop_append_top14_contexts.jsonl`，可供后续真实 LLM answer generation 使用。
+
+关键结果：
+- Stage35/37 基线：`full_support_hit_rate=0.8000`，`chain_complete_rate=0.8000`，`answer_surface_rate=0.8000`。
+- Stage38 targeted append：`targeted_full_support_hit_rate=1.0000`，`targeted_chain_complete_rate=1.0000`，`full-support gain=0.2000`。
+- 4 个原本缺 support 的 query 全部补齐：`4684`、`1440`、`551`、`2762` 均进入追加 top2。
+- 当前结论仍是 source/chain-level proxy；3 个原本拒答样本需要 Stage39 重新调用真实 LLM 验证 answer-level utility 是否提升。
+
+主要产物：
+- `outputs/reports/Stage38_ChainCompleteness_SecondHop_20Query.md`
+- `outputs/ms_graphrag_query/stage38_poisoned20_chain_completeness_rows.jsonl`
+- `outputs/ms_graphrag_query/stage38_poisoned20_chain_completeness_summary.csv`
+- `outputs/ms_graphrag_query/stage38_poisoned20_second_hop_append_top14_contexts.jsonl`
+
+下一步：
+- Stage39 已使用 Stage38 targeted contexts 完成真实 LLM answer generation、Stage29 审计和 Stage34 judge-aware 审计。
+- Stage39 已证明 second-hop append 能转化为真实 answer-level utility 增益；后续应进一步固化到 answer pipeline，并控制 complete queries 上的额外噪声。
+- 随后扩展 50-query 和其它数据集，再进入 adaptive attack 评估。
+
+### 阶段25：Stage39 二跳补证真实回答复验
+
+目标：
+- 验证 Stage38 的 source/chain-level 二跳补证是否能转化为真实 answer-level utility。
+- 复用 Stage38 `stage38_second_hop_append_top14` contexts，运行真实 LLM answer generation、Stage29 本地审计和 Stage34 judge-aware 审计。
+- 保持与 Stage36/37 相同的 `qwen3.7-plus` 和 judge-aware 口径，便于横向比较。
+
+已完成：
+- 新增 `configs/ms_graphrag_stage39_answer_llm_second_hop_poisoned20.yaml`。
+- 新增 `configs/ms_graphrag_stage39_answer_audit_second_hop_poisoned20.yaml`。
+- 新增 `configs/ms_graphrag_stage39_answer_judge_audit_second_hop_poisoned20.yaml`。
+- 完成 20-query 真实回答生成、Stage29 审计和 Stage34 judge-aware 审计。
+
+关键结果：
+- Stage39 raw LLM：`utility_rate=0.8000`，`abstain_rate=0.0500`，`attack_success_rate=0.0000`。
+- Stage39 audit：`stage29_utility_rate=0.9000`，`stage29_incorrect_rate=0.0500`，`stage29_attack_success_rate=0.0000`。
+- Stage39 judge-aware final：`final_correct_rate=0.9000`，`final_partial_rate=0.0500`，`final_utility_rate=0.9500`，`final_attack_success_rate=0.0000`。
+- 相比 Stage37 final utility `0.8500`，Stage39 提升 `+0.1000`；2 个样本从拒答变正确，0 个样本退化。
+- 剩余 1 条拒答来自 doc-level support 命中但缺属性句证据，后续要做 sentence/attribute-level evidence completeness。
+
+主要产物：
+- `outputs/reports/Stage39_SecondHopAnswer_20Query_中文综合报告.md`
+- `outputs/reports/Stage39_AnswerLLM_SecondHop_20Query.md`
+- `outputs/reports/Stage39_AnswerAudit_SecondHop_20Query.md`
+- `outputs/reports/Stage39_AnswerJudgeAudit_SecondHop_20Query.md`
+- `outputs/ms_graphrag_query/stage39_poisoned20_answer_judge_summary.csv`
+
+下一步：
+- Stage40 已完成跨数据集 readiness 审计；HotpotQA / MuSiQue 当前阻断在 official GraphRAG clean/poisoned 索引缺失。
+- Stage41 应先准备并索引 HotpotQA / MuSiQue workspaces，再导出 baseline/broad/query-guard contexts。
+- 同步设计 attribute/sentence-level evidence completeness，避免把 doc-level support hit 误判为属性证据完整。
+- 在跨数据集稳定后，再进入 adaptive attack 评估。
+
+### 阶段26：Stage40 跨数据集 official GraphRAG readiness 审计
+
+目标：
+- 审计 2WikiMultihopQA、HotpotQA、MuSiQue 是否已经具备 official GraphRAG source recovery、chain completeness 和 answer-level 复验所需资产。
+- 明确区分“数据已经准备好”和“可以纳入防御效果结论”，避免把缺索引数据集误算为跨数据集验证。
+- 为 HotpotQA / MuSiQue 生成可复用的 gap actions。
+
+已完成：
+- 新增 `src/logicguard/ms_graphrag/stage40_cross_dataset_audit.py`。
+- 新增 `tests/test_ms_graphrag_stage40_cross_dataset_audit.py`。
+- 新增 `configs/ms_graphrag_stage40_cross_dataset_audit.yaml`。
+- 生成三数据集 asset rows、readiness summary、gap actions 和中文审计报告。
+
+关键结果：
+- `2wikimultihopqa`：processed samples、query integrity、clean/poisoned GraphRAG workspaces、baseline/broad contexts、Stage28/35/38/39 资产均 ready。
+- `hotpotqa` 与 `musique`：processed samples、clean/poisoned corpus、query integrity 均 ready，但缺 clean/poisoned official GraphRAG output parquet。
+- 当前不能报告 HotpotQA / MuSiQue 的 source recovery、chain completeness、utility 或 attack success；下一步必须先完成 official GraphRAG indexing。
+
+主要产物：
+- `outputs/reports/Stage40_CrossDatasetReadiness_OfficialGraphRAG.md`
+- `outputs/ms_graphrag_query/stage40_cross_dataset_readiness_summary.csv`
+- `outputs/ms_graphrag_query/stage40_cross_dataset_asset_rows.jsonl`
+- `outputs/ms_graphrag_query/stage40_cross_dataset_gap_actions.jsonl`
+
+下一步：
+- Stage41 已完成 HotpotQA / MuSiQue workspace prepare + GraphRAG index，并导出 5-query baseline/broad contexts。
+- Stage42 应导出 HotpotQA / MuSiQue 的 20-query full-query-guard contexts。
+- 再复用 Stage28/35/38/39 管线，进行真正的跨数据集 source/chain/answer 验证。
+
+### 阶段27：Stage41 HotpotQA/MuSiQue official GraphRAG 索引与 baseline/broad context 补齐
+
+目标：
+- 解除 Stage40 发现的 HotpotQA/MuSiQue official GraphRAG 索引缺口。
+- 为两个数据集分别准备 clean/poisoned sample-support workspaces。
+- 导出 poisoned workspace 的 5-query baseline/broad official local contexts，为 query-guard seed planning 做准备。
+
+已完成：
+- HotpotQA clean/poisoned GraphRAG workspaces 已完成索引。
+- MuSiQue clean/poisoned GraphRAG workspaces 已完成索引。
+- 新增 HotpotQA/MuSiQue official local baseline/broad context 配置。
+- 导出 HotpotQA/MuSiQue 5-query baseline/broad contexts。
+
+关键结果：
+- HotpotQA clean/poisoned：各 100 input docs；community reports 分别为 32 / 23。
+- MuSiQue clean/poisoned：各 117 input docs；community reports 分别为 25 / 24。
+- HotpotQA baseline/broad contexts 平均 source 数分别为 `28.2` / `67.4`。
+- MuSiQue baseline/broad contexts 平均 source 数分别为 `31.6` / `89.8`。
+- Stage40 readiness 复查后，HotpotQA/MuSiQue 下一阻断均变为 `run_query_guard_context_export`。
+
+主要产物：
+- `outputs/reports/Stage41_CrossDatasetGraphRAGIndexAndContext_中文报告.md`
+- `outputs/ms_graphrag/hotpotqa/stage40_debug50_clean_query_ready`
+- `outputs/ms_graphrag/hotpotqa/stage40_debug50_poisoned_query_ready`
+- `outputs/ms_graphrag/musique/stage40_debug50_clean_query_ready`
+- `outputs/ms_graphrag/musique/stage40_debug50_poisoned_query_ready`
+- `outputs/ms_graphrag_query/stage40_hotpotqa_poisoned5_official_local_context.jsonl`
+- `outputs/ms_graphrag_query/stage40_hotpotqa_poisoned5_broad_context.jsonl`
+- `outputs/ms_graphrag_query/stage40_musique_poisoned5_official_local_context.jsonl`
+- `outputs/ms_graphrag_query/stage40_musique_poisoned5_broad_context.jsonl`
+
+下一步：
+- Stage42 已完成 HotpotQA/MuSiQue query-layer config、20-query `full_query_guard` source contexts 与 retrieval/safety proxy evaluation。
+- Stage43 应进入 HotpotQA/MuSiQue risk-non-oracle recovery。
+- 随后再做 Stage35 enrichment、Stage38 chain completeness 与 Stage39 answer-level 复验。
+
+### 阶段28：Stage42 HotpotQA/MuSiQue query-guard source context 导出
+
+目标：
+- 为 HotpotQA/MuSiQue 生成跨数据集 Stage28 recovery 所需的 20-query official source contexts。
+- 保持与 2Wiki Stage24 相同的 `full_query_guard` query-layer 口径。
+- 用 retrieval/safety proxy 判断 support recall 与 changed exposure，为 recovery 设计提供输入。
+
+已完成：
+- 新增 `configs/ms_graphrag_stage40_hotpotqa.yaml`。
+- 新增 `configs/ms_graphrag_stage40_musique.yaml`。
+- 运行 HotpotQA/MuSiQue `query_layer_seeding`、`query_layer_context`、`query_layer_evaluation`。
+- 重新运行 Stage40 readiness audit。
+
+关键结果：
+- HotpotQA `full_query_guard`：`gold_support_recall=0.8750`，`changed_exposure=0.8750`，`context_recall_failure_count=2`。
+- MuSiQue `full_query_guard`：`gold_support_recall=0.7375`，`changed_exposure=0.7375`，`context_recall_failure_count=0`。
+- `full_query_guard` 相比 broad expansion 用更少 source 达到更高 support recall，但 changed exposure 同步升高，说明下一步必须做 recovery。
+- readiness audit 已推进到 `run_stage28_risk_non_oracle_recovery`。
+
+主要产物：
+- `outputs/reports/Stage42_CrossDatasetQueryGuardContext_中文报告.md`
+- `outputs/ms_graphrag_query/stage40_hotpotqa_poisoned20_query_guard_contexts_full_query_guard.jsonl`
+- `outputs/ms_graphrag_query/stage40_musique_poisoned20_query_guard_contexts_full_query_guard.jsonl`
+- `outputs/ms_graphrag_query/stage40_hotpotqa_poisoned20_query_guard_summary.csv`
+- `outputs/ms_graphrag_query/stage40_musique_poisoned20_query_guard_summary.csv`
+
+下一步：
+- Stage43：新增 HotpotQA/MuSiQue risk-non-oracle recovery 配置。
+- 运行 `logicguard.defense.risk_aware_recovery`。
+- 比较 recovery 后的 gold recall、changed exposure、trusted recall 与后续 answerability 空间。
+
+### 阶段29：Stage43 跨数据集 risk-non-oracle source recovery
+
+已完成：
+- 新增 HotpotQA/MuSiQue Stage43 recovery 配置，并把 Stage40 readiness 的 recovery 命令更新为 Stage43 配置入口。
+- 在两个数据集各 20 条 official GraphRAG `full_query_guard` context 上运行风险检测、仅过滤与 clean candidate recovery。
+- 重新运行 Stage40 readiness 审计；两个数据集的 recovery 资产均已 ready，下一阻断项变为 `run_stage35_source_enrichment`。
+
+关键结果：
+- HotpotQA：recovery 保持 `gold_support_recall=0.8750`，并将 `changed_exposure=0.8750` 降至 `0.0000`；只过滤后 context 全空。
+- MuSiQue：recovery 保持 `gold_support_recall=0.7375`，并将 `changed_exposure=0.7375` 降至 `0.0000`；只过滤的空 context 比例为 `0.8500`。
+- HotpotQA `risk_recall=1.0000`，MuSiQue `risk_recall=0.9950`，但分别替换 `662/662` 和 `629/633` 个 source 实例，当前设置主要验证同标题 clean-reference 替换，而非混合语料下的高选择性检测。
+- 本阶段没有调用回答 LLM，不能把 source-level 结果写成跨数据集 utility 或 attack-success 结论。
+
+下一步：
+- 先为 HotpotQA/MuSiQue 复用 Stage35 source enrichment，再进入链路完整性和 answer-level 验证。
+- 以 MuSiQue 的低实体漂移漏检为起点，设计低漂移、候选碰撞和证据拆分自适应攻击。
+
+### 阶段30：Stage44 跨数据集 source enrichment
+
+已完成：
+- 新增 HotpotQA/MuSiQue Stage44 配置，并把 Stage40 readiness 的 source-enrichment 命令更新为 Stage44 入口。
+- 在两个数据集各 20 条 recovered contexts 上比较 title-overlap、BM25 append、BM25 rerank 和 oracle support append。
+- 导出 `query_bm25_append + top-12` clean contexts，并重新运行 Stage40 readiness 审计。
+
+关键结果：
+- HotpotQA non-oracle append 将 full support 从 `0.7500` 提升到 `0.9500`、support answer surface 从 `0.6000` 提升到 `0.8000`。
+- MuSiQue non-oracle append 将 full support 从 `0.3000` 提升到 `0.6000`、support answer surface 从 `0.3000` 提升到 `0.4000`。
+- 两个选定 contexts 均为 clean reference，`unsafe_context_rate=0.0000`。BM25 rerank 则会破坏 Stage43 已有 evidence，不能作为默认策略。
+- MuSiQue 的 oracle full-support 上界仍为 `1.0000`，非 oracle append 仅为 `0.6000`，后续应转向 bridge-aware chain completeness，而不是继续盲目增大 top-k。
+
+下一步：
+- Stage45 对 HotpotQA/MuSiQue 运行 Stage38 风格 chain completeness 与 targeted second-hop append。
+- 完成链路补证后，再统一进行 answer-level LLM / judge 验证和自适应攻击。
+
+### 阶段31：Stage45 跨数据集 chain completeness 与二跳补证
+
+已完成：
+- 新增 HotpotQA/MuSiQue Stage45 配置，并把 Stage40 readiness 的 chain-completeness 命令更新为 Stage45 入口。
+- 在两个数据集各 20 条 Stage44 top-12 clean contexts 上运行桥接实体二跳追加，导出 top-14 targeted contexts。
+- 让 chain summary 显式记录 `answer_audit_available`；无回答审计时 utility/attack success 为空值，而非错误的 `0.0000`。
+
+关键结果：
+- HotpotQA：baseline 与 targeted 的 chain complete 均为 `0.9500`；唯一缺链 `Paul Avery` 没有被桥接候选命中，说明无条件追加不适合该数据集的 complete query。
+- MuSiQue：targeted chain complete 从 `0.6000` 提升至 `0.8000`，补齐 4 条缺失 support；但 support answer surface 仍为 `0.4000`，需要 answer-level 验证才知道是否有真实效用。
+- 两个 targeted context 集合均只包含 clean reference source，安全链路没有退化。
+
+下一步：
+- Stage46 运行跨数据集真实 LLM answer-level 对照和 judge 审计，重点比较 MuSiQue Stage44 vs Stage45 的 4 条补链 query。
+- 在回答层指标冻结后，再将低漂移、候选碰撞与证据拆分纳入自适应攻击评估。
+
+### 阶段32：Stage46 跨数据集真实 LLM 回答验证
+
+已完成：
+- 将 HotpotQA/MuSiQue 的 Stage42 基线、Stage43 风险恢复、Stage44 top-12 扩展和 Stage45 top-14 二跳补证冻结为每数据集 80 个 answer cases。
+- 对实际渲染且单源截断 450 字符后的 prompt 做污染暴露预检，再调用 `qwen3.7-plus` 生成 160 条回答。
+- 运行 Stage29 离线审计与 Stage34 按需语义裁决，并新增 query 级配对汇总、可回放 source 对照样例与中文总报告。
+- 将 Stage40 readiness 的 HotpotQA/MuSiQue answer summary 指针改为 Stage46 裁决汇总；三个数据集均不再缺少回答层验证资产。
+
+关键结果：
+- 未恢复基线的实际未恢复污染源暴露率为 HotpotQA `0.8500`、MuSiQue `1.0000`，最终 ASR 分别为 `0.4500`、`0.1000`。
+- 三种防御策略在两个数据集的最终 ASR 均为 `0.0000`；因此当前安全结论是有攻击压力下的结果，而不是无攻击暴露的零值。
+- Stage44 top-12 将 final utility 提升至 HotpotQA `0.8500`、MuSiQue `0.4000`；Stage45 top-14 在 MuSiQue 进一步为 `0.4500`，HotpotQA 保持 `0.8500`。
+- 当前默认部署策略应为 Stage43 恢复后接 Stage44 扩展；仅当链路诊断显示缺失 bridge support 时才触发 Stage45 二跳补证。
+
+当前局限：
+- 每数据集仅 20 query、单一回答模型、trusted clean reference candidate pool；Stage46 证明的是当前威胁模型下的跨数据集可复现性，不是无可信参考部署的充分证明。
+- 回答模块在整批完成后统一写入，缺少 checkpoint；真实部署前需要改为可恢复的增量写入和预算控制。
+
+下一步：
+- Stage47 以 Stage46 的防御参数和判定口径冻结为前提，开展自适应攻击矩阵：低实体漂移、候选池碰撞、证据拆分、恢复绕过与多 source 协同攻击。
+- 每种攻击先验证：污染 source 进入实际 prompt、攻击不依赖 `changed_support_doc_ids` 等评测标签、攻击样本的 clean 版本仍可回答；再报告 ASR、效用损失、风险检测率与恢复误配率。
+
+### 阶段33：Stage47 三类自适应 source 攻击初步实验
+
+已完成：
+- 从 MuSiQue 20 问与 HotpotQA 5 问的 clean official GraphRAG workspace 导出无 gold/support 字段的 `full_query_guard` contexts。
+- 使用同一次标签盲攻击生成调用，为每个 query 构造低实体漂移、候选碰撞和无可信对应源自然桥接三类 source 扰动。
+- 对每类攻击运行未防御、Stage43 recovery、Stage44 top-12 和 Stage45 top-14 四种回答上下文；先做实际截断后 prompt 预检，再运行 140 条真实回答、Stage29 审计和 63 次 Stage34 judge。
+- 将 broad ASR 与 targeted ASR 分离：targeted success 必须同时满足恶意答案进入 prompt、最终回答错误、回答命中攻击目标。
+
+结果漏斗：
+- 75 次攻击尝试中，35 次满足生成模板；排除目标等于 gold 和候选仍为 gold support 后，21 次满足最终评测条件。
+- 未防御 prompt 中有 19 条真实恶意答案暴露；全部回答调用无 API error，全部 judge 无错误。
+
+关键结果：
+- `natural_bridge`：聚合未防御 targeted ASR `0.8000`，Stage44 `0.7000`。MuSiQue 上 Stage43 检出率为 0，targeted ASR 保持 `0.8750`，是最优先修复缺口。
+- `low_drift`：风险检出率始终为 0；但仅 6 条评测有效、4 条目标暴露。HotpotQA 唯一有效样本四阶段均成功，MuSiQue 没有 targeted success，当前只能确认漏检机制，不能稳定估计 ASR。
+- `candidate_collision`：5 条真正错误候选攻击均被检出且移除攻击 source，targeted ASR 从 `0.8000` 降至 0；但恢复模块 5/5 选择了攻击者诱导的非 gold support，属于结构性 wrong-recovery 风险。
+- Stage44 可缓解自然桥接但不能保证安全；Stage45 相比 Stage44 没有稳定附加收益，继续保留条件触发策略。
+
+当前边界：
+- Stage47 是 post-retrieval source perturbation，不包含重建索引；不能据此宣称对完整 corpus poisoning 已鲁棒。
+- HotpotQA 仅 5 条迁移 query，低漂移和候选碰撞的评测有效分母都很小，必须在下一轮扩大或定向采样。
+
+下一步：
+- 以自然桥接为主攻击、低漂移为 detector blind-spot 攻击、错误候选碰撞为 recovery-integrity 攻击，构建完整污染 corpus 并重新运行 official GraphRAG index/query。
+- 新增“无可信 counterpart”风险分支，以及 recovery candidate 的 query relevance、支持链一致性和冲突检查；不要把 `candidate recovered` 等同于 `recovery correct`。

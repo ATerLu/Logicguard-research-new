@@ -13,7 +13,10 @@ from logicguard.ms_graphrag.minimal_experiment import (
 
 def _write_jsonl(path: Path, rows: list[dict[str, object]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text("".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows), encoding="utf-8")
+    path.write_text(
+        "".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows),
+        encoding="utf-8",
+    )
 
 
 def test_parse_logicguard_doc_id_from_graphrag_text() -> None:
@@ -22,7 +25,9 @@ def test_parse_logicguard_doc_id_from_graphrag_text() -> None:
     assert parse_logicguard_doc_id(text) == "doc-17"
 
 
-def test_load_ms_graphrag_indexed_documents_restores_original_doc_ids(tmp_path: Path) -> None:
+def test_load_ms_graphrag_indexed_documents_restores_original_doc_ids(
+    tmp_path: Path,
+) -> None:
     output_dir = tmp_path / "workspace" / "output"
     output_dir.mkdir(parents=True)
     pd.DataFrame(
@@ -47,9 +52,18 @@ def test_run_minimal_experiment_writes_trace_metrics_and_report(tmp_path: Path) 
     poisoned_output = tmp_path / "poisoned" / "output"
     clean_output.mkdir(parents=True)
     poisoned_output.mkdir(parents=True)
-    for output_dir, body in [(clean_output, "Gold answer lives here."), (poisoned_output, "Wrong answer lives here.")]:
+    for output_dir, body in [
+        (clean_output, "Gold answer lives here."),
+        (poisoned_output, "Wrong answer lives here."),
+    ]:
         pd.DataFrame(
-            [{"id": "hash-g1", "title": "g1.txt", "text": f"Document ID: g1\nTitle: Gold Doc\n\n{body}"}]
+            [
+                {
+                    "id": "hash-g1",
+                    "title": "g1.txt",
+                    "text": f"Document ID: g1\nTitle: Gold Doc\n\n{body}",
+                }
+            ]
         ).to_parquet(output_dir / "documents.parquet")
 
     sample_path = tmp_path / "samples.jsonl"
@@ -63,7 +77,13 @@ def test_run_minimal_experiment_writes_trace_metrics_and_report(tmp_path: Path) 
                 "query": "Where does the gold answer live?",
                 "answer": "Gold answer",
                 "support_doc_ids": ["g1"],
-                "support_docs": [{"doc_id": "g1", "title": "Gold Doc", "text": "Gold answer lives here."}],
+                "support_docs": [
+                    {
+                        "doc_id": "g1",
+                        "title": "Gold Doc",
+                        "text": "Gold answer lives here.",
+                    }
+                ],
             }
         ],
     )
@@ -90,5 +110,9 @@ def test_run_minimal_experiment_writes_trace_metrics_and_report(tmp_path: Path) 
     assert len(rows) == 2
     assert rows[1].corpus_state == "poisoned"
     assert rows[1].changed_doc_retrieval_at_k == 1.0
-    assert (config.output_root / "toy" / "ms_graphrag_minimal_poisoned_traces.jsonl").exists()
-    assert "Microsoft GraphRAG minimal" in config.report_path.read_text(encoding="utf-8")
+    assert (
+        config.output_root / "toy" / "ms_graphrag_minimal_poisoned_traces.jsonl"
+    ).exists()
+    assert "Microsoft GraphRAG minimal" in config.report_path.read_text(
+        encoding="utf-8"
+    )

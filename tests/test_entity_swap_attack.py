@@ -12,7 +12,9 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 ENTITY_SWAP_CONFIG_PATH = PROJECT_ROOT / "configs" / "entity_swap_attack.yaml"
-ENTITY_SWAP_FULL_CONFIG_PATH = PROJECT_ROOT / "configs" / "entity_swap_attack_full_500.yaml"
+ENTITY_SWAP_FULL_CONFIG_PATH = (
+    PROJECT_ROOT / "configs" / "entity_swap_attack_full_500.yaml"
+)
 
 
 def _sample(
@@ -55,7 +57,12 @@ def test_select_entity_swap_attacks_uses_next_answer_as_replacement() -> None:
 def test_select_entity_swap_prefers_same_answer_shape() -> None:
     samples = [
         _sample("q1", "Gisela Elsner", "d1", "Gisela Elsner was a writer."),
-        _sample("q2", "Polish-Lithuanian Commonwealth", "d2", "Polish-Lithuanian Commonwealth existed."),
+        _sample(
+            "q2",
+            "Polish-Lithuanian Commonwealth",
+            "d2",
+            "Polish-Lithuanian Commonwealth existed.",
+        ),
         _sample("q3", "Ada Lovelace", "d3", "Ada Lovelace wrote notes."),
     ]
 
@@ -71,8 +78,12 @@ def test_apply_entity_swap_attacks_rewrites_only_target_documents() -> None:
     ]
     attacks = select_entity_swap_attacks(samples, max_attacks=1)
     corpus = [
-        CorpusDocument(doc_id="d1", title="Gisela Elsner", text="Gisela Elsner was a writer."),
-        CorpusDocument(doc_id="d2", title="Ada Lovelace", text="Ada Lovelace wrote notes."),
+        CorpusDocument(
+            doc_id="d1", title="Gisela Elsner", text="Gisela Elsner was a writer."
+        ),
+        CorpusDocument(
+            doc_id="d2", title="Ada Lovelace", text="Ada Lovelace wrote notes."
+        ),
     ]
 
     poisoned = apply_entity_swap_attacks(corpus, attacks)
@@ -117,7 +128,10 @@ def test_entity_swap_run_config_targets_debug_50() -> None:
     config = EntitySwapRunConfig.from_yaml(ENTITY_SWAP_CONFIG_PATH)
 
     assert config.dataset == "2wikimultihopqa"
-    assert config.sample_path == PROJECT_ROOT / "data" / "processed" / "2wikimultihopqa" / "debug_50.jsonl"
+    assert (
+        config.sample_path
+        == PROJECT_ROOT / "data" / "processed" / "2wikimultihopqa" / "debug_50.jsonl"
+    )
     assert config.max_attacks == 20
     assert config.top_k == 10
     assert config.max_depth == 3
@@ -127,8 +141,13 @@ def test_entity_swap_full_config_uses_full_500_output_names() -> None:
     config = EntitySwapRunConfig.from_yaml(ENTITY_SWAP_FULL_CONFIG_PATH)
     outputs = config.baseline_outputs()
 
-    assert config.sample_path == PROJECT_ROOT / "data" / "processed" / "2wikimultihopqa" / "samples.jsonl"
+    assert (
+        config.sample_path
+        == PROJECT_ROOT / "data" / "processed" / "2wikimultihopqa" / "samples.jsonl"
+    )
     assert config.run_name == "full_500"
     assert config.max_attacks == 500
     assert outputs.trace_path.name == "poisoned_full_500_traces.jsonl"
-    assert outputs.query_entity_cache_path.name == "poisoned_full_500_query_entities.jsonl"
+    assert (
+        outputs.query_entity_cache_path.name == "poisoned_full_500_query_entities.jsonl"
+    )

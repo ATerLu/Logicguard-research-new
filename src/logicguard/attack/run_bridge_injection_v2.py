@@ -13,6 +13,8 @@ from pathlib import Path
 
 import yaml
 
+from logicguard.core.config import find_project_root, resolve_config_path
+
 from logicguard.attack.bridge_injection import (
     apply_answer_aware_bridge_injection_attacks,
     calculate_bridge_injection_exposure,
@@ -47,7 +49,8 @@ class AnswerAwareBridgeInjectionRunConfig:
     def from_yaml(cls, path: Path) -> "AnswerAwareBridgeInjectionRunConfig":
         """Load v2 config with paths relative to the project root."""
 
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         with path.open("r", encoding="utf-8") as handle:
             payload = yaml.safe_load(handle)
 
@@ -75,29 +78,46 @@ class AnswerAwareBridgeInjectionRunConfig:
         return self.output_root / self.dataset / "bridge_injection_v2_metadata.jsonl"
 
     def poisoned_corpus_path(self) -> Path:
-        return self.output_root / self.dataset / "answer_aware_bridge_poisoned_corpus.jsonl"
+        return (
+            self.output_root
+            / self.dataset
+            / "answer_aware_bridge_poisoned_corpus.jsonl"
+        )
 
     def baseline_outputs(self) -> BaselineOutputPaths:
         base = self.output_root / self.dataset
         return BaselineOutputPaths(
-            trace_path=base / f"answer_aware_bridge_poisoned_{self.run_name}_traces.jsonl",
-            corpus_entity_cache_path=base / "answer_aware_bridge_poisoned_corpus_entities.jsonl",
-            query_entity_cache_path=base / f"answer_aware_bridge_poisoned_{self.run_name}_query_entities.jsonl",
-            report_path=self.report_root / f"bridge_injection_v2_baseline_{self.dataset}_{self.run_name}.md",
+            trace_path=base
+            / f"answer_aware_bridge_poisoned_{self.run_name}_traces.jsonl",
+            corpus_entity_cache_path=base
+            / "answer_aware_bridge_poisoned_corpus_entities.jsonl",
+            query_entity_cache_path=base
+            / f"answer_aware_bridge_poisoned_{self.run_name}_query_entities.jsonl",
+            report_path=self.report_root
+            / f"bridge_injection_v2_baseline_{self.dataset}_{self.run_name}.md",
         )
 
     def exposure_report_path(self) -> Path:
-        style_segment = "" if self.template_style == "explicit" else f"_{self.template_style}"
-        return self.report_root / f"bridge_injection_v2{style_segment}_exposure_{self.dataset}_{self.run_name}.md"
+        style_segment = (
+            "" if self.template_style == "explicit" else f"_{self.template_style}"
+        )
+        return (
+            self.report_root
+            / f"bridge_injection_v2{style_segment}_exposure_{self.dataset}_{self.run_name}.md"
+        )
 
 
 def run_from_config(config: AnswerAwareBridgeInjectionRunConfig) -> None:
     """Generate answer-aware bridge docs, rerun baseline, and write exposure report."""
 
-    raw_dataset = load_raw_dataset(DatasetPaths.from_root(config.raw_data_root, config.dataset))
+    raw_dataset = load_raw_dataset(
+        DatasetPaths.from_root(config.raw_data_root, config.dataset)
+    )
     samples = load_normalized_samples(config.sample_path)
     extractor = RuleBasedEntityExtractor()
-    attacks = select_answer_aware_bridge_injection_attacks(samples, extractor, max_attacks=config.max_attacks)
+    attacks = select_answer_aware_bridge_injection_attacks(
+        samples, extractor, max_attacks=config.max_attacks
+    )
     poisoned_corpus = apply_answer_aware_bridge_injection_attacks(
         list(raw_dataset.corpus.values()),
         attacks,
@@ -117,7 +137,9 @@ def run_from_config(config: AnswerAwareBridgeInjectionRunConfig) -> None:
     )
     traces = _load_traces(config.baseline_outputs().trace_path)
     exposure = calculate_bridge_injection_exposure(traces, attacks, top_k=config.top_k)
-    hit_details = collect_bridge_injection_hit_details(traces, attacks, top_k=config.top_k)
+    hit_details = collect_bridge_injection_hit_details(
+        traces, attacks, top_k=config.top_k
+    )
     _write_exposure_report(
         config.exposure_report_path(),
         summary,
@@ -134,7 +156,9 @@ def run_from_config(config: AnswerAwareBridgeInjectionRunConfig) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run answer-aware Bridge Injection v2 poisoning.")
+    parser = argparse.ArgumentParser(
+        description="Run answer-aware Bridge Injection v2 poisoning."
+    )
     parser.add_argument(
         "--config",
         type=Path,

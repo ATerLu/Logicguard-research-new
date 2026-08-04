@@ -25,6 +25,8 @@ from typing import Any
 
 import pandas as pd
 import yaml
+
+from logicguard.core.config import find_project_root, resolve_config_path
 from rank_bm25 import BM25Plus
 
 from logicguard.data.prepare import load_normalized_samples
@@ -83,7 +85,8 @@ class Stage21RunConfig:
     def from_yaml(cls, path: Path) -> "Stage21RunConfig":
         """Load a YAML config and resolve paths relative to the project root."""
 
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         payload = yaml.safe_load(path.read_text(encoding="utf-8"))
 
         def resolve(raw: str | None) -> Path | None:
@@ -257,7 +260,9 @@ def load_stage21_text_units(output_dir: Path) -> list[Stage21TextUnit]:
     if not documents_path.exists():
         raise FileNotFoundError(f"Missing GraphRAG documents parquet: {documents_path}")
     if not text_units_path.exists():
-        raise FileNotFoundError(f"Missing GraphRAG text_units parquet: {text_units_path}")
+        raise FileNotFoundError(
+            f"Missing GraphRAG text_units parquet: {text_units_path}"
+        )
 
     documents_frame = pd.read_parquet(documents_path)
     text_units_frame = pd.read_parquet(text_units_path)
@@ -266,14 +271,18 @@ def load_stage21_text_units(output_dir: Path) -> list[Stage21TextUnit]:
         official_document_id = str(row["id"])
         document_text = str(row.get("text", ""))
         logicguard_doc_id = _parse_doc_id(document_text)
-        title = _parse_title(document_text) or str(row.get("title", "")).removesuffix(".txt")
+        title = _parse_title(document_text) or str(row.get("title", "")).removesuffix(
+            ".txt"
+        )
         document_lookup[official_document_id] = (logicguard_doc_id, title)
 
     units: list[Stage21TextUnit] = []
     for row in text_units_frame.to_dict(orient="records"):
         official_document_id = str(row["document_id"])
         if official_document_id not in document_lookup:
-            raise ValueError(f"Text unit references unknown document id: {official_document_id}")
+            raise ValueError(
+                f"Text unit references unknown document id: {official_document_id}"
+            )
         logicguard_doc_id, fallback_title = document_lookup[official_document_id]
         text = str(row.get("text", ""))
         units.append(
@@ -313,7 +322,13 @@ def rank_text_units_bm25(
         title_overlap = len(query_token_set.intersection(_tokenize(unit.title)))
         score = bm25_score + title_boost * title_overlap
         scored.append((score, unit))
-    scored.sort(key=lambda item: (-item[0], item[1].human_readable_id, item[1].logicguard_doc_id))
+    scored.sort(
+        key=lambda item: (
+            -item[0],
+            item[1].human_readable_id,
+            item[1].logicguard_doc_id,
+        )
+    )
     return [
         unit.to_ranked(score=round(score, 6), rank=rank, source_state="poisoned")
         for rank, (score, unit) in enumerate(scored[:top_k], start=1)
@@ -337,14 +352,20 @@ def build_stage21_method_contexts(
         source_state="poisoned",
     )
     poisoned_title = _annotate_known_changed(
-        rank_text_units_bm25(query, poisoned_units, top_k=top_k, title_boost=title_boost),
+        rank_text_units_bm25(
+            query, poisoned_units, top_k=top_k, title_boost=title_boost
+        ),
         changed_doc_ids=changed_doc_ids,
         source_state="poisoned",
     )
     guarded = [
         _rerank(item, rank=rank)
         for rank, item in enumerate(
-            [item for item in poisoned_title if item.logicguard_doc_id not in changed_doc_ids],
+            [
+                item
+                for item in poisoned_title
+                if item.logicguard_doc_id not in changed_doc_ids
+            ],
             start=1,
         )
     ]
@@ -391,9 +412,13 @@ def build_stage21_metric_rows(
         methods = contexts_by_query.get(sample.query_id, {})
         integrity = integrity_by_query.get(sample.query_id, {})
         support_ids = [str(doc_id) for doc_id in sample.support_doc_ids]
-        changed_support_ids = [str(doc_id) for doc_id in integrity.get("changed_support_doc_ids", [])]
+        changed_support_ids = [
+            str(doc_id) for doc_id in integrity.get("changed_support_doc_ids", [])
+        ]
         changed_support_set = set(changed_support_ids)
-        trusted_support_ids = [doc_id for doc_id in support_ids if doc_id not in changed_support_set]
+        trusted_support_ids = [
+            doc_id for doc_id in support_ids if doc_id not in changed_support_set
+        ]
         for method, evidence in methods.items():
             selected = evidence[:top_k]
             evidence_doc_ids = _dedupe(item.logicguard_doc_id for item in selected)
@@ -428,14 +453,18 @@ def build_stage21_metric_rows(
                     hit_at_k=1.0 if gold_hits else 0.0,
                     gold_recall_at_k=_ratio(len(gold_hits), len(support_ids)),
                     precision_at_k=_ratio(len(gold_hits), len(selected)),
-                    distractor_ratio_at_k=_ratio(len(selected) - len(gold_hits), len(selected)),
+                    distractor_ratio_at_k=_ratio(
+                        len(selected) - len(gold_hits), len(selected)
+                    ),
                     mrr_at_k=_mrr(support_ids, evidence_doc_ids),
                     changed_doc_exposure_at_k=1.0 if changed_items else 0.0,
                     changed_gold_exposure_at_k=_ratio(
                         len(changed_gold_doc_ids),
                         len(changed_support_ids),
                     ),
-                    trusted_gold_recall_at_k=_ratio(len(trusted_hits), len(trusted_support_ids)),
+                    trusted_gold_recall_at_k=_ratio(
+                        len(trusted_hits), len(trusted_support_ids)
+                    ),
                     empty_context=1 if not selected else 0,
                     changed_evidence_count=len(changed_items),
                     recovered_evidence_count=sum(
@@ -463,7 +492,9 @@ def summarize_stage21_metrics(rows: list[Stage21MetricRow]) -> list[Stage21Summa
                 avg_hit_at_k=_avg(row.hit_at_k for row in group),
                 avg_gold_recall_at_k=_avg(row.gold_recall_at_k for row in group),
                 avg_precision_at_k=_avg(row.precision_at_k for row in group),
-                avg_distractor_ratio_at_k=_avg(row.distractor_ratio_at_k for row in group),
+                avg_distractor_ratio_at_k=_avg(
+                    row.distractor_ratio_at_k for row in group
+                ),
                 avg_mrr_at_k=_avg(row.mrr_at_k for row in group),
                 avg_changed_doc_exposure_at_k=_avg(
                     row.changed_doc_exposure_at_k for row in group
@@ -476,13 +507,17 @@ def summarize_stage21_metrics(rows: list[Stage21MetricRow]) -> list[Stage21Summa
                 ),
                 empty_context_rate=_avg(float(row.empty_context) for row in group),
                 avg_returned_count=_avg(float(row.returned_count) for row in group),
-                avg_changed_evidence_count=_avg(float(row.changed_evidence_count) for row in group),
+                avg_changed_evidence_count=_avg(
+                    float(row.changed_evidence_count) for row in group
+                ),
                 avg_recovered_evidence_count=_avg(
                     float(row.recovered_evidence_count) for row in group
                 ),
             )
         )
-    summaries.sort(key=lambda row: (row.top_k, _METHOD_ORDER.get(row.method, 99), row.method))
+    summaries.sort(
+        key=lambda row: (row.top_k, _METHOD_ORDER.get(row.method, 99), row.method)
+    )
     return summaries
 
 
@@ -536,7 +571,9 @@ def run_from_config(config: Stage21RunConfig) -> list[Stage21MetricRow]:
             )
         )
 
-    write_stage21_outputs(config=config, evidence_rows=evidence_rows, metric_rows=metric_rows)
+    write_stage21_outputs(
+        config=config, evidence_rows=evidence_rows, metric_rows=metric_rows
+    )
     return metric_rows
 
 
@@ -557,13 +594,21 @@ def write_stage21_outputs(
     with config.evidence_output_path.open("w", encoding="utf-8") as handle:
         for row in evidence_rows:
             handle.write(json.dumps(row, ensure_ascii=False) + "\n")
-    with config.metrics_output_path.open("w", encoding="utf-8-sig", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(Stage21MetricRow.__dataclass_fields__))
+    with config.metrics_output_path.open(
+        "w", encoding="utf-8-sig", newline=""
+    ) as handle:
+        writer = csv.DictWriter(
+            handle, fieldnames=list(Stage21MetricRow.__dataclass_fields__)
+        )
         writer.writeheader()
         for row in metric_rows:
             writer.writerow(row.to_csv_row())
-    with config.summary_output_path.open("w", encoding="utf-8-sig", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(Stage21SummaryRow.__dataclass_fields__))
+    with config.summary_output_path.open(
+        "w", encoding="utf-8-sig", newline=""
+    ) as handle:
+        writer = csv.DictWriter(
+            handle, fieldnames=list(Stage21SummaryRow.__dataclass_fields__)
+        )
         writer.writeheader()
         for row in summaries:
             writer.writerow(row.to_csv_row())
@@ -577,7 +622,10 @@ def _recover_changed_evidence(
     changed_doc_ids: set[str],
 ) -> list[Stage21RankedEvidence]:
     clean_by_doc_id: dict[str, Stage21TextUnit] = {}
-    for unit in sorted(clean_reference_units, key=lambda item: (item.human_readable_id, item.text_unit_id)):
+    for unit in sorted(
+        clean_reference_units,
+        key=lambda item: (item.human_readable_id, item.text_unit_id),
+    ):
         clean_by_doc_id.setdefault(unit.logicguard_doc_id, unit)
 
     recovered: list[Stage21RankedEvidence] = []
@@ -608,7 +656,10 @@ def _is_unrecovered_changed_evidence(
 
     if item.recovered_from_changed_doc or item.source_state == "clean_reference":
         return False
-    return item.logicguard_doc_id in query_changed_support_ids or "known_changed_doc" in item.risk_reasons
+    return (
+        item.logicguard_doc_id in query_changed_support_ids
+        or "known_changed_doc" in item.risk_reasons
+    )
 
 
 def _annotate_known_changed(
@@ -640,7 +691,9 @@ def _annotate_known_changed(
     ]
 
 
-def _with_source_state(item: Stage21RankedEvidence, *, source_state: str) -> Stage21RankedEvidence:
+def _with_source_state(
+    item: Stage21RankedEvidence, *, source_state: str
+) -> Stage21RankedEvidence:
     return Stage21RankedEvidence(
         text_unit_id=item.text_unit_id,
         human_readable_id=item.human_readable_id,
@@ -696,7 +749,9 @@ def _evidence_trace_rows(
     return rows
 
 
-def _write_stage21_report(config: Stage21RunConfig, summaries: list[Stage21SummaryRow]) -> None:
+def _write_stage21_report(
+    config: Stage21RunConfig, summaries: list[Stage21SummaryRow]
+) -> None:
     summary_table = [
         "| top_k | method | queries | hit@k | gold_recall | precision | 干扰文档比例 | MRR | changed曝光 | changed-gold曝光 | trusted召回 | 空上下文率 | 平均返回数 | 平均恢复数 |",
         "| ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",

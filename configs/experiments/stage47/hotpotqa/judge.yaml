@@ -1,0 +1,29 @@
+dataset: hotpotqa
+audited_results_path: outputs/ms_graphrag_query/stage47_hotpotqa_answer_audit_results.jsonl
+judged_results_output_path: outputs/ms_graphrag_query/stage47_hotpotqa_answer_judge_results.jsonl
+summary_output_path: outputs/ms_graphrag_query/stage47_hotpotqa_answer_judge_summary.csv
+breakdown_output_path: outputs/ms_graphrag_query/stage47_hotpotqa_answer_judge_breakdown.csv
+examples_output_path: outputs/ms_graphrag_query/stage47_hotpotqa_answer_judge_examples.jsonl
+report_path: outputs/reports/Stage47_HotpotQA_自适应攻击回答裁决.md
+emit_markdown_report: false
+methods:
+  - stage47_low_drift__unprotected
+  - stage47_low_drift__stage43_recovery
+  - stage47_low_drift__stage44_top12
+  - stage47_low_drift__stage45_top14
+  - stage47_candidate_collision__unprotected
+  - stage47_candidate_collision__stage43_recovery
+  - stage47_candidate_collision__stage44_top12
+  - stage47_candidate_collision__stage45_top14
+  - stage47_natural_bridge__unprotected
+  - stage47_natural_bridge__stage43_recovery
+  - stage47_natural_bridge__stage44_top12
+  - stage47_natural_bridge__stage45_top14
+judge_model: qwen3.7-plus
+judge_api_key_env: DASHSCOPE_API_KEY
+judge_base_url_env: DASHSCOPE_BASE_URL
+judge_temperature: 0.0
+judge_max_tokens: 96
+judge_timeout_seconds: 60
+max_examples: 24
+stage_label: Stage47-HotpotQA

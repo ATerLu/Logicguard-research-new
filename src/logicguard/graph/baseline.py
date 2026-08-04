@@ -80,7 +80,9 @@ def run_graphrag_baseline(
     extractor = RuleBasedEntityExtractor()
     graph_index = build_document_entity_graph(corpus_documents, extractor)
     traces = [
-        retrieve_paths_for_query(sample, graph_index, extractor, top_k=top_k, max_depth=max_depth)
+        retrieve_paths_for_query(
+            sample, graph_index, extractor, top_k=top_k, max_depth=max_depth
+        )
         for sample in samples
     ]
 
@@ -93,7 +95,9 @@ def run_graphrag_baseline(
         for trace in traces
     ]
 
-    _write_document_entities(outputs.corpus_entity_cache_path, graph_index.document_entities.values())
+    _write_document_entities(
+        outputs.corpus_entity_cache_path, graph_index.document_entities.values()
+    )
     _write_query_entities(outputs.query_entity_cache_path, query_entity_cache)
     _write_traces(outputs.trace_path, traces)
 

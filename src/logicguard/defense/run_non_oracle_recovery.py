@@ -25,6 +25,8 @@ from typing import Literal
 
 import yaml
 
+from logicguard.core.config import find_project_root, resolve_config_path
+
 from logicguard.data.loader import _load_corpus
 from logicguard.data.logicpoison_official import (
     LogicPoisonOfficialConfig,
@@ -64,7 +66,8 @@ class NonOracleRecoveryConfig:
     def from_yaml(cls, path: Path) -> "NonOracleRecoveryConfig":
         """Load YAML configuration with paths relative to the project root."""
 
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         with path.open("r", encoding="utf-8") as handle:
             payload = yaml.safe_load(handle)
 
@@ -118,7 +121,9 @@ def run_from_config(config: NonOracleRecoveryConfig) -> list[LogicPoisonDefenseM
             record.query_id: set(record.changed_support_doc_ids)
             for record in integrity_records
         }
-        clean_documents = list(_load_corpus(config.clean_data_root / dataset / "corpus.jsonl").values())
+        clean_documents = list(
+            _load_corpus(config.clean_data_root / dataset / "corpus.jsonl").values()
+        )
         trusted_index = NaiveRagIndex.build(clean_documents, mode="bm25")
         dataset_metrics: list[LogicPoisonDefenseMetrics] = []
 
@@ -130,7 +135,9 @@ def run_from_config(config: NonOracleRecoveryConfig) -> list[LogicPoisonDefenseM
                 config.stage3_defense_root / dataset / f"{retriever}_none_traces.jsonl"
             )
             guarded_traces = _load_reranked_traces(
-                config.stage3_defense_root / dataset / f"{retriever}_full_logicguard_traces.jsonl"
+                config.stage3_defense_root
+                / dataset
+                / f"{retriever}_full_logicguard_traces.jsonl"
             )
             recovered_traces = [
                 build_non_oracle_recovered_trace_from_index(
@@ -151,7 +158,8 @@ def run_from_config(config: NonOracleRecoveryConfig) -> list[LogicPoisonDefenseM
                 guarded_traces,
             )
             _write_reranked_traces(
-                dataset_output_root / f"{retriever}_full_logicguard_recovery_traces.jsonl",
+                dataset_output_root
+                / f"{retriever}_full_logicguard_recovery_traces.jsonl",
                 recovered_traces,
             )
 
@@ -168,9 +176,14 @@ def run_from_config(config: NonOracleRecoveryConfig) -> list[LogicPoisonDefenseM
             dataset_metrics.append(metric)
             all_metrics.append(metric)
 
-        write_metrics_jsonl(config.output_root / dataset / "stage8_recovery_metrics.jsonl", dataset_metrics)
+        write_metrics_jsonl(
+            config.output_root / dataset / "stage8_recovery_metrics.jsonl",
+            dataset_metrics,
+        )
 
-    write_metrics_jsonl(config.output_root / "stage8_recovery_metrics.jsonl", all_metrics)
+    write_metrics_jsonl(
+        config.output_root / "stage8_recovery_metrics.jsonl", all_metrics
+    )
     write_stage8_report(config.report_path, all_metrics)
     return all_metrics
 
@@ -210,7 +223,9 @@ def build_non_oracle_recovered_trace_from_index(
     if top_k < 1:
         raise ValueError("top_k must be positive")
     scores, _ = trusted_index.score(guarded_trace.query, mode="bm25")
-    ranked_indices = sorted(range(len(scores)), key=lambda item: (-float(scores[item]), item))
+    ranked_indices = sorted(
+        range(len(scores)), key=lambda item: (-float(scores[item]), item)
+    )
 
     recovered_candidates: list[RerankedCandidate] = []
     seen_doc_ids: set[str] = set()
@@ -356,7 +371,9 @@ def _reranked_trace_from_json(payload: dict[str, object]) -> RerankedTrace:
                 new_rank=int(candidate.get("new_rank", index)),
                 base_score=float(candidate.get("base_score", 0.0)),
                 risk_score=float(candidate.get("risk_score", 0.0)),
-                adjusted_score=float(candidate.get("adjusted_score", candidate.get("base_score", 0.0))),
+                adjusted_score=float(
+                    candidate.get("adjusted_score", candidate.get("base_score", 0.0))
+                ),
                 path_length=int(candidate.get("path_length", 0)),
                 direct_query_match=bool(candidate.get("direct_query_match", False)),
                 source_support_count=int(candidate.get("source_support_count", 0)),
@@ -376,10 +393,15 @@ def _reranked_trace_from_json(payload: dict[str, object]) -> RerankedTrace:
                     else None
                 ),
                 matched_query_entities=[
-                    str(entity) for entity in candidate.get("matched_query_entities", [])
+                    str(entity)
+                    for entity in candidate.get("matched_query_entities", [])
                 ],
-                bridge_entities=[str(entity) for entity in candidate.get("bridge_entities", [])],
-                risk_reasons=[str(reason) for reason in candidate.get("risk_reasons", [])],
+                bridge_entities=[
+                    str(entity) for entity in candidate.get("bridge_entities", [])
+                ],
+                risk_reasons=[
+                    str(reason) for reason in candidate.get("risk_reasons", [])
+                ],
             )
             for index, candidate in enumerate(candidates_payload, start=1)
             if isinstance(candidate, dict)
@@ -416,7 +438,9 @@ def _with_new_rank(candidate: RerankedCandidate, new_rank: int) -> RerankedCandi
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run stage-8 non-oracle LogicPoison recovery.")
+    parser = argparse.ArgumentParser(
+        description="Run stage-8 non-oracle LogicPoison recovery."
+    )
     parser.add_argument(
         "--config",
         type=Path,

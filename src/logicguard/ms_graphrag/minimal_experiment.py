@@ -11,6 +11,8 @@ from pathlib import Path
 import pandas as pd
 import yaml
 
+from logicguard.core.config import find_project_root, resolve_config_path
+
 from logicguard.data.prepare import load_normalized_samples
 from logicguard.data.schemas import CorpusDocument
 from logicguard.experiments.run_logicpoison_retrieval import (
@@ -42,7 +44,8 @@ class MsGraphRagMinimalExperimentConfig:
     def from_yaml(cls, path: Path) -> "MsGraphRagMinimalExperimentConfig":
         """Load YAML configuration with project-relative paths."""
 
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         with path.open("r", encoding="utf-8") as handle:
             payload = yaml.safe_load(handle)
 
@@ -65,19 +68,35 @@ class MsGraphRagMinimalExperimentConfig:
         )
 
 
-def run_from_config(config: MsGraphRagMinimalExperimentConfig) -> list[LogicPoisonRetrievalMetrics]:
+def run_from_config(
+    config: MsGraphRagMinimalExperimentConfig,
+) -> list[LogicPoisonRetrievalMetrics]:
     """Run BM25 traces over documents emitted by GraphRAG minimal indexing."""
 
     samples = load_normalized_samples(config.sample_path)
     clean_documents = load_ms_graphrag_indexed_documents(config.clean_output_dir)
     poisoned_documents = load_ms_graphrag_indexed_documents(config.poisoned_output_dir)
     changed_doc_ids = _load_changed_doc_ids(config.changed_docs_path)
-    changed_gold_by_query = _load_changed_gold_doc_ids_by_query(config.query_integrity_path)
+    changed_gold_by_query = _load_changed_gold_doc_ids_by_query(
+        config.query_integrity_path
+    )
 
     rows: list[LogicPoisonRetrievalMetrics] = []
-    for corpus_state, documents in (("clean", clean_documents), ("poisoned", poisoned_documents)):
-        trace_path = config.output_root / config.dataset / f"ms_graphrag_minimal_{corpus_state}_traces.jsonl"
-        report_path = config.output_root / config.dataset / "reports" / f"ms_graphrag_minimal_{corpus_state}.md"
+    for corpus_state, documents in (
+        ("clean", clean_documents),
+        ("poisoned", poisoned_documents),
+    ):
+        trace_path = (
+            config.output_root
+            / config.dataset
+            / f"ms_graphrag_minimal_{corpus_state}_traces.jsonl"
+        )
+        report_path = (
+            config.output_root
+            / config.dataset
+            / "reports"
+            / f"ms_graphrag_minimal_{corpus_state}.md"
+        )
         run_naive_rag_baseline(
             dataset_name=config.dataset,
             samples=samples,
@@ -98,9 +117,13 @@ def run_from_config(config: MsGraphRagMinimalExperimentConfig) -> list[LogicPois
         )
         rows.append(_with_corpus_doc_count(metric, len(documents)))
 
-    _write_metrics_jsonl(config.output_root / config.dataset / "ms_graphrag_minimal_metrics.jsonl", rows)
+    _write_metrics_jsonl(
+        config.output_root / config.dataset / "ms_graphrag_minimal_metrics.jsonl", rows
+    )
     _write_metrics_jsonl(config.output_root / "ms_graphrag_minimal_metrics.jsonl", rows)
-    write_minimal_experiment_report(config.report_path, rows, clean_documents, poisoned_documents)
+    write_minimal_experiment_report(
+        config.report_path, rows, clean_documents, poisoned_documents
+    )
     return rows
 
 
@@ -109,7 +132,9 @@ def load_ms_graphrag_indexed_documents(output_dir: Path) -> list[CorpusDocument]
 
     documents_path = output_dir / "documents.parquet"
     if not documents_path.exists():
-        raise FileNotFoundError(f"Missing Microsoft GraphRAG documents parquet: {documents_path}")
+        raise FileNotFoundError(
+            f"Missing Microsoft GraphRAG documents parquet: {documents_path}"
+        )
     frame = pd.read_parquet(documents_path)
     documents: list[CorpusDocument] = []
     for row in frame.to_dict(orient="records"):
@@ -223,7 +248,9 @@ def _load_changed_doc_ids(path: Path) -> set[str]:
 
 def _load_changed_gold_doc_ids_by_query(path: Path) -> dict[str, set[str]]:
     return {
-        str(row["query_id"]): {str(doc_id) for doc_id in row.get("changed_support_doc_ids", [])}
+        str(row["query_id"]): {
+            str(doc_id) for doc_id in row.get("changed_support_doc_ids", [])
+        }
         for row in _load_jsonl(path)
     }
 
@@ -273,7 +300,9 @@ def _with_corpus_doc_count(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run Microsoft GraphRAG minimal indexed-corpus experiment.")
+    parser = argparse.ArgumentParser(
+        description="Run Microsoft GraphRAG minimal indexed-corpus experiment."
+    )
     parser.add_argument(
         "--config",
         type=Path,

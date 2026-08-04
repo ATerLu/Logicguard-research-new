@@ -22,6 +22,8 @@ from typing import Any
 
 import yaml
 
+from logicguard.core.config import find_project_root, resolve_config_path
+
 from logicguard.data.prepare import load_normalized_samples
 from logicguard.data.schemas import NormalizedSample
 from logicguard.ms_graphrag.prepare_workspace import _stable_doc_sort_key
@@ -45,7 +47,8 @@ class LocalDefenseDataConfig:
     def from_yaml(cls, path: Path) -> "LocalDefenseDataConfig":
         """Load YAML configuration with project-relative paths."""
 
-        project_root = path.resolve().parents[1]
+        path = resolve_config_path(path)
+        project_root = find_project_root(path)
         payload = yaml.safe_load(path.read_text(encoding="utf-8"))
 
         def resolve_project_path(raw_path: str) -> Path:
@@ -90,7 +93,9 @@ def prepare_local_defense_data(config: LocalDefenseDataConfig) -> dict[str, Any]
     changed_ids = {
         str(doc_id)
         for sample in selected
-        for doc_id in integrity_by_query[sample.query_id].get("changed_support_doc_ids", [])
+        for doc_id in integrity_by_query[sample.query_id].get(
+            "changed_support_doc_ids", []
+        )
     }
     trusted_ids = support_ids - changed_ids
 
@@ -136,7 +141,9 @@ def prepare_local_defense_data(config: LocalDefenseDataConfig) -> dict[str, Any]
         },
     }
     config.manifest_path.parent.mkdir(parents=True, exist_ok=True)
-    config.manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+    config.manifest_path.write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
     return manifest
 
 
@@ -154,7 +161,9 @@ def _select_strong_samples(
         if integrity is None:
             continue
         support_ids = {str(doc_id) for doc_id in sample.support_doc_ids}
-        changed_ids = {str(doc_id) for doc_id in integrity.get("changed_support_doc_ids", [])}
+        changed_ids = {
+            str(doc_id) for doc_id in integrity.get("changed_support_doc_ids", [])
+        }
         trusted_ids = support_ids - changed_ids
         if integrity.get("answer_surface_loss") is True and changed_ids and trusted_ids:
             selected.append(sample)
@@ -199,8 +208,12 @@ def _load_corpus_rows(path: Path) -> dict[str, dict[str, str]]:
     return rows
 
 
-def _collect_corpus_subset(corpus: dict[str, dict[str, str]], doc_ids: set[str]) -> list[dict[str, str]]:
-    missing_ids = sorted((doc_id for doc_id in doc_ids if doc_id not in corpus), key=_stable_doc_sort_key)
+def _collect_corpus_subset(
+    corpus: dict[str, dict[str, str]], doc_ids: set[str]
+) -> list[dict[str, str]]:
+    missing_ids = sorted(
+        (doc_id for doc_id in doc_ids if doc_id not in corpus), key=_stable_doc_sort_key
+    )
     if missing_ids:
         raise ValueError(f"Corpus is missing required documents: {missing_ids}")
     return [corpus[doc_id] for doc_id in sorted(doc_ids, key=_stable_doc_sort_key)]
@@ -221,8 +234,14 @@ def _write_corpus_rows(path: Path, rows: list[dict[str, str]]) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Prepare Microsoft GraphRAG local defense corpora.")
-    parser.add_argument("--config", type=Path, default=Path("configs/ms_graphrag_local_defense_data_stage10.yaml"))
+    parser = argparse.ArgumentParser(
+        description="Prepare Microsoft GraphRAG local defense corpora."
+    )
+    parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/ms_graphrag_local_defense_data_stage10.yaml"),
+    )
     args = parser.parse_args()
     manifest = prepare_local_defense_data(LocalDefenseDataConfig.from_yaml(args.config))
     print(

@@ -4,7 +4,11 @@ from pathlib import Path
 import numpy as np
 
 from logicguard.data.schemas import CorpusDocument, NormalizedSample
-from logicguard.naive_rag.baseline import NaiveRagOutputPaths, retrieve_naive_rag, run_naive_rag_baseline
+from logicguard.naive_rag.baseline import (
+    NaiveRagOutputPaths,
+    retrieve_naive_rag,
+    run_naive_rag_baseline,
+)
 from logicguard.naive_rag.run_baseline import NaiveRagConfig
 
 
@@ -27,8 +31,12 @@ class ToyEncoder:
 
 def _documents() -> list[CorpusDocument]:
     return [
-        CorpusDocument("d1", "Atomised Film", "Atomised was directed by Oskar Roehler."),
-        CorpusDocument("d2", "Gisela Elsner", "Gisela Elsner was the mother of Oskar Roehler."),
+        CorpusDocument(
+            "d1", "Atomised Film", "Atomised was directed by Oskar Roehler."
+        ),
+        CorpusDocument(
+            "d2", "Gisela Elsner", "Gisela Elsner was the mother of Oskar Roehler."
+        ),
         CorpusDocument("d3", "Germany", "Germany has many films."),
     ]
 
@@ -48,19 +56,28 @@ def test_bm25_retrieval_returns_ranked_trace() -> None:
 
     assert trace.query_id == "q1"
     assert len(trace.candidates) == 2
-    assert {candidate.doc_id for candidate in trace.candidates}.intersection({"d1", "d2"})
-    assert trace.candidates[0].path_nodes == ["query:q1", f"doc:{trace.candidates[0].doc_id}"]
+    assert {candidate.doc_id for candidate in trace.candidates}.intersection(
+        {"d1", "d2"}
+    )
+    assert trace.candidates[0].path_nodes == [
+        "query:q1",
+        f"doc:{trace.candidates[0].doc_id}",
+    ]
 
 
 def test_dense_retrieval_uses_injected_encoder() -> None:
-    trace = retrieve_naive_rag(_sample(), _documents(), mode="dense", top_k=2, encoder=ToyEncoder())
+    trace = retrieve_naive_rag(
+        _sample(), _documents(), mode="dense", top_k=2, encoder=ToyEncoder()
+    )
 
     assert [candidate.doc_id for candidate in trace.candidates] == ["d2", "d1"]
     assert trace.candidates[0].score > trace.candidates[1].score
 
 
 def test_hybrid_retrieval_combines_bm25_and_dense_scores() -> None:
-    trace = retrieve_naive_rag(_sample(), _documents(), mode="hybrid", top_k=3, encoder=ToyEncoder())
+    trace = retrieve_naive_rag(
+        _sample(), _documents(), mode="hybrid", top_k=3, encoder=ToyEncoder()
+    )
 
     assert len(trace.candidates) == 3
     assert trace.candidates[0].score <= 1.0

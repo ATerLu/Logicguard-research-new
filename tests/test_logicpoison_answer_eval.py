@@ -21,11 +21,31 @@ def test_logicpoison_answer_config_resolves_project_paths() -> None:
     assert config.retriever == "naive_bm25"
     assert config.run_name == "stage4_pilot_3"
     assert config.models == ["qwen3.7-plus", "deepseek-v4-flash"]
-    assert config.clean_data_root == PROJECT_ROOT / "data" / "logicpoison_official" / "clean"
-    assert config.poisoned_data_root == PROJECT_ROOT / "data" / "logicpoison_official" / "poisoned"
-    assert config.retrieval_root == PROJECT_ROOT / "outputs" / "retrieval" / "logicpoison_official"
-    assert config.defense_root == PROJECT_ROOT / "outputs" / "defense" / "logicpoison_official"
-    assert config.output_dir() == PROJECT_ROOT / "outputs" / "llm_generation" / "logicpoison_answer" / "2wikimultihopqa" / "stage4_pilot_3"
+    assert (
+        config.clean_data_root
+        == PROJECT_ROOT / "data" / "logicpoison_official" / "clean"
+    )
+    assert (
+        config.poisoned_data_root
+        == PROJECT_ROOT / "data" / "logicpoison_official" / "poisoned"
+    )
+    assert (
+        config.retrieval_root
+        == PROJECT_ROOT / "outputs" / "retrieval" / "logicpoison_official"
+    )
+    assert (
+        config.defense_root
+        == PROJECT_ROOT / "outputs" / "defense" / "logicpoison_official"
+    )
+    assert (
+        config.output_dir()
+        == PROJECT_ROOT
+        / "outputs"
+        / "llm_generation"
+        / "logicpoison_answer"
+        / "2wikimultihopqa"
+        / "stage4_pilot_3"
+    )
     assert config.context_variants == ["clean", "poisoned", "guarded", "recovered"]
 
 
@@ -103,7 +123,9 @@ def test_context_variants_render_recovered_from_clean_corpus() -> None:
         recovered_doc_ids=["g1", "c1"],
     )
 
-    variants = _context_variants_for_case(case, requested_variants=["clean", "poisoned", "guarded", "recovered"])
+    variants = _context_variants_for_case(
+        case, requested_variants=["clean", "poisoned", "guarded", "recovered"]
+    )
 
     assert variants == [
         ("clean", ["g1", "c1"], "clean"),
@@ -135,7 +157,9 @@ def test_summarize_answer_results_counts_answer_outcomes() -> None:
         _result(model="m1", context_variant="clean", is_correct=True),
         _result(model="m1", context_variant="poisoned", is_correct=False),
         _result(model="m1", context_variant="guarded", is_abstained=True),
-        _result(model="m1", context_variant="recovered", is_correct=True, total_tokens=7),
+        _result(
+            model="m1", context_variant="recovered", is_correct=True, total_tokens=7
+        ),
         _result(model="m1", context_variant="recovered", error="provider failed"),
     ]
 
@@ -157,13 +181,18 @@ def test_summarize_answer_results_counts_answer_outcomes() -> None:
     assert summary[("m1", "recovered")]["total_tokens"] == 7
 
 
-def _trace(query_id: str, question: str, answer: str, doc_ids: list[str]) -> dict[str, object]:
+def _trace(
+    query_id: str, question: str, answer: str, doc_ids: list[str]
+) -> dict[str, object]:
     return {
         "query_id": query_id,
         "query": question,
         "answer": answer,
         "gold_doc_ids": [doc_id for doc_id in doc_ids if doc_id.startswith("g")],
-        "candidates": [{"doc_id": doc_id, "title": doc_id, "new_rank": index + 1} for index, doc_id in enumerate(doc_ids)],
+        "candidates": [
+            {"doc_id": doc_id, "title": doc_id, "new_rank": index + 1}
+            for index, doc_id in enumerate(doc_ids)
+        ],
     }
 
 

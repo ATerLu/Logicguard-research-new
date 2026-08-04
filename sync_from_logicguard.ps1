@@ -70,7 +70,7 @@ foreach ($Directory in @('src', 'configs', 'tests', 'docs', 'scripts', 'tools', 
     Sync-Directory $Directory
 }
 
-foreach ($File in @('README.md', 'pyproject.toml', 'uv.lock', '.python-version')) {
+foreach ($File in @('README.md', 'handoff.md', 'pyproject.toml', 'uv.lock', '.python-version')) {
     Copy-RootFile $File
 }
 
@@ -82,7 +82,8 @@ Assert-MirrorPath $ResultDestination
 New-Item -ItemType Directory -Path $ResultDestination -Force | Out-Null
 $ResultFiles = Get-ChildItem -LiteralPath $ResultSource -File | Where-Object {
     $_.Name -match '^stage40_.*(summary\.csv|examples\.jsonl)$' -or
-    $_.Name -match '^stage46_.*(summary\.csv|examples\.jsonl)$'
+    $_.Name -match '^stage46_.*(summary\.csv|examples\.jsonl)$' -or
+    $_.Name -match '^stage47_.*(summary\.csv|examples\.jsonl)$'
 }
 foreach ($ResultFile in $ResultFiles) {
     $Destination = Join-Path $ResultDestination $ResultFile.Name
@@ -91,6 +92,22 @@ foreach ($ResultFile in $ResultFiles) {
         Copy-Item -LiteralPath $ResultFile.FullName -Destination $Destination -Force
     }
     Write-Host "result artifact: $($ResultFile.Name)"
+}
+
+$AttackSource = Join-Path $SourceRoot 'outputs\adaptive_attacks'
+$AttackDestination = Join-Path $MirrorRoot 'artifacts\attacks'
+Assert-MirrorPath $AttackDestination
+New-Item -ItemType Directory -Path $AttackDestination -Force | Out-Null
+$AttackFiles = Get-ChildItem -LiteralPath $AttackSource -File | Where-Object {
+    $_.Name -match '^stage47_.*_(attack_records|attack_integrity)\.jsonl$'
+}
+foreach ($AttackFile in $AttackFiles) {
+    $Destination = Join-Path $AttackDestination $AttackFile.Name
+    Assert-MirrorPath $Destination
+    if (-not $DryRun) {
+        Copy-Item -LiteralPath $AttackFile.FullName -Destination $Destination -Force
+    }
+    Write-Host "attack artifact: $($AttackFile.Name)"
 }
 
 $StatusPath = Join-Path $MirrorRoot 'MIRROR_STATUS.md'
@@ -102,6 +119,7 @@ if (-not $DryRun) {
         '- Source worktree: ../logicguard',
         "- Synced at: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss K')",
         "- Curated result files: $($ResultFiles.Count)",
+        "- Curated attack files: $($AttackFiles.Count)",
         '- Direction: source worktree to Git mirror only.'
     ) -join [Environment]::NewLine
     Set-Content -LiteralPath $StatusPath -Value $Status -Encoding utf8

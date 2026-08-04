@@ -1,0 +1,15 @@
+datasets:
+  - dataset: musique
+    attack_records_path: outputs/adaptive_attacks/stage47_musique_attack_records.jsonl
+    preflight_rows_path: outputs/ms_graphrag_query/stage47_musique_preflight_rows.jsonl
+    judged_results_path: outputs/ms_graphrag_query/stage47_musique_answer_judge_results.jsonl
+  - dataset: hotpotqa
+    attack_records_path: outputs/adaptive_attacks/stage47_hotpotqa_attack_records.jsonl
+    preflight_rows_path: outputs/ms_graphrag_query/stage47_hotpotqa_preflight_rows.jsonl
+    judged_results_path: outputs/ms_graphrag_query/stage47_hotpotqa_answer_judge_results.jsonl
+
+final_summary_output_path: outputs/ms_graphrag_query/stage47_adaptive_attack_final_summary.csv
+pairwise_output_path: outputs/ms_graphrag_query/stage47_adaptive_attack_pairwise_summary.csv
+examples_output_path: outputs/ms_graphrag_query/stage47_adaptive_attack_examples.jsonl
+report_path: outputs/reports/Stage47_三类自适应攻击初步实验_中文报告.md
+stage_label: Stage47

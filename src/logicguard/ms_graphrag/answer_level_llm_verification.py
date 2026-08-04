@@ -88,6 +88,7 @@ class Stage27AnswerLLMConfig:
     report_path: Path
     methods: list[str]
     models: list[str]
+    required_context_flag: str | None = None
     rendering_policies: dict[str, Stage27RenderingPolicy] | None = None
     max_queries: int = 20
     max_sources: int = 8
@@ -129,6 +130,11 @@ class Stage27AnswerLLMConfig:
             report_path=resolve(payload["report_path"]),
             methods=[str(method) for method in payload.get("methods", [])],
             models=[str(model) for model in payload.get("models", [])],
+            required_context_flag=(
+                str(payload["required_context_flag"])
+                if payload.get("required_context_flag")
+                else None
+            ),
             rendering_policies=_parse_rendering_policies(
                 payload.get("rendering_policies", {})
             ),
@@ -287,6 +293,10 @@ def run_from_config(config: Stage27AnswerLLMConfig) -> list[Stage27AnswerLLMResu
     samples = load_normalized_samples(config.sample_path)[: config.max_queries]
     integrity_rows = _load_jsonl(config.query_integrity_path)[: config.max_queries]
     context_rows = _load_jsonl(config.context_input_path)
+    if config.required_context_flag:
+        context_rows = [
+            row for row in context_rows if bool(row.get(config.required_context_flag))
+        ]
     cases = build_stage27_answer_cases(
         samples=samples,
         integrity_rows=integrity_rows,

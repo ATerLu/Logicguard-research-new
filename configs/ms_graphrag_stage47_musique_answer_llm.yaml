@@ -1,0 +1,58 @@
+dataset: musique
+sample_path: data/processed/musique/debug_50.jsonl
+query_integrity_path: outputs/adaptive_attacks/stage47_musique_attack_integrity.jsonl
+context_input_path: outputs/ms_graphrag_query/stage47_musique_valid_defense_context_matrix.jsonl
+required_context_flag: stage47_attack_valid
+
+cases_output_path: outputs/ms_graphrag_query/stage47_musique_answer_llm_cases.jsonl
+results_output_path: outputs/ms_graphrag_query/stage47_musique_answer_llm_results.jsonl
+metrics_output_path: outputs/ms_graphrag_query/stage47_musique_answer_llm_metrics.csv
+summary_output_path: outputs/ms_graphrag_query/stage47_musique_answer_llm_summary.csv
+report_path: outputs/reports/Stage47_MuSiQue_自适应攻击回答生成.md
+
+methods: &stage47_methods
+  - stage47_low_drift__unprotected
+  - stage47_low_drift__stage43_recovery
+  - stage47_low_drift__stage44_top12
+  - stage47_low_drift__stage45_top14
+  - stage47_candidate_collision__unprotected
+  - stage47_candidate_collision__stage43_recovery
+  - stage47_candidate_collision__stage44_top12
+  - stage47_candidate_collision__stage45_top14
+  - stage47_natural_bridge__unprotected
+  - stage47_natural_bridge__stage43_recovery
+  - stage47_natural_bridge__stage44_top12
+  - stage47_natural_bridge__stage45_top14
+models:
+  - qwen3.7-plus
+rendering_policies:
+  stage47_low_drift__unprotected: &top12
+    order_policy: official_order
+    prompt_policy: evidence_compare
+    max_sources: 12
+    max_chars_per_source: 450
+  stage47_low_drift__stage43_recovery: *top12
+  stage47_low_drift__stage44_top12: *top12
+  stage47_low_drift__stage45_top14: &top14
+    order_policy: official_order
+    prompt_policy: evidence_compare
+    max_sources: 14
+    max_chars_per_source: 450
+  stage47_candidate_collision__unprotected: *top12
+  stage47_candidate_collision__stage43_recovery: *top12
+  stage47_candidate_collision__stage44_top12: *top12
+  stage47_candidate_collision__stage45_top14: *top14
+  stage47_natural_bridge__unprotected: *top12
+  stage47_natural_bridge__stage43_recovery: *top12
+  stage47_natural_bridge__stage44_top12: *top12
+  stage47_natural_bridge__stage45_top14: *top14
+max_queries: 20
+max_sources: 12
+max_chars_per_source: 450
+api_key_env: DASHSCOPE_API_KEY
+base_url_env: DASHSCOPE_BASE_URL
+temperature: 0.0
+max_tokens: 64
+timeout_seconds: 90
+judge_model:
+stage_label: Stage47-MuSiQue

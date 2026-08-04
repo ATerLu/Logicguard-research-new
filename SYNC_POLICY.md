@@ -14,7 +14,8 @@ This repository is a curated, one-way Git mirror of `../logicguard`.
 - Source code, configs, tests, scripts, tools, and lightweight library files.
 - All project documents.
 - All Markdown experiment reports under `outputs/reports`.
-- Small Stage40--46 summaries and selected examples under `artifacts/results`.
+- Small Stage40--47 summaries and selected examples under `artifacts/results`.
+- Frozen Stage47 attack records and integrity rows under `artifacts/attacks`.
 
 ## Excluded
 

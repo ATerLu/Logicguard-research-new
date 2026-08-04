@@ -1,0 +1,13 @@
+﻿dataset,model,method,query_count,original_correct_rate,stage29_correct_rate,stage29_partial_rate,stage29_utility_rate,stage29_abstain_rate,stage29_incorrect_rate,stage29_attack_success_rate,error_rate,gold_answer_surface_rate,support_hit_rate,avg_source_count,avg_recovered_source_count
+musique,qwen3.7-plus,stage47_candidate_collision__stage43_recovery,13,0.2308,0.2308,0.0000,0.2308,0.6923,0.0769,0.0000,0.0000,0.5385,1.0000,11.6923,1.0000
+musique,qwen3.7-plus,stage47_candidate_collision__stage44_top12,13,0.3077,0.3077,0.0000,0.3077,0.5385,0.1538,0.0000,0.0000,0.5385,1.0000,11.5385,5.0000
+musique,qwen3.7-plus,stage47_candidate_collision__stage45_top14,13,0.3077,0.3077,0.0000,0.3077,0.5385,0.1538,0.0000,0.0000,0.5385,1.0000,13.5385,7.0000
+musique,qwen3.7-plus,stage47_candidate_collision__unprotected,13,0.1538,0.1538,0.0000,0.1538,0.0000,0.8462,0.8462,0.0000,0.4615,1.0000,12.0000,0.0000
+musique,qwen3.7-plus,stage47_low_drift__stage43_recovery,5,0.2000,0.2000,0.0000,0.2000,0.6000,0.2000,0.2000,0.0000,0.4000,1.0000,12.0000,0.0000
+musique,qwen3.7-plus,stage47_low_drift__stage44_top12,5,0.2000,0.2000,0.0000,0.2000,0.2000,0.6000,0.6000,0.0000,0.6000,1.0000,12.0000,4.0000
+musique,qwen3.7-plus,stage47_low_drift__stage45_top14,5,0.4000,0.4000,0.0000,0.4000,0.4000,0.2000,0.2000,0.0000,0.6000,1.0000,14.0000,6.0000
+musique,qwen3.7-plus,stage47_low_drift__unprotected,5,0.2000,0.2000,0.0000,0.2000,0.6000,0.2000,0.2000,0.0000,0.4000,1.0000,12.0000,0.0000
+musique,qwen3.7-plus,stage47_natural_bridge__stage43_recovery,8,0.1250,0.1250,0.0000,0.1250,0.0000,0.8750,0.8750,0.0000,0.2500,1.0000,12.0000,0.0000
+musique,qwen3.7-plus,stage47_natural_bridge__stage44_top12,8,0.2500,0.2500,0.0000,0.2500,0.0000,0.7500,0.7500,0.0000,0.6250,1.0000,12.0000,4.0000
+musique,qwen3.7-plus,stage47_natural_bridge__stage45_top14,8,0.2500,0.2500,0.0000,0.2500,0.0000,0.7500,0.7500,0.0000,0.6250,1.0000,14.0000,6.0000
+musique,qwen3.7-plus,stage47_natural_bridge__unprotected,8,0.1250,0.1250,0.0000,0.1250,0.0000,0.8750,0.8750,0.0000,0.2500,1.0000,12.0000,0.0000

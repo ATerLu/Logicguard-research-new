@@ -410,3 +410,24 @@ Stage46 已在 HotpotQA 与 MuSiQue 各 20 个相同 LogicPoison query 上完成
 
 下一步：
 - 以 Stage46 冻结的 prompt、回答模型和 ASR 判定为基准，开展低实体漂移、候选碰撞、证据拆分和恢复绕过四类自适应攻击；每一类攻击都必须先通过实际 prompt 污染暴露预检。
+
+## Stage47 更新：三类自适应 source 攻击初步验证
+
+Stage47 在 MuSiQue 20 问和 HotpotQA 5 问的 clean official GraphRAG 检索结果上，完成低实体漂移、候选碰撞、无可信对应源自然桥接三类 post-retrieval source 扰动。攻击生成器只读取 query、已检索 sources 和候选 source 摘要，不读取 gold answer、support ids 或 changed labels；评测标签只在攻击冻结后使用。
+
+关键结果：
+- 共尝试 75 个攻击实例，35 个满足生成约束；排除偶然生成 gold answer、以及候选碰撞仍命中 gold support 后，21 个满足最终评测条件，其中 19 个恶意答案实际进入未防御 prompt。
+- 自然桥接是当前最明确缺口：MuSiQue 8 条有效攻击的未防御 targeted ASR 为 `0.8750`，Stage43 完全未检出且 ASR 不变；Stage44/45 仅降至 `0.7500`。
+- 低实体漂移的风险检出率为 0，确认 Stage43 的机制盲区；但跨数据集仅 6/25 条评测有效、4 条恶意答案真实暴露，稳定 ASR 仍需扩大样本。HotpotQA 唯一有效样本在四个防御阶段均成功。
+- 真正诱导到非 gold support 的 5 条候选碰撞均被 Stage43 检出，攻击 source 被全部移除，聚合 targeted ASR 从 `0.8000` 降至 0；但 5/5 都恢复到攻击者诱导的错误候选，2 条恢复后恶意答案仍在 prompt，说明 recovery correctness 需要额外校验。
+- 共完成 140 条真实回答、63 次按需 judge；API error 与 judge error 均为 0。Stage44 是缓解层但不是通用修复，Stage45 未显示稳定的额外安全收益。
+
+结论边界：
+- 本阶段验证回答前检测、恢复和补证链路，不包含攻击对 GraphRAG 建图、embedding 或原始检索排名的影响。
+- 下一阶段只应挑选 Stage47 已证明有真实暴露的自然桥接、低漂移和错误候选案例，构建完整污染 corpus 并重新运行 official GraphRAG index。
+
+主要产物：
+- `outputs/reports/Stage47_三类自适应攻击初步实验_中文报告.md`
+- `outputs/ms_graphrag_query/stage47_adaptive_attack_final_summary.csv`
+- `outputs/ms_graphrag_query/stage47_adaptive_attack_pairwise_summary.csv`
+- `outputs/ms_graphrag_query/stage47_adaptive_attack_examples.jsonl`

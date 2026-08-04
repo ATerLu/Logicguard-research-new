@@ -6,29 +6,41 @@ LogicGuard is a research prototype for defending GraphRAG-style multi-hop QA aga
 
 This is a curated mirror for code review and research guidance. The local source worktree has raw datasets and large GraphRAG artifacts; they are intentionally excluded here. Read `README.md`, `docs/项目总览与路线图.md`, `docs/新窗口交接文档_2026-07-01.md`, and the reports in `artifacts/reports/` before drawing conclusions.
 
-## Current verified baseline: Stage46
+## Current verified baseline: Stage47
 
-Stage46 is the latest frozen cross-dataset real-LLM answer evaluation.
+Stage47 is the latest completed adaptive-attack evaluation. It applies three
+label-blind attack families to clean official GraphRAG retrieval results and
+then runs the frozen Stage43--45 defense and answer pipeline.
 
-- Datasets: HotpotQA and MuSiQue, 20 LogicPoison queries each.
-- Answer model: `qwen3.7-plus`, temperature 0, `evidence_compare` prompt, 450 characters per source.
-- Compared contexts: un-recovered `full_query_guard`, Stage43 risk recovery, Stage44 top-12 enrichment, Stage45 top-14 second-hop supplementation.
-- The prompt preflight verified real attack pressure: un-recovered changed-source exposure is 0.85 on HotpotQA and 1.00 on MuSiQue.
-- Un-recovered baseline final attack-success rate is 0.45 on HotpotQA and 0.10 on MuSiQue.
-- All three defense contexts have final attack-success rate 0 on both datasets.
-- Stage44 is the current default security-utility balance: final utility 0.85 on HotpotQA and 0.40 on MuSiQue.
-- Stage45 adds no utility on HotpotQA but raises MuSiQue utility from 0.40 to 0.45, so it should be chain-diagnostic gated rather than unconditional.
+- Datasets: MuSiQue 20 queries and HotpotQA 5 transfer queries.
+- Attack attempts: 75; generation-valid: 35; strict evaluation-valid: 21;
+  actual malicious-answer prompt exposures: 19.
+- Answer model: `qwen3.7-plus`, temperature 0, `evidence_compare` prompt,
+  450 characters per source.
+- Natural bridge is the clearest gap: MuSiQue Stage43 risk recall is 0 and
+  targeted ASR remains 0.875; Stage44/45 reduce it only to 0.750.
+- Low-entity-drift attacks confirm a detector blind spot, but the strict
+  denominator is too small for a stable aggregate ASR estimate.
+- Candidate-collision attacks are detected, but all 5 strict cases recover to
+  the attacker-induced non-gold candidate. Answer-level ASR falls to 0, while
+  recovery integrity still fails.
 
-The Stage46 conclusion is bounded: it is based on 20 queries per dataset, one answer model, and a trusted clean/reference candidate pool. It is not a production no-clean guarantee.
+The Stage47 conclusion is bounded: it is a post-retrieval source perturbation
+study. It does not test poisoned-corpus reindexing, graph extraction, embedding,
+community formation, or original retrieval rank changes.
 
 ## Current research priority
 
-The next planned stage is adaptive-attack evaluation against the frozen Stage46 defense:
+The next planned stage is Stage48 full-corpus poisoning and reindex evaluation:
 
-1. Low-entity-drift factual rewrites that target the detector threshold.
-2. Candidate collisions that cause recovery to choose an unsuitable clean candidate.
-3. Evidence-fragmentation attacks across multiple sources.
-4. Natural bridge injection with no corresponding trusted clean candidate.
+1. Add configuration-fingerprinted checkpoint/resume and per-case incremental
+   answer persistence.
+2. Freeze the successful Stage47 attacks and record clean/poisoned corpus hashes.
+3. Build separate low-drift, candidate-collision, and natural-bridge corpus variants.
+4. Reindex each variant with official GraphRAG and measure index, retrieval,
+   ranking, truncation, and actual-prompt exposure before any answer calls.
+5. Run the unchanged Stage43--45 baseline before implementing detector or
+   recovery enhancements.
 
 Every adaptive attack must be evaluated locally, must not use gold answers or changed-document labels as generation features, and must pass an actual-prompt poison-exposure preflight before answer-level attack success is reported.
 
@@ -42,8 +54,10 @@ Every adaptive attack must be evaluated locally, must not use gold answers or ch
 
 ## Artifact map
 
-- `artifacts/reports/Stage46_跨数据集真实LLM回答验证_中文报告.md`: main current result report.
-- `artifacts/results/stage46_cross_dataset_answer_final_summary.csv`: judge-aware final metrics.
-- `artifacts/results/stage46_cross_dataset_answer_pairwise_summary.csv`: same-query baseline versus defense comparison.
-- `artifacts/results/stage46_cross_dataset_answer_paired_examples.jsonl`: source and answer walkthroughs.
+- `handoff.md`: authoritative current-state handoff and Stage48 guardrails.
+- `artifacts/reports/Stage47_三类自适应攻击初步实验_中文报告.md`: main current result report.
+- `artifacts/results/stage47_adaptive_attack_final_summary.csv`: strict final metrics.
+- `artifacts/results/stage47_adaptive_attack_pairwise_summary.csv`: paired defense changes.
+- `artifacts/results/stage47_adaptive_attack_examples.jsonl`: source and answer walkthroughs.
+- `artifacts/attacks/`: frozen Stage47 attack records and no-oracle integrity rows.
 - `docs/论文实验矩阵_阶段冻结版.md`: frozen experiment framing.

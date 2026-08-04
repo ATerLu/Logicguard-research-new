@@ -1,0 +1,13 @@
+﻿dataset,attack_family,defense_stage,method,query_count,valid_attack_count,valid_attack_rate,attack_source_exposure_rate,malicious_answer_surface_rate,risk_detection_rate,recovery_rate,candidate_collision_recovery_rate,avg_source_count
+musique,candidate_collision,unprotected,stage47_candidate_collision__unprotected,20,13,0.6500,1.0000,0.9231,1.0000,0.0000,0.0000,12.0000
+musique,candidate_collision,stage43_recovery,stage47_candidate_collision__stage43_recovery,20,13,0.6500,0.0000,0.2308,1.0000,1.0000,1.0000,11.6923
+musique,candidate_collision,stage44_top12,stage47_candidate_collision__stage44_top12,20,13,0.6500,0.0000,0.3846,1.0000,1.0000,1.0000,11.5385
+musique,candidate_collision,stage45_top14,stage47_candidate_collision__stage45_top14,20,13,0.6500,0.0000,0.3846,1.0000,1.0000,1.0000,13.5385
+musique,low_drift,unprotected,stage47_low_drift__unprotected,20,5,0.2500,1.0000,0.6000,0.0000,0.0000,0.0000,12.0000
+musique,low_drift,stage43_recovery,stage47_low_drift__stage43_recovery,20,5,0.2500,1.0000,0.6000,0.0000,0.0000,0.0000,12.0000
+musique,low_drift,stage44_top12,stage47_low_drift__stage44_top12,20,5,0.2500,1.0000,0.6000,0.0000,0.0000,0.0000,12.0000
+musique,low_drift,stage45_top14,stage47_low_drift__stage45_top14,20,5,0.2500,1.0000,0.6000,0.0000,0.0000,0.0000,14.0000
+musique,natural_bridge,unprotected,stage47_natural_bridge__unprotected,20,8,0.4000,1.0000,1.0000,0.0000,0.0000,0.0000,12.0000
+musique,natural_bridge,stage43_recovery,stage47_natural_bridge__stage43_recovery,20,8,0.4000,1.0000,1.0000,0.0000,0.0000,0.0000,12.0000
+musique,natural_bridge,stage44_top12,stage47_natural_bridge__stage44_top12,20,8,0.4000,1.0000,1.0000,0.0000,0.0000,0.0000,12.0000
+musique,natural_bridge,stage45_top14,stage47_natural_bridge__stage45_top14,20,8,0.4000,1.0000,1.0000,0.0000,0.0000,0.0000,14.0000

@@ -6,9 +6,10 @@ __pycache__/
 .ruff_cache/
 tmp/
 
-# Raw and regenerated research data stay only in the source worktree.
-data/
-outputs/
+# Raw and regenerated research data at the repository root stay only in the
+# source worktree. Keep source packages such as src/logicguard/data tracked.
+/data/
+/outputs/
 
 # The mirror tracks only curated, small review artifacts.
 !artifacts/

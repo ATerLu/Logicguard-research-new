@@ -1,0 +1,1142 @@
+# LogicGuard 第二批论文易读解读（40 篇）
+
+这份文档把每篇论文拆成七个项目问题：它为什么重要、到底要解决什么、具体怎么做、实验如何设置、得出什么结论、能怎样用于 LogicGuard、复现时有哪些风险。文中“摘要未给出”表示需要打开对应 PDF 的正文核对，不能把它当成论文已经报告的结果。
+
+时间范围：2025-09-11 至 2026-09-11。论文与第一批 `papper/` 清单无重复。
+
+
+### 术语先看懂
+- **RAG**：先从外部文档检索，再让大模型根据文档回答。
+- **投毒/污染**：攻击者改写或加入文档，让检索和答案朝错误方向走。
+- **ASR**：攻击成功率；**F1/EM**：答案质量；**AUROC**：分类器区分正常与异常的能力。
+- **groundedness/faithfulness**：答案中的说法能否被给出的证据支持；“答对”不等于“有证据”。
+- **多跳 QA**：一个问题需要跨多个文档或关系逐步推理。
+- **provenance**：每个结论来自哪些文档、经过哪些推导的来源记录；**sheaf 一致性**：检查局部证据能否拼成不矛盾的整体。
+
+## 1. PAGR: Proof-Carrying Algebraic-Geometric Retrieval: A Quiver-, Provenance-, and Sheaf-Theoretic Framework for Grounded LLM Retrieval
+
+**作者**：Xingting Wang, Min Wu；**日期**：2026-09-05；**编号**：`2609.06127`
+
+**原文**：[arXiv](https://arxiv.org/abs/2609.06127)　**PDF**：[本地文件](./papper2/2609.06127_PAGR_Proof_Carrying_Algebraic_Geometric_Retrieval_A_Quiver_Provenance_and_Sheaf_Theoretic_.pdf)
+
+### 1）研究背景
+传统 RAG 只把检索看成相似度排序，无法说明一条结论是否真的被证据证明。
+
+### 2）目标解决的问题
+把“去哪里找证据”和“什么可以当作事实”分开，并让每条结论带有可机器检查的证明。
+
+### 3）核心方法（用一句话先理解）
+PAGR 用类型化关系图表示实体和关系，用路径方程限制多跳组合，用 provenance 记录推导来源，再用 sheaf 检查局部证据能否拼成一致的整体。学习到的向量只负责排序，不能直接把假设升级成事实。
+
+### 4）实验设置
+这是理论框架，摘要没有给出标准 QA 数据集或模型对比；评测重点是证明标准的不变性、完备性界和一致性诊断。
+
+### 5）结果与结论
+摘要未报告可量化结果；需要核对论文正文。
+
+### 6）对 LogicGuard 的直接用法
+它为 LogicGuard 的证据链增加“可验证证明”和“来源推导记录”两个字段，适合做高风险结论的放行条件。
+
+### 7）复现时要注意
+结构化方法对图抽取质量、路径搜索预算和知识更新敏感；复现时加入图构建错误、路径截断和跨域迁移消融。
+
+
+## 2. A Hierarchical Consistency Framework for Auditing Retrieval-Augmented Generation Systems
+
+**作者**：Ramon Gonzalez, Antonio Diaz；**日期**：2026-09-07；**编号**：`2609.07075`
+
+**原文**：[arXiv](https://arxiv.org/abs/2609.07075)　**PDF**：[本地文件](./papper2/2609.07075_A_Hierarchical_Consistency_Framework_for_Auditing_Retrieval_Augmented_Generation_Systems.pdf)
+
+### 1）研究背景
+最终答案答对，并不代表检索上下文没有冲突；只看 EM/F1 会漏掉有风险的证据。
+
+### 2）目标解决的问题
+定位冲突发生在知识库、检索上下文还是最终答案，并给出可追责的诊断分数。
+
+### 3）核心方法（用一句话先理解）
+HCF 将文档拆成带来源的原子事实，分别计算语料层、上下文层和答案层的一致性，输出 Answer Consistency Score 及支持/反驳语句。
+
+### 4）实验设置
+在 5 个领域构造语料，测试 100 个 query-corpus 实例；人工评审答案与标准答案的关系。
+
+### 5）结果与结论
+相似度最高的语料不一定 ACS 最高；HCF 能发现“答案正确但上下文含矛盾”。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 可直接采用分层审计和来源归因。
+
+### 7）复现时要注意
+评测分数不能自动证明事实正确，且可能受人工/LLM judge 与样本构造影响；复现时保存原始上下文并做人工抽查。
+
+
+## 3. In RAG We Trust? Measuring Robustness of Retrieval-Augmented Generation Under Document Poisoning
+
+**作者**：Iliano Fasolino；**日期**：2026-09-08；**编号**：`2609.09243`
+
+**原文**：[arXiv](https://arxiv.org/abs/2609.09243)　**PDF**：[本地文件](./papper2/2609.09243_In_RAG_We_Trust_Measuring_Robustness_of_Retrieval_Augmented_Generation_Under_Document_Pois.pdf)
+
+### 1）研究背景
+文档被篡改后，RAG 可能把错误当成证据复述，尤其是在多个段落同时受污染时。
+
+### 2）目标解决的问题
+量化不同篡改方式和污染比例对小模型事实核查的影响。
+
+### 3）核心方法（用一句话先理解）
+对检索到的 3 个段落做实体替换、数字替换和否定改写，逐步增加被污染段落数量。
+
+### 4）实验设置
+Llama 3.1 8B 量化模型；FEVER 事实核查；588 次因子实验；指标为准确率、翻转率和拒答行为。
+
+### 5）结果与结论
+干净上下文准确率 77.9%，三段全污染降到 43.5%；实体替换最容易翻转正确答案，模型主要选择拒答而不是生成新谣言。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 应报告污染比例曲线。
+
+### 7）复现时要注意
+攻击效果依赖投毒预算、攻击者可见信息、索引重建方式和 ASR 判定规则；复现时要增加不同污染比例、查询不相交测试和自适应攻击。
+
+
+## 4. RAGMark: A Comprehensive Framework for Benchmarking Retrieval-Augmented Generation Systems
+
+**作者**：Zlatan Feric, Amir Taherin, Bin Ren, Yanzhi Wang, Jennifer Dy, David Kaeli；**日期**：2026-09-04；**编号**：`2609.05760`
+
+**原文**：[arXiv](https://arxiv.org/abs/2609.05760)　**PDF**：[本地文件](./papper2/2609.05760_RAGMark_A_Comprehensive_Framework_for_Benchmarking_Retrieval_Augmented_Generation_Systems.pdf)
+
+### 1）研究背景
+RAG 的延迟和能耗来自多个阶段，只报答案质量无法指导工程取舍。
+
+### 2）目标解决的问题
+建立能同时比较检索器、向量库、重排、压缩和生成器的统一基准。
+
+### 3）核心方法（用一句话先理解）
+RAGMark 将各阶段拆开计时，采集 TTFT、吞吐、显存、GPU 利用率、功耗和答案质量。
+
+### 4）实验设置
+5 类开放域 QA 工作负载；改变检索深度、模型规模、重排、压缩和向量库配置。
+
+### 5）结果与结论
+生成阶段通常是主要瓶颈；重排和压缩组合可使能耗最多下降 66%。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 评测防御时应同步报告延迟、显存和功耗。
+
+### 7）复现时要注意
+评测分数不能自动证明事实正确，且可能受人工/LLM judge 与样本构造影响；复现时保存原始上下文并做人工抽查。
+
+
+## 5. Building Trustworthy Graph-Agentic RAG for Social Good: Architectures, Failure Propagation, and Assurance by Construction
+
+**作者**：Vijay Bommireddy, Raviteja Bommireddy；**日期**：2026-09-06；**编号**：`2609.06391`
+
+**原文**：[arXiv](https://arxiv.org/abs/2609.06391)　**PDF**：[本地文件](./papper2/2609.06391_Building_Trustworthy_Graph_Agentic_RAG_for_Social_Good_Architectures_Failure_Propagation_a.pdf)
+
+### 1）研究背景
+Graph-Agentic RAG 会把图构建错误传给检索、规划、工具调用，形成级联故障。
+
+### 2）目标解决的问题
+为社会公益等高影响场景定义从证据到行动的安全边界。
+
+### 3）核心方法（用一句话先理解）
+提出五类接口契约：证据、检索、推理、能力/委托和结果；每层记录来源、时间有效性、授权、不确定性和可恢复性。
+
+### 4）实验设置
+主要是文献综合和设计框架，给出公共服务示例及覆盖图断言、轨迹、声明、协作和结果的评测议程。
+
+### 5）结果与结论
+结论是必须做轨迹级和结果级审计，而不能只测答案。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 可把五类契约转成日志 schema。
+
+### 7）复现时要注意
+结构化方法对图抽取质量、路径搜索预算和知识更新敏感；复现时加入图构建错误、路径截断和跨域迁移消融。
+
+
+## 6. ToxicRAG: Compromising Retrieval-Augmented Generation Systems via Single-Shot Knowledge Poisoning Attacks
+
+**作者**：Haozhe Lu, Jiaqi Li, Xinyuan Zhu, Xiang Li；**日期**：2026-09-10；**编号**：`2609.11082`
+
+**原文**：[arXiv](https://arxiv.org/abs/2609.11082)　**PDF**：[本地文件](./papper2/2609.11082_ToxicRAG_Compromising_Retrieval_Augmented_Generation_Systems_via_Single_Shot_Knowledge_Poi.pdf)
+
+### 1）研究背景
+现有投毒攻击常需多篇文档或直接写入查询词，容易被发现。
+
+### 2）目标解决的问题
+构造每个目标问题只需一篇、表面像知识更新的投毒文档。
+
+### 3）核心方法（用一句话先理解）
+ToxicRAG 先承认旧答案，再编造事件推翻它，并伪造权威来源；可用代理模型自验证并迭代修改。
+
+### 4）实验设置
+NQ、HotpotQA、MS-MARCO 各 100 个问题；4 个受害 LLM、4 个稠密检索器；12 个数据集-模型组合。
+
+### 5）结果与结论
+ASR 为 0.61–0.91，比最强基线高 0–11 个百分点。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 要加入“叙事型单文档投毒”和来源真实性检查。
+
+### 7）复现时要注意
+攻击效果依赖投毒预算、攻击者可见信息、索引重建方式和 ASR 判定规则；复现时要增加不同污染比例、查询不相交测试和自适应攻击。
+
+
+## 7. RAG-Safety-Bench: Reliable Evaluation of Retrieval-Augmented LLM Safety
+
+**作者**：Adithiyan Rajan Indira Saravanan, Kathleen C. Fraser；**日期**：2026-09-10；**编号**：`2609.11758`
+
+**原文**：[arXiv](https://arxiv.org/abs/2609.11758)　**PDF**：[本地文件](./papper2/2609.11758_RAG_Safety_Bench_Reliable_Evaluation_of_Retrieval_Augmented_LLM_Safety.pdf)
+
+### 1）研究背景
+RAG 可能让原本安全的模型在读到外部文档后输出危险内容，安全微调不一定能迁移。
+
+### 2）目标解决的问题
+隔离检索质量因素，测量文档本身对安全行为的影响。
+
+### 3）核心方法（用一句话先理解）
+RAG-Safety-Bench 设置四种条件：无 RAG、含答案的恶意相关文档、相关但不含答案文档、随机安全文档。
+
+### 4）实验设置
+5 个开源 LLM；比较四种上下文条件，重点看有害请求的安全拒答率和无害任务能力。
+
+### 5）结果与结论
+发现基线安全护栏不能保证 RAG 安全；即使文档本身无害，也可能诱发不安全生成。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 应单独报告安全率与任务效用。
+
+### 7）复现时要注意
+评测分数不能自动证明事实正确，且可能受人工/LLM judge 与样本构造影响；复现时保存原始上下文并做人工抽查。
+
+
+## 8. Evidence-Aligned Entity Verification for Hallucination Detection in Retrieval-Augmented Generation
+
+**作者**：Runsong Jia, Zhen Fang, Mengjia Wu, Jie Lu, Yi Zhang；**日期**：2026-09-08；**编号**：`2609.08267`
+
+**原文**：[arXiv](https://arxiv.org/abs/2609.08267)　**PDF**：[本地文件](./papper2/2609.08267_Evidence_Aligned_Entity_Verification_for_Hallucination_Detection_in_Retrieval_Augmented_Ge.pdf)
+
+### 1）研究背景
+幻觉检测依赖模型内部知识时会受过时知识和领域覆盖不足影响。
+
+### 2）目标解决的问题
+判断生成答案中的实体是否真正被检索证据支持。
+
+### 3）核心方法（用一句话先理解）
+EAEV 对每个生成实体做实体—证据对齐，并从多个维度评分；通过反事实扰动证据检查对齐是否稳定。
+
+### 4）实验设置
+在多个 RAG 幻觉检测基准上，与现有不确定性、自洽性和检索方法比较，报告检测性能和跨数据集泛化。
+
+### 5）结果与结论
+摘要报告持续优于基线且泛化稳定。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 可将实体级支持率加入逻辑链完整性指标。
+
+### 7）复现时要注意
+结果可能受模型版本、阈值、硬件和数据切分影响；复现时固定随机种子、模型版本和 judge prompt，并报告置信区间。
+
+
+## 9. ReCite: Agentic Reasoning for Faithful Citation
+
+**作者**：Yuyang Huang, Bobo Li, Jiajia Song, Yuzhe Ding, Chong Teng, Fei Li, Donghong Ji；**日期**：2026-09-08；**编号**：`2609.09156`
+
+**原文**：[arXiv](https://arxiv.org/abs/2609.09156)　**PDF**：[本地文件](./papper2/2609.09156_ReCite_Agentic_Reasoning_for_Faithful_Citation.pdf)
+
+### 1）研究背景
+引用真实论文不等于引用了能支持当前断言的论文，语义相似检索容易误归因。
+
+### 2）目标解决的问题
+让引用推荐系统按“断言—证据”逻辑匹配，并能在不支持时自我纠正。
+
+### 3）核心方法（用一句话先理解）
+ReCite 将位置识别、意图查询规划和反思验证解耦；用合成推理轨迹训练，候选不支持时触发修正循环。
+
+### 4）实验设置
+在引用推荐任务上，与大规模生成模型比较严格 citation accuracy，重点考察断言支持关系。
+
+### 5）结果与结论
+轻量框架超过大型生成模型的严格引用准确率。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 可把答案中每个关键断言绑定到证据片段。
+
+### 7）复现时要注意
+结果可能受模型版本、阈值、硬件和数据切分影响；复现时固定随机种子、模型版本和 judge prompt，并报告置信区间。
+
+
+## 10. Your Retriever Already Knows: Distribution-Shape QPP for RAG Retrieval Sufficiency
+
+**作者**：Matyáš Veselý, Michal Průšek, Jiří Franc；**日期**：2026-09-10；**编号**：`2609.11646`
+
+**原文**：[arXiv](https://arxiv.org/abs/2609.11646)　**PDF**：[本地文件](./papper2/2609.11646_Your_Retriever_Already_Knows_Distribution_Shape_QPP_for_RAG_Retrieval_Sufficiency.pdf)
+
+### 1）研究背景
+检索失败、问题越界或证据不足时，生成器仍可能自信回答。
+
+### 2）目标解决的问题
+在不调用外部大模型的情况下，快速判断检索是否足够。
+
+### 3）核心方法（用一句话先理解）
+比较分数特征、内容型 LLM judge 和混合 QPP；提出 24 个非词法分布特征预测 Hit@k。
+
+### 4）实验设置
+ViDoRe 8 个视觉领域共 14,514 查询；另有 SÚJB 1,510 查询和 500 个合成对抗查询；指标 AUROC、检测延迟和跨域性能。
+
+### 5）结果与结论
+GeneralQPP 加权 AUROC 0.856、约 2ms；混合模型在 SÚJB 达 0.911，远快于本地 LLM judge。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 可在生成前增加轻量 sufficiency gate。
+
+### 7）复现时要注意
+结果可能受模型版本、阈值、硬件和数据切分影响；复现时固定随机种子、模型版本和 judge prompt，并报告置信区间。
+
+
+## 11. Rent-a-RAG: Embedding-Space Watermarks for Auditing Third-Party RAG
+
+**作者**：Alexandr Goultiaev Tolstokorov, Kyriakos Mouratidis, Javad Dogani, Nikolaos Laoutaris；**日期**：2026-09-03；**编号**：`2609.03749`
+
+**原文**：[arXiv](https://arxiv.org/abs/2609.03749)　**PDF**：[本地文件](./papper2/2609.03749_Rent_a_RAG_Embedding_Space_Watermarks_for_Auditing_Third_Party_RAG.pdf)
+
+### 1）研究背景
+第三方 RAG 供应商可能复用授权语料而不告知数据提供者，黑盒回答又会改写原文。
+
+### 2）目标解决的问题
+在不合作的 RAG 服务中审计某个供应商的文档是否被使用。
+
+### 3）核心方法（用一句话先理解）
+DirBucket 用保持语义的改写把文档嵌入推向秘密方向；供应商只需观察黑盒答案即可检测复用。
+
+### 4）实验设置
+混合供应商基准；主基准审计 23 个答案；另在临床、网络威胁情报和法律语料上迁移测试。
+
+### 5）结果与结论
+主基准每次审计都能检测目标且无非目标激活，水印能抵抗答案洗稿。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 可借鉴来源水印和黑盒审计日志。
+
+### 7）复现时要注意
+隐私结论依赖攻击模型和协议假设；复现时同时记录召回率、通信量、延迟、反演成功率及权限错误率。
+
+
+## 12. A Tree-based RAG Framework for Evidence-Intensive QA via Adaptive Planning and Topology-Aware Evidence Gathering
+
+**作者**：Songeun Lee, Kyungjin Min, Injae Na, Suyeong Lee, Chiyoung Kim, Woohwan Jung；**日期**：2026-09-04；**编号**：`2609.04981`
+
+**原文**：[arXiv](https://arxiv.org/abs/2609.04981)　**PDF**：[本地文件](./papper2/2609.04981_A_Tree_based_RAG_Framework_for_Evidence_Intensive_QA_via_Adaptive_Planning_and_Topology_Aw.pdf)
+
+### 1）研究背景
+证据密集型问题需要几十篇文档，固定树结构会漏掉关键跳，直接扩大上下文又带来噪声和成本。
+
+### 2）目标解决的问题
+让多跳 QA 根据证据需求动态扩展，并有效合并不同节点的证据。
+
+### 3）核心方法（用一句话先理解）
+APT-RAG 使用自适应规划、兄弟节点证据复用、直接检索和子节点聚合，并用批量生成降低开销。
+
+### 4）实验设置
+在证据密集型 QA 基准上，与树/图结构 RAG 方法比较答案质量和效率。
+
+### 5）结果与结论
+摘要报告优于现有结构化 RAG。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 可把动态路径和证据覆盖率纳入检索实验。
+
+### 7）复现时要注意
+结构化方法对图抽取质量、路径搜索预算和知识更新敏感；复现时加入图构建错误、路径截断和跨域迁移消融。
+
+
+## 13. SCoNE: Selective Context-aware Neuron Editing for Robust Retrieval-Augmented Generation
+
+**作者**：Chaewon Kim, Seo Yeon Park；**日期**：2026-09-01；**编号**：`2609.00689`
+
+**原文**：[arXiv](https://arxiv.org/abs/2609.00689)　**PDF**：[本地文件](./papper2/2609.00689_SCoNE_Selective_Context_aware_Neuron_Editing_for_Robust_Retrieval_Augmented_Generation.pdf)
+
+### 1）研究背景
+检索结果中混入无关文档时，LLM 容易被噪声带偏；微调成本又高。
+
+### 2）目标解决的问题
+不训练模型、无推理额外开销地提升对检索噪声的鲁棒性。
+
+### 3）核心方法（用一句话先理解）
+SCoNE 根据归因和跨输入变化筛选 FFN 神经元，只增强与上下文使用相关的神经元。
+
+### 4）实验设置
+多个知识密集型 QA 基准、2 个 LLM backbone；与竞争方法比较噪声条件下的准确率。
+
+### 5）结果与结论
+在各基准和两种骨干上稳定优于基线。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 可作为生成器侧的无训练鲁棒性基线。
+
+### 7）复现时要注意
+结果可能受模型版本、阈值、硬件和数据切分影响；复现时固定随机种子、模型版本和 judge prompt，并报告置信区间。
+
+
+## 14. Shadow Queries for Private Retrieval in Vector Databases
+
+**作者**：Xinguo Feng, Zhongkui Ma, Zihan Wang, Chuan Yan, Guowei Yang, Alsharif Abuadbba, Guangdong Bai；**日期**：2026-09-04；**编号**：`2609.04767`
+
+**原文**：[arXiv](https://arxiv.org/abs/2609.04767)　**PDF**：[本地文件](./papper2/2609.04767_Shadow_Queries_for_Private_Retrieval_in_Vector_Databases.pdf)
+
+### 1）研究背景
+云端向量库中的 embedding 可能被反演出原文，简单加噪又会损害召回。
+
+### 2）目标解决的问题
+降低 embedding inversion attack，同时保持检索质量。
+
+### 3）核心方法（用一句话先理解）
+SHAQ 生成语义分解的 shadow query，使查询和文档向量解耦，再进行隐私检索。
+
+### 4）实验设置
+摘要强调与反演攻击的对比及检索效用权衡；完整攻击预算、数据集和模型需查正文。
+
+### 5）结果与结论
+作者报告隐私提升且效用损失较小。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 可加入向量反演和隐私—召回曲线。
+
+### 7）复现时要注意
+隐私结论依赖攻击模型和协议假设；复现时同时记录召回率、通信量、延迟、反演成功率及权限错误率。
+
+
+## 15. Feedback-Assisted Trust Propagation over Document Relation Graphs for Retrieval-Augmented Generation
+
+**作者**：Zhuoheng Li, Ying Chen；**日期**：2026-09-01；**编号**：`2609.00543`
+
+**原文**：[arXiv](https://arxiv.org/abs/2609.00543)　**PDF**：[本地文件](./papper2/2609.00543_Feedback_Assisted_Trust_Propagation_over_Document_Relation_Graphs_for_Retrieval_Augmented_.pdf)
+
+### 1）研究背景
+文档可能过期、矛盾或不可靠，只比较直接相似文档无法把少量人工反馈传播到全库。
+
+### 2）目标解决的问题
+利用文档关系图扩散可靠性信号，减少人工标注。
+
+### 3）核心方法（用一句话先理解）
+TrustPropRAG 将文档建图，用少量人工可靠性标签作为锚点，通过多跳传播给其他文档。
+
+### 4）实验设置
+摘要说明在 RAG 可靠性任务上评测；需从正文补齐语料规模、图构造和传播步数。
+
+### 5）结果与结论
+结论是关系传播能扩展有限人工反馈。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 可将来源信誉作为图节点属性，而不是只用相似度。
+
+### 7）复现时要注意
+结构化方法对图抽取质量、路径搜索预算和知识更新敏感；复现时加入图构建错误、路径截断和跨域迁移消融。
+
+
+## 16. Cite or Decline: A Strict Course-Grounded Chatbot for STEM Lecture Videos
+
+**作者**：S M Masrur Ahmed, Jaspal Subhlok；**日期**：2026-09-01；**编号**：`2609.01846`
+
+**原文**：[arXiv](https://arxiv.org/abs/2609.01846)　**PDF**：[本地文件](./papper2/2609.01846_Cite_or_Decline_A_Strict_Course_Grounded_Chatbot_for_STEM_Lecture_Videos.pdf)
+
+### 1）研究背景
+课程问答若检索到别的课程内容，会造成越权和错误解释；学生还需要能点击核验的出处。
+
+### 2）目标解决的问题
+构建只使用当前课程材料、无法回答时明确拒答的教学 RAG。
+
+### 3）核心方法（用一句话先理解）
+VideoPoints 按章节摘要引导 transcript 排序，并返回带时间戳的可点击引用；跨课程边界由检索范围控制。
+
+### 4）实验设置
+学期部署；833 条消息；统计引用覆盖率、跨课程泄漏和无证据时的拒答。
+
+### 5）结果与结论
+70.5% 消息包含引用，未发现跨课程回答。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 可复用“域边界 + 引用 + 拒答”组合。
+
+### 7）复现时要注意
+结果可能受模型版本、阈值、硬件和数据切分影响；复现时固定随机种子、模型版本和 judge prompt，并报告置信区间。
+
+
+## 17. CodePoisonRAG: Knowledge Poisoning Attacks on Retrieval-Augmented Code Generation
+
+**作者**：Varun Gadey, Ziad Marey, Alexandra Dmitrienko；**日期**：2026-09-02；**编号**：`2609.02774`
+
+**原文**：[arXiv](https://arxiv.org/abs/2609.02774)　**PDF**：[本地文件](./papper2/2609.02774_CodePoisonRAG_Knowledge_Poisoning_Attacks_on_Retrieval_Augmented_Code_Generation.pdf)
+
+### 1）研究背景
+代码 RAG 把外部代码、补丁和文档放进生成上下文，恶意 artifact 可以诱导生成有漏洞代码。
+
+### 2）目标解决的问题
+证明黑盒攻击者能用一件任务匹配的代码文档植入指定弱点。
+
+### 3）核心方法（用一句话先理解）
+CodePoisonRAG 面向代码任务构造单一投毒 artifact，优化其可检索性和对生成代码的影响。
+
+### 4）实验设置
+摘要聚焦黑盒 RACG；具体语言、代码数据集、模型和漏洞类别需查正文复现。
+
+### 5）结果与结论
+结论是知识库本身是代码安全边界。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 应增加代码文档投毒和静态漏洞扫描指标。
+
+### 7）复现时要注意
+攻击效果依赖投毒预算、攻击者可见信息、索引重建方式和 ASR 判定规则；复现时要增加不同污染比例、查询不相交测试和自适应攻击。
+
+
+## 18. VerTox: Verifiable Reward-Guided Corpus Poisoning Against Neural Ranking Models
+
+**作者**：Zhiqi Huang, Vivek Datla, Zhichao Xu, Puxuan Yu, Vivek Srikumar, Alfy Samuel；**日期**：2026-09-01；**编号**：`2609.01325`
+
+**原文**：[arXiv](https://arxiv.org/abs/2609.01325)　**PDF**：[本地文件](./papper2/2609.01325_VerTox_Verifiable_Reward_Guided_Corpus_Poisoning_Against_Neural_Ranking_Models.pdf)
+
+### 1）研究背景
+神经排序器会把少量流畅恶意文档排到前面，传统投毒研究缺少可验证的攻击目标。
+
+### 2）目标解决的问题
+用可验证奖励训练投毒策略，最大化排序破坏并保持文档表面自然。
+
+### 3）核心方法（用一句话先理解）
+VerTox 将语料投毒建模为强化学习：奖励同时考虑目标排名、攻击成功和可验证约束。
+
+### 4）实验设置
+在神经检索/排序任务上比较投毒预算和目标排名；摘要未列出完整数据集与模型组合。
+
+### 5）结果与结论
+作者将该方法定位为可验证、可扩展的投毒框架。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 可用它生成自适应 rank 攻击。
+
+### 7）复现时要注意
+攻击效果依赖投毒预算、攻击者可见信息、索引重建方式和 ASR 判定规则；复现时要增加不同污染比例、查询不相交测试和自适应攻击。
+
+
+## 19. ISO-RAG: Isoperimetric Noise Control for Retrieval-Augmented Generation
+
+**作者**：Siyuan Zhang, Hanchen Wang, Dong Wen, Ying Zhang, Wenjie Zhang；**日期**：2026-09-01；**编号**：`2609.00513`
+
+**原文**：[arXiv](https://arxiv.org/abs/2609.00513)　**PDF**：[本地文件](./papper2/2609.00513_ISO_RAG_Isoperimetric_Noise_Control_for_Retrieval_Augmented_Generation.pdf)
+
+### 1）研究背景
+图 RAG 的全局遍历容易语义漂移、边噪声多且在线延迟高。
+
+### 2）目标解决的问题
+在保留多跳关系的同时，提前剪掉不可信或无关边。
+
+### 3）核心方法（用一句话先理解）
+ISO-RAG 将知识图投影到双曲 Poincaré 球，预计算节点等周剖面，检索时限制在局部子图。
+
+### 4）实验设置
+在图多跳 QA 上比较图 RAG 与稠密/全局遍历方法，关注准确率、路径质量和延迟。
+
+### 5）结果与结论
+摘要声称可减少语义漂移和搜索空间。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 可将路径局部性作为逻辑链约束。
+
+### 7）复现时要注意
+结果可能受模型版本、阈值、硬件和数据切分影响；复现时固定随机种子、模型版本和 judge prompt，并报告置信区间。
+
+
+## 20. Spruce: Scalable Private Outsourced Retrieval Using Compact Embeddings
+
+**作者**：Peichun Hua, Yunming Xiao；**日期**：2026-09-03；**编号**：`2609.03376`
+
+**原文**：[arXiv](https://arxiv.org/abs/2609.03376)　**PDF**：[本地文件](./papper2/2609.03376_Spruce_Scalable_Private_Outsourced_Retrieval_Using_Compact_Embeddings.pdf)
+
+### 1）研究背景
+机构把向量索引外包云端后，原文和查询都可能泄露；全库加密检索通信量巨大。
+
+### 2）目标解决的问题
+让百万级私有检索在实际网络条件下可用。
+
+### 3）核心方法（用一句话先理解）
+Spruce 用紧凑表示和加密协议缩小搜索状态，减少计算、通信和相关随机数。
+
+### 4）实验设置
+百万文档规模；与朴素安全检索和优化协议比较查询时间、通信量和检索质量。
+
+### 5）结果与结论
+摘要给出朴素方案每次约 90GB 通信、分钟级延迟，说明压缩表示的必要性。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 可把隐私开销纳入部署评测。
+
+### 7）复现时要注意
+隐私结论依赖攻击模型和协议假设；复现时同时记录召回率、通信量、延迟、反演成功率及权限错误率。
+
+
+## 21. Faithfulness Is Not Free: Auditing Offline KV-Cache Quantization in Retrieval-Augmented Generation
+
+**作者**：Atta Ul Asad, Ahsan Bilal, Muhammad Ali, Muhammad Haseeb, Dean F. Hougen；**日期**：2026-08-31；**编号**：`2608.30996`
+
+**原文**：[arXiv](https://arxiv.org/abs/2608.30996)　**PDF**：[本地文件](./papper2/2608.30996_Faithfulness_Is_Not_Free_Auditing_Offline_KV_Cache_Quantization_in_Retrieval_Augmented_Gen.pdf)
+
+### 1）研究背景
+KV cache 压缩能降低 RAG 存储和预填充成本，但可能破坏答案对证据的忠实度；正确答案也可能是无依据猜对。
+
+### 2）目标解决的问题
+测量 INT8/INT4 cache 量化对准确率和 groundedness 的影响。
+
+### 3）核心方法（用一句话先理解）
+对检索上下文的 KV cache 做量化，并用多种 faithfulness 判定器审计答案是否被证据支持。
+
+### 4）实验设置
+Qwen2.5-7B-Instruct；RGB 和 HotpotQA；INT8/INT4；指标含准确率、幻觉检测、NLI 蕴含和 LLM judge。
+
+### 5）结果与结论
+摘要未报告可量化结果；需要核对论文正文。
+
+### 6）对 LogicGuard 的直接用法
+摘要报告 INT8 接近无损；LogicGuard 做压缩实验时必须同时报答案正确率和证据忠实度。
+
+### 7）复现时要注意
+评测分数不能自动证明事实正确，且可能受人工/LLM judge 与样本构造影响；复现时保存原始上下文并做人工抽查。
+
+
+## 22. Why RAGs Hallucinate: Penalty-Aware Evaluation of Retrieval-Augmented Generation Systems with Knowledge-Gap Canaries
+
+**作者**：Alden Do Rosario, Hussein Younes, Felipe Pires；**日期**：2026-08-26；**编号**：`2608.26385`
+
+**原文**：[arXiv](https://arxiv.org/abs/2608.26385)　**PDF**：[本地文件](./papper2/2608.26385_Why_RAGs_Hallucinate_Penalty_Aware_Evaluation_of_Retrieval_Augmented_Generation_Systems_wi.pdf)
+
+### 1）研究背景
+只奖励“答对”会鼓励系统在知识库没有答案时猜测，无法识别知识缺口。
+
+### 2）目标解决的问题
+用惩罚错误和奖励可靠拒答的方式评价部署型 RAG。
+
+### 3）核心方法（用一句话先理解）
+提出不对称得分（答对 +1、答错 -4、拒答 0）、知识缺口 canary，以及把失败归因到检索、生成或拒答策略的流水线。
+
+### 4）实验设置
+在含有“答案确定不存在”的 canary 问题上测试，结合 RAG QA 的正确、错误和拒答比例。
+
+### 5）结果与结论
+结论是传统准确率会高估系统质量。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 应把知识缺口和拒答质量设为主指标。
+
+### 7）复现时要注意
+结果可能受模型版本、阈值、硬件和数据切分影响；复现时固定随机种子、模型版本和 judge prompt，并报告置信区间。
+
+
+## 23. TRIS: A Tri-Layer Retrieval Integrity Sieve Against Knowledge Poisoning
+
+**作者**：Muhaimin Bin Munir, Akib Jawad Ononto, Nazia Shehnaz Joynab, Bhavani Thuraisingham, Latifur Khan；**日期**：2026-08-31；**编号**：`2609.00470`
+
+**原文**：[arXiv](https://arxiv.org/abs/2609.00470)　**PDF**：[本地文件](./papper2/2609.00470_TRIS_A_Tri_Layer_Retrieval_Integrity_Sieve_Against_Knowledge_Poisoning.pdf)
+
+### 1）研究背景
+单篇投毒文档只要同时满足向量几何、触发词和生成条件，就可能绕过单一过滤器。
+
+### 2）目标解决的问题
+用多层筛选阻断知识投毒，同时保留干净证据。
+
+### 3）核心方法（用一句话先理解）
+TRIS 依次做跨 embedding 空间聚类、触发—载荷结构过滤和 LLM 一致性验证。
+
+### 4）实验设置
+摘要描述针对 PoisonedRAG 类攻击的中间件防御；完整模型、数据集和污染比例需查正文。
+
+### 5）结果与结论
+三层互补比单层过滤更难被同一攻击同时优化。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 可实现分层防御消融。
+
+### 7）复现时要注意
+攻击效果依赖投毒预算、攻击者可见信息、索引重建方式和 ASR 判定规则；复现时要增加不同污染比例、查询不相交测试和自适应攻击。
+
+
+## 24. ReliableRAG: Combating Misinformation in Retrieval-Augmented Generation via Reliability-Guided Reasoning Chains
+
+**作者**：Jinpu Jiang, Xuan Wu, Wenhao Song, Bo Yang, You Zhou, Hongwei Ge, Heow Pueh Lee, Yanchun Liang, Chunguo Wu；**日期**：2026-08-26；**编号**：`2608.25487`
+
+**原文**：[arXiv](https://arxiv.org/abs/2608.25487)　**PDF**：[本地文件](./papper2/2608.25487_ReliableRAG_Combating_Misinformation_in_Retrieval_Augmented_Generation_via_Reliability_Gui.pdf)
+
+### 1）研究背景
+多跳问答中，一段误导性新闻可能被后续推理放大，语义相关并不等于可信。
+
+### 2）目标解决的问题
+在推理链每一步显式估计来源可靠性并抑制错误传播。
+
+### 3）核心方法（用一句话先理解）
+ReliableRAG 构造可靠性引导的推理链，对证据片段进行细粒度可信度判断，再决定是否继续推理。
+
+### 4）实验设置
+多跳 QA 与误导信息场景；与隐式对齐、规则约束等基线比较，具体数据集和模型需查正文。
+
+### 5）结果与结论
+摘要报告在对抗误导信息上提升可靠性。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 可将可靠性分数沿逻辑链传播。
+
+### 7）复现时要注意
+结果可能受模型版本、阈值、硬件和数据切分影响；复现时固定随机种子、模型版本和 judge prompt，并报告置信区间。
+
+
+## 25. SymbolLKG: Towards Verifiable Logical Reasoning via Logical Knowledge Graph and Symbolic Solvers
+
+**作者**：Haizhao Fan, Yuchi Xiong, Jize Wang, Xinping Guan, Xinyi Le；**日期**：2026-08-27；**编号**：`2608.26836`
+
+**原文**：[arXiv](https://arxiv.org/abs/2608.26836)　**PDF**：[本地文件](./papper2/2608.26836_SymbolLKG_Towards_Verifiable_Logical_Reasoning_via_Logical_Knowledge_Graph_and_Symbolic_So.pdf)
+
+### 1）研究背景
+纯文本 RAG 难以表达逻辑规则和约束，CoT 也不能保证每一步有效。
+
+### 2）目标解决的问题
+让逻辑规则成为可检索、可求解和可验证的对象。
+
+### 3）核心方法（用一句话先理解）
+SymbolLKG 构建逻辑知识图，把规则/约束作为节点，并根据问题动态路由到符号求解器。
+
+### 4）实验设置
+在逻辑推理任务上比较标准 RAG、CoT 和神经符号方法，关注严格多步正确率和可验证性。
+
+### 5）结果与结论
+目标是提升组合逻辑推理和一致性。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 可借鉴“规则节点 + 求解器校验”。
+
+### 7）复现时要注意
+结构化方法对图抽取质量、路径搜索预算和知识更新敏感；复现时加入图构建错误、路径截断和跨域迁移消融。
+
+
+## 26. PAGE-RAG: Provenance-Aware Graph Evidence Promotion for Fixed-Budget Multi-hop Retrieval-Augmented Generation
+
+**作者**：Haokun Deng, Xunkai Li, Hongchao Qin, Rong-Hua Li；**日期**：2026-08-30；**编号**：`2608.29753`
+
+**原文**：[arXiv](https://arxiv.org/abs/2608.29753)　**PDF**：[本地文件](./papper2/2608.29753_PAGE_RAG_Provenance_Aware_Graph_Evidence_Promotion_for_Fixed_Budget_Multi_hop_Retrieval_Au.pdf)
+
+### 1）研究背景
+多跳 RAG 要在固定 token 预算内覆盖关键证据；只取相似度最高的片段会漏掉中间跳。
+
+### 2）目标解决的问题
+用来源和关系结构在候选池中优先提升能闭合证据链的片段。
+
+### 3）核心方法（用一句话先理解）
+PAGE-RAG 将候选文档建成临时图，按 provenance 和图关系促进关键证据，再交给生成器。
+
+### 4）实验设置
+多跳 QA；固定检索预算；比较不同候选池和图/非图基线，指标含证据覆盖和答案质量。
+
+### 5）结果与结论
+结论是来源感知的候选选择能改善固定预算下的多跳覆盖。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 可将 provenance-aware reranking 作为检索基线。
+
+### 7）复现时要注意
+结构化方法对图抽取质量、路径搜索预算和知识更新敏感；复现时加入图构建错误、路径截断和跨域迁移消融。
+
+
+## 27. Detecting and Repairing Hallucinations in Retrieval-Augmented Generation
+
+**作者**：Sai Krishna Reddy Mulakkayala, Niki van Stein, Aske Plaat；**日期**：2026-08-29；**编号**：`2608.29307`
+
+**原文**：[arXiv](https://arxiv.org/abs/2608.29307)　**PDF**：[本地文件](./papper2/2608.29307_Detecting_and_Repairing_Hallucinations_in_Retrieval_Augmented_Generation.pdf)
+
+### 1）研究背景
+检测出幻觉后如果不修复，用户仍会看到错误答案；删除、替换、改写各有损失。
+
+### 2）目标解决的问题
+比较不同答案修复策略在降低无依据内容和保持可读性之间的取舍。
+
+### 3）核心方法（用一句话先理解）
+将答案拆成事实声明，逐条与检索源核对，再比较原答案、删除声明、替换为来源文本和重写。
+
+### 4）实验设置
+RAGTruth 人工标注数据；916 个修复答案；3 个不同家族 LLM 评审。
+
+### 5）结果与结论
+三种策略都降低无依据内容；删除保留 64.3% 原文但降幻觉最多，重写保留 80.1% 但改善较小；83.5% 原本干净答案也被误改。
+
+### 6）对 LogicGuard 的直接用法
+把这篇论文的核心变量加入本项目的对照或消融实验，并同步记录安全收益、答案质量和额外成本。
+
+### 7）复现时要注意
+结果可能受模型版本、阈值、硬件和数据切分影响；复现时固定随机种子、模型版本和 judge prompt，并报告置信区间。
+
+
+## 28. Knowing Before Answering: Decoding Language Models for Reliable RAG
+
+**作者**：Syed Mahbubul Huq, Christopher Child, Tillman Weyde, Pranava Madhyastha；**日期**：2026-08-27；**编号**：`2608.27661`
+
+**原文**：[arXiv](https://arxiv.org/abs/2608.27661)　**PDF**：[本地文件](./papper2/2608.27661_Knowing_Before_Answering_Decoding_Language_Models_for_Reliable_RAG.pdf)
+
+### 1）研究背景
+检索证据可能不足或互相冲突，模型需要先判断“能不能答”，再决定生成。
+
+### 2）目标解决的问题
+从模型内部信号预测充分、不足、冲突三种状态。
+
+### 3）核心方法（用一句话先理解）
+用隐藏层激活和注意力特征训练轻量线性路由器，选择中间层最有信息的表征。
+
+### 4）实验设置
+自建虚构信息控制集；16 个不同架构/规模模型；与 prompt 分类和专用 RAG 模型比较。
+
+### 5）结果与结论
+特征路由器稳定优于提示基线；中间层 hidden states 通常比 attention 更有效。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 可加入三分类 answerability gate。
+
+### 7）复现时要注意
+结果可能受模型版本、阈值、硬件和数据切分影响；复现时固定随机种子、模型版本和 judge prompt，并报告置信区间。
+
+
+## 29. Assessing the Downstream Utility of Evidence-Aware Retrieval in RAG
+
+**作者**：Utshab Kumar Ghosh, Debayan Mukhopadhyay, Shubham Chatterjee；**日期**：2026-08-26；**编号**：`2608.26379`
+
+**原文**：[arXiv](https://arxiv.org/abs/2608.26379)　**PDF**：[本地文件](./papper2/2608.26379_Assessing_the_Downstream_Utility_of_Evidence_Aware_Retrieval_in_RAG.pdf)
+
+### 1）研究背景
+检索评测越来越强调“是否含有可支持答案的证据”，但这种分数未必能指导训练、选型或生成。
+
+### 2）目标解决的问题
+验证 evidence-aware retrieval 指标在不同下游决策中的真实价值。
+
+### 3）核心方法（用一句话先理解）
+在比较检索器、训练/选型、预测答案质量和过滤上下文四种用法中，逐一测试 answer-support 信号。
+
+### 4）实验设置
+5 个检索基准加 TREC RAG 2025；含人工证据干预和多种答案评审器。
+
+### 5）结果与结论
+该信号能保留更多有用证据，但不能稳定预测未知主题的答案质量；评测指标必须绑定具体决策。
+
+### 6）对 LogicGuard 的直接用法
+把这篇论文的核心变量加入本项目的对照或消融实验，并同步记录安全收益、答案质量和额外成本。
+
+### 7）复现时要注意
+评测分数不能自动证明事实正确，且可能受人工/LLM judge 与样本构造影响；复现时保存原始上下文并做人工抽查。
+
+
+## 30. CamoDocs: A Poisoning Attack Against Retrieval-Augmented Language Models Using Camouflaged Documents
+
+**作者**：Jaewon Jung, Haizhong Zheng, Hongsun Jang, Jaeyong Song, Beidi Chen, Jinho Lee；**日期**：2026-08-28；**编号**：`2608.28389`
+
+**原文**：[arXiv](https://arxiv.org/abs/2608.28389)　**PDF**：[本地文件](./papper2/2608.28389_CamoDocs_A_Poisoning_Attack_Against_Retrieval_Augmented_Language_Models_Using_Camouflaged_.pdf)
+
+### 1）研究背景
+把查询原文写入投毒文档会留下词面和 embedding 痕迹，容易被过滤。
+
+### 2）目标解决的问题
+构造不包含查询词、但仍能进入检索结果的伪装投毒文档。
+
+### 3）核心方法（用一句话先理解）
+CamoDocs 把良性/恶意草稿切块，用 dispersion token 分散恶意 embedding，并做连贯性过滤。
+
+### 4）实验设置
+7 种 RAG 防御、3 个开源 LLM、3 个基准；另测 GPT-5.4-mini 和 Claude-Haiku-4.5。
+
+### 5）结果与结论
+专有模型平均 ASR 分别 61.80% 和 55.09%；TrustRAG 可降 ASR，但会明显损害 NeoQA 等任务效用。
+
+### 6）对 LogicGuard 的直接用法
+把这篇论文的核心变量加入本项目的对照或消融实验，并同步记录安全收益、答案质量和额外成本。
+
+### 7）复现时要注意
+攻击效果依赖投毒预算、攻击者可见信息、索引重建方式和 ASR 判定规则；复现时要增加不同污染比例、查询不相交测试和自适应攻击。
+
+
+## 31. Better Retrieval, Worse Robustness: How Multi-hop RAG Amplifies Upstream ASR Errors
+
+**作者**：Zhenghua Bao；**日期**：2026-08-24；**编号**：`2608.22872`
+
+**原文**：[arXiv](https://arxiv.org/abs/2608.22872)　**PDF**：[本地文件](./papper2/2608.22872_Better_Retrieval_Worse_Robustness_How_Multi_hop_RAG_Amplifies_Upstream_ASR_Errors.pdf)
+
+### 1）研究背景
+语音查询先经过 ASR，实体识别错误会进入检索；图链接和迭代改写可能把错误进一步放大。
+
+### 2）目标解决的问题
+测量多跳 RAG 结构对上游语音识别错误的放大效应。
+
+### 3）核心方法（用一句话先理解）
+比较稠密检索、实体图链接、迭代改写及其组合，在不同口音和 WER 下做多跳 QA。
+
+### 4）实验设置
+HotpotQA、2WikiMultiHopQA、MuSiQue；4 种英语口音 TTS；4 种 RAG 配置；指标 F1 与错误归因。
+
+### 5）结果与结论
+结构更复杂的方法绝对 F1 较高，但最高 WER 下的差距反而扩大 36–67%；2Wiki 中 87–96% 退化由实体错误造成。
+
+### 6）对 LogicGuard 的直接用法
+把这篇论文的核心变量加入本项目的对照或消融实验，并同步记录安全收益、答案质量和额外成本。
+
+### 7）复现时要注意
+结果可能受模型版本、阈值、硬件和数据切分影响；复现时固定随机种子、模型版本和 judge prompt，并报告置信区间。
+
+
+## 32. The Laws of Context Allocation: Causal Measurement and Closed-Loop Orchestration in Generative Search
+
+**作者**：Peiyang Liu, Xi Wang, Di Liang, Wei Ye；**日期**：2026-08-24；**编号**：`2608.23252`
+
+**原文**：[arXiv](https://arxiv.org/abs/2608.23252)　**PDF**：[本地文件](./papper2/2608.23252_The_Laws_of_Context_Allocation_Causal_Measurement_and_Closed_Loop_Orchestration_in_Generat.pdf)
+
+### 1）研究背景
+相似度分数常把“相关”误当成“被模型真正使用”，上下文越长也可能稀释关键证据。
+
+### 2）目标解决的问题
+用因果测量判断证据是否被使用，并闭环分配上下文预算。
+
+### 3）核心方法（用一句话先理解）
+提出 leave-one-out 因果探针，再用去混淆因子网格和子模调度器逐轮加入证据，配合归因引导解码。
+
+### 4）实验设置
+比较开放式生成搜索的上下文策略，覆盖不同模型规模，报告 portfolio recall、证据利用和成本。
+
+### 5）结果与结论
+顺序、多轮分配比一次性扩窗提高 16.7–20.5 个百分点，最高扩展到 32B 模型。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 可用 leave-one-out 测试逻辑链依赖。
+
+### 7）复现时要注意
+结果可能受模型版本、阈值、硬件和数据切分影响；复现时固定随机种子、模型版本和 judge prompt，并报告置信区间。
+
+
+## 33. Co-Evolving Structured Knowledge and Reasoning in Language Models
+
+**作者**：Ryan Thomas Noonan, Linxi Zhao, Menghan Xu, Akanksha Sarkar, Mihir Mishra, Dongyoung Go, Kilian Q. Weinberger, Yoav Artzi, Jennifer J. Sun；**日期**：2026-08-26；**编号**：`2608.26386`
+
+**原文**：[arXiv](https://arxiv.org/abs/2608.26386)　**PDF**：[本地文件](./papper2/2608.26386_Co_Evolving_Structured_Knowledge_and_Reasoning_in_Language_Models.pdf)
+
+### 1）研究背景
+文本检索噪声大，知识图又需要昂贵标注和维护；两者都限制多跳推理。
+
+### 2）目标解决的问题
+让结构化知识和推理能力随 QA 结果共同演化。
+
+### 3）核心方法（用一句话先理解）
+KBevo 联合构建知识库和推理器，以 QA 奖励优化，使成功推理反过来改善知识结构。
+
+### 4）实验设置
+知识密集型 QA；比较标准文本检索和结构化方法，观察知识连通性、答案可达性和组合推理。
+
+### 5）结果与结论
+构建出的知识结构更大、更连通，组合事实推理和可控性提升。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 可研究“图更新—逻辑链”联动风险。
+
+### 7）复现时要注意
+结果可能受模型版本、阈值、硬件和数据切分影响；复现时固定随机种子、模型版本和 judge prompt，并报告置信区间。
+
+
+## 34. Pointing the Way, Hiding the Destination: Practical Private Dense Retrieval at Scale
+
+**作者**：Peichun Hua, Danyang Chen, Junan Zhang, Haifeng Sun, Jingyu Wang, Diwen Xue, Mingyu Li, Yunming Xiao；**日期**：2026-08-26；**编号**：`2608.25735`
+
+**原文**：[arXiv](https://arxiv.org/abs/2608.25735)　**PDF**：[本地文件](./papper2/2608.25735_Pointing_the_Way_Hiding_the_Destination_Practical_Private_Dense_Retrieval_at_Scale.pdf)
+
+### 1）研究背景
+私有稠密检索既要隐藏查询和结果，又要只返回有权限的文档；全库加密扫描代价太高。
+
+### 2）目标解决的问题
+在不牺牲召回的情况下减少加密检索候选集。
+
+### 3）核心方法（用一句话先理解）
+用随机深度哈希生成短候选列表，再对候选做加密重排和 oblivious key transfer。
+
+### 4）实验设置
+5 个零样本语料，规模 2.5 万到 540 万文档；NQ 268 万段落、10Gbps 网络；测召回、通信和端到端延迟。
+
+### 5）结果与结论
+候选 200–500 个即可接近全库检索；NQ 上仅增加约 0.73 秒（约 10%）管线时间，并降低反演/属性推断泄露。
+
+### 6）对 LogicGuard 的直接用法
+把这篇论文的核心变量加入本项目的对照或消融实验，并同步记录安全收益、答案质量和额外成本。
+
+### 7）复现时要注意
+隐私结论依赖攻击模型和协议假设；复现时同时记录召回率、通信量、延迟、反演成功率及权限错误率。
+
+
+## 35. MetaRAG: Belief-Action Aligned Policy Optimization for Agentic RAG
+
+**作者**：Qiuyi Qi, Tian Liang, Jiamu Wang, Jinjian Zhang, Wei Zhou, Pengcheng Zhu, Linjian Mo, Ming Kong, Jie Liu, Qiang Zhu；**日期**：2026-08-25；**编号**：`2608.24214`
+
+**原文**：[arXiv](https://arxiv.org/abs/2608.24214)　**PDF**：[本地文件](./papper2/2608.24214_MetaRAG_Belief_Action_Aligned_Policy_Optimization_for_Agentic_RAG.pdf)
+
+### 1）研究背景
+Agentic RAG 要决定继续搜索还是回答，外部奖励可能强化“自洽但错误”的轨迹。
+
+### 2）目标解决的问题
+让搜索动作与模型对证据充分性的内部信念一致。
+
+### 3）核心方法（用一句话先理解）
+MetaRAG 在每次动作前先验证，用 Internal Belief Probing 估计可回答性，奖励由信念一致性和答案正确性共同门控。
+
+### 4）实验设置
+7 个公开 QA 基准；比较 RL Agentic RAG 基线、不同优化器和模型骨干，并测试深度研究迁移。
+
+### 5）结果与结论
+持续改善准确率—搜索成本折中；信念探针只在训练使用，不增加推理开销。
+
+### 6）对 LogicGuard 的直接用法
+把这篇论文的核心变量加入本项目的对照或消融实验，并同步记录安全收益、答案质量和额外成本。
+
+### 7）复现时要注意
+结果可能受模型版本、阈值、硬件和数据切分影响；复现时固定随机种子、模型版本和 judge prompt，并报告置信区间。
+
+
+## 36. Beyond the Editing Canvas: Evidence Divergence in OOXML-to-LLM Ingestion
+
+**作者**：Side Liu, Jiangpeng Liu, Jinwen Xin, Guojun Peng, Jiang Ming；**日期**：2026-08-26；**编号**：`2608.25880`
+
+**原文**：[arXiv](https://arxiv.org/abs/2608.25880)　**PDF**：[本地文件](./papper2/2608.25880_Beyond_the_Editing_Canvas_Evidence_Divergence_in_OOXML_to_LLM_Ingestion.pdf)
+
+### 1）研究背景
+Office 文件在编辑器中看到的内容，可能与解析器送入 LLM 的内容不同，形成隐藏证据。
+
+### 2）目标解决的问题
+找出 OOXML 到 LLM 摄取链路中的“证据分叉”，防止模型读取用户看不到的事实。
+
+### 3）核心方法（用一句话先理解）
+系统遍历 OOXML 规范，构造能在 Office 视图和抽取视图间产生差异的文件，并测试多种解析器和聊天接口。
+
+### 4）实验设置
+确认 Excel/Word/PowerPoint 共 21 种分叉；13 个抽取工具；4 个原生 API 与 7 个聊天机器人。
+
+### 5）结果与结论
+四个 API 在 48–76% 试验中返回隐藏事实；20/21 机制至少有一个接口受影响。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 应记录解析器版本和原始文件哈希。
+
+### 7）复现时要注意
+结果可能受模型版本、阈值、硬件和数据切分影响；复现时固定随机种子、模型版本和 judge prompt，并报告置信区间。
+
+
+## 37. When RAG Fails to Equalize: Geo-bias in Factual Question Answering over Public Companies
+
+**作者**：Abhinav Havaldar, Enrico Santus；**日期**：2026-08-26；**编号**：`2608.25717`
+
+**原文**：[arXiv](https://arxiv.org/abs/2608.25717)　**PDF**：[本地文件](./papper2/2608.25717_When_RAG_Fails_to_Equalize_Geo_bias_in_Factual_Question_Answering_over_Public_Companies.pdf)
+
+### 1）研究背景
+RAG 被认为能弥补模型知识差距，但模型对不同地区实体的先验知识并不均衡。
+
+### 2）目标解决的问题
+测量检索是否真正消除地理偏差，以及误导上下文会不会放大偏差。
+
+### 3）核心方法（用一句话先理解）
+为全球约 2,000 家上市公司构造四属性 QA，在无上下文、完美、误导和干扰上下文四种条件下比较模型。
+
+### 4）实验设置
+6 个 LLM；约 2,000 家公司；4 个原子属性；指标为属性准确率及不同地区差距。
+
+### 5）结果与结论
+完美上下文不能消除地区差距；误导上下文常被模型直接复制；大模型提高总体分数但未消除结构性偏差。
+
+### 6）对 LogicGuard 的直接用法
+把这篇论文的核心变量加入本项目的对照或消融实验，并同步记录安全收益、答案质量和额外成本。
+
+### 7）复现时要注意
+结果可能受模型版本、阈值、硬件和数据切分影响；复现时固定随机种子、模型版本和 judge prompt，并报告置信区间。
+
+
+## 38. RAGSentinel: Certifiable Geometric Consensus for Robust Retrieval-Augmented Generation
+
+**作者**：Yueyang Quan, Anjun Gao, Yufei Xia, Minghong Fang, Zhuqing Liu；**日期**：2026-08-25；**编号**：`2608.23965`
+
+**原文**：[arXiv](https://arxiv.org/abs/2608.23965)　**PDF**：[本地文件](./papper2/2608.23965_RAGSentinel_Certifiable_Geometric_Consensus_for_Robust_Retrieval_Augmented_Generation.pdf)
+
+### 1）研究背景
+自适应投毒者可以模仿指令、参数知识和文本一致性，传统后处理过滤容易失效。
+
+### 2）目标解决的问题
+在黑盒条件下，用多数干净证据识别几何异常投毒。
+
+### 3）核心方法（用一句话先理解）
+RAGSentinel 用代理编码器测量文档引起的隐藏状态变化，去除共享主题方向，再按鲁棒多数共识过滤离群文档；给出诚实多数下的恢复条件。
+
+### 4）实验设置
+3 个 QA 数据集、3 个 LLM 家族、多种投毒攻击，并测试攻击者知道完整管线的自适应攻击。
+
+### 5）结果与结论
+低 ASR 且保持竞争力准确率，对自适应攻击仍有效。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 可把多数共识作为独立防御基线。
+
+### 7）复现时要注意
+结果可能受模型版本、阈值、硬件和数据切分影响；复现时固定随机种子、模型版本和 judge prompt，并报告置信区间。
+
+
+## 39. SelfGraphRAG: Bridging the Supervision Gap in Graph-Based RAG with Synthetic QA Generation
+
+**作者**：Ben Lagnese, Manas Gaur；**日期**：2026-08-25；**编号**：`2608.25123`
+
+**原文**：[arXiv](https://arxiv.org/abs/2608.25123)　**PDF**：[本地文件](./papper2/2608.25123_SelfGraphRAG_Bridging_the_Supervision_Gap_in_Graph_Based_RAG_with_Synthetic_QA_Generation.pdf)
+
+### 1）研究背景
+图检索通常需要人工 QA 标注，新图谱上线时缺少训练数据。
+
+### 2）目标解决的问题
+直接利用知识图结构生成监督信号，训练查询条件图检索器。
+
+### 3）核心方法（用一句话先理解）
+SelfGraphRAG 从局部邻域和多跳路径自动生成问题—答案对，再训练图检索器。
+
+### 4）实验设置
+多跳 QA 与分类基准；比较 embedding 检索器和图检索器，测检索精度及下游推理。
+
+### 5）结果与结论
+合成监督提升检索精度和推理性能。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 可用它低成本生成逻辑链测试集。
+
+### 7）复现时要注意
+结构化方法对图抽取质量、路径搜索预算和知识更新敏感；复现时加入图构建错误、路径截断和跨域迁移消融。
+
+
+## 40. A Storage-Retrieval Gap in Parametric Knowledge Graph Memory
+
+**作者**：Martino M. L. Pulici, Cuong Xuan Chu, Evgeny Kharlamov, Volker Tresp；**日期**：2026-08-26；**编号**：`2608.25489`
+
+**原文**：[arXiv](https://arxiv.org/abs/2608.25489)　**PDF**：[本地文件](./papper2/2608.25489_A_Storage_Retrieval_Gap_in_Parametric_Knowledge_Graph_Memory.pdf)
+
+### 1）研究背景
+把图知识编译进 LoRA 可省掉每次检索的上下文，但如何选出正确 adapter 尚不清楚。
+
+### 2）目标解决的问题
+验证参数化知识图记忆是否能存储事实，以及语义相似能否正确选择 adapter。
+
+### 3）核心方法（用一句话先理解）
+每个实体训练一个 LoRA adapter，查询时注入权重而不是文本；比较 adapter 选择和组合方式。
+
+### 4）实验设置
+MetaQA；单值关系 exact match、闭卷基线、oracle adapter gap、参数/上下文成本。
+
+### 5）结果与结论
+单值关系比闭卷基线提高 0.243，但相似度选 adapter 接近随机；知识可存储却难以按功能检索。
+
+### 6）对 LogicGuard 的直接用法
+LogicGuard 应警惕“参数记忆没有可追溯证据”。
+
+### 7）复现时要注意
+结构化方法对图抽取质量、路径搜索预算和知识更新敏感；复现时加入图构建错误、路径截断和跨域迁移消融。
+
+
+## 怎么把这 40 篇论文用于 LogicGuard
+
+- **攻击集**：ToxicRAG、CamoDocs、CodePoisonRAG、VerTox 和文档篡改实验覆盖单文档、伪装、代码和自适应投毒。
+- **防御集**：TRIS、RAGSentinel、SCoNE、EAEV、ReliableRAG 和 HCF 可组成过滤、几何共识、实体验证、可靠性传播和分层审计的消融矩阵。
+- **评测集**：RAG-Safety-Bench、RAGMark、知识缺口 canary、QPP 和 evidence-aware retrieval 提醒我们同时报告安全率、答案质量、证据支持率、拒答质量、延迟、显存和能耗。
+- **结构化推理**：PAGR、SymbolLKG、PAGE-RAG、ISO-RAG、SelfGraphRAG、APT-RAG 和 KBevo 可用于设计逻辑链、图路径和证明携带实验。
+- **部署风险**：SHAQ、Spruce、Rent-a-RAG、OOXML 证据分叉和地理偏差工作，补充了隐私、来源审计、摄取链路和公平性维度。

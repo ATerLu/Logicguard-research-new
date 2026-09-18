@@ -102,6 +102,12 @@ def test_prepare_minimal_workspace_writes_prompts_settings_and_manifest(
         settings["embedding_models"]["default_embedding_model"]["api_base"]
         == "${DASHSCOPE_BASE_URL}"
     )
+    assert settings["completion_models"]["default_completion_model"]["call_args"] == {
+        "temperature": 0.0,
+        "enable_thinking": False,
+        "max_completion_tokens": 1600,
+    }
+    assert settings["completion_models"]["default_completion_model"]["retry"] is None
     assert settings["workflows"] == [
         "load_input_documents",
         "create_base_text_units",
@@ -186,6 +192,7 @@ def test_prepare_query_ready_workspace_enables_community_reports(
     assert "prune_graph" not in settings["workflows"]
     assert "create_community_reports" in settings["workflows"]
     assert "create_community_reports_text" not in settings["workflows"]
+    assert settings["extract_graph"]["max_gleanings"] == 0
     assert (
         settings["community_reports"]["graph_prompt"]
         == "prompts/community_report_graph.txt"

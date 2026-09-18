@@ -1,0 +1,29 @@
+{
+  "0": {
+    "status": "processed",
+    "content_summary": "Title: Teutberga\n\nTeutberga( died 11 November 875) was a queen of Lotharingia by marriage to Lothair II. She was a daughter of Bosonid Boso the Elder and sister of Hucbert, the lay- abbot of St. Maurice's Abbey.",
+    "content_length": 211,
+    "created_at": "2026-09-04T00:14:18.924523+00:00",
+    "updated_at": "2026-09-04T00:14:32.772220+00:00",
+    "file_path": "0.txt",
+    "track_id": "insert_20260904_081418_0b437102",
+    "content_hash": "91b281bfb56719329d544fb5c39ff469",
+    "metadata": {
+      "parse_start_time": 1788480858,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1788480858,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1788480859,
+      "process_end_time": 1788480872,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "0-chunk-000"
+    ]
+  }
+}

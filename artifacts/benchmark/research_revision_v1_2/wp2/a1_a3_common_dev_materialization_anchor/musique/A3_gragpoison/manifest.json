@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "dataset": "musique",
+  "attack_id": "A3_gragpoison",
+  "status": "MATERIALIZED_WITHIN_BUDGET",
+  "query_count": 1,
+  "clean_documents": 11656,
+  "poison_document_occurrences": 8,
+  "unique_poison_texts": 6,
+  "poison_documents_by_family": {
+    "direct": 3,
+    "enhanced": 3,
+    "indirect": 2
+  },
+  "physical_attack_text_files": 3,
+  "physical_attack_text_file_names": [
+    "attack_texts_direct.txt",
+    "attack_texts_enhanced.txt",
+    "attack_texts_indirect.txt"
+  ],
+  "poison_to_clean_document_ratio": 0.000686341798,
+  "max_relative_document_ratio": 0.01,
+  "total_poison_words": 180,
+  "total_comparison_tokens": 206,
+  "max_poison_words": 37,
+  "paper_native_count_ready": false,
+  "shared_runner_label": "GRAGPoison_inspired_adaptation",
+  "attack_effect_measured": false,
+  "hashes": {
+    "poison_documents.jsonl": "79c7c677c99b74e30eceecd813b1e0a51e15e76486ece2d8deb5b4cd66c8da9b",
+    "poisoned_corpus.jsonl": "74acfab98026a7736c52f1ee9cb98550e5ecbf08da860b9bca59887306ea2cc5",
+    "query_materialization_audit.jsonl": "5f664fb3486fe170fb057ad801de45678738e13124a817a61db6ed6f3d48596b",
+    "attack_texts_direct.txt": "d54f9e579ae8673c5eb4c74022d962985429b236bf7d8f04750ffcbb9256a2a2",
+    "attack_texts_enhanced.txt": "9ff1e5b39a1cafb8a5768c6fb1d3cbe9d20193fc3b4b8c9b8ecc7120ab1f6039",
+    "attack_texts_indirect.txt": "42706ba2eee1d71789c18ccf600950bc5e902d9164e785e6a022e6931ed5a7ab"
+  }
+}

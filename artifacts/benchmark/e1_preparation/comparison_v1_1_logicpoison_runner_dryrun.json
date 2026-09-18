@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "benchmark_version": "comparison-v1.1",
+  "run_mode": "dry_run",
+  "unique_attack_attempts": 300,
+  "planned_provider_calls": 300,
+  "calls_by_attack": {
+    "A2_logicpoison": 300
+  },
+  "all_requests_single_call": true,
+  "input_manifest_sha256": "ce46d29f3c9d677eff33b8529f037e89d2d43f73f2f457b13971e83a49c3d012",
+  "request_plan_sha256": "b09d17d48cd29c13926942e2f0411e863a391bf7ec423fe38c7987aa1d789725",
+  "provider_calls_made": 0,
+  "credentials_read": false,
+  "status": "DRY_RUN_PASSED",
+  "fingerprint": "95fe3b14cc8b29cec46532e6d4b672d4b3de67be38d031dad5eca07025aa5128"
+}

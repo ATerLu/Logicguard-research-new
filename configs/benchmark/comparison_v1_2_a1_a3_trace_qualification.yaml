@@ -1,0 +1,27 @@
+schema_version: 1
+protocol_version: comparison-v1.2
+run_mode: local_asset_audit
+inputs:
+  a1_asset: vendor/upstream/PoisonedRAG/results/adv_targeted_results/hotpotqa.json
+  a3_artifact: vendor/upstream/GraphRAG_Under_Fire/datasets/misuque_3_black_shuffle_0601/test0_corpus.json
+  ms_graphrag_trace: outputs/ms_graphrag_query/stage48_gate_a_hotpotqa_clean50_contexts.jsonl
+  ms_clean_corpus: data/logicpoison_official/clean/hotpotqa/corpus.jsonl
+  lightrag_schema_fixture: tests/fixtures/backend_traces/lightrag_query_data.json
+datasets:
+  microsoft: hotpotqa
+  lightrag: fixture
+parameters:
+  a1_texts_per_record: 5
+  a3_N_alpha: 10
+  a3_N_beta: 5
+  a3_word_budget: 400
+expectations:
+  a1_records: 100
+  a1_texts: 500
+  a3_records: 74
+  a3_raw_texts: 1555
+  a3_selected_occurrences: 1461
+  a3_selected_unique: 1341
+  ms_trace_rows: 50
+  ms_trace_hits: 1870
+output_root: artifacts/benchmark/research_revision_v1_2/wp2/a1_a3_backend_trace_qualification_anchor

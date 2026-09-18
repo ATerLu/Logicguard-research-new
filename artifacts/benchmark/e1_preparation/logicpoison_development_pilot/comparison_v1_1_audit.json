@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "status": "GENERATION_PASSED__COST_CAP_FAILED",
+  "unique_attack_attempts": 1,
+  "generation_valid": 1,
+  "provider_calls_made": 1,
+  "token_usage": {
+    "prompt_tokens": 147,
+    "completion_tokens": 1713,
+    "total_tokens": 1860
+  },
+  "planned_catalog_cost_cap_cny": 0.007096,
+  "actual_catalog_cost_cny": 0.013998,
+  "hard_cost_cap_cny": 0.0071,
+  "generation_gate_passed": true,
+  "cost_cap_gate_passed": false,
+  "diagnosis": "qwen3.7-plus default thinking tokens were billed outside the legacy max_tokens answer cap; future requests must set enable_thinking=false and use max_completion_tokens",
+  "provider_calls_this_audit": 0,
+  "frozen_no_retry": true,
+  "results_sha256": "d599476732faf3b65c03669d4dfecf778ff46d2370e3bf63bfa389182b1bf262",
+  "summary_sha256": "3d2f2fd32c728e38c1c2f4ee0bb65b495a29143ef245476f71383b9a7edef1dd",
+  "fingerprint": "3f3e713b51f6035a1e81026dd0600d16e4c93dcfd679390e539a4c8d405c51d9"
+}

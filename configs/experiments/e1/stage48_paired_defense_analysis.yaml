@@ -1,0 +1,44 @@
+pairs:
+  - dataset: musique
+    attack_family: natural_bridge
+    frozen_attacks_path: data/experiments/e1/musique_natural_bridge_dryrun5_full_corpus/frozen_attacks.jsonl
+    attacked_preflight_path: outputs/ms_graphrag_query/e1_musique_natural_bridge_dryrun5_full_corpus_defense_preflight.jsonl
+    clean_preflight_path: outputs/ms_graphrag_query/e1_musique_natural_bridge_dryrun5_full_corpus_clean_defense_preflight.jsonl
+    attacked_results_path: outputs/ms_graphrag_query/e1_musique_natural_bridge_dryrun5_full_corpus_defense_answer_results.jsonl
+    clean_results_path: outputs/ms_graphrag_query/e1_musique_natural_bridge_dryrun5_full_corpus_clean_defense_answer_results.jsonl
+  - dataset: musique
+    attack_family: low_drift
+    frozen_attacks_path: data/experiments/e1/musique_low_drift_evalvalid5_full_corpus/frozen_attacks.jsonl
+    attacked_preflight_path: outputs/ms_graphrag_query/e1_musique_low_drift_evalvalid5_full_corpus_defense_preflight.jsonl
+    clean_preflight_path: outputs/ms_graphrag_query/e1_musique_low_drift_evalvalid5_full_corpus_clean_defense_preflight.jsonl
+    attacked_results_path: outputs/ms_graphrag_query/e1_musique_low_drift_evalvalid5_full_corpus_defense_answer_results.jsonl
+    clean_results_path: outputs/ms_graphrag_query/e1_musique_low_drift_evalvalid5_full_corpus_clean_defense_answer_results.jsonl
+  - dataset: musique
+    attack_family: candidate_collision
+    frozen_attacks_path: data/experiments/e1/musique_candidate_collision_evalvalid2_full_corpus/frozen_attacks.jsonl
+    attacked_preflight_path: outputs/ms_graphrag_query/e1_musique_candidate_collision_evalvalid2_full_corpus_defense_preflight.jsonl
+    clean_preflight_path: outputs/ms_graphrag_query/e1_musique_candidate_collision_evalvalid2_full_corpus_clean_defense_preflight.jsonl
+    attacked_results_path: outputs/ms_graphrag_query/e1_musique_candidate_collision_evalvalid2_full_corpus_defense_answer_results.jsonl
+    clean_results_path: outputs/ms_graphrag_query/e1_musique_candidate_collision_evalvalid2_full_corpus_clean_defense_answer_results.jsonl
+  - dataset: hotpotqa
+    attack_family: natural_bridge
+    frozen_attacks_path: data/experiments/e1/hotpotqa_natural_bridge_evalvalid2_full_corpus/frozen_attacks.jsonl
+    attacked_preflight_path: outputs/ms_graphrag_query/e1_hotpotqa_natural_bridge_evalvalid2_full_corpus_defense_preflight.jsonl
+    clean_preflight_path: outputs/ms_graphrag_query/e1_hotpotqa_natural_bridge_evalvalid2_full_corpus_clean_defense_preflight.jsonl
+    attacked_results_path: outputs/ms_graphrag_query/e1_hotpotqa_natural_bridge_evalvalid2_full_corpus_defense_answer_results.jsonl
+    clean_results_path: outputs/ms_graphrag_query/e1_hotpotqa_natural_bridge_evalvalid2_full_corpus_clean_defense_answer_results.jsonl
+
+paired_rows_output_path: outputs/ms_graphrag_query/stage48_e1_paired_defense_answer_rows.jsonl
+summary_output_path: outputs/ms_graphrag_query/stage48_e1_paired_defense_answer_summary.json
+cost_ledger_output_path: outputs/manifests/stage48_e1_paired_defense_cost_ledger.json
+report_path: outputs/reports/Stage48_E1_PairedDefenseAndCleanControl.md
+
+clean_index_workspace_roots:
+  - outputs/ms_graphrag/musique/stage48_clean_full_corpus
+  - outputs/ms_graphrag/hotpotqa/stage48_clean_full_corpus
+answer_input_price_per_million_tokens_cny: 2.0
+answer_output_price_per_million_tokens_cny: 8.0
+embedding_price_per_thousand_tokens_cny: 0.0005
+context_query_embedding_count: 14
+context_query_embedding_max_tokens_each: 128
+stage_label: Stage48-E1 Paired Defense and Clean Control

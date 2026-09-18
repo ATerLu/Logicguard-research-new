@@ -49,10 +49,24 @@ def test_detect_non_oracle_source_risk_uses_clean_candidate_drift_without_labels
     )
 
     assert poisoned_result.is_risky is True
+    assert poisoned_result.verification_status == "verified_risky"
     assert poisoned_result.candidate_doc_id == "638"
     assert "clean_candidate_entity_drift" in poisoned_result.risk_reasons
     assert clean_result.is_risky is False
+    assert clean_result.verification_status == "verified_safe"
     assert clean_result.risk_reasons == []
+
+
+def test_detect_non_oracle_source_risk_marks_missing_candidate_unverifiable() -> None:
+    result = detect_non_oracle_source_risk(
+        query="Who wrote Alpha?",
+        source=_source("x", "Alpha", "Unknown text."),
+        candidate_sources=[],
+    )
+
+    assert result.is_risky is False
+    assert result.verification_status == "unverifiable"
+    assert result.risk_reasons == ["trusted_candidate_unavailable"]
 
 
 def test_detect_non_oracle_source_risk_ignores_shared_header_when_body_subject_drifts() -> (

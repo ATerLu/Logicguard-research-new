@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "protocol_version": "comparison-v1.2",
+  "config_sha256": "729ee3ba3b90dc67e69e1715c81f108996d26e42fd0e53c09fb0dfa8b30a4933",
+  "implementation_sha256": "9c868e977432e53551f9067e2eccef3764a4dc9b4b95fbcb5316152482ef31c4",
+  "input_sha256": {
+    "ms_trace": "a1fc29a4160491a11c8e8e2ca2d6b794919ae9ca01432410ad86fe20221a6e9b",
+    "ms_clean_corpus": "d5af8f641801aced2a16709bdc2ee0b86b80f1ab5f80a4eddcc23df4e1763635",
+    "lightrag_trace": "7cc69bb9876b9203bb18d78cd73ac2ac6dc3b275265738dbeda8690e6d2132d4",
+    "lightrag_clean_corpus": "a7b9216a4bd0cca67a8b42d256cbcb782c4f64bf2d7dcdf8702b763d63a32194"
+  },
+  "run_identity_sha256": "28529e4e2a9b96581ebec7311412e8e81d029945715916a6c8dbef881b0b91d9"
+}

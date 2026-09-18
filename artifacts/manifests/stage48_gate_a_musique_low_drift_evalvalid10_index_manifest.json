@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "workspace_root": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\musique\\stage48_gate_a_low_drift_evalvalid10_full_corpus",
+  "index_scope": "official_graphrag_context_only",
+  "community_reports": "intentionally_omitted_query_community_prop_zero",
+  "embedding_fields": [
+    "entity_description"
+  ],
+  "settings": {
+    "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\musique\\stage48_gate_a_low_drift_evalvalid10_full_corpus\\settings.yaml",
+    "size_bytes": 2513,
+    "sha256": "473bb23ce274b9400c8ade2124cb563f7b13bd982485b4b7446801846fe59959"
+  },
+  "prompts_sha256": "51b312589755c10d2f6837ca1fee4b41b6ccb6e54f48893275f65cad89252d2d",
+  "input_sha256": "6d1fb249eed4fd508a0ad8cf896bbae0486083082e6b1e5c5bc8575cd28695dc",
+  "output_artifacts": [
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\musique\\stage48_gate_a_low_drift_evalvalid10_full_corpus\\output\\communities.parquet",
+      "size_bytes": 14381534,
+      "sha256": "84c99e810aeb801b3da6492e6a102bbffdfbcb5f65df2192cbb91fb2986cb97d"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\musique\\stage48_gate_a_low_drift_evalvalid10_full_corpus\\output\\documents.parquet",
+      "size_bytes": 6846700,
+      "sha256": "bd679506f913f6f14ee90407cf409b35f7ca792c1dbfae64615cea9a99d4da18"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\musique\\stage48_gate_a_low_drift_evalvalid10_full_corpus\\output\\entities.parquet",
+      "size_bytes": 8083452,
+      "sha256": "65fec5e1cc32044da956416b62510d14e46eef8790821202117cd68e256dd0e7"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\musique\\stage48_gate_a_low_drift_evalvalid10_full_corpus\\output\\relationships.parquet",
+      "size_bytes": 11577348,
+      "sha256": "6cdaea521444cbe3eaff546f6e8ed396e5de23e2ed028029d0dc5291fbf10592"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\musique\\stage48_gate_a_low_drift_evalvalid10_full_corpus\\output\\text_units.parquet",
+      "size_bytes": 14840964,
+      "sha256": "49bb9cfa9ee15264131e20faf503c871afe27ad1deeeebebad94c7ecee04d4f5"
+    }
+  ],
+  "output_sha256": "feb545fc98946f1e03beded5add4df1e749f30596f754ae400363ca365a63323",
+  "graphrag_metrics": {
+    "openai/text-embedding-v4": {
+      "attempted_request_count": 1406,
+      "successful_response_count": 1406,
+      "failed_response_count": 0,
+      "requests_with_retries": 1,
+      "retries": 1,
+      "compute_duration_seconds": 782.5115287303925,
+      "streaming_responses": 0,
+      "responses_with_tokens": 1406,
+      "prompt_tokens": 84330,
+      "completion_tokens": 0,
+      "total_tokens": 84330,
+      "incomplete_response_count": 0,
+      "failure_rate": 0.0,
+      "retry_rate": 0.0007112375533428165,
+      "compute_duration_per_response_seconds": 0.5565515851567514,
+      "tokens_per_response": 59.97866287339971
+    },
+    "openai/qwen3.7-plus": {
+      "attempted_request_count": 1,
+      "successful_response_count": 1,
+      "failed_response_count": 0,
+      "requests_with_retries": 0,
+      "retries": 0,
+      "compute_duration_seconds": 5.863363027572632,
+      "streaming_responses": 0,
+      "responses_with_tokens": 1,
+      "prompt_tokens": 21,
+      "completion_tokens": 276,
+      "total_tokens": 297,
+      "incomplete_response_count": 0,
+      "failure_rate": 0.0,
+      "retry_rate": 0.0,
+      "compute_duration_per_response_seconds": 5.863363027572632,
+      "tokens_per_response": 297.0
+    }
+  },
+  "manifest_fingerprint": "e0e9cbf28b003a825c1899ad4d95316b9a8de6e6aa3d3412ff8dac602f5482f9"
+}

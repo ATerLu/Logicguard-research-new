@@ -9,8 +9,6 @@ generated answer with local rules plus an optional LLM judge.
 from __future__ import annotations
 
 import argparse
-import csv
-import json
 import math
 import os
 import re
@@ -23,7 +21,19 @@ from typing import Any, Protocol
 import yaml
 
 from logicguard.core.config import find_project_root, resolve_config_path
-from logicguard.core.io import load_jsonl as _load_jsonl
+from logicguard.core.io import (
+    append_jsonl as _append_jsonl,
+    atomic_write_text as _atomic_write_text,
+    load_jsonl as _load_jsonl,
+    write_csv as _write_csv,
+    write_jsonl as _write_jsonl,
+)
+from logicguard.core.run_state import (
+    load_checkpoint_rows,
+    prepare_run_manifest,
+    stable_case_key,
+    update_run_manifest,
+)
 from logicguard.core.metrics import dedupe_strings as _dedupe
 from logicguard.core.metrics import mean as _avg
 from logicguard.core.metrics import ratio as _ratio
@@ -316,11 +326,46 @@ def run_from_config(config: Stage27AnswerLLMConfig) -> list[Stage27AnswerLLMResu
         max_chars_per_source=config.max_chars_per_source,
         rendering_policies=config.rendering_policies,
     )
+    checkpoint_path = _answer_checkpoint_path(config)
+    manifest_path = _answer_manifest_path(config)
+    manifest = prepare_run_manifest(
+        path=manifest_path,
+        experiment=f"{config.stage_label}:answer_generation",
+        config_payload=asdict(config),
+        inputs=[
+            config.sample_path,
+            config.query_integrity_path,
+            config.context_input_path,
+            Path(__file__),
+        ],
+        expected_count=len(cases) * len(config.models),
+        checkpoint_path=checkpoint_path,
+        protected_outputs=[
+            config.cases_output_path,
+            config.results_output_path,
+            config.metrics_output_path,
+            config.summary_output_path,
+        ],
+    )
+    _write_jsonl(config.cases_output_path, [case.to_json_dict() for case in cases])
     api_key = _read_required_env(config.api_key_env)
     base_url = _read_required_env(config.base_url_env)
     client = OpenAICompatibleChatClient(base_url=base_url, api_key=api_key)
-    results = run_stage27_answer_generation(config=config, cases=cases, client=client)
+    results = run_stage27_answer_generation(
+        config=config,
+        cases=cases,
+        client=client,
+        checkpoint_path=checkpoint_path,
+        run_fingerprint=str(manifest["fingerprint"]),
+        manifest_path=manifest_path,
+    )
     write_stage27_outputs(config=config, cases=cases, results=results)
+    update_run_manifest(
+        manifest_path,
+        status="complete",
+        completed_count=len(results),
+        token_usage=_answer_token_usage(results),
+    )
     print(
         f"stage27_answer_cases={len(cases)}, "
         f"models={len(config.models)}, calls={len(results)}"
@@ -397,23 +442,87 @@ def run_stage27_answer_generation(
     config: Stage27AnswerLLMConfig,
     cases: list[Stage27AnswerCase],
     client: ChatClient,
+    checkpoint_path: Path | None = None,
+    run_fingerprint: str | None = None,
+    manifest_path: Path | None = None,
 ) -> list[Stage27AnswerLLMResult]:
-    """Call configured models for each rendered Stage27 answer case."""
+    """Call configured models, checkpointing each completed model/case pair."""
 
-    results: list[Stage27AnswerLLMResult] = []
+    if (checkpoint_path is None) != (run_fingerprint is None):
+        raise ValueError(
+            "checkpoint_path and run_fingerprint must be provided together"
+        )
+
+    completed: dict[str, Stage27AnswerLLMResult] = {}
+    if checkpoint_path is not None and run_fingerprint is not None:
+        for row in load_checkpoint_rows(checkpoint_path, fingerprint=run_fingerprint):
+            result_payload = row.get("result")
+            if not isinstance(result_payload, dict):
+                raise RuntimeError(
+                    f"Malformed answer checkpoint row in {checkpoint_path}"
+                )
+            case_key = str(row.get("case_key", ""))
+            if not case_key:
+                raise RuntimeError(
+                    f"Answer checkpoint row is missing case_key: {checkpoint_path}"
+                )
+            completed[case_key] = Stage27AnswerLLMResult(**result_payload)
+
     judge_config = config.judge_config()
     for model in config.models:
         for case in cases:
-            results.append(
-                _call_model_for_case(
-                    config=config,
-                    client=client,
-                    model=model,
-                    case=case,
-                    judge_config=judge_config,
-                )
+            attack_family, defense_stage = _method_case_dimensions(case.method)
+            case_key = stable_case_key(
+                dataset=case.dataset,
+                query_id=case.query_id,
+                attack_family=attack_family,
+                defense_stage=defense_stage,
+                model=model,
             )
-    return results
+            if case_key in completed:
+                continue
+            result = _call_model_for_case(
+                config=config,
+                client=client,
+                model=model,
+                case=case,
+                judge_config=judge_config,
+            )
+            completed[case_key] = result
+            if checkpoint_path is not None and run_fingerprint is not None:
+                _append_jsonl(
+                    checkpoint_path,
+                    {
+                        "run_fingerprint": run_fingerprint,
+                        "case_key": case_key,
+                        "dataset": case.dataset,
+                        "query_id": case.query_id,
+                        "attack_family": attack_family,
+                        "defense_stage": defense_stage,
+                        "model": model,
+                        "result": result.to_json_dict(),
+                    },
+                )
+                if manifest_path is not None:
+                    update_run_manifest(
+                        manifest_path,
+                        completed_count=len(completed),
+                        token_usage=_answer_token_usage(list(completed.values())),
+                    )
+
+    return [
+        completed[
+            stable_case_key(
+                dataset=case.dataset,
+                query_id=case.query_id,
+                attack_family=_method_case_dimensions(case.method)[0],
+                defense_stage=_method_case_dimensions(case.method)[1],
+                model=model,
+            )
+        ]
+        for model in config.models
+        for case in cases
+    ]
 
 
 def summarize_stage27_results(
@@ -516,39 +625,20 @@ def write_stage27_outputs(
     """Write Stage27 cases, JSONL results, CSV metrics, summary, and report."""
 
     summaries = summarize_stage27_results(results)
-    config.cases_output_path.parent.mkdir(parents=True, exist_ok=True)
-    config.results_output_path.parent.mkdir(parents=True, exist_ok=True)
-    config.metrics_output_path.parent.mkdir(parents=True, exist_ok=True)
-    config.summary_output_path.parent.mkdir(parents=True, exist_ok=True)
-    if config.emit_markdown_report:
-        config.report_path.parent.mkdir(parents=True, exist_ok=True)
-
-    with config.cases_output_path.open("w", encoding="utf-8") as handle:
-        for case in cases:
-            handle.write(json.dumps(case.to_json_dict(), ensure_ascii=False) + "\n")
-    with config.results_output_path.open("w", encoding="utf-8") as handle:
-        for result in results:
-            handle.write(json.dumps(result.to_json_dict(), ensure_ascii=False) + "\n")
-    with config.metrics_output_path.open(
-        "w", encoding="utf-8-sig", newline=""
-    ) as handle:
-        writer = csv.DictWriter(
-            handle,
-            fieldnames=list(Stage27AnswerLLMResult.__dataclass_fields__),
-        )
-        writer.writeheader()
-        for result in results:
-            writer.writerow(result.to_csv_row())
-    with config.summary_output_path.open(
-        "w", encoding="utf-8-sig", newline=""
-    ) as handle:
-        writer = csv.DictWriter(
-            handle,
-            fieldnames=list(Stage27SummaryRow.__dataclass_fields__),
-        )
-        writer.writeheader()
-        for row in summaries:
-            writer.writerow(row.to_csv_row())
+    _write_jsonl(config.cases_output_path, [case.to_json_dict() for case in cases])
+    _write_jsonl(
+        config.results_output_path, [result.to_json_dict() for result in results]
+    )
+    _write_csv(
+        config.metrics_output_path,
+        [result.to_csv_row() for result in results],
+        fieldnames=list(Stage27AnswerLLMResult.__dataclass_fields__),
+    )
+    _write_csv(
+        config.summary_output_path,
+        [row.to_csv_row() for row in summaries],
+        fieldnames=list(Stage27SummaryRow.__dataclass_fields__),
+    )
     _write_stage27_report(
         config=config, cases=cases, results=results, summaries=summaries
     )
@@ -1092,7 +1182,42 @@ def _write_stage27_report(
         ]
     )
     if config.emit_markdown_report:
-        config.report_path.write_text(content, encoding="utf-8")
+        _atomic_write_text(config.report_path, content)
+
+
+def _answer_checkpoint_path(config: Stage27AnswerLLMConfig) -> Path:
+    return config.results_output_path.with_name(
+        f"{config.results_output_path.stem}_checkpoint.jsonl"
+    )
+
+
+def _answer_manifest_path(config: Stage27AnswerLLMConfig) -> Path:
+    return config.results_output_path.with_name(
+        f"{config.results_output_path.stem}_run_manifest.json"
+    )
+
+
+def _method_case_dimensions(method: str) -> tuple[str, str]:
+    prefix = "stage47_"
+    if method.startswith(prefix) and "__" in method:
+        family, stage = method[len(prefix) :].split("__", maxsplit=1)
+        return family, stage
+    return "", method
+
+
+def _answer_token_usage(
+    results: list[Stage27AnswerLLMResult],
+) -> dict[str, int]:
+    return {
+        "answer_prompt_tokens": sum(row.prompt_tokens or 0 for row in results),
+        "answer_completion_tokens": sum(row.completion_tokens or 0 for row in results),
+        "answer_total_tokens": sum(row.total_tokens or 0 for row in results),
+        "judge_prompt_tokens": sum(row.judge_prompt_tokens or 0 for row in results),
+        "judge_completion_tokens": sum(
+            row.judge_completion_tokens or 0 for row in results
+        ),
+        "judge_total_tokens": sum(row.judge_total_tokens or 0 for row in results),
+    }
 
 
 def _ordered_intersection(expected: list[str], observed: list[str]) -> list[str]:

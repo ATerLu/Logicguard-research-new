@@ -1,0 +1,27 @@
+{
+  "mapping": {
+    "Albert Einstein": "Isaac Newton",
+    "Isaac Newton": "Albert Einstein"
+  },
+  "typed_mapping": [
+    {
+      "source": "Albert Einstein",
+      "target": "Isaac Newton",
+      "type": "PERSON",
+      "source_query_ids": [
+        "ner-q1"
+      ],
+      "source_in_frequency_pool": true
+    },
+    {
+      "source": "Isaac Newton",
+      "target": "Albert Einstein",
+      "type": "PERSON",
+      "source_query_ids": [
+        "ner-q2"
+      ],
+      "source_in_frequency_pool": false
+    }
+  ],
+  "excluded_entities": []
+}

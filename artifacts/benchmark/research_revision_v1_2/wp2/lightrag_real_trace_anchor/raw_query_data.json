@@ -1,0 +1,465 @@
+{
+  "status": "success",
+  "message": "Query processed successfully",
+  "data": {
+    "entities": [
+      {
+        "entity_name": "Lambert",
+        "entity_type": "person",
+        "description": "Margrave of Tuscany, count and duke of Lucca, second son of Adalbert II of Tuscany and Bertha, died after 938.",
+        "source_id": "2-chunk-000",
+        "file_path": "2.txt",
+        "created_at": 1788481532
+      },
+      {
+        "entity_name": "Bertha",
+        "entity_type": "person",
+        "description": "Mother of Lambert and Guy, daughter of Lothair II of Lotharingia.<SEP>Countess of Arles and Margravine of Tuscany, daughter of Lothair II, who served as regent of Lucca and Tuscany from 915 to 916.<SEP>Illegitimate daughter of Lothair II, known for her beauty and spirit, and wife of Theobald of Arles.",
+        "source_id": "2-chunk-000<SEP>6-chunk-000<SEP>9-chunk-000",
+        "file_path": "2.txt<SEP>6.txt<SEP>9.txt",
+        "created_at": 1788481611
+      },
+      {
+        "entity_name": "Tuscany",
+        "entity_type": "location",
+        "description": "Region governed by Lambert as margrave, later given to Boso by Hugh.<SEP>Region where Bertha served as margravine and regent.",
+        "source_id": "2-chunk-000<SEP>6-chunk-000",
+        "file_path": "2.txt<SEP>6.txt",
+        "created_at": 1788481584
+      },
+      {
+        "entity_name": "Guy of Tuscany",
+        "entity_type": "person",
+        "description": "Son of Bertha, whose minority prompted her regency in Lucca and Tuscany.",
+        "source_id": "6-chunk-000",
+        "file_path": "6.txt",
+        "created_at": 1788481584
+      },
+      {
+        "entity_name": "Adalbert II of Tuscany",
+        "entity_type": "person",
+        "description": "Father of Lambert and Guy.<SEP>Husband of Bertha and Margrave of Tuscany by marriage.",
+        "source_id": "2-chunk-000<SEP>6-chunk-000",
+        "file_path": "2.txt<SEP>6.txt",
+        "created_at": 1788481584
+      },
+      {
+        "entity_name": "Boso of Tuscany",
+        "entity_type": "person",
+        "description": "Son of Theobald of Arles and Bertha.",
+        "source_id": "9-chunk-000",
+        "file_path": "9.txt",
+        "created_at": 1788481611
+      },
+      {
+        "entity_name": "Guy",
+        "entity_type": "person",
+        "description": "Elder brother of Lambert, former count and duke of Lucca and margrave of Tuscany, died in 928 or 929 without heirs.",
+        "source_id": "2-chunk-000",
+        "file_path": "2.txt",
+        "created_at": 1788481533
+      },
+      {
+        "entity_name": "Waldrada",
+        "entity_type": "person",
+        "description": "Concubine of Lothair II and mother of Bertha.",
+        "source_id": "6-chunk-000",
+        "file_path": "6.txt",
+        "created_at": 1788481584
+      },
+      {
+        "entity_name": "Hugh",
+        "entity_type": "person",
+        "description": "King of Italy, half-brother of Guy and Lambert, disowned Lambert in 931.",
+        "source_id": "2-chunk-000",
+        "file_path": "2.txt",
+        "created_at": 1788481533
+      },
+      {
+        "entity_name": "Hugh of Italy",
+        "entity_type": "person",
+        "description": "Son of Theobald of Arles and Bertha.",
+        "source_id": "9-chunk-000",
+        "file_path": "9.txt",
+        "created_at": 1788481611
+      },
+      {
+        "entity_name": "Boso the Elder",
+        "entity_type": "person",
+        "description": "Father of Teutberga.",
+        "source_id": "4-chunk-000",
+        "file_path": "4.txt",
+        "created_at": 1788481561
+      },
+      {
+        "entity_name": "Boso",
+        "entity_type": "person",
+        "description": "Brother of Lambert and Guy, received Tuscany and Lucca from Hugh.",
+        "source_id": "2-chunk-000",
+        "file_path": "2.txt",
+        "created_at": 1788481533
+      },
+      {
+        "entity_name": "Teutberga",
+        "entity_type": "person",
+        "description": "Wife of Lothair II and daughter of Boso the Elder, died in 875.",
+        "source_id": "4-chunk-000",
+        "file_path": "4.txt",
+        "created_at": 1788481561
+      },
+      {
+        "entity_name": "Lucca",
+        "entity_type": "location",
+        "description": "City and familial possession held by Lambert as count and duke, later given to Boso.<SEP>City where Bertha died and where she served as regent.",
+        "source_id": "2-chunk-000<SEP>6-chunk-000",
+        "file_path": "2.txt<SEP>6.txt",
+        "created_at": 1788481584
+      },
+      {
+        "entity_name": "Marozia",
+        "entity_type": "person",
+        "description": "Widow of Guy, married by Hugh after Guy's death.",
+        "source_id": "2-chunk-000",
+        "file_path": "2.txt",
+        "created_at": 1788481533
+      },
+      {
+        "entity_name": "Italy",
+        "entity_type": "location",
+        "description": "Kingdom ruled by Hugh.",
+        "source_id": "2-chunk-000",
+        "file_path": "2.txt",
+        "created_at": 1788481533
+      },
+      {
+        "entity_name": "Adolf I of Lotharingia",
+        "entity_type": "person",
+        "description": "Count of Keldachgau and Vogt of Deutz from 1008 until 1018, and son of Hermann I Pusillus.",
+        "source_id": "7-chunk-000",
+        "file_path": "7.txt",
+        "created_at": 1788481594
+      },
+      {
+        "entity_name": "Hermann I Pusillus",
+        "entity_type": "person",
+        "description": "Also known as the Little Pfalzgraf, count palatine of Lotharingia, and father of Adolf I.",
+        "source_id": "7-chunk-000",
+        "file_path": "7.txt",
+        "created_at": 1788481594
+      },
+      {
+        "entity_name": "Ermengarde of Tours",
+        "entity_type": "person",
+        "description": "Mother of Lothair II and wife of Emperor Lothair I.<SEP>Daughter of Hugh of Tours and wife of Lothair I, who died on 20 March 851 and was buried in Erstein Abbey.",
+        "source_id": "4-chunk-000<SEP>5-chunk-000",
+        "file_path": "4.txt<SEP>5.txt",
+        "created_at": 1788481570
+      },
+      {
+        "entity_name": "Hugh of Tours",
+        "entity_type": "person",
+        "description": "Father of Ermengarde of Tours and a member of the Etichonen family.",
+        "source_id": "5-chunk-000",
+        "file_path": "5.txt",
+        "created_at": 1788481570
+      }
+    ],
+    "relationships": [
+      {
+        "src_id": "Bertha",
+        "tgt_id": "Lothair II",
+        "description": "Bertha is the illegitimate daughter of Lothair II.<SEP>Bertha was the illegitimate daughter of Lothair II.",
+        "keywords": "child of,parent-child",
+        "weight": 2.0,
+        "source_id": "6-chunk-000<SEP>9-chunk-000",
+        "file_path": "6.txt<SEP>9.txt",
+        "created_at": 1788481611
+      },
+      {
+        "src_id": "Bertha",
+        "tgt_id": "Guy of Tuscany",
+        "description": "Bertha is the mother of Guy of Tuscany.",
+        "keywords": "parent-child",
+        "weight": 1.0,
+        "source_id": "6-chunk-000",
+        "file_path": "6.txt",
+        "created_at": 1788481584
+      },
+      {
+        "src_id": "Bertha",
+        "tgt_id": "Theobald of Arles",
+        "description": "Bertha was married to Theobald of Arles.<SEP>Theobald of Arles was married to Bertha.",
+        "keywords": "spouse,spouse of",
+        "weight": 2.0,
+        "source_id": "6-chunk-000<SEP>9-chunk-000",
+        "file_path": "6.txt<SEP>9.txt",
+        "created_at": 1788481611
+      },
+      {
+        "src_id": "Bertha",
+        "tgt_id": "Boso of Tuscany",
+        "description": "Bertha was the mother of Boso of Tuscany.",
+        "keywords": "parent of",
+        "weight": 1.0,
+        "source_id": "9-chunk-000",
+        "file_path": "9.txt",
+        "created_at": 1788481611
+      },
+      {
+        "src_id": "Bertha",
+        "tgt_id": "Lambert",
+        "description": "Lambert is the son of Bertha.",
+        "keywords": "parent-child",
+        "weight": 1.0,
+        "source_id": "2-chunk-000",
+        "file_path": "2.txt",
+        "created_at": 1788481533
+      },
+      {
+        "src_id": "Bertha",
+        "tgt_id": "Waldrada",
+        "description": "Bertha is the daughter of Waldrada.",
+        "keywords": "parent-child",
+        "weight": 1.0,
+        "source_id": "6-chunk-000",
+        "file_path": "6.txt",
+        "created_at": 1788481584
+      },
+      {
+        "src_id": "Adalbert II of Tuscany",
+        "tgt_id": "Bertha",
+        "description": "Bertha was married to Adalbert II of Tuscany.",
+        "keywords": "spouse",
+        "weight": 1.0,
+        "source_id": "6-chunk-000",
+        "file_path": "6.txt",
+        "created_at": 1788481584
+      },
+      {
+        "src_id": "Bertha",
+        "tgt_id": "Hugh of Italy",
+        "description": "Bertha was the mother of Hugh of Italy.",
+        "keywords": "parent of",
+        "weight": 1.0,
+        "source_id": "9-chunk-000",
+        "file_path": "9.txt",
+        "created_at": 1788481611
+      },
+      {
+        "src_id": "Boso the Elder",
+        "tgt_id": "Teutberga",
+        "description": "Teutberga was the daughter of Boso the Elder.",
+        "keywords": "daughter of,father of",
+        "weight": 1.0,
+        "source_id": "4-chunk-000",
+        "file_path": "4.txt",
+        "created_at": 1788481561
+      },
+      {
+        "src_id": "Guy",
+        "tgt_id": "Marozia",
+        "description": "Marozia was the widow of Guy.",
+        "keywords": "marriage",
+        "weight": 1.0,
+        "source_id": "2-chunk-000",
+        "file_path": "2.txt",
+        "created_at": 1788481533
+      },
+      {
+        "src_id": "Bertha",
+        "tgt_id": "Tuscany",
+        "description": "Bertha served as regent of Tuscany from 915 to 916.",
+        "keywords": "regent-of",
+        "weight": 1.0,
+        "source_id": "6-chunk-000",
+        "file_path": "6.txt",
+        "created_at": 1788481584
+      },
+      {
+        "src_id": "Bertha",
+        "tgt_id": "Lothair II of Lotharingia",
+        "description": "Bertha is the daughter of Lothair II of Lotharingia.",
+        "keywords": "parent-child",
+        "weight": 1.0,
+        "source_id": "2-chunk-000",
+        "file_path": "2.txt",
+        "created_at": 1788481533
+      },
+      {
+        "src_id": "Hugh",
+        "tgt_id": "Marozia",
+        "description": "Hugh married Marozia, the widow of his half-brother Guy.",
+        "keywords": "marriage",
+        "weight": 1.0,
+        "source_id": "2-chunk-000",
+        "file_path": "2.txt",
+        "created_at": 1788481533
+      },
+      {
+        "src_id": "Adolf I of Lotharingia",
+        "tgt_id": "Hermann I Pusillus",
+        "description": "Adolf I was the son of Hermann I Pusillus.",
+        "keywords": "child of,descendant",
+        "weight": 1.0,
+        "source_id": "7-chunk-000",
+        "file_path": "7.txt",
+        "created_at": 1788481594
+      },
+      {
+        "src_id": "Ermengarde of Tours",
+        "tgt_id": "Hugh of Tours",
+        "description": "Ermengarde of Tours is the daughter of Hugh of Tours.",
+        "keywords": "parent-child",
+        "weight": 1.0,
+        "source_id": "5-chunk-000",
+        "file_path": "5.txt",
+        "created_at": 1788481570
+      },
+      {
+        "src_id": "Bertha",
+        "tgt_id": "Lucca",
+        "description": "Bertha served as regent of Lucca from 915 to 916.",
+        "keywords": "regent-of",
+        "weight": 1.0,
+        "source_id": "6-chunk-000",
+        "file_path": "6.txt",
+        "created_at": 1788481584
+      },
+      {
+        "src_id": "Hugh",
+        "tgt_id": "Lambert",
+        "description": "Hugh is the half-brother of Lambert through their shared mother Bertha.<SEP>Hugh disowned and removed Lambert from his titles in 931.",
+        "keywords": "political removal,sibling",
+        "weight": 2.0,
+        "source_id": "2-chunk-000",
+        "file_path": "2.txt",
+        "created_at": 1788481533
+      },
+      {
+        "src_id": "Guy",
+        "tgt_id": "Lambert",
+        "description": "Lambert succeeded his elder brother Guy as count, duke, and margrave.",
+        "keywords": "sibling",
+        "weight": 1.0,
+        "source_id": "2-chunk-000",
+        "file_path": "2.txt",
+        "created_at": 1788481533
+      },
+      {
+        "src_id": "Guy",
+        "tgt_id": "Hugh",
+        "description": "Hugh is the half-brother of Guy through their shared mother Bertha.",
+        "keywords": "sibling",
+        "weight": 1.0,
+        "source_id": "2-chunk-000",
+        "file_path": "2.txt",
+        "created_at": 1788481533
+      },
+      {
+        "src_id": "Adalbert II of Tuscany",
+        "tgt_id": "Lambert",
+        "description": "Lambert is the son of Adalbert II of Tuscany.",
+        "keywords": "parent-child",
+        "weight": 1.0,
+        "source_id": "2-chunk-000",
+        "file_path": "2.txt",
+        "created_at": 1788481533
+      },
+      {
+        "src_id": "Boso",
+        "tgt_id": "Hugh",
+        "description": "Hugh gave Tuscany and Lucca to Boso after removing Lambert.",
+        "keywords": "granting title",
+        "weight": 1.0,
+        "source_id": "2-chunk-000",
+        "file_path": "2.txt",
+        "created_at": 1788481533
+      }
+    ],
+    "chunks": [
+      {
+        "reference_id": "1",
+        "content": "Title: Lambert, Margrave of Tuscany\n\nLambert( died after 938) was the second son of Adalbert II of Tuscany and Bertha, daughter of Lothair II of Lotharingia. He succeeded his elder brother, Guy, as count and duke of Lucca and margrave of Tuscany on his death in 928 or 929 without heirs. In 931, before 17 October, Hugh, King of Italy, disowned and removed Lambert, giving Tuscany and the familial possession of Lucca to his brother Boso. Hugh was Guy and Lambert's half- brother, as they had the same mother. When Guy died, Hugh married Guy's widow, Marozia.",
+        "file_path": "2.txt",
+        "chunk_id": "2-chunk-000"
+      },
+      {
+        "reference_id": "2",
+        "content": "Title: Bertha, daughter of Lothair II\n\nBertha( 863- 8 – March 925 in Lucca) was countess of Arles by marriage to Theobald of Arles, and margravine of Tuccany by marriage to Adalbert II of Tuscany. She served as regent of Lucca and Tuscany from 915 until 916 during the minority of her son Guy of Tuscany. She was described as beautiful, spirited, and courageous, and her influence over her spouse was, coupled with ambition, attributed to have involved her husbands in many wars. She was the second illegitimate daughter of Lothair II, King of Lotharingia, by his concubine Waldrada.",
+        "file_path": "6.txt",
+        "chunk_id": "6-chunk-000"
+      },
+      {
+        "reference_id": "3",
+        "content": "Title: Ermengarde of Tours\n\nErmengarde of Tours (d. 20 March 851) was the daughter of Hugh of Tours, a member of the Etichonen family. In October 821 in Thionville, she married the Carolingian Emperor Lothair I of the Franks (795–855). In 849, two years before her death, she made a donation to the abbey Erstein in the Elsass, in which she is buried. Lothair and Ermengarde had eight children:",
+        "file_path": "5.txt",
+        "chunk_id": "5-chunk-000"
+      },
+      {
+        "reference_id": "4",
+        "content": "Title: Theobald of Arles\n\nTheobald( c. 854-895), count of Arles, was a Frank from the Bosonid- family. He was a son of Hucbert and married Bertha, an illegitimate daughter of Lothair II, King of Lotharingia, who was renowned for her beauty and spirit. They had two sons Hugh of Italy and Boso of Tuscany.",
+        "file_path": "9.txt",
+        "chunk_id": "9-chunk-000"
+      },
+      {
+        "reference_id": "5",
+        "content": "Title: Lothair II\n\nLothair II (835 –) was the king of Lotharingia from 855 until his death. He was the second son of Emperor Lothair I and Ermengarde of Tours. He was married to Teutberga (died 875), daughter of Boso the Elder.",
+        "file_path": "4.txt",
+        "chunk_id": "4-chunk-000"
+      },
+      {
+        "reference_id": "6",
+        "content": "Title: Adolf I of Lotharingia\n\nAdolf I of Lotharingia, count of Keldachgau, Vogt of Deutz from 1008 until 1018, was the son of Hermann I\" Pusillus\"( the Little Pfalzgraf), count palatine of Lotharingia. He left three sons:",
+        "file_path": "7.txt",
+        "chunk_id": "7-chunk-000"
+      }
+    ],
+    "references": [
+      {
+        "reference_id": "1",
+        "file_path": "2.txt"
+      },
+      {
+        "reference_id": "2",
+        "file_path": "6.txt"
+      },
+      {
+        "reference_id": "3",
+        "file_path": "5.txt"
+      },
+      {
+        "reference_id": "4",
+        "file_path": "9.txt"
+      },
+      {
+        "reference_id": "5",
+        "file_path": "4.txt"
+      },
+      {
+        "reference_id": "6",
+        "file_path": "7.txt"
+      }
+    ]
+  },
+  "metadata": {
+    "query_mode": "hybrid",
+    "keywords": {
+      "high_level": [
+        "mother",
+        "genealogy"
+      ],
+      "low_level": [
+        "Lambert",
+        "Margrave of Tuscany"
+      ]
+    },
+    "processing_info": {
+      "total_entities_found": 20,
+      "total_relations_found": 21,
+      "entities_after_truncation": 20,
+      "relations_after_truncation": 21,
+      "merged_chunks_count": 6,
+      "final_chunks_count": 6
+    }
+  }
+}

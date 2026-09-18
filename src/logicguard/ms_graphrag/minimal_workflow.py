@@ -165,7 +165,12 @@ def build_minimal_settings(config: MsGraphRagMinimalConfig) -> dict[str, object]
                 "auth_method": "api_key",
                 "api_key": "${DASHSCOPE_API_KEY}",
                 "api_base": "${DASHSCOPE_BASE_URL}",
-                "retry": {"type": "exponential_backoff"},
+                "call_args": {
+                    "temperature": 0.0,
+                    "enable_thinking": False,
+                    "max_completion_tokens": 1600,
+                },
+                "retry": None,
             }
         },
         "embedding_models": {
@@ -175,7 +180,7 @@ def build_minimal_settings(config: MsGraphRagMinimalConfig) -> dict[str, object]
                 "auth_method": "api_key",
                 "api_key": "${DASHSCOPE_API_KEY}",
                 "api_base": "${DASHSCOPE_BASE_URL}",
-                "retry": {"type": "exponential_backoff"},
+                "retry": None,
             }
         },
         "input": {"type": "text"},
@@ -203,7 +208,7 @@ def build_minimal_settings(config: MsGraphRagMinimalConfig) -> dict[str, object]
             "completion_model_id": "default_completion_model",
             "prompt": "prompts/extract_graph.txt",
             "entity_types": ["organization", "person", "geo", "event"],
-            "max_gleanings": 1,
+            "max_gleanings": 0,
         },
         "summarize_descriptions": {
             "completion_model_id": "default_completion_model",

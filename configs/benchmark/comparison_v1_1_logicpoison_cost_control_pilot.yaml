@@ -1,0 +1,28 @@
+schema_version: 1
+benchmark_version: comparison-v1.1
+run_mode: execute
+input_manifest: artifacts/benchmark/e1_preparation/comparison_v1_1_logicpoison_cost_control_attack_inputs.jsonl
+attacks: [A2_logicpoison]
+datasets: [2wikimultihopqa]
+split: development
+model: qwen3.7-plus
+api_key_env: DASHSCOPE_API_KEY
+base_url_env: DASHSCOPE_BASE_URL
+default_base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+timeout_seconds: 120
+matched_documents_per_target: 1
+generation_controls:
+  enable_thinking: false
+  output_limit_parameter: max_completion_tokens
+pricing:
+  input_per_million_tokens_cny: 2.0
+  output_per_million_tokens_cny: 8.0
+  hard_cost_cap_cny: 0.0071
+  per_attack_token_caps:
+    A2_logicpoison:
+      input_per_call: 1500
+      output_per_call: 512
+outputs:
+  request_plan: artifacts/benchmark/e1_preparation/logicpoison_cost_control_pilot/comparison_v1_1_request_plan.jsonl
+  results: artifacts/benchmark/e1_preparation/logicpoison_cost_control_pilot/comparison_v1_1_results.jsonl
+  summary: artifacts/benchmark/e1_preparation/logicpoison_cost_control_pilot/comparison_v1_1_summary.json

@@ -1,0 +1,49 @@
+{
+  "config": {
+    "schema_version": 1,
+    "benchmark_version": "comparison-v1.2",
+    "run_mode": "fixture",
+    "dataset": "hotpotqa",
+    "split": "development",
+    "expected_queries": 2,
+    "corpus": "tests/fixtures/logicpoison_v1_2/corpus.jsonl",
+    "queries": "tests/fixtures/logicpoison_v1_2/queries.jsonl",
+    "ner_fixture": "tests/fixtures/logicpoison_v1_2/ner.jsonl",
+    "query_fixture": "tests/fixtures/logicpoison_v1_2/query_responses.jsonl",
+    "output_root": "artifacts/benchmark/research_revision_v1_2/wp2/logicpoison_synthetic_anchor",
+    "top_ratio": 0.05,
+    "model": "synthetic_fixture_no_provider",
+    "timeout_seconds": 10,
+    "pricing": {
+      "input_per_million_tokens_cny": 2.0,
+      "output_per_million_tokens_cny": 8.0,
+      "hard_cost_cap_cny": 0.025,
+      "max_input_tokens": 4096,
+      "max_calls": 2
+    },
+    "poison_budget": {
+      "max_changed_documents": 4,
+      "max_changed_document_fraction": 1.0,
+      "max_replacement_occurrences": 20,
+      "max_poisoned_text_utf8_bytes": 1000
+    }
+  },
+  "input_and_code_sha256": {
+    "corpus": "edb0a79d03e02ced5349a9c132b6a0be0b7ea7a8eb640e26902a809aee66d818",
+    "queries": "35c9d6cbbea188e2899e84fca8a2ea336ce62539f2b08dedce4d990fad55d152",
+    "query_fixture": "c28892366badbcc0bf49ea3ee8aced6c601ba65b8405f60d4bd2994a6c4037d2",
+    "ner_fixture": "20557480f288f101be73302200d5d51110a136728d90ead6eecc4ca54e258e6f",
+    "pipeline_source": "d76a956c9d66482cee3111df7ff4cf3957a01a255b6b83d38b0a4c9f106ffa5f",
+    "corpus_source": "95aaf64137bc5960b3cc24d8bb93b0a74b7587c14f05782783befc6b8341f82c",
+    "request_source": "1b15eb0275a621796256af215e68930d4db9cd4f62b8c3176ba0de6282f92baa",
+    "dispatch_source": "26e7f33929d9bef5e308ca3c693e4e34819a5f5acfe3298e7526d53101ca424f",
+    "provider_source": "a5eaec62c23cb9d4e87b27ace995d8fc6af53eefa034213864e251b89d2e00d1"
+  },
+  "identity": "82c07d33c77d904e1cd1f48d67c996a3de804fa6f24a06192fea084b9d3303d8",
+  "runtime": {
+    "python": "3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]",
+    "ner_backend": "fixture"
+  },
+  "ner": "fixture",
+  "adaptation": "bounded JSON query stage; deterministic query order; ambiguous-type rejection; no labels copied"
+}

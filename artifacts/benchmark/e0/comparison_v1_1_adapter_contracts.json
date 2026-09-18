@@ -1,0 +1,275 @@
+{
+  "schema_version": 1,
+  "benchmark_version": "comparison-v1.1",
+  "attacks": [
+    {
+      "adapter_id": "A1_poisonedrag",
+      "kind": "attack",
+      "method_name": "PoisonedRAG black-box",
+      "input_schema": "BenchmarkQuery",
+      "output_schema": "AttackInstance+BenchmarkDocument[]",
+      "native_datasets": [
+        "hotpotqa"
+      ],
+      "native_backends": [
+        "naive_rag"
+      ],
+      "endpoint_family": "targeted_wrong_answer",
+      "implementation_status": "official_asset_contract_ready",
+      "ranking_eligible": true,
+      "gold_access_allowed": false,
+      "notes": "HotpotQA official overlap is a golden contract only; other cells are ports."
+    },
+    {
+      "adapter_id": "A2_logicpoison",
+      "kind": "attack",
+      "method_name": "LogicPoison v1",
+      "input_schema": "BenchmarkQuery+BenchmarkDocument[]",
+      "output_schema": "AttackInstance+BenchmarkDocument[]",
+      "native_datasets": [
+        "hotpotqa",
+        "musique",
+        "2wikimultihopqa"
+      ],
+      "native_backends": [
+        "microsoft_graphrag"
+      ],
+      "endpoint_family": "clean_correct_attack_flip",
+      "implementation_status": "pinned_code_contract_ready",
+      "ranking_eligible": true,
+      "gold_access_allowed": false,
+      "notes": "Legacy local poisoned corpora remain legacy_adapted until provenance passes."
+    },
+    {
+      "adapter_id": "A3_gragpoison",
+      "kind": "attack",
+      "method_name": "GraphRAG under Fire / GRAGPoison",
+      "input_schema": "BenchmarkQuery[]",
+      "output_schema": "AttackInstance+BenchmarkDocument[]",
+      "native_datasets": [
+        "musique"
+      ],
+      "native_backends": [
+        "microsoft_graphrag",
+        "lightrag"
+      ],
+      "endpoint_family": "relation_targeted_or_untargeted",
+      "implementation_status": "official_asset_contract_ready",
+      "ranking_eligible": true,
+      "gold_access_allowed": false,
+      "notes": "The 14-query overlap is a golden contract, not an ASR estimate."
+    },
+    {
+      "adapter_id": "A4_badrag",
+      "kind": "attack",
+      "method_name": "BadRAG/TrojRAG",
+      "input_schema": "BenchmarkQuery[]+trigger_pairing",
+      "output_schema": "AttackInstance+BenchmarkDocument[]",
+      "native_datasets": [],
+      "native_backends": [],
+      "endpoint_family": "trigger_payload_success",
+      "implementation_status": "blocked_faithful_reimplementation",
+      "ranking_eligible": false,
+      "gold_access_allowed": false,
+      "notes": "No verified official implementation/data asset; separate backdoor track."
+    }
+  ],
+  "backends": [
+    {
+      "adapter_id": "S1_microsoft_graphrag",
+      "kind": "backend",
+      "method_name": "Microsoft GraphRAG official Local Search",
+      "input_schema": "BenchmarkDocument[]+BenchmarkQuery",
+      "output_schema": "RetrievalContextTrace",
+      "native_datasets": [
+        "hotpotqa",
+        "musique",
+        "2wikimultihopqa"
+      ],
+      "native_backends": [
+        "microsoft_graphrag"
+      ],
+      "endpoint_family": null,
+      "implementation_status": "local_runtime_contract_ready",
+      "ranking_eligible": true,
+      "gold_access_allowed": false,
+      "notes": ""
+    },
+    {
+      "adapter_id": "S2_lightrag",
+      "kind": "backend",
+      "method_name": "LightRAG official hybrid mode",
+      "input_schema": "BenchmarkDocument[]+BenchmarkQuery",
+      "output_schema": "RetrievalContextTrace",
+      "native_datasets": [
+        "musique",
+        "hotpotqa"
+      ],
+      "native_backends": [
+        "lightrag"
+      ],
+      "endpoint_family": null,
+      "implementation_status": "local_runtime_contract_ready",
+      "ranking_eligible": true,
+      "gold_access_allowed": false,
+      "notes": "Official v1.5.7 hybrid mode in an isolated local environment."
+    }
+  ],
+  "defenses": [
+    {
+      "adapter_id": "D0_no_defense",
+      "kind": "defense",
+      "method_name": "No defense",
+      "input_schema": "RetrievalContextTrace",
+      "output_schema": "RetrievalContextTrace",
+      "native_datasets": [],
+      "native_backends": [],
+      "endpoint_family": null,
+      "implementation_status": "contract_ready",
+      "ranking_eligible": true,
+      "gold_access_allowed": false,
+      "notes": ""
+    },
+    {
+      "adapter_id": "D1_query_paraphrase",
+      "kind": "defense",
+      "method_name": "Query paraphrasing",
+      "input_schema": "BenchmarkQuery",
+      "output_schema": "BenchmarkQuery",
+      "native_datasets": [
+        "hotpotqa",
+        "musique"
+      ],
+      "native_backends": [
+        "microsoft_graphrag",
+        "lightrag"
+      ],
+      "endpoint_family": null,
+      "implementation_status": "official_baseline_contract_ready",
+      "ranking_eligible": true,
+      "gold_access_allowed": false,
+      "notes": ""
+    },
+    {
+      "adapter_id": "D2_ppl_pti",
+      "kind": "defense",
+      "method_name": "PPL/PTI filtering",
+      "input_schema": "RetrievalContextTrace",
+      "output_schema": "RetrievalContextTrace",
+      "native_datasets": [
+        "hotpotqa",
+        "musique"
+      ],
+      "native_backends": [
+        "microsoft_graphrag",
+        "lightrag"
+      ],
+      "endpoint_family": null,
+      "implementation_status": "official_baseline_contract_ready",
+      "ranking_eligible": true,
+      "gold_access_allowed": false,
+      "notes": ""
+    },
+    {
+      "adapter_id": "D3_ragdefender",
+      "kind": "defense",
+      "method_name": "RAGDefender",
+      "input_schema": "RetrievalContextTrace",
+      "output_schema": "RetrievalContextTrace",
+      "native_datasets": [
+        "hotpotqa"
+      ],
+      "native_backends": [
+        "naive_rag"
+      ],
+      "endpoint_family": null,
+      "implementation_status": "pinned_code_contract_ready",
+      "ranking_eligible": true,
+      "gold_access_allowed": false,
+      "notes": ""
+    },
+    {
+      "adapter_id": "D4_hog_grag",
+      "kind": "defense",
+      "method_name": "HoG-GRAG",
+      "input_schema": "RetrievalContextTrace",
+      "output_schema": "RetrievalContextTrace",
+      "native_datasets": [
+        "hotpotqa",
+        "musique"
+      ],
+      "native_backends": [
+        "microsoft_graphrag",
+        "lightrag"
+      ],
+      "endpoint_family": null,
+      "implementation_status": "pinned_code_contract_ready",
+      "ranking_eligible": true,
+      "gold_access_allowed": false,
+      "notes": ""
+    },
+    {
+      "adapter_id": "D5_logicguard_stage43_45",
+      "kind": "defense",
+      "method_name": "LogicGuard Stage43-45 frozen",
+      "input_schema": "RetrievalContextTrace",
+      "output_schema": "RetrievalContextTrace",
+      "native_datasets": [
+        "hotpotqa",
+        "musique"
+      ],
+      "native_backends": [
+        "microsoft_graphrag"
+      ],
+      "endpoint_family": null,
+      "implementation_status": "existing_frozen_baseline",
+      "ranking_eligible": true,
+      "gold_access_allowed": false,
+      "notes": ""
+    },
+    {
+      "adapter_id": "D6_logicguard_full",
+      "kind": "defense",
+      "method_name": "LogicGuard full dual-track",
+      "input_schema": "RetrievalContextTrace",
+      "output_schema": "RetrievalContextTrace",
+      "native_datasets": [
+        "hotpotqa",
+        "musique",
+        "2wikimultihopqa"
+      ],
+      "native_backends": [
+        "microsoft_graphrag",
+        "lightrag"
+      ],
+      "endpoint_family": null,
+      "implementation_status": "interface_only_method_incomplete",
+      "ranking_eligible": false,
+      "gold_access_allowed": false,
+      "notes": ""
+    },
+    {
+      "adapter_id": "D7_oracle_clean_recovery",
+      "kind": "defense",
+      "method_name": "Oracle clean recovery",
+      "input_schema": "RetrievalContextTrace+evaluator_gold",
+      "output_schema": "RetrievalContextTrace",
+      "native_datasets": [],
+      "native_backends": [],
+      "endpoint_family": null,
+      "implementation_status": "contract_ready",
+      "ranking_eligible": false,
+      "gold_access_allowed": true,
+      "notes": "Upper bound only; excluded from realistic ranking."
+    }
+  ],
+  "attacker_forbidden_fields": [
+    "answer",
+    "answer_aliases",
+    "changed_labels",
+    "gold_answer",
+    "support_doc_ids",
+    "support_ids"
+  ],
+  "fingerprint": "a87552147df145901f32bdb0a3fd8f06fa7020e26e737e31194b12e9f24d24a4"
+}

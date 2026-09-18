@@ -1,7 +1,9 @@
-﻿# Mirror Status
+# Mirror Status
 
 - Source worktree: ../logicguard
-- Synced at: 2026-08-06 07:54:25 +08:00
-- Curated result files: 45
-- Curated attack files: 4
+- Synced at: 2026-09-18 12:37:42 +08:00
+- Curated result files: 96
+- Curated attack files: 10
+- Curated run manifest files: 19
+- External data/index files: excluded from Git and recorded in EXTERNAL_ASSETS_SHA256.tsv
 - Direction: source worktree to Git mirror only.

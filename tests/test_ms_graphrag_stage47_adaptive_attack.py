@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+import pytest
+
 from logicguard.data.schemas import CorpusDocument, NormalizedSample
 from logicguard.llm.provider import ChatResponse
 from logicguard.defense.non_oracle_recovery import NonOracleCandidateSource
@@ -10,11 +12,16 @@ from logicguard.attack.adaptive import (
     build_stage47_preflight_rows,
     generate_query_attacks,
     summarize_stage47_preflight,
+    run_from_config,
 )
 
 
 class _FakeClient:
+    def __init__(self) -> None:
+        self.call_count = 0
+
     def chat(self, **_: object) -> ChatResponse:
+        self.call_count += 1
         payload = {
             "low_drift": {
                 "target_doc_id": "d1",
@@ -42,6 +49,31 @@ class _FakeClient:
             prompt_tokens=100,
             completion_tokens=80,
             total_tokens=180,
+        )
+
+
+class _InterruptingClient(_FakeClient):
+    def __init__(self, *, interrupt_at: int) -> None:
+        super().__init__()
+        self.interrupt_at = interrupt_at
+
+    def chat(self, **kwargs: object) -> ChatResponse:
+        if self.call_count + 1 == self.interrupt_at:
+            raise KeyboardInterrupt("simulated attack-generation interruption")
+        return super().chat(**kwargs)
+
+
+class _NullTargetClient(_FakeClient):
+    def chat(self, **kwargs: object) -> ChatResponse:
+        response = super().chat(**kwargs)
+        payload = json.loads(response.content)
+        payload["candidate_collision"]["malicious_answer"] = None
+        return ChatResponse(
+            content=json.dumps(payload),
+            raw_json=response.raw_json,
+            prompt_tokens=response.prompt_tokens,
+            completion_tokens=response.completion_tokens,
+            total_tokens=response.total_tokens,
         )
 
 
@@ -110,6 +142,158 @@ def test_stage47_generates_three_label_blind_attacks_and_defense_matrix(
         if row.attack_family == "low_drift" and row.defense_stage == "unprotected"
     )
     assert low_drift.malicious_answer_surface_rate == 1.0
+
+
+def test_stage47_attack_generation_resumes_by_query_without_duplicate_calls(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    config = _config(tmp_path)
+    config = Stage47AdaptiveAttackConfig(
+        **{
+            key: (2 if key == "max_queries" else value)
+            for key, value in {
+                field: getattr(config, field)
+                for field in Stage47AdaptiveAttackConfig.__dataclass_fields__
+            }.items()
+        }
+    )
+    samples = [
+        _sample(),
+        NormalizedSample(
+            query_id="q2",
+            query="When did Film Alpha premiere?",
+            answer="1999",
+            support_doc_ids=["d1"],
+            support_docs=[CorpusDocument("d1", "Film Alpha", "clean")],
+        ),
+    ]
+    config.sample_path.write_text(
+        "\n".join(
+            json.dumps(
+                {
+                    "query_id": sample.query_id,
+                    "query": sample.query,
+                    "answer": sample.answer,
+                    "support_doc_ids": sample.support_doc_ids,
+                    "support_docs": [
+                        {
+                            "doc_id": doc.doc_id,
+                            "title": doc.title,
+                            "text": doc.text,
+                        }
+                        for doc in sample.support_docs
+                    ],
+                }
+            )
+            for sample in samples
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    clean_rows = []
+    for sample in samples:
+        row = _context_row()
+        row["query_id"] = sample.query_id
+        clean_rows.append(row)
+    config.clean_context_path.write_text(
+        "\n".join(json.dumps(row) for row in clean_rows) + "\n",
+        encoding="utf-8",
+    )
+    config.clean_reference_output_dir.mkdir(parents=True)
+    monkeypatch.setattr(
+        "logicguard.attack.adaptive.load_candidate_sources", lambda _: _candidates()
+    )
+    interrupted = _InterruptingClient(interrupt_at=2)
+
+    with pytest.raises(KeyboardInterrupt):
+        run_from_config(config, client=interrupted)
+
+    checkpoint = tmp_path / "attacks_checkpoint.jsonl"
+    assert len(checkpoint.read_text(encoding="utf-8").splitlines()) == 1
+    resumed = _FakeClient()
+    records, _ = run_from_config(config, client=resumed)
+
+    assert len(records) == 6
+    assert resumed.call_count == 1
+    assert len(checkpoint.read_text(encoding="utf-8").splitlines()) == 2
+
+
+def test_stage47_attack_generation_respects_query_offset(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    config = _config(tmp_path)
+    config = Stage47AdaptiveAttackConfig(
+        **{
+            key: (1 if key in {"query_offset", "max_queries"} else value)
+            for key, value in {
+                field: getattr(config, field)
+                for field in Stage47AdaptiveAttackConfig.__dataclass_fields__
+            }.items()
+        }
+    )
+    samples = [
+        _sample(),
+        NormalizedSample(
+            query_id="q2",
+            query="Where did Film Alpha premiere?",
+            answer="London",
+            support_doc_ids=["d1"],
+            support_docs=[CorpusDocument("d1", "Film Alpha", "clean")],
+        ),
+    ]
+    config.sample_path.write_text(
+        "\n".join(
+            json.dumps(
+                {
+                    "query_id": sample.query_id,
+                    "query": sample.query,
+                    "answer": sample.answer,
+                    "support_doc_ids": sample.support_doc_ids,
+                    "support_docs": [
+                        {
+                            "doc_id": doc.doc_id,
+                            "title": doc.title,
+                            "text": doc.text,
+                        }
+                        for doc in sample.support_docs
+                    ],
+                }
+            )
+            for sample in samples
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    row = _context_row()
+    row["query_id"] = "q2"
+    config.clean_context_path.write_text(json.dumps(row) + "\n", encoding="utf-8")
+    config.clean_reference_output_dir.mkdir(parents=True)
+    monkeypatch.setattr(
+        "logicguard.attack.adaptive.load_candidate_sources", lambda _: _candidates()
+    )
+    client = _FakeClient()
+
+    records, _ = run_from_config(config, client=client)
+
+    assert client.call_count == 1
+    assert {record.query_id for record in records} == {"q2"}
+
+
+def test_stage47_rejects_non_scalar_malicious_target(tmp_path: Path) -> None:
+    records, _ = generate_query_attacks(
+        config=_config(tmp_path),
+        sample=_sample(),
+        base_row=_context_row(),
+        candidate_sources=_candidates(),
+        client=_NullTargetClient(),
+    )
+
+    collision = next(
+        record for record in records if record.attack_family == "candidate_collision"
+    )
+    assert collision.valid is False
+    assert collision.invalid_reason == "missing_malicious_answer"
+    assert collision.malicious_answer == ""
 
 
 def _sample() -> NormalizedSample:

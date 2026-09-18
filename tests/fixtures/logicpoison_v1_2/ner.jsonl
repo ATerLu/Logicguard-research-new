@@ -1,0 +1,4 @@
+{"text":"Ada met Bea in Paris. Ada wrote with Bea.","entities":[{"entity":"Ada","type":"PERSON"},{"entity":"Bea","type":"PERSON"},{"entity":"Paris","type":"GPE"},{"entity":"Ada","type":"PERSON"},{"entity":"Bea","type":"PERSON"}]}
+{"text":"Bea met Ada in London.","entities":[{"entity":"Bea","type":"PERSON"},{"entity":"Ada","type":"PERSON"},{"entity":"London","type":"GPE"}]}
+{"text":"Cora visited London.","entities":[{"entity":"Cora","type":"PERSON"},{"entity":"London","type":"GPE"}]}
+{"text":"Adaline is not Ada's full name.","entities":[{"entity":"Adaline","type":"PERSON"},{"entity":"Ada","type":"PERSON"}]}

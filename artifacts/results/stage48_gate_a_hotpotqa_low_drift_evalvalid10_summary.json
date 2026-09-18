@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "experiment": "E1:corpus_reindex_context_only_dry_run",
+  "funnel": {
+    "attempted": 10,
+    "generation_valid": 10,
+    "evaluation_valid": 10,
+    "index_included": 10,
+    "retrieved": 5,
+    "prompt_exposed": 0,
+    "answer_judged": 0,
+    "attack_success": 0
+  },
+  "compatible_clean_index_counts": null,
+  "reindexed_counts": {
+    "documents": 9811,
+    "text_units": 9813,
+    "entities": 13824,
+    "relationships": 164613,
+    "communities": 3523,
+    "community_reports": 0
+  },
+  "index_count_deltas": null,
+  "index_comparison_note": "No clean full-corpus index is available; aggregate graph count deltas are intentionally not reported. Per-attack graph surface matches remain auditable.",
+  "graph_surface_exposed_count": 2,
+  "graphrag_metrics": {
+    "openai/text-embedding-v4": {
+      "attempted_request_count": 1384,
+      "successful_response_count": 1384,
+      "failed_response_count": 0,
+      "requests_with_retries": 0,
+      "retries": 0,
+      "compute_duration_seconds": 797.3476045131683,
+      "streaming_responses": 0,
+      "responses_with_tokens": 1384,
+      "prompt_tokens": 84012,
+      "completion_tokens": 0,
+      "total_tokens": 84012,
+      "incomplete_response_count": 0,
+      "failure_rate": 0.0,
+      "retry_rate": 0.0,
+      "compute_duration_per_response_seconds": 0.5761182113534453,
+      "tokens_per_response": 60.702312138728324
+    },
+    "openai/qwen3.7-plus": {
+      "attempted_request_count": 1,
+      "successful_response_count": 1,
+      "failed_response_count": 0,
+      "requests_with_retries": 0,
+      "retries": 0,
+      "compute_duration_seconds": 10.163694620132446,
+      "streaming_responses": 0,
+      "responses_with_tokens": 1,
+      "prompt_tokens": 21,
+      "completion_tokens": 287,
+      "total_tokens": 308,
+      "incomplete_response_count": 0,
+      "failure_rate": 0.0,
+      "retry_rate": 0.0,
+      "compute_duration_per_response_seconds": 10.163694620132446,
+      "tokens_per_response": 308.0
+    }
+  },
+  "catalog_cost_estimate_cny": 0.044344,
+  "cost_note": "Estimate uses the 2026-08-12 China-Beijing undiscounted catalog: qwen3.7-plus input CNY 2/M, output CNY 8/M; text-embedding-v4 CNY 0.0005/1K input tokens. It covers GraphRAG index logs only, not standalone credential probes or five query embeddings. Actual billing can be lower due to promotions or free quota."
+}

@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "status": "PASSED",
+  "pilots": {
+    "lightrag_one_document": {
+      "status": "PASSED",
+      "backend": "lightrag",
+      "backend_version": "1.5.7",
+      "document_count": 1,
+      "chat_calls": 1,
+      "embedding_calls": 3,
+      "prompt_tokens": 1899,
+      "completion_tokens": 438,
+      "reasoning_tokens": 0,
+      "embedding_tokens_estimated": 341,
+      "catalog_cost_estimate_cny": 0.007472,
+      "hard_cost_cap_cny": 0.21,
+      "elapsed_seconds": 14.402,
+      "summary": "artifacts\\benchmark\\e1_preparation\\indexing_pilots\\lightrag_one_document_v2_summary.json",
+      "summary_sha256": "0698909c2295428b217887a0694a60e2f0f069a10753aacb51aed6b8a81bb435"
+    },
+    "lightrag_ten_documents": {
+      "status": "PASSED",
+      "backend": "lightrag",
+      "backend_version": "1.5.7",
+      "document_count": 10,
+      "chat_calls": 10,
+      "embedding_calls": 33,
+      "prompt_tokens": 19455,
+      "completion_tokens": 4973,
+      "reasoning_tokens": 0,
+      "embedding_tokens_estimated": 4600,
+      "catalog_cost_estimate_cny": 0.080994,
+      "hard_cost_cap_cny": 2.07,
+      "elapsed_seconds": 108.494,
+      "summary": "artifacts\\benchmark\\e1_preparation\\indexing_pilots\\lightrag_ten_documents_summary.json",
+      "summary_sha256": "4d27eb52f716de21b7baf237d3e7c91fdc51946796b966c8b20d0ccf231d5573"
+    },
+    "microsoft_graphrag_one_document": {
+      "status": "PASSED",
+      "backend": "microsoft_graphrag",
+      "backend_version": "3.1.0",
+      "document_count": 1,
+      "chat_calls": 4,
+      "embedding_calls": 4,
+      "prompt_tokens": 6805,
+      "completion_tokens": 2088,
+      "reasoning_tokens": 0,
+      "embedding_tokens_estimated": 1377,
+      "catalog_cost_estimate_cny": 0.031002,
+      "hard_cost_cap_cny": 0.26,
+      "elapsed_seconds": 57.433,
+      "summary": "artifacts\\benchmark\\e1_preparation\\indexing_pilots\\ms_graphrag_one_document_summary.json",
+      "summary_sha256": "09b12541b25e8a10515c6f770d1ef582218bdda78856b7db9d6502772b869478"
+    },
+    "microsoft_graphrag_ten_documents": {
+      "status": "PASSED",
+      "backend": "microsoft_graphrag",
+      "backend_version": "3.1.0",
+      "document_count": 10,
+      "chat_calls": 33,
+      "embedding_calls": 8,
+      "prompt_tokens": 40444,
+      "completion_tokens": 14929,
+      "reasoning_tokens": 0,
+      "embedding_tokens_estimated": 9474,
+      "catalog_cost_estimate_cny": 0.205057,
+      "hard_cost_cap_cny": 2.07,
+      "elapsed_seconds": 315.281,
+      "summary": "artifacts\\benchmark\\e1_preparation\\indexing_pilots\\ms_graphrag_ten_documents_summary.json",
+      "summary_sha256": "c7452a7e733c54ea9dc6582f8d73344a34c76c82992df30dacc882cc8e38cfd6"
+    }
+  },
+  "historical_zero_cost_failure": {
+    "preserved": true,
+    "status": "FAILED",
+    "error": "TypeError: cannot pickle '_thread.RLock' object",
+    "catalog_cost_cny": 0.0,
+    "summary_sha256": "b476cf8b3f8c8cbbc6b0880ae5a823f02287b576744f36a4230db1f4edec0555"
+  },
+  "corpus_document_counts": {
+    "hotpotqa": 9811,
+    "musique": 11656,
+    "2wikimultihopqa": 6119
+  },
+  "corpus_variants_per_dataset": 4,
+  "documents_per_backend": 110344,
+  "separate_indices_per_backend": 12,
+  "development_indices_completed": 4,
+  "provider_calls": 96,
+  "catalog_cost_estimate_cny": 0.324525,
+  "embedding_token_accounting": "locally tokenized estimate; chat prompt/completion usage is provider reported",
+  "full_scale_projection": {
+    "by_backend": {
+      "lightrag": {
+        "documents_per_backend": 110344,
+        "separate_indices_per_backend": 12,
+        "one_document_linear_cny": 824.49,
+        "ten_document_linear_cny": 893.72,
+        "one_to_ten_affine_cny": 901.412,
+        "calibration_range_cny": [
+          824.49,
+          901.412
+        ],
+        "is_hard_cap": false
+      },
+      "microsoft_graphrag": {
+        "documents_per_backend": 110344,
+        "separate_indices_per_backend": 12,
+        "one_document_linear_cny": 3420.885,
+        "ten_document_linear_cny": 2262.681,
+        "one_to_ten_affine_cny": 2134.132,
+        "calibration_range_cny": [
+          2134.132,
+          3420.885
+        ],
+        "is_hard_cap": false
+      }
+    },
+    "combined_calibration_range_cny": [
+      2958.622,
+      4322.297
+    ],
+    "is_hard_cap": false,
+    "eligible_to_freeze_overall_hard_cap": false,
+    "reason": "one- and ten-document pilots are too small to bound nonlinear entity, relationship, and community-summary growth across three corpora",
+    "next_gate": "run a frozen representative 100-document stratified pilot per backend or reduce the indexed corpus/variant design"
+  },
+  "provider_calls_this_audit": 0,
+  "fingerprint": "0b0eedfff9e9ee665106db3e8259be97baa8e957b471febb03524a49dbda87e8"
+}

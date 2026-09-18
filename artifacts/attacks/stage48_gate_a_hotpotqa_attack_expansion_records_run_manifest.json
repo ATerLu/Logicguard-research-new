@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "experiment": "Stage48-GateA-HotpotQA-expansion:adaptive_attack_generation",
+  "fingerprint": "8333908b3979d3a78996071b31cdf493dfb854e1d154ff32fe4374058531a93e",
+  "status": "complete",
+  "created_at": "2026-08-24T12:25:30+00:00",
+  "updated_at": "2026-08-24T13:06:40+00:00",
+  "key_fields": [
+    "dataset",
+    "query_id",
+    "attack_family",
+    "defense_stage",
+    "model"
+  ],
+  "expected_count": 135,
+  "completed_count": 135,
+  "checkpoint_path": "F:\\LogicGuard_project\\logicguard\\outputs\\adaptive_attacks\\stage48_gate_a_hotpotqa_attack_expansion_records_checkpoint.jsonl",
+  "config": {
+    "dataset": "hotpotqa",
+    "sample_path": "F:\\LogicGuard_project\\logicguard\\data\\processed\\hotpotqa\\debug_50.jsonl",
+    "clean_context_path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag_query\\stage48_gate_a_hotpotqa_clean50_contexts.jsonl",
+    "clean_reference_output_dir": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\hotpotqa\\stage40_debug50_clean_query_ready\\output",
+    "attack_records_output_path": "F:\\LogicGuard_project\\logicguard\\outputs\\adaptive_attacks\\stage48_gate_a_hotpotqa_attack_expansion_records.jsonl",
+    "attack_integrity_output_path": "F:\\LogicGuard_project\\logicguard\\outputs\\adaptive_attacks\\stage48_gate_a_hotpotqa_attack_expansion_integrity.jsonl",
+    "attacked_context_output_path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag_query\\stage48_gate_a_hotpotqa_attack_expansion_contexts.jsonl",
+    "context_matrix_output_path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag_query\\stage48_gate_a_hotpotqa_attack_expansion_defense_matrix.jsonl",
+    "valid_context_matrix_output_path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag_query\\stage48_gate_a_hotpotqa_attack_expansion_valid_defense_matrix.jsonl",
+    "preflight_rows_output_path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag_query\\stage48_gate_a_hotpotqa_attack_expansion_preflight.jsonl",
+    "preflight_summary_output_path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag_query\\stage48_gate_a_hotpotqa_attack_expansion_preflight_summary.csv",
+    "report_path": "F:\\LogicGuard_project\\logicguard\\outputs\\reports\\Stage48_GateA_HotpotQA_AttackExpansion.md",
+    "model": "qwen3.7-plus",
+    "api_key_env": "DASHSCOPE_API_KEY",
+    "base_url_env": "DASHSCOPE_BASE_URL",
+    "temperature": 0.0,
+    "max_tokens": 1600,
+    "timeout_seconds": 120,
+    "query_offset": 5,
+    "max_queries": 45,
+    "source_prompt_limit": 8,
+    "candidate_prompt_limit": 8,
+    "prompt_chars_per_source": 700,
+    "top_k_candidates": 5,
+    "min_candidate_score": 0.01,
+    "entity_drift_threshold": 0.1,
+    "title_overlap_threshold": 0.8,
+    "baseline_max_sources": 8,
+    "stage44_max_sources": 12,
+    "stage45_max_sources": 14,
+    "max_chars_per_source": 450,
+    "stage_label": "Stage48-GateA-HotpotQA-expansion",
+    "emit_markdown_report": false
+  },
+  "inputs": [
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\data\\processed\\hotpotqa\\debug_50.jsonl",
+      "size_bytes": 66996,
+      "sha256": "fe2b88fb4988b1fbd571001d75a8302b0f19f75279da373bd26b2ec23695096a"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\hotpotqa\\stage40_debug50_clean_query_ready\\output\\communities.parquet",
+      "size_bytes": 31424,
+      "sha256": "fd9982b455341fbdb5e824d089c9654e9c09b463250bb464fabb4c74406d5b90"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\hotpotqa\\stage40_debug50_clean_query_ready\\output\\community_reports.parquet",
+      "size_bytes": 64280,
+      "sha256": "82dbaea052f3f62bb414a709eab8b2ee4494fa5ef973d53573aaad6ff73527f4"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\hotpotqa\\stage40_debug50_clean_query_ready\\output\\documents.parquet",
+      "size_bytes": 68175,
+      "sha256": "1641cdc8cf4e2368d9453eaadf91c6c5766a69183ee7c9a603b0f901c80c6d2e"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\hotpotqa\\stage40_debug50_clean_query_ready\\output\\entities.parquet",
+      "size_bytes": 26882,
+      "sha256": "16747255c29697a17f859e5d44689c02d3ba90a7f2c6c0d79c8b39c6d0c39d7e"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\hotpotqa\\stage40_debug50_clean_query_ready\\output\\relationships.parquet",
+      "size_bytes": 31799,
+      "sha256": "f9c88c8aeca4b60023b39d1735ed68d64678f36aa8857429db34e82c0d84af82"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\hotpotqa\\stage40_debug50_clean_query_ready\\output\\text_units.parquet",
+      "size_bytes": 85531,
+      "sha256": "70c0f15f3e216bff81ae72a313c9b5c25ccbee6da00db6d756584ebc01aeb0c0"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag_query\\stage48_gate_a_hotpotqa_clean50_contexts.jsonl",
+      "size_bytes": 3239050,
+      "sha256": "a1fc29a4160491a11c8e8e2ca2d6b794919ae9ca01432410ad86fe20221a6e9b"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\src\\logicguard\\attack\\adaptive.py",
+      "size_bytes": 48723,
+      "sha256": "a88bf361eb14fc2344ae1e1f6ebf16790fbac863257b1f526e68278bf7c17bac"
+    }
+  ],
+  "token_usage": {
+    "prompt_tokens": 119462,
+    "completion_tokens": 135193,
+    "total_tokens": 254655
+  }
+}

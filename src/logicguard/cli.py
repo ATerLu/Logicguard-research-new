@@ -16,7 +16,13 @@ _COMMAND_MODULES = {
     "answer-generation": "logicguard.evaluation.answer_generation",
     "answer-audit": "logicguard.evaluation.answer_audit",
     "judge-audit": "logicguard.evaluation.judge_audit",
+    "reindex-defense-matrix": "logicguard.evaluation.reindex_defense_matrix",
+    "reindex-paired-analysis": "logicguard.evaluation.reindex_paired_analysis",
+    "gate-a-expansion": "logicguard.evaluation.gate_a_expansion",
     "cross-dataset-analysis": "logicguard.evaluation.cross_dataset_analysis",
+    "benchmark-readiness": "logicguard.benchmark.readiness",
+    "benchmark-e1-preparation": "logicguard.benchmark.e1_preparation",
+    "benchmark-attack-runner": "logicguard.benchmark.attack_runner",
 }
 
 

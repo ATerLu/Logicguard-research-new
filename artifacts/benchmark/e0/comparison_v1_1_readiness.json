@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "benchmark_version": "comparison-v1.1",
+  "freeze_date": "2026-09-03",
+  "gates": {
+    "asset_manifest": true,
+    "split_and_leakage": true,
+    "golden_fixtures": true,
+    "contracts": true,
+    "legacy_logicpoison_audit": true,
+    "backend_runtime_imports": true,
+    "external_defense_source_smoke": true,
+    "adapter_fixture_fidelity": true
+  },
+  "e0_a_passed": true,
+  "e0_b_passed": true,
+  "overall_status": "E0_PASSED__E1_IMPLEMENTATION_GATED",
+  "paid_api_calls": 0,
+  "attack_generations": 0,
+  "formal_reindexes": 0,
+  "backend_runtime_smoke": {
+    "schema_version": 1,
+    "checks": {
+      "microsoft_graphrag": {
+        "passed": true,
+        "returncode": 0,
+        "details": {
+          "package": "3.1.0",
+          "module": "graphrag"
+        },
+        "stderr_tail": ""
+      },
+      "lightrag": {
+        "passed": true,
+        "returncode": 0,
+        "details": {
+          "package": "1.5.7",
+          "class": "LightRAG",
+          "mode": "hybrid",
+          "only_need_context": true
+        },
+        "stderr_tail": ""
+      }
+    },
+    "passed": true,
+    "fingerprint": "6b75d64c6dd9d160aae7691028ad9d0b2eb46a0b3cd49b6e2bfc88a18ce95cfc"
+  },
+  "blockers": [],
+  "next_phase_requirements": [
+    "implement_a1_a3_attack_execution_paths_before_e1",
+    "run_badrag_development_reimplementation_smoke_before_its_e1_cells",
+    "freeze_paid_cost_forecast_before_any_e1_call",
+    "run_paper_native_d3_d4_anchors_before_e2",
+    "implement_logicguard_d6_full_dual_track_before_e2"
+  ],
+  "fingerprint": "18e99f78ead4c3b6a05f2858c0f6e40d32f4cb06e5f9b3801612a0b4a530854f"
+}

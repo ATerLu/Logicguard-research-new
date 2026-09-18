@@ -86,6 +86,7 @@ _TOKEN_STOPWORDS = {
 class SourceRiskResult:
     """Risk detector output for one official source row."""
 
+    verification_status: str
     is_risky: bool
     risk_score: float
     risk_reasons: list[str]
@@ -244,9 +245,10 @@ def detect_non_oracle_source_risk(
     )
     if candidate is None:
         return SourceRiskResult(
+            verification_status="unverifiable",
             is_risky=False,
             risk_score=0.0,
-            risk_reasons=[],
+            risk_reasons=["trusted_candidate_unavailable"],
             candidate_doc_id="",
             candidate_title="",
             candidate_score=0.0,
@@ -270,6 +272,7 @@ def detect_non_oracle_source_risk(
     )
     reasons = ["clean_candidate_entity_drift"] if is_risky else []
     return SourceRiskResult(
+        verification_status="verified_risky" if is_risky else "verified_safe",
         is_risky=is_risky,
         risk_score=round(risk_score, 6),
         risk_reasons=reasons,
@@ -676,6 +679,7 @@ def _annotate_source_with_risk(
         record.get("source_state") or "official_poisoned_context"
     )
     record["risk_non_oracle_detected"] = risk.is_risky
+    record["risk_non_oracle_verification_status"] = risk.verification_status
     record["risk_non_oracle_score"] = risk.risk_score
     record["risk_non_oracle_reasons"] = risk.risk_reasons
     record["risk_non_oracle_candidate_doc_id"] = risk.candidate_doc_id
@@ -705,6 +709,7 @@ def _recovered_source(
     record["recovered_from_source_id"] = str(original_source.get("id", ""))
     record["recovery_method"] = "risk_non_oracle_title_entity_bm25"
     record["risk_non_oracle_detected"] = True
+    record["risk_non_oracle_verification_status"] = risk.verification_status
     record["risk_non_oracle_score"] = risk.risk_score
     record["risk_non_oracle_reasons"] = risk.risk_reasons
     record["risk_non_oracle_candidate_doc_id"] = risk.candidate_doc_id

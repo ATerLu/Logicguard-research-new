@@ -1,0 +1,134 @@
+schema_version: 1
+protocol_version: comparison-v1.2
+amendment_date: '2026-09-06'
+status: WP1_COMPLETE__WP2_D3_MODEL_ANCHOR_PASSED_D4_OFFICIAL_ARTIFACT_UNAVAILABLE
+progress_date: '2026-09-10'
+research_question: >-
+  Under incomplete trusted evidence coverage, does source/claim/path verification
+  reduce wrong recovery and poisoned answers at comparable answer coverage and
+  information access?
+supersedes_for_future_execution: comparison-v1.1
+historical_artifacts: preserve_without_relabelling
+datasets: [hotpotqa, musique, 2wikimultihopqa]
+backends: [S1_microsoft_graphrag, S2_lightrag]
+main_attacks: [A1_poisonedrag, A2_logicpoison, A3_gragpoison]
+separate_attack_track: A4_badrag
+history_audit: configs/benchmark/comparison_v1_2_research_audit.yaml
+confirmation:
+  existing_500_query_sets: legacy_exploratory_until_history_clearance
+  existing_splits_rewritten: false
+  new_holdout_status: not_created
+  selection_must_ignore: [attack_success, defense_success, gold_answer, recovery_outcome]
+  external_history_certification: unresolved_not_assumed
+development_pilot:
+  input: artifacts/benchmark/research_revision_v1_2/wp2_development_queries.jsonl
+  queries_per_dataset: 20
+  allocation: existing_development_only_sorted_strata_round_robin
+  adaptive_hypothesis_testing: false
+  role: mechanics_fairness_and_feasibility_not_confirmatory
+  clean_unique_query_backend_pairs: 120
+  attacked_query_backend_pairs: 360
+  evaluation_scope: all_planned_queries_with_errors_separately_recorded
+  paid_execution_ready: false
+  blockers:
+    - qualify_A2_on_frozen_development_corpora_with_real_query_extraction
+    - generate_and_materialize_full_A1_A3_dev60_corpora_with_frozen_budget_manifests
+    - preregister_D4_bounded_reimplementation_or_obtain_corrected_official_artifact
+    - execute_real_trusted_pool_retrieval_for_both_backends_and_all_coverage_levels
+    - enforce_request_checkpoint_usage_ledger_and_cost_stop
+    - freeze_backend_settings_and_materialized_corpus_hashes
+metrics:
+  primary_by_attack:
+    A1_poisonedrag: targeted_success_per_fixed_attempted
+    A2_logicpoison: attacked_wrong_per_evaluable_clean_correct
+    A3_gragpoison: preregistered_relation_endpoint_plus_separate_targeted_or_untargeted
+    A4_badrag: triggered_payload_success_with_clean_false_activation
+  targeted_secondary: [success_per_evaluation_valid, success_per_prompt_exposed]
+  unknown_policy: report_bounds_and_infrastructure_errors_not_silent_failures
+  pooled_raw_asr_across_attacks: forbidden
+  paired_effect: D0_success_to_defense_failure_minus_D0_failure_to_defense_success
+  utility: [clean_EM, clean_token_F1, attacked_EM, attacked_token_F1, abstention, response_coverage]
+  recovery: [correct, wrong, unresolved]
+  recovery_denominators: [performed_recoveries, all_planned_queries]
+  graph_diagnostics: [index_included, graph_surfaced, retrieved, prompt_exposed]
+  graph_diagnostics_must_be_strictly_nested: false
+trust:
+  primary_deployment: protected_snapshot_with_partial_coverage
+  benchmark_metadata: simulated_protected_snapshot_not_real_world_attestation
+  coverage_levels: [1.0, 0.5, 0.2, 0.0]
+  unit: source_group_not_chunk
+  assign_before_poisoning_without_gold: true
+  identical_budget_and_pool_for_comparisons: true
+  candidate_missing: unverifiable_not_safe
+  attacker_can_modify_protected_snapshot: false
+  compromised_trusted_root: separate_out_of_scope_sensitivity
+controls:
+  D0: attacked_backend_no_defense
+  T0: trusted_pool_only_retrieval
+  T1: ordinary_trusted_augmentation_same_pool_and_budget
+  D3: RAGDefender_published_artifact_fixed_retrieval_order
+  D4: unavailable_pending_corrected_artifact_or_bounded_reimplementation
+  D5: frozen_Stage43_45
+  D6: LogicGuard_four_component_method_pending
+  D7: exact_clean_mapping_oracle_upper_bound_not_ranked
+  text_rag: resource_matched_graph_specificity_control
+  paper_native_and_equal_information_results: separate_panels
+adaptive:
+  required_before_claiming_adaptive_robustness: true
+  target: frozen_D6_not_only_legacy_D5
+  controls: [attacker_knowledge, poison_budget, optimization_queries, stop_rule]
+statistics:
+  primary_contrast: D6_vs_strongest_non_oracle_baseline_selected_on_development
+  repeated_queries_grouped: true
+  shared_relation_and_index_dependence: report_conditional_and_clustered_uncertainty
+  binary_pairs: exact_McNemar_when_discordant_counts_small
+  effect_intervals: paired_cluster_bootstrap_with_prespecified_units
+  multiplicity: Holm_for_frozen_confirmatory_contrasts
+  human_review: blind_to_method_all_disputed_and_at_least_10_percent_test
+  power_status: pending_development_effect_and_discordance_estimates
+  sample_count_does_not_imply_power: true
+cost:
+  previous_full_index_projection: scenario_only_not_confidence_interval_or_hard_cap
+  fixed_100_document_pilot_is_scientific_prerequisite: false
+  budget_before_dispatch: required
+  metering: reserve_request_budget_then_reconcile_provider_usage
+  uncertainties: [model_tokenizer_difference, missing_usage, in_flight_requests, embedding_accounting]
+  full_validation_cap_cny: null
+tasks:
+  WP1:
+    deliverables: [history_audit, protocol_amendment, attack_fidelity_review, trust_controls, development_manifest]
+  WP2:
+    deliverables: [complete_attack_corpora, clean_baseline, D3_D4_anchors, T0_T1_controls, backend_traces]
+    local_A2_pipeline: implemented_and_fixture_verified
+    local_A2_trained_NER_anchor: passed_with_synthetic_query_responses
+    A2_development_attack_effect: not_measured
+    A2_entry_point: logicguard.benchmark.logicpoison_pipeline
+    local_T0_T1_control_layer: implemented_and_synthetic_anchor_passed
+    local_T0_T1_provider_calls: 0
+    historical_real_microsoft_trace_adapter: passed_50_queries_1870_exact_clean_sources
+    real_lightrag_trace_adapter: passed_one_hybrid_query_six_exact_clean_chunks
+    real_trace_zero_coverage_T0_T1_contract: passed_two_backends_four_contexts_zero_failures
+    real_trusted_pool_T0_T1_execution: not_run
+    D6_equal_information_contract_integration: pending
+    T0_T1_entry_point: logicguard.benchmark.trusted_control_runner
+    A1_official_asset_anchor: passed_100_queries_500_texts_not_backend_effect
+    A3_official_artifact_anchor: passed_74_rows_with_budget_and_deduplication_caveats
+    A1_A3_qualification_entry_point: logicguard.benchmark.wp2_qualification_runner
+    A1_A3_common_dev_materializer: passed_on_two_existing_generation_valid_pilot_attempts_not_full_dev60
+    A1_A3_materialization_entry_point: logicguard.benchmark.attack_corpus_materializer
+    real_LightRAG_trace_entry_point: logicguard.benchmark.lightrag_trace_capture
+    real_trace_contract_entry_point: logicguard.benchmark.real_trace_contract_runner
+    D3_published_artifact_model_anchor: passed_with_single_hop_order_sensitivity_and_paper_formula_caveat
+    D3_comparison_eligibility: available_with_fixed_retrieval_order
+    D4_official_artifact_anchor: unavailable_compile_error_and_missing_prompts
+    D4_comparison_eligibility: unavailable_pending_bounded_reimplementation
+    external_defense_qualification_entry_point: logicguard.benchmark.external_defense_qualification
+    latest_turn_provider_calls: 0
+    latest_turn_cost_cny: 0.0
+    next_implementation: freeze_full_dev60_attack_requests_materialization_budget_and_stop_rules
+  WP3:
+    deliverables: [claim_check, provenance_check, path_check, recovery_integrity_gate, development_ablations]
+  WP4:
+    deliverables: [fresh_confirmation_set, frozen_method, three_dataset_two_backend_comparison]
+  WP5:
+    deliverables: [adaptive_evaluation, model_replication, statistics, blind_review, reproducible_tables]

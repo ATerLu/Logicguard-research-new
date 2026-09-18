@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "experiment": "Stage48-GateA-MuSiQue-expansion:adaptive_attack_generation",
+  "fingerprint": "6b0ed3bc6495c0e32a5e493632980242cec457c726f869a821974fbec6a9238c",
+  "status": "complete",
+  "created_at": "2026-08-24T11:57:57+00:00",
+  "updated_at": "2026-08-24T12:24:36+00:00",
+  "key_fields": [
+    "dataset",
+    "query_id",
+    "attack_family",
+    "defense_stage",
+    "model"
+  ],
+  "expected_count": 90,
+  "completed_count": 90,
+  "checkpoint_path": "F:\\LogicGuard_project\\logicguard\\outputs\\adaptive_attacks\\stage48_gate_a_musique_attack_expansion_records_checkpoint.jsonl",
+  "config": {
+    "dataset": "musique",
+    "sample_path": "F:\\LogicGuard_project\\logicguard\\data\\processed\\musique\\debug_50.jsonl",
+    "clean_context_path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag_query\\stage48_gate_a_musique_clean50_contexts.jsonl",
+    "clean_reference_output_dir": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\musique\\stage40_debug50_clean_query_ready\\output",
+    "attack_records_output_path": "F:\\LogicGuard_project\\logicguard\\outputs\\adaptive_attacks\\stage48_gate_a_musique_attack_expansion_records.jsonl",
+    "attack_integrity_output_path": "F:\\LogicGuard_project\\logicguard\\outputs\\adaptive_attacks\\stage48_gate_a_musique_attack_expansion_integrity.jsonl",
+    "attacked_context_output_path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag_query\\stage48_gate_a_musique_attack_expansion_contexts.jsonl",
+    "context_matrix_output_path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag_query\\stage48_gate_a_musique_attack_expansion_defense_matrix.jsonl",
+    "valid_context_matrix_output_path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag_query\\stage48_gate_a_musique_attack_expansion_valid_defense_matrix.jsonl",
+    "preflight_rows_output_path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag_query\\stage48_gate_a_musique_attack_expansion_preflight.jsonl",
+    "preflight_summary_output_path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag_query\\stage48_gate_a_musique_attack_expansion_preflight_summary.csv",
+    "report_path": "F:\\LogicGuard_project\\logicguard\\outputs\\reports\\Stage48_GateA_MuSiQue_AttackExpansion.md",
+    "model": "qwen3.7-plus",
+    "api_key_env": "DASHSCOPE_API_KEY",
+    "base_url_env": "DASHSCOPE_BASE_URL",
+    "temperature": 0.0,
+    "max_tokens": 1600,
+    "timeout_seconds": 120,
+    "query_offset": 20,
+    "max_queries": 30,
+    "source_prompt_limit": 8,
+    "candidate_prompt_limit": 8,
+    "prompt_chars_per_source": 700,
+    "top_k_candidates": 5,
+    "min_candidate_score": 0.01,
+    "entity_drift_threshold": 0.1,
+    "title_overlap_threshold": 0.8,
+    "baseline_max_sources": 8,
+    "stage44_max_sources": 12,
+    "stage45_max_sources": 14,
+    "max_chars_per_source": 450,
+    "stage_label": "Stage48-GateA-MuSiQue-expansion",
+    "emit_markdown_report": false
+  },
+  "inputs": [
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\data\\processed\\musique\\debug_50.jsonl",
+      "size_bytes": 94188,
+      "sha256": "f358c596d5bd8e920d31a0c6c7b9c85abe8ac4bcc905e545e94e582a86d2dfb0"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\musique\\stage40_debug50_clean_query_ready\\output\\communities.parquet",
+      "size_bytes": 32602,
+      "sha256": "7f38b2a6a45fd4ef235935f076de63bc85f8a85c661a31d6ccc8107c95c7de89"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\musique\\stage40_debug50_clean_query_ready\\output\\community_reports.parquet",
+      "size_bytes": 65773,
+      "sha256": "a85d7fdcb143676a50e1674146a180285f11d94705dede8ab1d28c3c0f7e05c9"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\musique\\stage40_debug50_clean_query_ready\\output\\documents.parquet",
+      "size_bytes": 87664,
+      "sha256": "e2f4f1f5aed38fb085d62e3fbefc2dfea71caea98b7ca90b47326f3f22f3ec3f"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\musique\\stage40_debug50_clean_query_ready\\output\\entities.parquet",
+      "size_bytes": 27572,
+      "sha256": "fd05206e39dedb079d434192f961e3d55811311f84e4b4eb4f8f4218eb4c49bf"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\musique\\stage40_debug50_clean_query_ready\\output\\relationships.parquet",
+      "size_bytes": 33742,
+      "sha256": "f052ba0d629c608bb5b785a2ae13b35e20a0cf227cac0e86dc0f4b50d262f296"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\musique\\stage40_debug50_clean_query_ready\\output\\text_units.parquet",
+      "size_bytes": 107313,
+      "sha256": "70733debfcbcc734fcc4f8ed91bee31d56745dc4a0b96546ab63cff520e83284"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag_query\\stage48_gate_a_musique_clean50_contexts.jsonl",
+      "size_bytes": 3683591,
+      "sha256": "925726c636a1d52c5ae7a50bb7b98b5e2c1054881087e2f718d53e237927e0d9"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\src\\logicguard\\attack\\adaptive.py",
+      "size_bytes": 48723,
+      "sha256": "a88bf361eb14fc2344ae1e1f6ebf16790fbac863257b1f526e68278bf7c17bac"
+    }
+  ],
+  "token_usage": {
+    "prompt_tokens": 84292,
+    "completion_tokens": 85011,
+    "total_tokens": 169303
+  }
+}

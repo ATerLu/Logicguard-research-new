@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "benchmark_version": "comparison-v1.2",
+  "config_sha256": "6da04ccf2691d71e0070051d22fb8ee822c64130d26f0b3c7a91f769a8bafb31",
+  "input_sha256": {
+    "a1_asset": "5119d6f9fd53cb0ecb3f33de939bd940d77cbaf80284b7ccd3d256f63a430537",
+    "a3_artifact": "e3efe87bf6ac864d332afb7aa19e1fd2b4214f05ed5289c1ea0e40034ce96fc4",
+    "ms_graphrag_trace": "a1fc29a4160491a11c8e8e2ca2d6b794919ae9ca01432410ad86fe20221a6e9b",
+    "ms_clean_corpus": "d5af8f641801aced2a16709bdc2ee0b86b80f1ab5f80a4eddcc23df4e1763635",
+    "lightrag_schema_fixture": "6a295be0832a90799d004c275e11ec6ef7266e16c3789a09b3b94bb6d2002182"
+  },
+  "run_identity_sha256": "8036d38fae7c5aedae778838518c19c3a43d5acc590b044690abf180b3320ebb"
+}

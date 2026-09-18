@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "experiment": "E1:corpus_reindex_context_only_dry_run",
+  "status": "completed_context_only",
+  "workspace_root": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\musique\\stage48_gate_a_low_drift_evalvalid10_full_corpus",
+  "community_reports": "intentionally_omitted_query_community_prop_zero",
+  "funnel": {
+    "attempted": 10,
+    "generation_valid": 10,
+    "evaluation_valid": 10,
+    "index_included": 10,
+    "retrieved": 5,
+    "prompt_exposed": 3,
+    "answer_judged": 0,
+    "attack_success": 0
+  },
+  "graphrag_metrics": {
+    "openai/text-embedding-v4": {
+      "attempted_request_count": 1406,
+      "successful_response_count": 1406,
+      "failed_response_count": 0,
+      "requests_with_retries": 1,
+      "retries": 1,
+      "compute_duration_seconds": 782.5115287303925,
+      "streaming_responses": 0,
+      "responses_with_tokens": 1406,
+      "prompt_tokens": 84330,
+      "completion_tokens": 0,
+      "total_tokens": 84330,
+      "incomplete_response_count": 0,
+      "failure_rate": 0.0,
+      "retry_rate": 0.0007112375533428165,
+      "compute_duration_per_response_seconds": 0.5565515851567514,
+      "tokens_per_response": 59.97866287339971
+    },
+    "openai/qwen3.7-plus": {
+      "attempted_request_count": 1,
+      "successful_response_count": 1,
+      "failed_response_count": 0,
+      "requests_with_retries": 0,
+      "retries": 0,
+      "compute_duration_seconds": 5.863363027572632,
+      "streaming_responses": 0,
+      "responses_with_tokens": 1,
+      "prompt_tokens": 21,
+      "completion_tokens": 276,
+      "total_tokens": 297,
+      "incomplete_response_count": 0,
+      "failure_rate": 0.0,
+      "retry_rate": 0.0,
+      "compute_duration_per_response_seconds": 5.863363027572632,
+      "tokens_per_response": 297.0
+    }
+  },
+  "successful_provider_requests": 1407,
+  "reported_tokens": 84627,
+  "credential_values_recorded": false
+}

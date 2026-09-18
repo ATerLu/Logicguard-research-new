@@ -1,0 +1,2 @@
+{"query_id": "ner-q1", "entities": [{"hop": 1, "entity": "Albert Einstein", "type": "PERSON"}], "status": "complete"}
+{"query_id": "ner-q2", "entities": [{"hop": 1, "entity": "Isaac Newton", "type": "PERSON"}], "status": "complete"}

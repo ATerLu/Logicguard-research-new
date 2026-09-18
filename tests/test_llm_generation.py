@@ -241,6 +241,50 @@ def test_openai_compatible_client_builds_chat_completion_request() -> None:
     assert json.loads(response.raw_json)["usage"]["total_tokens"] == 13
 
 
+def test_openai_compatible_client_can_hard_limit_nonthinking_output() -> None:
+    captured: dict[str, object] = {}
+
+    def fake_transport(
+        url: str,
+        headers: dict[str, str],
+        payload: dict[str, object],
+        timeout_seconds: int,
+    ) -> dict[str, object]:
+        captured["payload"] = payload
+        return {
+            "choices": [{"message": {"content": "[]"}}],
+            "usage": {
+                "prompt_tokens": 5,
+                "completion_tokens": 2,
+                "total_tokens": 7,
+                "completion_tokens_details": {"reasoning_tokens": 0},
+            },
+        }
+
+    client = OpenAICompatibleChatClient(
+        base_url="https://example.test/compatible-mode/v1",
+        api_key="secret-key",
+        transport=fake_transport,
+    )
+    response = client.chat(
+        model="qwen3.7-plus",
+        messages=[{"role": "user", "content": "Question"}],
+        temperature=0.0,
+        max_tokens=512,
+        max_completion_tokens=512,
+        enable_thinking=False,
+        timeout_seconds=30,
+    )
+    assert captured["payload"] == {
+        "model": "qwen3.7-plus",
+        "messages": [{"role": "user", "content": "Question"}],
+        "temperature": 0.0,
+        "max_completion_tokens": 512,
+        "enable_thinking": False,
+    }
+    assert response.reasoning_tokens == 0
+
+
 def test_answer_stage_candidate_filter_skips_boolean_answers_and_requires_poison_text() -> (
     None
 ):

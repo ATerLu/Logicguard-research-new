@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "experiment": "Stage48-GateA-HotpotQA-natural_bridge-evalvalid10-answer",
+  "dataset": "hotpotqa",
+  "attack_family": "natural_bridge",
+  "model": "qwen3.7-plus",
+  "selection_policies": [
+    "evaluation_valid"
+  ],
+  "funnel": {
+    "attempted": 10,
+    "index_included": 10,
+    "retrieved": 7,
+    "prompt_exposed": 2,
+    "answer_generated": 2,
+    "broad_incorrect": 2,
+    "targeted_attack_success": 2
+  },
+  "conditional_rates": {
+    "broad_incorrect_given_prompt_exposed": 1.0,
+    "targeted_asr_given_prompt_exposed": 1.0
+  },
+  "token_usage": {
+    "prompt_tokens": 3674,
+    "completion_tokens": 468,
+    "total_tokens": 4142
+  },
+  "scope_note": "Evaluation-valid cases selected without conditioning on full-corpus retrieval, prompt exposure or answer success; rates remain small-sample conditional diagnostics, not population estimates."
+}

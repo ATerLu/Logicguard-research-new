@@ -1,0 +1,123 @@
+schema_version: 1
+assets:
+  - id: DSET_HOTPOTQA_COMMON500
+    kind: dataset
+    source_url: https://huggingface.co/datasets/Jord8061/datasets
+    revision: 8d2f7f5a357f9bb1572c17b62ebde5f75703885b
+    license: CC-BY-SA-4.0 upstream; adapted package license not separately declared
+    level: L2
+    fidelity: processed_clean_input
+    local_path: data/logicpoison_official/clean/hotpotqa
+    hash_files: [queries.jsonl, answers.jsonl, corpus.jsonl, qrels/test.tsv]
+    required: true
+    note: Not an official poisoned corpus.
+  - id: DSET_MUSIQUE_COMMON500
+    kind: dataset
+    source_url: https://huggingface.co/datasets/Jord8061/datasets
+    revision: 8d2f7f5a357f9bb1572c17b62ebde5f75703885b
+    license: CC-BY-4.0 upstream; adapted package license not separately declared
+    level: L2
+    fidelity: processed_clean_input
+    local_path: data/logicpoison_official/clean/musique
+    hash_files: [queries.jsonl, answers.jsonl, corpus.jsonl, qrels/test.tsv]
+    required: true
+    note: Not an official poisoned corpus.
+  - id: DSET_2WIKI_COMMON500
+    kind: dataset
+    source_url: https://huggingface.co/datasets/Jord8061/datasets
+    revision: 8d2f7f5a357f9bb1572c17b62ebde5f75703885b
+    license: Apache-2.0 upstream; adapted package license not separately declared
+    level: L2
+    fidelity: processed_clean_input
+    local_path: data/logicpoison_official/clean/2wikimultihopqa
+    hash_files: [queries.jsonl, answers.jsonl, corpus.jsonl, qrels/test.tsv]
+    required: true
+    note: Not an official poisoned corpus.
+  - id: A1_POISONEDRAG
+    kind: attack
+    source_url: https://github.com/sleeepeer/PoisonedRAG
+    revision: f660d72174f06b13fae5163ce656e7b235db858f
+    license: MIT
+    level: L3
+    fidelity: official_attack_instances
+    local_path: vendor/upstream/PoisonedRAG
+    hash_files: [LICENSE, results/adv_targeted_results/hotpotqa.json]
+    required: true
+    note: 100 HotpotQA target instances; only the audited overlap is a golden fixture.
+  - id: A2_LOGICPOISON
+    kind: attack
+    source_url: https://github.com/Jord8061/logicPoison
+    revision: 6699736681aa275e33a1d0cc32ef9b47ee17e632
+    license: MIT
+    level: L2
+    fidelity: pinned_generation_code
+    local_path: vendor/upstream/LogicPoison
+    hash_files: [LICENSE.txt, main.py, src/global_poison.py, src/logic_poison.py]
+    required: true
+    note: Clean pinned mirror; external_repos/logicPoison remains untouched and dirty.
+  - id: A3_GRAGPOISON
+    kind: attack
+    source_url: https://github.com/JACKPURCELL/GraphRAG_Under_Fire
+    revision: 316422f315748a903ae8f2e94e2bedbc66f84343
+    license: NOASSERTION
+    level: L3
+    fidelity: partial_official_workspace
+    local_path: vendor/upstream/GraphRAG_Under_Fire
+    hash_files: [README.md, config.py, datasets/misuque_3_black_shuffle_0601/question_multi_v3.json, datasets/misuque_3_black_shuffle_0601/test0_corpus.json]
+    required: true
+    note: Repository has no declared license; publication use requires clarification.
+  - id: A4_BADRAG
+    kind: attack
+    source_url: https://arxiv.org/abs/2406.00083
+    revision: paper-v1
+    license: NOASSERTION
+    level: L1
+    fidelity: paper_only_reimplementation_required
+    local_path: null
+    hash_files: []
+    required: false
+    note: No verified official code/data; all benchmark cells remain blocked.
+  - id: D3_RAGDEFENDER
+    kind: defense
+    source_url: https://github.com/SecAI-Lab/RAGDefender
+    revision: ba2a17efba165d45409114df2d70b030ade1e1b8
+    license: MIT
+    level: L2
+    fidelity: pinned_official_code
+    local_path: vendor/upstream/RAGDefender
+    hash_files: [LICENSE, pyproject.toml, ragdefender/embedders.py, ragdefender/grouping/concentration.py]
+    required: true
+    note: Paper-faithful runs must override the package default embedder.
+  - id: D4_HOG_GRAG
+    kind: defense
+    source_url: https://github.com/CyberScienceLab/HoG-GRAG
+    revision: b3197f5cb03b161ce4d29365ab73f1b3ed3adb02
+    license: NOASSERTION
+    level: L2
+    fidelity: pinned_official_code_without_data
+    local_path: vendor/upstream/HoG-GRAG
+    hash_files: [README.md, Baselines/Query_Paraphrasing.py, Baselines/Perplexity_based.py]
+    required: true
+    note: Repository has no declared license and publishes no experiment dataset.
+  - id: S1_MICROSOFT_GRAPHRAG
+    kind: backend
+    source_url: https://github.com/microsoft/graphrag
+    revision: installed-package-3.1.0
+    license: MIT
+    level: L2
+    fidelity: installed_local_runtime
+    local_path: tools/ms_graphrag/.venv/Lib/site-packages/graphrag
+    hash_files: []
+    required: true
+    note: Official Local Search adapter target.
+  - id: S2_LIGHTRAG
+    kind: backend
+    source_url: https://github.com/HKUDS/LightRAG
+    revision: 28ff1b05f2ac3f3e6fa14dd2cd33656579bd0c9c
+    license: MIT
+    level: L1
+    fidelity: pinned_official_runtime
+    local_path: vendor/upstream/LightRAG
+    hash_files: [LICENSE, pyproject.toml, lightrag/base.py, lightrag/lightrag.py]
+    required: true
+    note: Stable v1.5.7 source; isolated tools/lightrag/.venv import smoke only in E0.

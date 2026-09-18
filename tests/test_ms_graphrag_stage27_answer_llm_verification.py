@@ -2,6 +2,8 @@ import csv
 import json
 from pathlib import Path
 
+import pytest
+
 from logicguard.data.schemas import CorpusDocument, NormalizedSample
 from logicguard.llm.provider import ChatResponse
 from logicguard.evaluation.answer_generation import (
@@ -274,6 +276,64 @@ def test_summarize_and_write_stage27_outputs(tmp_path: Path) -> None:
     )
 
 
+def test_answer_generation_resumes_after_interruption_without_duplicate_calls(
+    tmp_path: Path,
+) -> None:
+    samples = [
+        NormalizedSample(
+            "q1",
+            "Who wrote Target Film?",
+            "Ada River",
+            ["d2"],
+            [CorpusDocument("d2", "D2", "Ada")],
+        )
+    ]
+    cases = build_stage27_answer_cases(
+        samples=samples,
+        integrity_rows=[{"query_id": "q1", "changed_support_doc_ids": ["d2"]}],
+        context_rows=[
+            _context(
+                "q1", "full_query_guard", [_source("d2", "Mallory poisoned body.")]
+            ),
+            _context(
+                "q1",
+                "recovered_sources_by_doc_id",
+                [_source("d2", "Ada River clean recovered.", recovered=True)],
+            ),
+        ],
+        dataset="toy",
+        methods=["full_query_guard", "recovered_sources_by_doc_id"],
+        max_sources=2,
+        max_chars_per_source=80,
+    )
+    config = _config(tmp_path, models=["toy-model"])
+    checkpoint = tmp_path / "answer_checkpoint.jsonl"
+    interrupted = InterruptingClient(interrupt_at=2)
+
+    with pytest.raises(KeyboardInterrupt):
+        run_stage27_answer_generation(
+            config=config,
+            cases=cases,
+            client=interrupted,
+            checkpoint_path=checkpoint,
+            run_fingerprint="frozen-fingerprint",
+        )
+
+    assert len(checkpoint.read_text(encoding="utf-8").splitlines()) == 1
+    resumed = FakeClient()
+    results = run_stage27_answer_generation(
+        config=config,
+        cases=cases,
+        client=resumed,
+        checkpoint_path=checkpoint,
+        run_fingerprint="frozen-fingerprint",
+    )
+
+    assert len(results) == 2
+    assert len(resumed.calls) == 1
+    assert len(checkpoint.read_text(encoding="utf-8").splitlines()) == 2
+
+
 class FakeClient:
     def __init__(self) -> None:
         self.calls: list[dict[str, object]] = []
@@ -310,6 +370,17 @@ class FakeClient:
             completion_tokens=2,
             total_tokens=12,
         )
+
+
+class InterruptingClient(FakeClient):
+    def __init__(self, *, interrupt_at: int) -> None:
+        super().__init__()
+        self.interrupt_at = interrupt_at
+
+    def chat(self, **kwargs: object) -> ChatResponse:
+        if len(self.calls) + 1 == self.interrupt_at:
+            raise KeyboardInterrupt("simulated process interruption")
+        return super().chat(**kwargs)  # type: ignore[arg-type]
 
 
 def _config(root: Path, *, models: list[str]) -> Stage27AnswerLLMConfig:

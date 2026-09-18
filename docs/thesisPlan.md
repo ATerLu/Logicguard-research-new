@@ -1,6 +1,10 @@
 # LogicGuard 硕士学位论文研究计划
 
-_面向 GraphRAG 自适应逻辑投毒的可验证证据恢复研究；版本 1.0，2026-08-04_
+> 2026-09-10 进展：WP2 已补齐 A1/A3 两样本物化、真实 LightRAG clean trace 与双后端 0%-coverage 合同；D3 RAGDefender 的发布工件 MiniLM 与库文档声明 Stella 均完成固定权重/双路径锚点。2 个 fixture 上工件与包输出一致；MiniLM 有 single-hop 顺序敏感，Stella 两例 F1=1.0，但都不是总体防御效果，发布工件仍有论文公式差异。D4 HoG-GRAG 固定公开工件因核心源码编译错误及提示词缺失保持 unavailable。完整 dev60、真实 trusted-pool 检索、D4 bounded reimplementation、D6、独立确认集及正式排名仍未完成。D3/D4 本轮 provider 调用 0、费用 ¥0。见 [外部防御资格报告](F:/LogicGuard_project/logicguard/docs/D3_D4_ExternalDefense_WP2_Qualification.md)。
+
+_面向 GraphRAG 自适应逻辑投毒的可验证证据恢复研究；版本 1.7，2026-09-06_
+
+> 2026-09-06 执行修订：未来比较实验以 [v1.2 协议](comparativeExperimentPreregistration_v1.2.md) 为本计划的最新执行约束。WP1 历史审计与协议纠偏完成；现有三组 500 问均有早期执行/分析记录，独立确认性尚未认证。A2 后续已补本地四阶段但未跑真实 dev60；D3 发布工件模型锚点已通过，D4 官方工件不可执行，D6 未实现。先做 WP2 dev60 可执行基准与公平可信池对照，再做 D6、独立确认集和正式比较。下文旧阶段路线保留历史，不覆盖本修订。
 
 ---
 
@@ -11,21 +15,21 @@ _面向 GraphRAG 自适应逻辑投毒的可验证证据恢复研究；版本 1.
 | **Origin skill** | `academic-research-suite / experiment-agent` |
 | **Origin mode** | `plan` |
 | **Origin date** | `2026-08-04` |
-| **Verification status** | `UNVERIFIED`，本文件中的阈值是预注册目标，不是已取得结果 |
-| **Version label** | `thesis_plan_v1` |
-| **项目状态** | Stage47 已完成；端到端语料注入、重建索引与强基线比较尚未完成 |
+| **Verification status** | `PARTIALLY VERIFIED`；Stage48 Gate A 未通过；Comparative Benchmark E0-A/E0-B 已通过，E1 尚未运行 |
+| **Version label** | `thesis_plan_v1.7 / comparison-v1.2 amendment` |
+| **项目状态** | Stage48 失败关闭；WP1 已完成，WP2 可执行基准待实现；正式确认集及 D6 尚未完成 |
 | **维护方式** | 本文件只维护研究目标、问题、门槛和路线；方法、结果与命令分别进入现有三份主文档 |
 
 ### 当前结论
 
-LogicGuard **值得继续推进，但应采用有条件继续策略**：停止继续堆叠 Stage48、Stage49 式局部规则，把接下来六周用于验证论文能否成立。六周结束时只允许三种决定：继续防御论文、转为攻击/评测论文、停止该方向。
+LogicGuard 的 natural-bridge 攻击链已经获得跨数据集方向性证据，但 **Stage48 Gate A 未通过**。项目已转入公开攻击 benchmark 路线，并于 2026-09-03 完成 E0-A/E0-B：三数据集 100/100/300 划分、资产/版本/hash、统一攻击终点、adapter contracts、6/14 golden fixtures、v1.1 cell matrix、Microsoft GraphRAG 3.1.0 / LightRAG 1.5.7 隔离导入与外部防御 source smoke 均通过。LogicPoison 旧污染语料被降级为 `legacy_adapted`。下一步是 A1–A3 execution adapters、BadRAG development smoke 和 E1 成本冻结；这些完成前仍不启动付费 qualification，E2 防御排名继续锁定。
 
 当前工程规模和实验积累已经足以支撑硕士论文的工作量，但还不能支撑强研究结论。缺少的不是更多零散实验，而是以下闭环：
 
-1. 从完整污染语料开始重建索引，证明攻击在真实 GraphRAG 流程中能够进入检索与实际 Prompt
-2. 与至少一个 GraphRAG 专用防御和一个通用 RAG 投毒防御进行公平比较
+1. 把已完成的双数据集 full-corpus existence/evaluation-valid pilot 扩展到预注册规模，得到可估计的攻击分母与置信区间
+2. ~~先完成未修改 Stage43/44/45 与 clean no-attack 配对~~，再与至少一个 GraphRAG 专用防御和一个通用 RAG 投毒防御公平比较
 3. 把“恢复了候选”拆成正确恢复、错误恢复和未恢复，证明防御没有把一种错误换成另一种错误
-4. 用消融、置信区间和跨数据集实验说明增益来自可解释的方法组件，而不是样本、Prompt 或拒答率波动
+4. 用消融、置信区间和跨模型实验说明增益来自可解释的方法组件，而不是样本、Prompt 或拒答率波动
 
 ### 计划使用边界
 
@@ -170,7 +174,7 @@ GraphRAG 通过图结构组织实体、关系和多跳路径，但图结构也�
 6. `prompt_exposed`：经过排序、过滤和 token 截断后的实际 Prompt 仍包含污染证据
 7. `targeted_success`：最终答案匹配预注册的攻击目标，而非任意错误
 
-主指标 `system-level targeted ASR` 的分母是 `evaluation_valid && index_included` 的攻击；检索失败计为攻击失败。`conditional targeted ASR` 的分母是 `prompt_exposed` 的攻击，只用于解释生成器在暴露后的脆弱性，不能代替主指标。
+未来实验的定向主指标分母为事前固定 `attempted`，不按生成、评估有效或入索引事后筛选；基础设施 unknown 单列并报告界限，不能默认为攻击失败。`evaluation_valid && index_included` 与 `prompt_exposed` 条件比例只作诊断。历史 Stage48 `4/20` 保持已选有效/索引子集的原定义，不改写为全部 fixed-50 尝试的 ASR。LogicPoison clean-correct flip、关系攻击与 BadRAG trigger 指标分别按 v1.2 定义，不跨攻击混合平均。
 
 ## ⚙️ 拟议方法与创新点
 
@@ -262,6 +266,9 @@ flowchart LR
 | **Stage24** | oracle doc-ID recovery recall `0.785`、changed exposure `0` | 干净对应源存在时恢复具有上界价值 | 不依赖 clean ID 的真实部署有效 |
 | **Stage43–45** | 已有 HotpotQA、MuSiQue 的风险恢复与扩展链路 | 具备跨数据集实验基础 | 面对自适应攻击仍然鲁棒 |
 | **Stage47** | 75 次尝试、35 次生成有效、21 次评测有效、19 次 Prompt 暴露 | 三类 post-retrieval 自适应失败模式存在 | 完整 corpus poisoning 与重建索引鲁棒性 |
+| **Stage48 E0/E1** | MuSiQue 三类攻击与 HotpotQA 扩展完成 full-corpus local pipeline；evaluation-valid pilot 中 candidate collision 与 natural bridge 各出现 1 个端到端 targeted case | corpus poisoning 可跨越索引、检索、截断 Prompt 和回答层；攻击家族存在差异 | 稳定总体 ASR、防御有效性、global/community 路径与统计显著性 |
+| **Stage48 配对基线** | 14 attempts × attacked/clean × 4 methods，112 次回答；无防御 targeted ASR 为 `5/7` target-exposed，Stage43 `3/7`，Stage44 `0/7`，Stage45 `1/7`；Stage43 clean 误判恢复 `10/14` | 当前 detector 对 natural bridge/low drift 存在盲区；Stage44 有补证安全信号；Stage45 非单调 | 方法价值门、稳定 ASR、低假阳性恢复、相对外部强基线优势 |
+| **Stage48 Gate A fixed-50** | 两数据集 × 50 query × 3 攻击尝试；四个 10-case full-corpus 单元；natural bridge pooled Prompt 暴露与 system ASR 均为 `4/20=20%`，low drift 暴露 `3/20=15%`，collision 两单元各 `6/50` evaluation-valid | natural bridge 跨数据集完整攻击链成立；low drift 卡在 Prompt 传播；collision 卡在生成/评估有效性；仅一个家族过门 | Gate A 未通过，暂不进入 Gate B；需做攻击机制/benchmark 转向决策 |
 
 现有详细证据见 [results.md](results.md)，方法演进见 [methodology.md](methodology.md)，复现入口见 [reproducibility.md](reproducibility.md)。Stage47 中最重要的三个信号是：`low_drift` 暴露检测盲区，`candidate_collision` 将 ASR 降到零却产生 5/5 攻击者诱导的非 gold 恢复，`natural_bridge` 在 MuSiQue 上最能体现结构连贯攻击的风险。
 
@@ -289,9 +296,9 @@ flowchart LR
 
 ### 系统与模型设置
 
-- **主后端**：项目当前 official Microsoft GraphRAG 流程
-- **对照后端**：使用相同 chunk、embedding、top-k 和回答模型的 matched text-RAG
-- **可选扩展**：若六周门槛通过，再增加另一种 GraphRAG 实现，不作为短期阻断项
+- **主后端**：项目当前 official Microsoft GraphRAG Local Search 流程
+- **第二后端**：official LightRAG hybrid mode；使用相同 corpus split、污染文本与回答模型，保留其原生索引设置
+- **敏感性扩展**：Microsoft GraphRAG global/community 与 LightRAG 其他 query modes，不进入主排名
 - **回答模型**：一个主模型和一个复现实验模型；冻结完整版本 ID、温度与 Prompt hash
 - **裁判模型**：与回答模型分离；抽样进行人工复核，报告裁判一致率
 
@@ -304,6 +311,8 @@ flowchart LR
 | **Low drift** | 低实体漂移和表面一致内容 | 风险分数可能为零 | 低漂移内容是否在重建索引后仍保持隐蔽 |
 
 每类攻击冻结文档预算 `b ∈ {1, 3, 5}`、token 预算、目标 query、目标答案和生成 seed。攻击生成失败不得通过反复试验直到命中后只报告成功样本；所有尝试必须进入漏斗。
+
+正式公开攻击候选固定为 PoisonedRAG、LogicPoison、GraphRAG under Fire 与 BadRAG。前三者属于 wrong-answer/logical poisoning 主轨，但分别使用 targeted ASR、clean-correct attack flip、targeted/untargeted relation endpoints；BadRAG 属于 trigger/backdoor 独立轨，按 trigger ASR 与 false activation 报告。Stage47/48 三类内部攻击只作为 adaptive challenge 附录。当前设计依据 `docs/comparativeExperimentLiteratureAudit.md`，待审核后再用 v1.1 预注册与机器表冻结具体 cell、split 和资格门。
 
 ### 比较基线
 
@@ -323,7 +332,7 @@ flowchart LR
 
 | 类别 | 指标 | 计算或解释 |
 | --- | --- | --- |
-| **攻击** | `systemTargetedAsr` | `targeted_success / evaluation_valid_indexed` |
+| **攻击** | `systemTargetedAsrAttempted` | `targeted_success / fixed attempted`；条件 ASR 只作诊断 |
 | **暴露** | `retrievalExposure`、`promptExposure` | 分别在检索结果和实际截断 Prompt 上测量 |
 | **检测** | precision、recall、AUPRC | 以 source/claim 风险标注为单位 |
 | **恢复** | correct、wrong、none | 三者互斥；另报 `wrongRecoveryRate` |
@@ -499,15 +508,22 @@ gantt
 
 本文件审定后，执行顺序固定为：
 
-1. 给 Stage48 增加 checkpoint/resume、run manifest 和漏斗测试
-2. 冻结三类攻击与完整重建索引配置，只跑 context-only 暴露检查
-3. 并行准备 HoG-GRAG 与一个通用 RAG 防御的适配，但在暴露门通过前不批量调用回答模型
+1. ~~给 Stage48 增加 checkpoint/resume、run manifest 和漏斗测试~~（E0 已完成）
+2. ~~冻结三类攻击并完成至少两个数据集的 full-corpus context/answer 微门~~（E1 最小基线已完成）
+3. ~~固定现有资产，先运行未修改 Stage43/44/45 与 clean no-attack 配对，量化当前防御缺口~~（2026-08-22 已完成）
+4. ~~扩大 evaluation-valid 样本并完成 Gate A fixed-50~~（2026-08-24 完成但 Gate A 未通过）；外部强基线暂缓，先解决 low-drift Prompt 传播与 candidate-collision 有效率瓶颈，仍不得把 Stage44 `0/7` 写成最终方法有效性
+5. ~~完成 Stage48 失败 taxonomy、candidate/target/Prompt 传播测试与新比较实验预注册~~（2026-09-01 已完成）
+6. ~~完成核心论文实验路径、公开 clean/poison 资产、query overlap、攻击终点和代码版本漂移审计~~（2026-09-02 已完成；见 `docs/comparativeExperimentLiteratureAudit.md`）
+7. ~~发布 v1.1 并完成 E0 资产 manifest、确定性 split、参数 diff、adapter contracts 与本地 fidelity smoke~~（2026-09-03 已完成）
+8. 实现 A1–A3 execution adapters、完成 BadRAG development smoke 和 E1 成本冻结；通过这些前置后再按 validation 100-query 固定分母执行资格门
 
 ## 🚦 决策门与风险控制
 
 ### Gate A：攻击现实性门
 
 决策日期：2026-09-01。
+
+2026-08-24 已完成 fixed-50 评估。natural bridge 在两个数据集分别得到 `2/10` Prompt 暴露和 `2/10` system targeted success，pooled 暴露率与 system ASR 均为 `4/20=20%`，95% Wilson CI `[8.1%, 41.6%]`。low drift pooled Prompt 暴露为 `3/20=15%`，CI `[5.2%, 36.0%]`；candidate collision 在两个 50-query 单元都只有 6 条 evaluation-valid，未达到 10 条单元门槛。由于只有一个攻击家族通过 context/system 条件，Gate A 正式判定为 **未通过**。无防御 `4/4` 仍只是 target-exposed 条件比例，正式 system 分母必须保留为 `4/20`。
 
 满足以下条件则进入方法开发：
 

@@ -1,0 +1,26 @@
+dataset: musique
+condition: clean
+attack_family: candidate_collision
+sample_path: data/experiments/e1/musique_candidate_collision_evalvalid2_full_corpus/samples.jsonl
+source_context_path: outputs/ms_graphrag_query/e1_musique_candidate_collision_evalvalid2_full_corpus_clean_contexts.jsonl
+clean_reference_output_dir: outputs/ms_graphrag/musique/stage40_debug50_clean_query_ready/output
+frozen_attacks_path: null
+
+integrity_output_path: outputs/ms_graphrag_query/e1_musique_candidate_collision_evalvalid2_full_corpus_clean_defense_integrity.jsonl
+matrix_output_path: outputs/ms_graphrag_query/e1_musique_candidate_collision_evalvalid2_full_corpus_clean_defense_matrix.jsonl
+preflight_output_path: outputs/ms_graphrag_query/e1_musique_candidate_collision_evalvalid2_full_corpus_clean_defense_preflight.jsonl
+summary_output_path: outputs/ms_graphrag_query/e1_musique_candidate_collision_evalvalid2_full_corpus_clean_defense_summary.json
+manifest_output_path: outputs/manifests/e1_musique_candidate_collision_evalvalid2_full_corpus_clean_defense_manifest.json
+
+max_queries: 2
+top_k_candidates: 5
+min_candidate_score: 0.01
+entity_drift_threshold: 0.10
+title_overlap_threshold: 0.80
+baseline_max_sources: 8
+stage44_max_sources: 12
+stage45_max_sources: 14
+max_chars_per_source: 450
+candidate_pool_top_k: 80
+prompt_policy: evidence_compare
+stage_label: Stage48-E1-MuSiQue-candidate_collision-clean-paired-defense

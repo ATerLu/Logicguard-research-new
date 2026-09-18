@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "benchmark_version": "comparison-v1.2",
+  "config_sha256": "56226bacc32c20fe38e1e452547f02c460a58e968d5936bb864019a7a57bb2c8",
+  "clean_corpus_sha256": "96d984047e477ea2c803429be9da0bf405efd5dd56d63151a4a457bbf54e9723",
+  "retrieval_fixture_sha256": "a0bd9e1dbba271c681289a9f8f79c4eb59acef6942a4f6060f7d09e3d714c689",
+  "trust_manifest_sha256": "0ddc032b6c8e3715b86cdaeb3f2c3e9d65f2245f536fa593075cb381d2dc68c7",
+  "budget_sha256": "41bbebda608058c0a27eac39f41af48688cb83f7bfca7971bb9aa1460cdb7bec",
+  "run_identity_sha256": "8a208589b7aa0365c095cb6ef329bcf8c4679637506a532e4ebbfe2396b8013d"
+}

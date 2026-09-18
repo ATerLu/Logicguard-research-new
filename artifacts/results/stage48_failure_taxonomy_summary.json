@@ -1,0 +1,553 @@
+{
+  "schema_version": 1,
+  "taxonomy_status": "frozen_offline_stage48_audit",
+  "attempted": 300,
+  "cell_rows": [
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "candidate_collision",
+      "attempted": 50,
+      "generation_valid": 29,
+      "evaluation_valid": 6,
+      "selected_for_reindex": 0,
+      "index_included": 0,
+      "retrieved": 0,
+      "prompt_exposed": 0,
+      "terminal_category_counts": {
+        "cell_below_reindex_minimum": 6,
+        "collision_candidate_is_gold_support": 22,
+        "collision_did_not_trigger_entity_drift": 1,
+        "generation_error": 1,
+        "malicious_target_matches_gold": 1,
+        "missing_malicious_answer": 19
+      }
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "low_drift",
+      "attempted": 50,
+      "generation_valid": 22,
+      "evaluation_valid": 19,
+      "selected_for_reindex": 10,
+      "index_included": 10,
+      "retrieved": 5,
+      "prompt_exposed": 0,
+      "terminal_category_counts": {
+        "attack_did_not_change_source": 2,
+        "entity_drift_not_below_frozen_threshold": 11,
+        "fixed_quota_not_selected": 9,
+        "generation_error": 1,
+        "indexed_not_retrieved": 5,
+        "malicious_target_matches_gold": 3,
+        "missing_malicious_answer": 14,
+        "prompt_source_exposed_target_truncated": 3,
+        "retrieved_beyond_prompt_source_limit": 1,
+        "target_surface_without_attack_source": 1
+      }
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "natural_bridge",
+      "attempted": 50,
+      "generation_valid": 18,
+      "evaluation_valid": 17,
+      "selected_for_reindex": 10,
+      "index_included": 10,
+      "retrieved": 7,
+      "prompt_exposed": 2,
+      "terminal_category_counts": {
+        "fixed_quota_not_selected": 7,
+        "generation_error": 1,
+        "indexed_not_retrieved": 3,
+        "malicious_target_matches_gold": 1,
+        "missing_malicious_answer": 31,
+        "prompt_source_and_target_exposed": 2,
+        "prompt_source_exposed_target_truncated": 1,
+        "retrieved_beyond_prompt_source_limit": 3,
+        "target_surface_without_attack_source": 1
+      }
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "candidate_collision",
+      "attempted": 50,
+      "generation_valid": 26,
+      "evaluation_valid": 6,
+      "selected_for_reindex": 0,
+      "index_included": 0,
+      "retrieved": 0,
+      "prompt_exposed": 0,
+      "terminal_category_counts": {
+        "cell_below_reindex_minimum": 6,
+        "collision_candidate_is_gold_support": 19,
+        "collision_did_not_trigger_entity_drift": 1,
+        "generation_error": 2,
+        "malicious_target_matches_gold": 1,
+        "missing_malicious_answer": 21
+      }
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "low_drift",
+      "attempted": 50,
+      "generation_valid": 13,
+      "evaluation_valid": 13,
+      "selected_for_reindex": 10,
+      "index_included": 10,
+      "retrieved": 5,
+      "prompt_exposed": 3,
+      "terminal_category_counts": {
+        "entity_drift_not_below_frozen_threshold": 11,
+        "fixed_quota_not_selected": 3,
+        "generation_error": 2,
+        "indexed_not_retrieved": 5,
+        "missing_malicious_answer": 17,
+        "prompt_source_and_target_exposed": 3,
+        "prompt_source_exposed_target_truncated": 2,
+        "target_source_not_in_attacker_visible_context": 7
+      }
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "natural_bridge",
+      "attempted": 50,
+      "generation_valid": 21,
+      "evaluation_valid": 20,
+      "selected_for_reindex": 10,
+      "index_included": 10,
+      "retrieved": 3,
+      "prompt_exposed": 2,
+      "terminal_category_counts": {
+        "fixed_quota_not_selected": 10,
+        "generation_error": 2,
+        "indexed_not_retrieved": 7,
+        "malicious_target_matches_gold": 1,
+        "missing_malicious_answer": 27,
+        "prompt_source_and_target_exposed": 2,
+        "retrieved_beyond_prompt_source_limit": 1
+      }
+    }
+  ],
+  "category_rows": [
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "candidate_collision",
+      "attempted": 50,
+      "failure_stage": "selection",
+      "failure_category": "cell_below_reindex_minimum",
+      "count": 6,
+      "attempted_rate": 0.12
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "candidate_collision",
+      "attempted": 50,
+      "failure_stage": "evaluation",
+      "failure_category": "collision_candidate_is_gold_support",
+      "count": 22,
+      "attempted_rate": 0.44
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "candidate_collision",
+      "attempted": 50,
+      "failure_stage": "generation",
+      "failure_category": "collision_did_not_trigger_entity_drift",
+      "count": 1,
+      "attempted_rate": 0.02
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "candidate_collision",
+      "attempted": 50,
+      "failure_stage": "generation",
+      "failure_category": "generation_error",
+      "count": 1,
+      "attempted_rate": 0.02
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "candidate_collision",
+      "attempted": 50,
+      "failure_stage": "evaluation",
+      "failure_category": "malicious_target_matches_gold",
+      "count": 1,
+      "attempted_rate": 0.02
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "candidate_collision",
+      "attempted": 50,
+      "failure_stage": "generation",
+      "failure_category": "missing_malicious_answer",
+      "count": 19,
+      "attempted_rate": 0.38
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "low_drift",
+      "attempted": 50,
+      "failure_stage": "generation",
+      "failure_category": "attack_did_not_change_source",
+      "count": 2,
+      "attempted_rate": 0.04
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "low_drift",
+      "attempted": 50,
+      "failure_stage": "generation",
+      "failure_category": "entity_drift_not_below_frozen_threshold",
+      "count": 11,
+      "attempted_rate": 0.22
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "low_drift",
+      "attempted": 50,
+      "failure_stage": "selection",
+      "failure_category": "fixed_quota_not_selected",
+      "count": 9,
+      "attempted_rate": 0.18
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "low_drift",
+      "attempted": 50,
+      "failure_stage": "generation",
+      "failure_category": "generation_error",
+      "count": 1,
+      "attempted_rate": 0.02
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "low_drift",
+      "attempted": 50,
+      "failure_stage": "retrieval",
+      "failure_category": "indexed_not_retrieved",
+      "count": 5,
+      "attempted_rate": 0.1
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "low_drift",
+      "attempted": 50,
+      "failure_stage": "evaluation",
+      "failure_category": "malicious_target_matches_gold",
+      "count": 3,
+      "attempted_rate": 0.06
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "low_drift",
+      "attempted": 50,
+      "failure_stage": "generation",
+      "failure_category": "missing_malicious_answer",
+      "count": 14,
+      "attempted_rate": 0.28
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "low_drift",
+      "attempted": 50,
+      "failure_stage": "prompt",
+      "failure_category": "prompt_source_exposed_target_truncated",
+      "count": 3,
+      "attempted_rate": 0.06
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "low_drift",
+      "attempted": 50,
+      "failure_stage": "prompt",
+      "failure_category": "retrieved_beyond_prompt_source_limit",
+      "count": 1,
+      "attempted_rate": 0.02
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "low_drift",
+      "attempted": 50,
+      "failure_stage": "prompt",
+      "failure_category": "target_surface_without_attack_source",
+      "count": 1,
+      "attempted_rate": 0.02
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "natural_bridge",
+      "attempted": 50,
+      "failure_stage": "selection",
+      "failure_category": "fixed_quota_not_selected",
+      "count": 7,
+      "attempted_rate": 0.14
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "natural_bridge",
+      "attempted": 50,
+      "failure_stage": "generation",
+      "failure_category": "generation_error",
+      "count": 1,
+      "attempted_rate": 0.02
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "natural_bridge",
+      "attempted": 50,
+      "failure_stage": "retrieval",
+      "failure_category": "indexed_not_retrieved",
+      "count": 3,
+      "attempted_rate": 0.06
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "natural_bridge",
+      "attempted": 50,
+      "failure_stage": "evaluation",
+      "failure_category": "malicious_target_matches_gold",
+      "count": 1,
+      "attempted_rate": 0.02
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "natural_bridge",
+      "attempted": 50,
+      "failure_stage": "generation",
+      "failure_category": "missing_malicious_answer",
+      "count": 31,
+      "attempted_rate": 0.62
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "natural_bridge",
+      "attempted": 50,
+      "failure_stage": "complete",
+      "failure_category": "prompt_source_and_target_exposed",
+      "count": 2,
+      "attempted_rate": 0.04
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "natural_bridge",
+      "attempted": 50,
+      "failure_stage": "prompt",
+      "failure_category": "prompt_source_exposed_target_truncated",
+      "count": 1,
+      "attempted_rate": 0.02
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "natural_bridge",
+      "attempted": 50,
+      "failure_stage": "prompt",
+      "failure_category": "retrieved_beyond_prompt_source_limit",
+      "count": 3,
+      "attempted_rate": 0.06
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "natural_bridge",
+      "attempted": 50,
+      "failure_stage": "prompt",
+      "failure_category": "target_surface_without_attack_source",
+      "count": 1,
+      "attempted_rate": 0.02
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "candidate_collision",
+      "attempted": 50,
+      "failure_stage": "selection",
+      "failure_category": "cell_below_reindex_minimum",
+      "count": 6,
+      "attempted_rate": 0.12
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "candidate_collision",
+      "attempted": 50,
+      "failure_stage": "evaluation",
+      "failure_category": "collision_candidate_is_gold_support",
+      "count": 19,
+      "attempted_rate": 0.38
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "candidate_collision",
+      "attempted": 50,
+      "failure_stage": "generation",
+      "failure_category": "collision_did_not_trigger_entity_drift",
+      "count": 1,
+      "attempted_rate": 0.02
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "candidate_collision",
+      "attempted": 50,
+      "failure_stage": "generation",
+      "failure_category": "generation_error",
+      "count": 2,
+      "attempted_rate": 0.04
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "candidate_collision",
+      "attempted": 50,
+      "failure_stage": "evaluation",
+      "failure_category": "malicious_target_matches_gold",
+      "count": 1,
+      "attempted_rate": 0.02
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "candidate_collision",
+      "attempted": 50,
+      "failure_stage": "generation",
+      "failure_category": "missing_malicious_answer",
+      "count": 21,
+      "attempted_rate": 0.42
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "low_drift",
+      "attempted": 50,
+      "failure_stage": "generation",
+      "failure_category": "entity_drift_not_below_frozen_threshold",
+      "count": 11,
+      "attempted_rate": 0.22
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "low_drift",
+      "attempted": 50,
+      "failure_stage": "selection",
+      "failure_category": "fixed_quota_not_selected",
+      "count": 3,
+      "attempted_rate": 0.06
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "low_drift",
+      "attempted": 50,
+      "failure_stage": "generation",
+      "failure_category": "generation_error",
+      "count": 2,
+      "attempted_rate": 0.04
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "low_drift",
+      "attempted": 50,
+      "failure_stage": "retrieval",
+      "failure_category": "indexed_not_retrieved",
+      "count": 5,
+      "attempted_rate": 0.1
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "low_drift",
+      "attempted": 50,
+      "failure_stage": "generation",
+      "failure_category": "missing_malicious_answer",
+      "count": 17,
+      "attempted_rate": 0.34
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "low_drift",
+      "attempted": 50,
+      "failure_stage": "complete",
+      "failure_category": "prompt_source_and_target_exposed",
+      "count": 3,
+      "attempted_rate": 0.06
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "low_drift",
+      "attempted": 50,
+      "failure_stage": "prompt",
+      "failure_category": "prompt_source_exposed_target_truncated",
+      "count": 2,
+      "attempted_rate": 0.04
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "low_drift",
+      "attempted": 50,
+      "failure_stage": "generation",
+      "failure_category": "target_source_not_in_attacker_visible_context",
+      "count": 7,
+      "attempted_rate": 0.14
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "natural_bridge",
+      "attempted": 50,
+      "failure_stage": "selection",
+      "failure_category": "fixed_quota_not_selected",
+      "count": 10,
+      "attempted_rate": 0.2
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "natural_bridge",
+      "attempted": 50,
+      "failure_stage": "generation",
+      "failure_category": "generation_error",
+      "count": 2,
+      "attempted_rate": 0.04
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "natural_bridge",
+      "attempted": 50,
+      "failure_stage": "retrieval",
+      "failure_category": "indexed_not_retrieved",
+      "count": 7,
+      "attempted_rate": 0.14
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "natural_bridge",
+      "attempted": 50,
+      "failure_stage": "evaluation",
+      "failure_category": "malicious_target_matches_gold",
+      "count": 1,
+      "attempted_rate": 0.02
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "natural_bridge",
+      "attempted": 50,
+      "failure_stage": "generation",
+      "failure_category": "missing_malicious_answer",
+      "count": 27,
+      "attempted_rate": 0.54
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "natural_bridge",
+      "attempted": 50,
+      "failure_stage": "complete",
+      "failure_category": "prompt_source_and_target_exposed",
+      "count": 2,
+      "attempted_rate": 0.04
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "natural_bridge",
+      "attempted": 50,
+      "failure_stage": "prompt",
+      "failure_category": "retrieved_beyond_prompt_source_limit",
+      "count": 1,
+      "attempted_rate": 0.02
+    }
+  ],
+  "protocol": {
+    "required_evaluation_valid_per_cell": 10,
+    "prompt_source_limit": 12,
+    "answer_outcomes_used": false,
+    "paid_api_calls": 0
+  }
+}

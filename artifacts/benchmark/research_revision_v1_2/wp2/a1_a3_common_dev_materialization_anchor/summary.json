@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "protocol_version": "comparison-v1.2",
+  "config_sha256": "1e603cc97b9d64ce6ace1bfcb9d49eefd75dbebcb608264ef8db96d7a963a0b9",
+  "implementation_sha256": "fa686162344b9de4e5a7864aa3ca5d7a35ca3d10f16a7398b0f34f715598b5e5",
+  "attack_results_sha256": "0d1fe7eaa1a4e4117e865ff98bbb218be7973cbdd5f74e7987dfa76a439d0770",
+  "development_queries_sha256": "4e68c0529b09a47470f24dfbe8e46a60b0f6d109dfff5507e36aba72f1050985",
+  "clean_corpus_sha256": {
+    "hotpotqa": "d5af8f641801aced2a16709bdc2ee0b86b80f1ab5f80a4eddcc23df4e1763635",
+    "musique": "bc0eb1609d457b8d751a7c559d47e146f20868b9a6fba8bfa341fe843f0f1b67"
+  },
+  "run_identity_sha256": "554fda5c4e19c285ed42b8d3a1336cff530be5259e0ce3537f4ddee7c55e188f",
+  "status": "COMMON_DEV_MATERIALIZATION_ANCHOR_PASSED",
+  "evidence_scope": "two_existing_generation_valid_pilot_attempts_not_dev60_effect",
+  "cells": [
+    {
+      "schema_version": 1,
+      "dataset": "hotpotqa",
+      "attack_id": "A1_poisonedrag",
+      "status": "MATERIALIZED_WITHIN_BUDGET",
+      "query_count": 1,
+      "clean_documents": 9811,
+      "poison_document_occurrences": 1,
+      "unique_poison_texts": 1,
+      "poison_documents_by_family": {
+        "targeted_evidence": 1
+      },
+      "physical_attack_text_files": 1,
+      "physical_attack_text_file_names": [
+        "attack_texts_targeted_evidence.txt"
+      ],
+      "poison_to_clean_document_ratio": 0.000101926409,
+      "max_relative_document_ratio": 0.01,
+      "total_poison_words": 40,
+      "total_comparison_tokens": 46,
+      "max_poison_words": 40,
+      "paper_native_count_ready": false,
+      "shared_runner_label": "PoisonedRAG_inspired_adaptation",
+      "attack_effect_measured": false,
+      "hashes": {
+        "poison_documents.jsonl": "2598c84f07a70bd9719d59d09c80cf20d4a253271a299f866bda126e018c513d",
+        "poisoned_corpus.jsonl": "e140cbb114b220ca5c1ba358dd866a1b5977bf02b7c3af9b2fa81ef0c9168a36",
+        "query_materialization_audit.jsonl": "19b9af5788f996222f4790994f6b064b9d400bbf582188881c1fec8fa836ae52",
+        "attack_texts_targeted_evidence.txt": "4d28621952279258589ea3ed4a36776d3ccca6d6823e33041a199662a92cdd05"
+      }
+    },
+    {
+      "schema_version": 1,
+      "dataset": "musique",
+      "attack_id": "A3_gragpoison",
+      "status": "MATERIALIZED_WITHIN_BUDGET",
+      "query_count": 1,
+      "clean_documents": 11656,
+      "poison_document_occurrences": 8,
+      "unique_poison_texts": 6,
+      "poison_documents_by_family": {
+        "direct": 3,
+        "enhanced": 3,
+        "indirect": 2
+      },
+      "physical_attack_text_files": 3,
+      "physical_attack_text_file_names": [
+        "attack_texts_direct.txt",
+        "attack_texts_enhanced.txt",
+        "attack_texts_indirect.txt"
+      ],
+      "poison_to_clean_document_ratio": 0.000686341798,
+      "max_relative_document_ratio": 0.01,
+      "total_poison_words": 180,
+      "total_comparison_tokens": 206,
+      "max_poison_words": 37,
+      "paper_native_count_ready": false,
+      "shared_runner_label": "GRAGPoison_inspired_adaptation",
+      "attack_effect_measured": false,
+      "hashes": {
+        "poison_documents.jsonl": "79c7c677c99b74e30eceecd813b1e0a51e15e76486ece2d8deb5b4cd66c8da9b",
+        "poisoned_corpus.jsonl": "74acfab98026a7736c52f1ee9cb98550e5ecbf08da860b9bca59887306ea2cc5",
+        "query_materialization_audit.jsonl": "5f664fb3486fe170fb057ad801de45678738e13124a817a61db6ed6f3d48596b",
+        "attack_texts_direct.txt": "d54f9e579ae8673c5eb4c74022d962985429b236bf7d8f04750ffcbb9256a2a2",
+        "attack_texts_enhanced.txt": "9ff1e5b39a1cafb8a5768c6fb1d3cbe9d20193fc3b4b8c9b8ecc7120ab1f6039",
+        "attack_texts_indirect.txt": "42706ba2eee1d71789c18ccf600950bc5e902d9164e785e6a022e6931ed5a7ab"
+      }
+    }
+  ],
+  "provider_calls_made": 0,
+  "actual_cost_cny": 0.0,
+  "artifact_hashes": {
+    "hotpotqa/A1_poisonedrag/attack_texts_targeted_evidence.txt": "4d28621952279258589ea3ed4a36776d3ccca6d6823e33041a199662a92cdd05",
+    "hotpotqa/A1_poisonedrag/manifest.json": "9490f8090c2e1f6249f5e1aeb25d7b882da3adf152abe72a6eff35aa524b98fe",
+    "hotpotqa/A1_poisonedrag/poison_documents.jsonl": "2598c84f07a70bd9719d59d09c80cf20d4a253271a299f866bda126e018c513d",
+    "hotpotqa/A1_poisonedrag/poisoned_corpus.jsonl": "e140cbb114b220ca5c1ba358dd866a1b5977bf02b7c3af9b2fa81ef0c9168a36",
+    "hotpotqa/A1_poisonedrag/query_materialization_audit.jsonl": "19b9af5788f996222f4790994f6b064b9d400bbf582188881c1fec8fa836ae52",
+    "musique/A3_gragpoison/attack_texts_direct.txt": "d54f9e579ae8673c5eb4c74022d962985429b236bf7d8f04750ffcbb9256a2a2",
+    "musique/A3_gragpoison/attack_texts_enhanced.txt": "9ff1e5b39a1cafb8a5768c6fb1d3cbe9d20193fc3b4b8c9b8ecc7120ab1f6039",
+    "musique/A3_gragpoison/attack_texts_indirect.txt": "42706ba2eee1d71789c18ccf600950bc5e902d9164e785e6a022e6931ed5a7ab",
+    "musique/A3_gragpoison/manifest.json": "bc6daec4562e05e2a9c83c16af1ded296f5947b4603403cd1a1e05e01c95b836",
+    "musique/A3_gragpoison/poison_documents.jsonl": "79c7c677c99b74e30eceecd813b1e0a51e15e76486ece2d8deb5b4cd66c8da9b",
+    "musique/A3_gragpoison/poisoned_corpus.jsonl": "74acfab98026a7736c52f1ee9cb98550e5ecbf08da860b9bca59887306ea2cc5",
+    "musique/A3_gragpoison/query_materialization_audit.jsonl": "5f664fb3486fe170fb057ad801de45678738e13124a817a61db6ed6f3d48596b",
+    "run_identity.json": "424f2fbd3247140086691a82962271556539fde90ddc229399b3f70356a90ceb"
+  }
+}

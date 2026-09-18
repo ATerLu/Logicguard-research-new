@@ -1,0 +1,30 @@
+{
+  "0": {
+    "relation_pairs": [
+      [
+        "Boso the Elder",
+        "Teutberga"
+      ],
+      [
+        "Hucbert",
+        "St. Maurice's Abbey"
+      ],
+      [
+        "Hucbert",
+        "Teutberga"
+      ],
+      [
+        "Lothair II",
+        "Teutberga"
+      ],
+      [
+        "Lotharingia",
+        "Teutberga"
+      ]
+    ],
+    "count": 5,
+    "create_time": 1788480872,
+    "update_time": 1788480872,
+    "_id": "0"
+  }
+}

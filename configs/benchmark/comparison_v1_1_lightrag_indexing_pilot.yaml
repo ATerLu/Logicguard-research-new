@@ -1,0 +1,28 @@
+schema_version: 1
+benchmark_version: comparison-v1.1
+backend: lightrag
+backend_version: 1.5.7
+corpus_path: data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl
+document_index: 0
+working_dir: artifacts/benchmark/e1_preparation/indexing_pilots/lightrag_one_document
+completion_model: qwen3.7-plus
+embedding_model: text-embedding-v4
+embedding_dimension: 1024
+embedding_max_tokens_per_text: 8192
+entity_extract_max_records: 50
+entity_extract_max_entities: 20
+summary_max_tokens: 1200
+summary_length_recommended: 400
+api_key_env: DASHSCOPE_API_KEY
+base_url_env: DASHSCOPE_BASE_URL
+default_base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+llm_call_cap: 8
+llm_input_tokens_per_call_cap: 6000
+llm_output_tokens_per_call_cap: 1600
+embedding_input_tokens_total_cap: 16000
+pricing:
+  chat_input_per_million_cny: 2.0
+  chat_output_per_million_cny: 8.0
+  embedding_input_per_million_cny: 0.5
+  hard_cost_cap_cny: 0.21
+output_summary: artifacts/benchmark/e1_preparation/indexing_pilots/lightrag_one_document_summary.json

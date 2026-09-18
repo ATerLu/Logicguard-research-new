@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "backend": "microsoft_graphrag",
+  "backend_version": "3.1.0",
+  "status": "PASSED",
+  "returncode": 0,
+  "usage": {
+    "chat_calls": 4,
+    "embedding_calls": 4,
+    "prompt_tokens": 6805,
+    "completion_tokens": 2088,
+    "reasoning_tokens": 0,
+    "embedding_tokens": 1377
+  },
+  "generation_controls": {
+    "enable_thinking": false,
+    "output_limit_parameter": "max_completion_tokens",
+    "provider_retries": 0,
+    "max_gleanings": 0,
+    "local_capped_proxy": true
+  },
+  "planned_catalog_cost_cap_cny": 0.256,
+  "hard_cost_cap_cny": 0.26,
+  "actual_catalog_cost_cny": 0.031002,
+  "elapsed_seconds": 57.433,
+  "required_outputs_present": {
+    "documents.parquet": true,
+    "entities.parquet": true,
+    "relationships.parquet": true,
+    "community_reports.parquet": true
+  },
+  "process_error": null,
+  "stdout_tail": "Starting pipeline with workflows: load_input_documents, create_base_text_units, create_final_documents, extract_graph, finalize_graph, create_communities, create_final_text_units, create_community_reports, generate_text_embeddings\nStarting workflow: load_input_documents\n\nWorkflow complete: load_input_documents\nStarting workflow: create_base_text_units\n  1 / 1 ............................................................................................\n\nWorkflow complete: create_base_text_units\nStarting workflow: create_final_documents\n\nWorkflow complete: create_final_documents\nStarting workflow: extract_graph\n  1 / 1 ............................................................................................\n  1 / 1 ............................................................................................\n  1 / 19 \n  2 / 19 ..\n  3 / 19 .......\n  4 / 19 ............\n  5 / 19 .................\n  6 / 19 .......................\n  7 / 19 ............................\n  8 / 19 .................................\n  9 / 19 ......................................\n  10 / 19 ...........................................\n  11 / 19 ................................................\n  12 / 19 .....................................................\n  13 / 19 ..........................................................\n  14 / 19 ................................................................\n  15 / 19 .....................................................................\n  16 / 19 ..........................................................................\n  17 / 19 ...............................................................................\n  18 / 19 .....................................................................................\n  19 / 19 ..........................................................................................\n\nWorkflow complete: extract_graph\nStarting workflow: finalize_graph\n\nWorkflow complete: finalize_graph\nStarting workflow: create_communities\n\nWorkflow complete: create_communities\nStarting workflow: create_final_text_units\n\nWorkflow complete: create_final_text_units\nStarting workflow: create_community_reports\n  1 / 1 ............................................................................................\n  1 / 2 ..........................................\n  2 / 2 ............................................................................................\n\nWorkflow complete: create_community_reports\nStarting workflow: generate_text_embeddings\n  1 / 1 ............................................................................................\n  1 / 1 ............................................................................................\n  1 / 1 ............................................................................................\n\nWorkflow complete: generate_text_embeddings\nPipeline complete\n",
+  "stderr_tail": "\u001b[92m08:19:55 - LiteLLM:WARNING\u001b[0m: common_utils.py:979 - litellm: could not pre-load bedrock-runtime response stream shape �� Bedrock event-stream decoding will be unavailable. Error: No module named 'botocore'\n\u001b[92m08:19:55 - LiteLLM:WARNING\u001b[0m: common_utils.py:24 - litellm: could not pre-load sagemaker-runtime response stream shape �� SageMaker event-stream decoding will be unavailable. Error: No module named 'botocore'\n[2026-09-04T00:20:45Z WARN  lance::dataset::write::insert] No existing dataset at F:\\LogicGuard_project\\logicguard\\artifacts\\benchmark\\e1_preparation\\indexing_pilots\\ms_graphrag_one_document\\output\\lancedb/entity_description.lance, it will be created\n[2026-09-04T00:20:46Z WARN  lance::dataset::write::insert] No existing dataset at F:\\LogicGuard_project\\logicguard\\artifacts\\benchmark\\e1_preparation\\indexing_pilots\\ms_graphrag_one_document\\output\\lancedb/community_full_content.lance, it will be created\n[2026-09-04T00:20:47Z WARN  lance::dataset::write::insert] No existing dataset at F:\\LogicGuard_project\\logicguard\\artifacts\\benchmark\\e1_preparation\\indexing_pilots\\ms_graphrag_one_document\\output\\lancedb/text_unit_text.lance, it will be created\n"
+}

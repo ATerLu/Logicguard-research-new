@@ -1,0 +1,29 @@
+{
+  "query_id": "fixture-q1",
+  "question": "Which document contains Alpha?",
+  "query_data": {
+    "status": "success",
+    "data": {
+      "chunks": [
+        {
+          "content": "Title: Alpha\n\nAlpha is a fixture document.",
+          "file_path": "doc-alpha.txt",
+          "chunk_id": "doc-alpha-chunk-000",
+          "reference_id": "ref-1"
+        },
+        {
+          "content": "Title: Beta\n\nBeta is a second fixture document.",
+          "file_path": "doc-beta.txt",
+          "chunk_id": "doc-beta-chunk-000",
+          "reference_id": "ref-2"
+        }
+      ],
+      "entities": [],
+      "relationships": [],
+      "references": []
+    },
+    "metadata": {
+      "fixture_only": true
+    }
+  }
+}

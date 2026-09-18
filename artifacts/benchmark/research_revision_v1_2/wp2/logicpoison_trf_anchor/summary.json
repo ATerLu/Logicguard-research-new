@@ -1,0 +1,47 @@
+{
+  "benchmark_version": "comparison-v1.2",
+  "attack_id": "A2_logicpoison",
+  "dataset": "hotpotqa",
+  "run_mode": "fixture",
+  "status": "CORPUS_MATERIALIZED",
+  "completed_stages": [
+    "global",
+    "query",
+    "logic",
+    "corpus_materialization"
+  ],
+  "planned_queries": 2,
+  "recorded_requests": 2,
+  "provider_calls_made": 0,
+  "fixture_calls_made": 2,
+  "known_catalog_cost_cny": 0,
+  "unknown_usage_requests": 0,
+  "reserved_or_charged_cny": 0.0012,
+  "fixture_simulated_catalog_cost_cny": 0.0012,
+  "materialized_corpus": "corpus.jsonl",
+  "corpus_materialization_valid": true,
+  "generation_valid": false,
+  "ner_backend": "en_core_web_trf",
+  "evaluation_valid": null,
+  "attack_effect_measured": false,
+  "paper_faithful_certified": false,
+  "identity": "9d8801ee11f0639007887139f98fdd689ff73486d60f5f8e8fb385aeeb361ec4",
+  "output_sha256": {
+    "manifest.json": "6c8f89c448f2783b22aaf16b490299212af09548a7ecaf746432af4b466b933a",
+    "global_stats.json": "b649de44f03fc28f717328357df94a72813d96f1991d558ce9cf83e6ed67fbdc",
+    "query_entities.jsonl": "1c470f02d9a821c1d29ea590b9f466c6856319608b0bd788215fb050f672751d",
+    "replacement_plan.json": "51e8cb4a14e13c21acf3518f186abeb12c1b8cf64bf8aef82ed5e441f97ed6e6",
+    "changed_documents.jsonl": "c062339e697ba337ca2dc300dba3fbe644b41ed39ab8dcd521acc65ca0b711cd",
+    "corpus.jsonl": "949f8864dc7533a1f3c9249d00f9d83e3a6072566984d7d162966e2d6261ad3e"
+  },
+  "poison_metrics": {
+    "documents": 4,
+    "changed_documents": 3,
+    "changed_document_fraction": 0.75,
+    "replacement_occurrences": 7,
+    "clean_text_utf8_bytes": 195,
+    "poisoned_text_utf8_bytes": 192
+  },
+  "error_type": null,
+  "cost_limit_scope": "request admission under configured token/price bounds; provider deviations stop execution"
+}

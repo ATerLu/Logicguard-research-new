@@ -1,0 +1,973 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d13" for="edge" attr.name="truncate" attr.type="string" />
+  <key id="d12" for="edge" attr.name="created_at" attr.type="long" />
+  <key id="d11" for="edge" attr.name="file_path" attr.type="string" />
+  <key id="d10" for="edge" attr.name="source_id" attr.type="string" />
+  <key id="d9" for="edge" attr.name="keywords" attr.type="string" />
+  <key id="d8" for="edge" attr.name="description" attr.type="string" />
+  <key id="d7" for="edge" attr.name="weight" attr.type="double" />
+  <key id="d6" for="node" attr.name="truncate" attr.type="string" />
+  <key id="d5" for="node" attr.name="created_at" attr.type="long" />
+  <key id="d4" for="node" attr.name="file_path" attr.type="string" />
+  <key id="d3" for="node" attr.name="source_id" attr.type="string" />
+  <key id="d2" for="node" attr.name="description" attr.type="string" />
+  <key id="d1" for="node" attr.name="entity_type" attr.type="string" />
+  <key id="d0" for="node" attr.name="entity_id" attr.type="string" />
+  <graph edgedefault="undirected">
+    <node id="Theodred II">
+      <data key="d0">Theodred II</data>
+      <data key="d1">person</data>
+      <data key="d2">A medieval Bishop of Elmham whose consecration date is unknown and who died between 995 and 997.</data>
+      <data key="d3">1-chunk-000</data>
+      <data key="d4">1.txt</data>
+      <data key="d5">1788481512</data>
+      <data key="d6" />
+    </node>
+    <node id="Bishop of Elmham">
+      <data key="d0">Bishop of Elmham</data>
+      <data key="d1">concept</data>
+      <data key="d2">A medieval ecclesiastical title and position held by Theodred II.</data>
+      <data key="d3">1-chunk-000</data>
+      <data key="d4">1.txt</data>
+      <data key="d5">1788481512</data>
+      <data key="d6" />
+    </node>
+    <node id="Elmham">
+      <data key="d0">Elmham</data>
+      <data key="d1">location</data>
+      <data key="d2">A geographic location associated with the bishopric held by Theodred II.</data>
+      <data key="d3">1-chunk-000</data>
+      <data key="d4">1.txt</data>
+      <data key="d5">1788481512</data>
+      <data key="d6" />
+    </node>
+    <node id="The Wonderful World of Captain Kuhio">
+      <data key="d0">The Wonderful World of Captain Kuhio</data>
+      <data key="d1">content</data>
+      <data key="d2">A film released in Japan on 10 October 2009.</data>
+      <data key="d3">10-chunk-000</data>
+      <data key="d4">10.txt</data>
+      <data key="d5">1788481517</data>
+      <data key="d6" />
+    </node>
+    <node id="Japan">
+      <data key="d0">Japan</data>
+      <data key="d1">location</data>
+      <data key="d2">The country where the film was released.</data>
+      <data key="d3">10-chunk-000</data>
+      <data key="d4">10.txt</data>
+      <data key="d5">1788481517</data>
+      <data key="d6" />
+    </node>
+    <node id="10 October 2009">
+      <data key="d0">10 October 2009</data>
+      <data key="d1">event</data>
+      <data key="d2">The specific date of the film's release in Japan.</data>
+      <data key="d3">10-chunk-000</data>
+      <data key="d4">10.txt</data>
+      <data key="d5">1788481517</data>
+      <data key="d6" />
+    </node>
+    <node id="Lambert">
+      <data key="d0">Lambert</data>
+      <data key="d1">person</data>
+      <data key="d2">Margrave of Tuscany, count and duke of Lucca, second son of Adalbert II of Tuscany and Bertha, died after 938.</data>
+      <data key="d3">2-chunk-000</data>
+      <data key="d4">2.txt</data>
+      <data key="d5">1788481532</data>
+      <data key="d6" />
+    </node>
+    <node id="Adalbert II of Tuscany">
+      <data key="d0">Adalbert II of Tuscany</data>
+      <data key="d1">person</data>
+      <data key="d2">Father of Lambert and Guy.&lt;SEP&gt;Husband of Bertha and Margrave of Tuscany by marriage.</data>
+      <data key="d3">2-chunk-000&lt;SEP&gt;6-chunk-000</data>
+      <data key="d4">2.txt&lt;SEP&gt;6.txt</data>
+      <data key="d5">1788481584</data>
+      <data key="d6" />
+    </node>
+    <node id="Bertha">
+      <data key="d0">Bertha</data>
+      <data key="d1">person</data>
+      <data key="d2">Mother of Lambert and Guy, daughter of Lothair II of Lotharingia.&lt;SEP&gt;Countess of Arles and Margravine of Tuscany, daughter of Lothair II, who served as regent of Lucca and Tuscany from 915 to 916.&lt;SEP&gt;Illegitimate daughter of Lothair II, known for her beauty and spirit, and wife of Theobald of Arles.</data>
+      <data key="d3">2-chunk-000&lt;SEP&gt;6-chunk-000&lt;SEP&gt;9-chunk-000</data>
+      <data key="d4">2.txt&lt;SEP&gt;6.txt&lt;SEP&gt;9.txt</data>
+      <data key="d5">1788481611</data>
+      <data key="d6" />
+    </node>
+    <node id="Lothair II of Lotharingia">
+      <data key="d0">Lothair II of Lotharingia</data>
+      <data key="d1">person</data>
+      <data key="d2">Father of Bertha.</data>
+      <data key="d3">2-chunk-000</data>
+      <data key="d4">2.txt</data>
+      <data key="d5">1788481533</data>
+      <data key="d6" />
+    </node>
+    <node id="Guy">
+      <data key="d0">Guy</data>
+      <data key="d1">person</data>
+      <data key="d2">Elder brother of Lambert, former count and duke of Lucca and margrave of Tuscany, died in 928 or 929 without heirs.</data>
+      <data key="d3">2-chunk-000</data>
+      <data key="d4">2.txt</data>
+      <data key="d5">1788481533</data>
+      <data key="d6" />
+    </node>
+    <node id="Hugh">
+      <data key="d0">Hugh</data>
+      <data key="d1">person</data>
+      <data key="d2">King of Italy, half-brother of Guy and Lambert, disowned Lambert in 931.</data>
+      <data key="d3">2-chunk-000</data>
+      <data key="d4">2.txt</data>
+      <data key="d5">1788481533</data>
+      <data key="d6" />
+    </node>
+    <node id="Boso">
+      <data key="d0">Boso</data>
+      <data key="d1">person</data>
+      <data key="d2">Brother of Lambert and Guy, received Tuscany and Lucca from Hugh.</data>
+      <data key="d3">2-chunk-000</data>
+      <data key="d4">2.txt</data>
+      <data key="d5">1788481533</data>
+      <data key="d6" />
+    </node>
+    <node id="Marozia">
+      <data key="d0">Marozia</data>
+      <data key="d1">person</data>
+      <data key="d2">Widow of Guy, married by Hugh after Guy's death.</data>
+      <data key="d3">2-chunk-000</data>
+      <data key="d4">2.txt</data>
+      <data key="d5">1788481533</data>
+      <data key="d6" />
+    </node>
+    <node id="Tuscany">
+      <data key="d0">Tuscany</data>
+      <data key="d1">location</data>
+      <data key="d2">Region governed by Lambert as margrave, later given to Boso by Hugh.&lt;SEP&gt;Region where Bertha served as margravine and regent.</data>
+      <data key="d3">2-chunk-000&lt;SEP&gt;6-chunk-000</data>
+      <data key="d4">2.txt&lt;SEP&gt;6.txt</data>
+      <data key="d5">1788481584</data>
+      <data key="d6" />
+    </node>
+    <node id="Lucca">
+      <data key="d0">Lucca</data>
+      <data key="d1">location</data>
+      <data key="d2">City and familial possession held by Lambert as count and duke, later given to Boso.&lt;SEP&gt;City where Bertha died and where she served as regent.</data>
+      <data key="d3">2-chunk-000&lt;SEP&gt;6-chunk-000</data>
+      <data key="d4">2.txt&lt;SEP&gt;6.txt</data>
+      <data key="d5">1788481584</data>
+      <data key="d6" />
+    </node>
+    <node id="Italy">
+      <data key="d0">Italy</data>
+      <data key="d1">location</data>
+      <data key="d2">Kingdom ruled by Hugh.</data>
+      <data key="d3">2-chunk-000</data>
+      <data key="d4">2.txt</data>
+      <data key="d5">1788481533</data>
+      <data key="d6" />
+    </node>
+    <node id="Etan Boritzer">
+      <data key="d0">Etan Boritzer</data>
+      <data key="d1">person</data>
+      <data key="d2">An American writer of children's literature, yoga teacher, and speaker known for the "What is?" book series.</data>
+      <data key="d3">3-chunk-000</data>
+      <data key="d4">3.txt</data>
+      <data key="d5">1788481551</data>
+      <data key="d6" />
+    </node>
+    <node id="What is God?">
+      <data key="d0">What is God?</data>
+      <data key="d1">content</data>
+      <data key="d2">A book by Etan Boritzer first published in 1989, known for its universalist views and controversy among religious fundamentalists.</data>
+      <data key="d3">3-chunk-000</data>
+      <data key="d4">3.txt</data>
+      <data key="d5">1788481551</data>
+      <data key="d6" />
+    </node>
+    <node id="What is? Series">
+      <data key="d0">What is? Series</data>
+      <data key="d1">content</data>
+      <data key="d2">A best-selling illustrated children's book series on character education and difficult subjects, translated into 15 languages.</data>
+      <data key="d3">3-chunk-000</data>
+      <data key="d4">3.txt</data>
+      <data key="d5">1788481551</data>
+      <data key="d6" />
+    </node>
+    <node id="Wade Junior High School">
+      <data key="d0">Wade Junior High School</data>
+      <data key="d1">organization</data>
+      <data key="d2">A school in the Bronx, New York, where Etan Boritzer wrote an essay at age 13.</data>
+      <data key="d3">3-chunk-000</data>
+      <data key="d4">3.txt</data>
+      <data key="d5">1788481551</data>
+      <data key="d6" />
+    </node>
+    <node id="The Bronx">
+      <data key="d0">The Bronx</data>
+      <data key="d1">location</data>
+      <data key="d2">A borough in New York City where Wade Junior High School is located.</data>
+      <data key="d3">3-chunk-000</data>
+      <data key="d4">3.txt</data>
+      <data key="d5">1788481551</data>
+      <data key="d6" />
+    </node>
+    <node id="New York">
+      <data key="d0">New York</data>
+      <data key="d1">location</data>
+      <data key="d2">A state in the United States, associated with the location of Wade Junior High School.</data>
+      <data key="d3">3-chunk-000</data>
+      <data key="d4">3.txt</data>
+      <data key="d5">1788481551</data>
+      <data key="d6" />
+    </node>
+    <node id="John F. Kennedy">
+      <data key="d0">John F. Kennedy</data>
+      <data key="d1">person</data>
+      <data key="d2">The former US President whose assassination was the subject of Etan Boritzer's early essay.</data>
+      <data key="d3">3-chunk-000</data>
+      <data key="d4">3.txt</data>
+      <data key="d5">1788481551</data>
+      <data key="d6" />
+    </node>
+    <node id="New York City Department of Education">
+      <data key="d0">New York City Department of Education</data>
+      <data key="d1">organization</data>
+      <data key="d2">The entity that compiled and published an anthology including Etan Boritzer's essay.</data>
+      <data key="d3">3-chunk-000</data>
+      <data key="d4">3.txt</data>
+      <data key="d5">1788481551</data>
+      <data key="d6" />
+    </node>
+    <node id="Venice">
+      <data key="d0">Venice</data>
+      <data key="d1">location</data>
+      <data key="d2">A neighborhood in California where Etan Boritzer currently lives and maintains his publishing office.</data>
+      <data key="d3">3-chunk-000</data>
+      <data key="d4">3.txt</data>
+      <data key="d5">1788481551</data>
+      <data key="d6" />
+    </node>
+    <node id="California">
+      <data key="d0">California</data>
+      <data key="d1">location</data>
+      <data key="d2">A state in the United States where Venice is located.</data>
+      <data key="d3">3-chunk-000</data>
+      <data key="d4">3.txt</data>
+      <data key="d5">1788481551</data>
+      <data key="d6" />
+    </node>
+    <node id="How to Get Your Book Published!">
+      <data key="d0">How to Get Your Book Published!</data>
+      <data key="d1">content</data>
+      <data key="d2">Programs by Etan Boritzer designed to help other authors get published.</data>
+      <data key="d3">3-chunk-000</data>
+      <data key="d4">3.txt</data>
+      <data key="d5">1788481551</data>
+      <data key="d6" />
+    </node>
+    <node id="The Teachings of the Buddha">
+      <data key="d0">The Teachings of the Buddha</data>
+      <data key="d1">concept</data>
+      <data key="d2">A subject on which Etan Boritzer is recognized as an erudite speaker.</data>
+      <data key="d3">3-chunk-000</data>
+      <data key="d4">3.txt</data>
+      <data key="d5">1788481551</data>
+      <data key="d6" />
+    </node>
+    <node id="Lothair II">
+      <data key="d0">Lothair II</data>
+      <data key="d1">person</data>
+      <data key="d2">King of Lotharingia from 855 until his death, second son of Emperor Lothair I and Ermengarde of Tours.&lt;SEP&gt;King of Lotharingia and father of Bertha.</data>
+      <data key="d3">4-chunk-000&lt;SEP&gt;6-chunk-000&lt;SEP&gt;9-chunk-000</data>
+      <data key="d4">4.txt&lt;SEP&gt;6.txt&lt;SEP&gt;9.txt</data>
+      <data key="d5">1788481611</data>
+      <data key="d6" />
+    </node>
+    <node id="Lotharingia">
+      <data key="d0">Lotharingia</data>
+      <data key="d1">location</data>
+      <data key="d2">A kingdom ruled by Lothair II from 855 until his death.&lt;SEP&gt;Kingdom ruled by Lothair II.&lt;SEP&gt;A historical region associated with the titles of Count Palatine held by Hermann I and referenced in Adolf I's name.&lt;SEP&gt;A kingdom ruled by Lothair II.</data>
+      <data key="d3">4-chunk-000&lt;SEP&gt;6-chunk-000&lt;SEP&gt;7-chunk-000&lt;SEP&gt;9-chunk-000</data>
+      <data key="d4">4.txt&lt;SEP&gt;6.txt&lt;SEP&gt;7.txt&lt;SEP&gt;9.txt</data>
+      <data key="d5">1788481611</data>
+      <data key="d6" />
+    </node>
+    <node id="Lothair I">
+      <data key="d0">Lothair I</data>
+      <data key="d1">person</data>
+      <data key="d2">Emperor and father of Lothair II.&lt;SEP&gt;Carolingian Emperor of the Franks (795–855) who married Ermengarde of Tours.</data>
+      <data key="d3">4-chunk-000&lt;SEP&gt;5-chunk-000</data>
+      <data key="d4">4.txt&lt;SEP&gt;5.txt</data>
+      <data key="d5">1788481570</data>
+      <data key="d6" />
+    </node>
+    <node id="Ermengarde of Tours">
+      <data key="d0">Ermengarde of Tours</data>
+      <data key="d1">person</data>
+      <data key="d2">Mother of Lothair II and wife of Emperor Lothair I.&lt;SEP&gt;Daughter of Hugh of Tours and wife of Lothair I, who died on 20 March 851 and was buried in Erstein Abbey.</data>
+      <data key="d3">4-chunk-000&lt;SEP&gt;5-chunk-000</data>
+      <data key="d4">4.txt&lt;SEP&gt;5.txt</data>
+      <data key="d5">1788481570</data>
+      <data key="d6" />
+    </node>
+    <node id="Teutberga">
+      <data key="d0">Teutberga</data>
+      <data key="d1">person</data>
+      <data key="d2">Wife of Lothair II and daughter of Boso the Elder, died in 875.</data>
+      <data key="d3">4-chunk-000</data>
+      <data key="d4">4.txt</data>
+      <data key="d5">1788481561</data>
+      <data key="d6" />
+    </node>
+    <node id="Boso the Elder">
+      <data key="d0">Boso the Elder</data>
+      <data key="d1">person</data>
+      <data key="d2">Father of Teutberga.</data>
+      <data key="d3">4-chunk-000</data>
+      <data key="d4">4.txt</data>
+      <data key="d5">1788481561</data>
+      <data key="d6" />
+    </node>
+    <node id="Hugh of Tours">
+      <data key="d0">Hugh of Tours</data>
+      <data key="d1">person</data>
+      <data key="d2">Father of Ermengarde of Tours and a member of the Etichonen family.</data>
+      <data key="d3">5-chunk-000</data>
+      <data key="d4">5.txt</data>
+      <data key="d5">1788481570</data>
+      <data key="d6" />
+    </node>
+    <node id="Etichonen">
+      <data key="d0">Etichonen</data>
+      <data key="d1">organization</data>
+      <data key="d2">A noble family to which Hugh of Tours belonged.</data>
+      <data key="d3">5-chunk-000</data>
+      <data key="d4">5.txt</data>
+      <data key="d5">1788481570</data>
+      <data key="d6" />
+    </node>
+    <node id="Thionville">
+      <data key="d0">Thionville</data>
+      <data key="d1">location</data>
+      <data key="d2">The location where Ermengarde of Tours married Lothair I in October 821.</data>
+      <data key="d3">5-chunk-000</data>
+      <data key="d4">5.txt</data>
+      <data key="d5">1788481570</data>
+      <data key="d6" />
+    </node>
+    <node id="Erstein Abbey">
+      <data key="d0">Erstein Abbey</data>
+      <data key="d1">organization</data>
+      <data key="d2">An abbey in Elsass that received a donation from Ermengarde of Tours in 849 and where she is buried.</data>
+      <data key="d3">5-chunk-000</data>
+      <data key="d4">5.txt</data>
+      <data key="d5">1788481570</data>
+      <data key="d6" />
+    </node>
+    <node id="Elsass">
+      <data key="d0">Elsass</data>
+      <data key="d1">location</data>
+      <data key="d2">The region where Erstein Abbey is located.</data>
+      <data key="d3">5-chunk-000</data>
+      <data key="d4">5.txt</data>
+      <data key="d5">1788481570</data>
+      <data key="d6" />
+    </node>
+    <node id="Theobald of Arles">
+      <data key="d0">Theobald of Arles</data>
+      <data key="d1">person</data>
+      <data key="d2">Husband of Bertha and Count of Arles by marriage.&lt;SEP&gt;Count of Arles from the Bosonid family, son of Hucbert, and husband of Bertha.</data>
+      <data key="d3">6-chunk-000&lt;SEP&gt;9-chunk-000</data>
+      <data key="d4">6.txt&lt;SEP&gt;9.txt</data>
+      <data key="d5">1788481611</data>
+      <data key="d6" />
+    </node>
+    <node id="Guy of Tuscany">
+      <data key="d0">Guy of Tuscany</data>
+      <data key="d1">person</data>
+      <data key="d2">Son of Bertha, whose minority prompted her regency in Lucca and Tuscany.</data>
+      <data key="d3">6-chunk-000</data>
+      <data key="d4">6.txt</data>
+      <data key="d5">1788481584</data>
+      <data key="d6" />
+    </node>
+    <node id="Waldrada">
+      <data key="d0">Waldrada</data>
+      <data key="d1">person</data>
+      <data key="d2">Concubine of Lothair II and mother of Bertha.</data>
+      <data key="d3">6-chunk-000</data>
+      <data key="d4">6.txt</data>
+      <data key="d5">1788481584</data>
+      <data key="d6" />
+    </node>
+    <node id="Arles">
+      <data key="d0">Arles</data>
+      <data key="d1">location</data>
+      <data key="d2">Region associated with Theobald and Bertha's title as countess.</data>
+      <data key="d3">6-chunk-000</data>
+      <data key="d4">6.txt</data>
+      <data key="d5">1788481584</data>
+      <data key="d6" />
+    </node>
+    <node id="Adolf I of Lotharingia">
+      <data key="d0">Adolf I of Lotharingia</data>
+      <data key="d1">person</data>
+      <data key="d2">Count of Keldachgau and Vogt of Deutz from 1008 until 1018, and son of Hermann I Pusillus.</data>
+      <data key="d3">7-chunk-000</data>
+      <data key="d4">7.txt</data>
+      <data key="d5">1788481594</data>
+      <data key="d6" />
+    </node>
+    <node id="Keldachgau">
+      <data key="d0">Keldachgau</data>
+      <data key="d1">location</data>
+      <data key="d2">A region or county associated with the title held by Adolf I.</data>
+      <data key="d3">7-chunk-000</data>
+      <data key="d4">7.txt</data>
+      <data key="d5">1788481594</data>
+      <data key="d6" />
+    </node>
+    <node id="Deutz">
+      <data key="d0">Deutz</data>
+      <data key="d1">location</data>
+      <data key="d2">A place where Adolf I served as Vogt from 1008 until 1018.</data>
+      <data key="d3">7-chunk-000</data>
+      <data key="d4">7.txt</data>
+      <data key="d5">1788481594</data>
+      <data key="d6" />
+    </node>
+    <node id="Hermann I Pusillus">
+      <data key="d0">Hermann I Pusillus</data>
+      <data key="d1">person</data>
+      <data key="d2">Also known as the Little Pfalzgraf, count palatine of Lotharingia, and father of Adolf I.</data>
+      <data key="d3">7-chunk-000</data>
+      <data key="d4">7.txt</data>
+      <data key="d5">1788481594</data>
+      <data key="d6" />
+    </node>
+    <node id="Waldrada Of Lotharingia">
+      <data key="d0">Waldrada Of Lotharingia</data>
+      <data key="d1">person</data>
+      <data key="d2">Mistress and later wife of Lothair II of Lotharingia</data>
+      <data key="d3">8-chunk-000</data>
+      <data key="d4">8.txt</data>
+      <data key="d5">1788481599</data>
+      <data key="d6" />
+    </node>
+    <node id="Lothair II Of Lotharingia">
+      <data key="d0">Lothair II Of Lotharingia</data>
+      <data key="d1">person</data>
+      <data key="d2">Ruler of Lotharingia who had Waldrada as his mistress and later wife</data>
+      <data key="d3">8-chunk-000</data>
+      <data key="d4">8.txt</data>
+      <data key="d5">1788481599</data>
+      <data key="d6" />
+    </node>
+    <node id="Bosonid">
+      <data key="d0">Bosonid</data>
+      <data key="d1">organization</data>
+      <data key="d2">A noble family to which Theobald of Arles belonged.</data>
+      <data key="d3">9-chunk-000</data>
+      <data key="d4">9.txt</data>
+      <data key="d5">1788481611</data>
+      <data key="d6" />
+    </node>
+    <node id="Hucbert">
+      <data key="d0">Hucbert</data>
+      <data key="d1">person</data>
+      <data key="d2">Father of Theobald of Arles.</data>
+      <data key="d3">9-chunk-000</data>
+      <data key="d4">9.txt</data>
+      <data key="d5">1788481611</data>
+      <data key="d6" />
+    </node>
+    <node id="Hugh of Italy">
+      <data key="d0">Hugh of Italy</data>
+      <data key="d1">person</data>
+      <data key="d2">Son of Theobald of Arles and Bertha.</data>
+      <data key="d3">9-chunk-000</data>
+      <data key="d4">9.txt</data>
+      <data key="d5">1788481611</data>
+      <data key="d6" />
+    </node>
+    <node id="Boso of Tuscany">
+      <data key="d0">Boso of Tuscany</data>
+      <data key="d1">person</data>
+      <data key="d2">Son of Theobald of Arles and Bertha.</data>
+      <data key="d3">9-chunk-000</data>
+      <data key="d4">9.txt</data>
+      <data key="d5">1788481611</data>
+      <data key="d6" />
+    </node>
+    <edge source="Theodred II" target="Bishop of Elmham">
+      <data key="d7">1.0</data>
+      <data key="d8">Theodred II served as the Bishop of Elmham during the medieval period.</data>
+      <data key="d9">holds title,position</data>
+      <data key="d10">1-chunk-000</data>
+      <data key="d11">1.txt</data>
+      <data key="d12">1788481512</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Bishop of Elmham" target="Elmham">
+      <data key="d7">1.0</data>
+      <data key="d8">The bishopric of Elmham is associated with the location of Elmham.</data>
+      <data key="d9">associated with,located in</data>
+      <data key="d10">1-chunk-000</data>
+      <data key="d11">1.txt</data>
+      <data key="d12">1788481512</data>
+      <data key="d13" />
+    </edge>
+    <edge source="The Wonderful World of Captain Kuhio" target="Japan">
+      <data key="d7">1.0</data>
+      <data key="d8">The film was released in Japan.</data>
+      <data key="d9">released in</data>
+      <data key="d10">10-chunk-000</data>
+      <data key="d11">10.txt</data>
+      <data key="d12">1788481517</data>
+      <data key="d13" />
+    </edge>
+    <edge source="The Wonderful World of Captain Kuhio" target="10 October 2009">
+      <data key="d7">1.0</data>
+      <data key="d8">The film was released on 10 October 2009.</data>
+      <data key="d9">release date</data>
+      <data key="d10">10-chunk-000</data>
+      <data key="d11">10.txt</data>
+      <data key="d12">1788481517</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Lambert" target="Adalbert II of Tuscany">
+      <data key="d7">1.0</data>
+      <data key="d8">Lambert is the son of Adalbert II of Tuscany.</data>
+      <data key="d9">parent-child</data>
+      <data key="d10">2-chunk-000</data>
+      <data key="d11">2.txt</data>
+      <data key="d12">1788481533</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Lambert" target="Bertha">
+      <data key="d7">1.0</data>
+      <data key="d8">Lambert is the son of Bertha.</data>
+      <data key="d9">parent-child</data>
+      <data key="d10">2-chunk-000</data>
+      <data key="d11">2.txt</data>
+      <data key="d12">1788481533</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Lambert" target="Guy">
+      <data key="d7">1.0</data>
+      <data key="d8">Lambert succeeded his elder brother Guy as count, duke, and margrave.</data>
+      <data key="d9">sibling</data>
+      <data key="d10">2-chunk-000</data>
+      <data key="d11">2.txt</data>
+      <data key="d12">1788481533</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Lambert" target="Hugh">
+      <data key="d7">2.0</data>
+      <data key="d8">Hugh is the half-brother of Lambert through their shared mother Bertha.&lt;SEP&gt;Hugh disowned and removed Lambert from his titles in 931.</data>
+      <data key="d9">political removal,sibling</data>
+      <data key="d10">2-chunk-000</data>
+      <data key="d11">2.txt</data>
+      <data key="d12">1788481533</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Adalbert II of Tuscany" target="Bertha">
+      <data key="d7">1.0</data>
+      <data key="d8">Bertha was married to Adalbert II of Tuscany.</data>
+      <data key="d9">spouse</data>
+      <data key="d10">6-chunk-000</data>
+      <data key="d11">6.txt</data>
+      <data key="d12">1788481584</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Bertha" target="Lothair II of Lotharingia">
+      <data key="d7">1.0</data>
+      <data key="d8">Bertha is the daughter of Lothair II of Lotharingia.</data>
+      <data key="d9">parent-child</data>
+      <data key="d10">2-chunk-000</data>
+      <data key="d11">2.txt</data>
+      <data key="d12">1788481533</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Bertha" target="Lothair II">
+      <data key="d7">2.0</data>
+      <data key="d8">Bertha is the illegitimate daughter of Lothair II.&lt;SEP&gt;Bertha was the illegitimate daughter of Lothair II.</data>
+      <data key="d9">child of,parent-child</data>
+      <data key="d10">6-chunk-000&lt;SEP&gt;9-chunk-000</data>
+      <data key="d11">6.txt&lt;SEP&gt;9.txt</data>
+      <data key="d12">1788481611</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Bertha" target="Waldrada">
+      <data key="d7">1.0</data>
+      <data key="d8">Bertha is the daughter of Waldrada.</data>
+      <data key="d9">parent-child</data>
+      <data key="d10">6-chunk-000</data>
+      <data key="d11">6.txt</data>
+      <data key="d12">1788481584</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Bertha" target="Theobald of Arles">
+      <data key="d7">2.0</data>
+      <data key="d8">Bertha was married to Theobald of Arles.&lt;SEP&gt;Theobald of Arles was married to Bertha.</data>
+      <data key="d9">spouse,spouse of</data>
+      <data key="d10">6-chunk-000&lt;SEP&gt;9-chunk-000</data>
+      <data key="d11">6.txt&lt;SEP&gt;9.txt</data>
+      <data key="d12">1788481611</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Bertha" target="Guy of Tuscany">
+      <data key="d7">1.0</data>
+      <data key="d8">Bertha is the mother of Guy of Tuscany.</data>
+      <data key="d9">parent-child</data>
+      <data key="d10">6-chunk-000</data>
+      <data key="d11">6.txt</data>
+      <data key="d12">1788481584</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Bertha" target="Lucca">
+      <data key="d7">1.0</data>
+      <data key="d8">Bertha served as regent of Lucca from 915 to 916.</data>
+      <data key="d9">regent-of</data>
+      <data key="d10">6-chunk-000</data>
+      <data key="d11">6.txt</data>
+      <data key="d12">1788481584</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Bertha" target="Tuscany">
+      <data key="d7">1.0</data>
+      <data key="d8">Bertha served as regent of Tuscany from 915 to 916.</data>
+      <data key="d9">regent-of</data>
+      <data key="d10">6-chunk-000</data>
+      <data key="d11">6.txt</data>
+      <data key="d12">1788481584</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Bertha" target="Hugh of Italy">
+      <data key="d7">1.0</data>
+      <data key="d8">Bertha was the mother of Hugh of Italy.</data>
+      <data key="d9">parent of</data>
+      <data key="d10">9-chunk-000</data>
+      <data key="d11">9.txt</data>
+      <data key="d12">1788481611</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Bertha" target="Boso of Tuscany">
+      <data key="d7">1.0</data>
+      <data key="d8">Bertha was the mother of Boso of Tuscany.</data>
+      <data key="d9">parent of</data>
+      <data key="d10">9-chunk-000</data>
+      <data key="d11">9.txt</data>
+      <data key="d12">1788481611</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Guy" target="Hugh">
+      <data key="d7">1.0</data>
+      <data key="d8">Hugh is the half-brother of Guy through their shared mother Bertha.</data>
+      <data key="d9">sibling</data>
+      <data key="d10">2-chunk-000</data>
+      <data key="d11">2.txt</data>
+      <data key="d12">1788481533</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Guy" target="Marozia">
+      <data key="d7">1.0</data>
+      <data key="d8">Marozia was the widow of Guy.</data>
+      <data key="d9">marriage</data>
+      <data key="d10">2-chunk-000</data>
+      <data key="d11">2.txt</data>
+      <data key="d12">1788481533</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Hugh" target="Boso">
+      <data key="d7">1.0</data>
+      <data key="d8">Hugh gave Tuscany and Lucca to Boso after removing Lambert.</data>
+      <data key="d9">granting title</data>
+      <data key="d10">2-chunk-000</data>
+      <data key="d11">2.txt</data>
+      <data key="d12">1788481533</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Hugh" target="Marozia">
+      <data key="d7">1.0</data>
+      <data key="d8">Hugh married Marozia, the widow of his half-brother Guy.</data>
+      <data key="d9">marriage</data>
+      <data key="d10">2-chunk-000</data>
+      <data key="d11">2.txt</data>
+      <data key="d12">1788481533</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Etan Boritzer" target="What is God?">
+      <data key="d7">1.0</data>
+      <data key="d8">Etan Boritzer wrote the book "What is God?".</data>
+      <data key="d9">author,created</data>
+      <data key="d10">3-chunk-000</data>
+      <data key="d11">3.txt</data>
+      <data key="d12">1788481551</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Etan Boritzer" target="What is? Series">
+      <data key="d7">1.0</data>
+      <data key="d8">Etan Boritzer created the "What is?" illustrated children's book series.</data>
+      <data key="d9">author,created</data>
+      <data key="d10">3-chunk-000</data>
+      <data key="d11">3.txt</data>
+      <data key="d12">1788481551</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Etan Boritzer" target="Wade Junior High School">
+      <data key="d7">1.0</data>
+      <data key="d8">Etan Boritzer wrote an essay while attending Wade Junior High School.</data>
+      <data key="d9">attended,wrote at</data>
+      <data key="d10">3-chunk-000</data>
+      <data key="d11">3.txt</data>
+      <data key="d12">1788481551</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Etan Boritzer" target="John F. Kennedy">
+      <data key="d7">1.0</data>
+      <data key="d8">Etan Boritzer wrote an essay on the assassination of John F. Kennedy.</data>
+      <data key="d9">wrote about</data>
+      <data key="d10">3-chunk-000</data>
+      <data key="d11">3.txt</data>
+      <data key="d12">1788481551</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Etan Boritzer" target="New York City Department of Education">
+      <data key="d7">1.0</data>
+      <data key="d8">Etan Boritzer's essay was published in an anthology by the New York City Department of Education.</data>
+      <data key="d9">published by</data>
+      <data key="d10">3-chunk-000</data>
+      <data key="d11">3.txt</data>
+      <data key="d12">1788481551</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Etan Boritzer" target="Venice">
+      <data key="d7">1.0</data>
+      <data key="d8">Etan Boritzer currently lives in Venice.</data>
+      <data key="d9">lives in</data>
+      <data key="d10">3-chunk-000</data>
+      <data key="d11">3.txt</data>
+      <data key="d12">1788481551</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Etan Boritzer" target="How to Get Your Book Published!">
+      <data key="d7">1.0</data>
+      <data key="d8">Etan Boritzer offers programs called "How to Get Your Book Published!".</data>
+      <data key="d9">creator,offers</data>
+      <data key="d10">3-chunk-000</data>
+      <data key="d11">3.txt</data>
+      <data key="d12">1788481551</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Etan Boritzer" target="The Teachings of the Buddha">
+      <data key="d7">1.0</data>
+      <data key="d8">Etan Boritzer is a recognized speaker on The Teachings of the Buddha.</data>
+      <data key="d9">speaks on</data>
+      <data key="d10">3-chunk-000</data>
+      <data key="d11">3.txt</data>
+      <data key="d12">1788481551</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Wade Junior High School" target="The Bronx">
+      <data key="d7">1.0</data>
+      <data key="d8">Wade Junior High School is located in the Bronx.</data>
+      <data key="d9">located in</data>
+      <data key="d10">3-chunk-000</data>
+      <data key="d11">3.txt</data>
+      <data key="d12">1788481551</data>
+      <data key="d13" />
+    </edge>
+    <edge source="The Bronx" target="New York">
+      <data key="d7">1.0</data>
+      <data key="d8">The Bronx is located in New York.</data>
+      <data key="d9">located in</data>
+      <data key="d10">3-chunk-000</data>
+      <data key="d11">3.txt</data>
+      <data key="d12">1788481551</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Venice" target="California">
+      <data key="d7">1.0</data>
+      <data key="d8">Venice is located in California.</data>
+      <data key="d9">located in</data>
+      <data key="d10">3-chunk-000</data>
+      <data key="d11">3.txt</data>
+      <data key="d12">1788481551</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Lothair II" target="Lotharingia">
+      <data key="d7">3.0</data>
+      <data key="d8">Lothair II was the king of Lotharingia from 855 until his death.&lt;SEP&gt;Lothair II was the King of Lotharingia.</data>
+      <data key="d9">king of,ruled,ruler of,ruler-of</data>
+      <data key="d10">4-chunk-000&lt;SEP&gt;6-chunk-000&lt;SEP&gt;9-chunk-000</data>
+      <data key="d11">4.txt&lt;SEP&gt;6.txt&lt;SEP&gt;9.txt</data>
+      <data key="d12">1788481611</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Lothair II" target="Lothair I">
+      <data key="d7">1.0</data>
+      <data key="d8">Lothair II was the second son of Emperor Lothair I.</data>
+      <data key="d9">parent of,son of</data>
+      <data key="d10">4-chunk-000</data>
+      <data key="d11">4.txt</data>
+      <data key="d12">1788481561</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Lothair II" target="Ermengarde of Tours">
+      <data key="d7">1.0</data>
+      <data key="d8">Lothair II was the second son of Ermengarde of Tours.</data>
+      <data key="d9">mother of,son of</data>
+      <data key="d10">4-chunk-000</data>
+      <data key="d11">4.txt</data>
+      <data key="d12">1788481561</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Lothair II" target="Teutberga">
+      <data key="d7">1.0</data>
+      <data key="d8">Lothair II was married to Teutberga.</data>
+      <data key="d9">married to,spouse of</data>
+      <data key="d10">4-chunk-000</data>
+      <data key="d11">4.txt</data>
+      <data key="d12">1788481561</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Lotharingia" target="Hermann I Pusillus">
+      <data key="d7">1.0</data>
+      <data key="d8">Hermann I Pusillus held the title of Count Palatine of Lotharingia.</data>
+      <data key="d9">count palatine,held title</data>
+      <data key="d10">7-chunk-000</data>
+      <data key="d11">7.txt</data>
+      <data key="d12">1788481594</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Lothair I" target="Ermengarde of Tours">
+      <data key="d7">1.0</data>
+      <data key="d8">Ermengarde of Tours married Lothair I in October 821.</data>
+      <data key="d9">spouse</data>
+      <data key="d10">5-chunk-000</data>
+      <data key="d11">5.txt</data>
+      <data key="d12">1788481570</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Ermengarde of Tours" target="Hugh of Tours">
+      <data key="d7">1.0</data>
+      <data key="d8">Ermengarde of Tours is the daughter of Hugh of Tours.</data>
+      <data key="d9">parent-child</data>
+      <data key="d10">5-chunk-000</data>
+      <data key="d11">5.txt</data>
+      <data key="d12">1788481570</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Ermengarde of Tours" target="Erstein Abbey">
+      <data key="d7">1.0</data>
+      <data key="d8">Ermengarde of Tours made a donation to Erstein Abbey in 849 and is buried there.</data>
+      <data key="d9">burial place,donor</data>
+      <data key="d10">5-chunk-000</data>
+      <data key="d11">5.txt</data>
+      <data key="d12">1788481570</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Teutberga" target="Boso the Elder">
+      <data key="d7">1.0</data>
+      <data key="d8">Teutberga was the daughter of Boso the Elder.</data>
+      <data key="d9">daughter of,father of</data>
+      <data key="d10">4-chunk-000</data>
+      <data key="d11">4.txt</data>
+      <data key="d12">1788481561</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Hugh of Tours" target="Etichonen">
+      <data key="d7">1.0</data>
+      <data key="d8">Hugh of Tours is a member of the Etichonen family.</data>
+      <data key="d9">member of</data>
+      <data key="d10">5-chunk-000</data>
+      <data key="d11">5.txt</data>
+      <data key="d12">1788481570</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Erstein Abbey" target="Elsass">
+      <data key="d7">1.0</data>
+      <data key="d8">Erstein Abbey is located in the Elsass region.</data>
+      <data key="d9">located in</data>
+      <data key="d10">5-chunk-000</data>
+      <data key="d11">5.txt</data>
+      <data key="d12">1788481570</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Theobald of Arles" target="Bosonid">
+      <data key="d7">1.0</data>
+      <data key="d8">Theobald of Arles was a member of the Bosonid family.</data>
+      <data key="d9">member of</data>
+      <data key="d10">9-chunk-000</data>
+      <data key="d11">9.txt</data>
+      <data key="d12">1788481611</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Theobald of Arles" target="Hucbert">
+      <data key="d7">1.0</data>
+      <data key="d8">Theobald of Arles was the son of Hucbert.</data>
+      <data key="d9">child of</data>
+      <data key="d10">9-chunk-000</data>
+      <data key="d11">9.txt</data>
+      <data key="d12">1788481611</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Theobald of Arles" target="Hugh of Italy">
+      <data key="d7">1.0</data>
+      <data key="d8">Theobald of Arles was the father of Hugh of Italy.</data>
+      <data key="d9">parent of</data>
+      <data key="d10">9-chunk-000</data>
+      <data key="d11">9.txt</data>
+      <data key="d12">1788481611</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Theobald of Arles" target="Boso of Tuscany">
+      <data key="d7">1.0</data>
+      <data key="d8">Theobald of Arles was the father of Boso of Tuscany.</data>
+      <data key="d9">parent of</data>
+      <data key="d10">9-chunk-000</data>
+      <data key="d11">9.txt</data>
+      <data key="d12">1788481611</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Adolf I of Lotharingia" target="Keldachgau">
+      <data key="d7">1.0</data>
+      <data key="d8">Adolf I held the title of Count of Keldachgau.</data>
+      <data key="d9">held title,ruled</data>
+      <data key="d10">7-chunk-000</data>
+      <data key="d11">7.txt</data>
+      <data key="d12">1788481594</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Adolf I of Lotharingia" target="Deutz">
+      <data key="d7">1.0</data>
+      <data key="d8">Adolf I served as the Vogt of Deutz from 1008 until 1018.</data>
+      <data key="d9">held office,served as Vogt</data>
+      <data key="d10">7-chunk-000</data>
+      <data key="d11">7.txt</data>
+      <data key="d12">1788481594</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Adolf I of Lotharingia" target="Hermann I Pusillus">
+      <data key="d7">1.0</data>
+      <data key="d8">Adolf I was the son of Hermann I Pusillus.</data>
+      <data key="d9">child of,descendant</data>
+      <data key="d10">7-chunk-000</data>
+      <data key="d11">7.txt</data>
+      <data key="d12">1788481594</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Waldrada Of Lotharingia" target="Lothair II Of Lotharingia">
+      <data key="d7">1.0</data>
+      <data key="d8">Waldrada was the mistress and later the wife of Lothair II</data>
+      <data key="d9">mistress,wife</data>
+      <data key="d10">8-chunk-000</data>
+      <data key="d11">8.txt</data>
+      <data key="d12">1788481599</data>
+      <data key="d13" />
+    </edge>
+  </graph>
+</graphml>

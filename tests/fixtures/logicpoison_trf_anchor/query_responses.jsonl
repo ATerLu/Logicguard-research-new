@@ -1,0 +1,2 @@
+{"question":"Albert Einstein worked in which city?","entities":[{"hop":1,"entity":"Albert Einstein","type":"PERSON"}]}
+{"question":"Where did Isaac Newton work?","entities":[{"hop":1,"entity":"Isaac Newton","type":"PERSON"}]}

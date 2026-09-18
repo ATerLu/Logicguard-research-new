@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "backend_runtime": {
+    "schema_version": 1,
+    "checks": {
+      "microsoft_graphrag": {
+        "passed": true,
+        "returncode": 0,
+        "details": {
+          "package": "3.1.0",
+          "module": "graphrag"
+        },
+        "stderr_tail": ""
+      },
+      "lightrag": {
+        "passed": true,
+        "returncode": 0,
+        "details": {
+          "package": "1.5.7",
+          "class": "LightRAG",
+          "mode": "hybrid",
+          "only_need_context": true
+        },
+        "stderr_tail": ""
+      }
+    },
+    "passed": true,
+    "fingerprint": "6b75d64c6dd9d160aae7691028ad9d0b2eb46a0b3cd49b6e2bfc88a18ce95cfc"
+  },
+  "external_defense_source": {
+    "schema_version": 1,
+    "ragdefender": {
+      "passed": true,
+      "stdout": "0.2.0 RAGDefender",
+      "stderr_tail": "",
+      "paper_embedder_weights_loaded": false,
+      "paper_execution_deferred_to_anchor": true
+    },
+    "hog_grag": {
+      "passed": true,
+      "compiled_source_files": [
+        "vendor/upstream/HoG-GRAG/Baselines/Query_Paraphrasing.py",
+        "vendor/upstream/HoG-GRAG/Baselines/Perplexity_based.py",
+        "vendor/upstream/HoG-GRAG/Src/evaluation.py"
+      ],
+      "stderr_tail": "",
+      "provider_calls": 0,
+      "paper_execution_deferred_to_anchor": true
+    },
+    "passed": true,
+    "fingerprint": "6b991604ede92334f23a441d06adf2dec4145022eaa29b7b3e029573b97406c8"
+  },
+  "adapter_fixtures": {
+    "schema_version": 1,
+    "poisonedrag_golden_instances": 6,
+    "poisonedrag_document_budget_values": [
+      5
+    ],
+    "gragpoison_golden_questions": 14,
+    "attack_endpoint_families": [
+      "clean_correct_attack_flip",
+      "relation_targeted_or_untargeted",
+      "targeted_wrong_answer",
+      "trigger_payload_success"
+    ],
+    "backend_trace_count": 2,
+    "defense_trace_count": 16,
+    "attacker_gold_leaks": 0,
+    "provider_calls": 0,
+    "passed": true,
+    "fingerprint": "f0ff90533772f78d329fb7a1942fd4ab08ff24a60bdab2bba28e87747a2cf7d4"
+  },
+  "passed": true,
+  "fingerprint": "4f96bce3b4fbdf3fa37f93c087752f45d2f0f292ac447fada2aa9a76b254fc6f"
+}

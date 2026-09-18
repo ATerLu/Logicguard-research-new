@@ -1,0 +1,7 @@
+﻿dataset,attack_family,attempted,generation_valid,evaluation_valid,selected_for_reindex,target,gate_cell_ready
+musique,natural_bridge,50,21,20,10,10,True
+musique,low_drift,50,13,13,10,10,True
+musique,candidate_collision,50,26,6,0,10,False
+hotpotqa,natural_bridge,50,18,17,10,10,True
+hotpotqa,low_drift,50,22,19,10,10,True
+hotpotqa,candidate_collision,50,29,6,0,10,False

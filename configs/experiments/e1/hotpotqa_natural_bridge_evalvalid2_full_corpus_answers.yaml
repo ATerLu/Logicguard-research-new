@@ -1,0 +1,17 @@
+dataset: hotpotqa
+attack_family: natural_bridge
+prompt_cases_path: outputs/ms_graphrag_query/e1_hotpotqa_natural_bridge_evalvalid2_full_corpus_prompt_cases.jsonl
+exposure_path: outputs/ms_graphrag_query/e1_hotpotqa_natural_bridge_evalvalid2_full_corpus_exposure.jsonl
+frozen_attacks_path: data/experiments/e1/hotpotqa_natural_bridge_evalvalid2_full_corpus/frozen_attacks.jsonl
+results_output_path: outputs/ms_graphrag_query/e1_hotpotqa_natural_bridge_evalvalid2_full_corpus_answer_results.jsonl
+summary_output_path: outputs/ms_graphrag_query/e1_hotpotqa_natural_bridge_evalvalid2_full_corpus_answer_summary.json
+cost_ledger_output_path: outputs/manifests/e1_hotpotqa_natural_bridge_evalvalid2_full_corpus_answer_cost_ledger.json
+model: qwen3.7-plus
+api_key_env: DASHSCOPE_API_KEY
+base_url_env: DASHSCOPE_BASE_URL
+temperature: 0.0
+max_tokens: 64
+timeout_seconds: 90
+input_price_per_million_tokens_cny: 2.0
+output_price_per_million_tokens_cny: 8.0
+stage_label: Stage48-E1-HotpotQA-natural_bridge-evalvalid2-answer-micro-gate

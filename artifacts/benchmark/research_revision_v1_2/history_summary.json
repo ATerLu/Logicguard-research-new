@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "benchmark_version": "comparison-v1.2",
+  "audit_date": "2026-09-06",
+  "audit_config_sha256": "ae600ae500df36defa026d2a532b0fd43a9ef76fc5090724142205911771d50f",
+  "audit_implementation_sha256": "f3e9f01f41a15e651f9eb25b57ecac0473c1628dd4c4f1778f560c4afc6366db",
+  "status": "HISTORY_AUDITED__INDEPENDENCE_NOT_CERTIFIED",
+  "query_count": 1500,
+  "datasets_and_splits": [
+    {
+      "dataset": "hotpotqa",
+      "split": "development",
+      "query_count": 100,
+      "execution_or_analysis_overlap": 100,
+      "any_artifact_overlap": 100,
+      "no_record_in_scanned_scope": 0
+    },
+    {
+      "dataset": "hotpotqa",
+      "split": "validation",
+      "query_count": 100,
+      "execution_or_analysis_overlap": 100,
+      "any_artifact_overlap": 100,
+      "no_record_in_scanned_scope": 0
+    },
+    {
+      "dataset": "hotpotqa",
+      "split": "locked_test",
+      "query_count": 300,
+      "execution_or_analysis_overlap": 300,
+      "any_artifact_overlap": 300,
+      "no_record_in_scanned_scope": 0
+    },
+    {
+      "dataset": "musique",
+      "split": "development",
+      "query_count": 100,
+      "execution_or_analysis_overlap": 100,
+      "any_artifact_overlap": 100,
+      "no_record_in_scanned_scope": 0
+    },
+    {
+      "dataset": "musique",
+      "split": "validation",
+      "query_count": 100,
+      "execution_or_analysis_overlap": 100,
+      "any_artifact_overlap": 100,
+      "no_record_in_scanned_scope": 0
+    },
+    {
+      "dataset": "musique",
+      "split": "locked_test",
+      "query_count": 300,
+      "execution_or_analysis_overlap": 300,
+      "any_artifact_overlap": 300,
+      "no_record_in_scanned_scope": 0
+    },
+    {
+      "dataset": "2wikimultihopqa",
+      "split": "development",
+      "query_count": 100,
+      "execution_or_analysis_overlap": 100,
+      "any_artifact_overlap": 100,
+      "no_record_in_scanned_scope": 0
+    },
+    {
+      "dataset": "2wikimultihopqa",
+      "split": "validation",
+      "query_count": 100,
+      "execution_or_analysis_overlap": 100,
+      "any_artifact_overlap": 100,
+      "no_record_in_scanned_scope": 0
+    },
+    {
+      "dataset": "2wikimultihopqa",
+      "split": "locked_test",
+      "query_count": 300,
+      "execution_or_analysis_overlap": 300,
+      "any_artifact_overlap": 300,
+      "no_record_in_scanned_scope": 0
+    }
+  ],
+  "file_status_counts": {
+    "excluded": 20,
+    "scanned": 977
+  },
+  "evidence_rows": 74349,
+  "development_pilot_queries": 60,
+  "protected_artifacts_unchanged": true,
+  "protected_sha256": {
+    "docs\\comparativeExperimentPreregistration_v1.1.md": "96ced0a4b6b01ac7f445ad59df079a681b72ecc1401951e9b3e84f95ed19be4e",
+    "docs\\对比实验预注册表_v1.1.csv": "a1be54cf7cac2fb5f5d633b7898dbf1a67be4ca73a1601fe58659ced47faeb86",
+    "artifacts\\benchmark\\e0\\comparison_v1_1_readiness.json": "399ac2669e87da2dbba48c49e13e0660a93b5bcce62fa3c176a856aaa499d367",
+    "artifacts\\benchmark\\e0\\comparison_v1_1_split_audit.json": "29e065992da80f60097df90a24d19e83787d27fcf0b0f8c29442aac3e76563c1",
+    "artifacts\\benchmark\\e1_preparation\\comparison_v1_1_readiness.json": "ca6dbc2d7dad4f416734d3600cb1ea71090f3d471f3e7e7aa40832c11e5f42f0",
+    "artifacts\\benchmark\\e0\\splits\\hotpotqa_attacker_safe.jsonl": "c6c121405542010bd4f00f1e9d002b3abd23e3d5839f73136da1ec2d3f00b3ef",
+    "artifacts\\benchmark\\e0\\splits\\evaluator_only\\hotpotqa.jsonl": "d598392349c834c4cb2c45c0e45937aacd50fc8628a5442aa4a1cab151b6c043",
+    "artifacts\\benchmark\\e0\\splits\\musique_attacker_safe.jsonl": "d19e8c6e1f774ffd9f1f0f3a7e111a047d93854dea48d80fe9db941d2b8572dc",
+    "artifacts\\benchmark\\e0\\splits\\evaluator_only\\musique.jsonl": "2701fb5b79f12f288704692fffc395627e2138a71b063150b97ec045e5b239ba",
+    "artifacts\\benchmark\\e0\\splits\\2wikimultihopqa_attacker_safe.jsonl": "23dd6d500e8f5685b8ce5d640012319ecaa49b7e68fca0ab09455081723f724a",
+    "artifacts\\benchmark\\e0\\splits\\evaluator_only\\2wikimultihopqa.jsonl": "88567637af66545f3f1652f6d55be08b3a4a01cd99c996f962dc84084a1d7aeb"
+  },
+  "reviewed_source_sha256": {
+    "src/logicguard/benchmark/attack_runner.py": "26e7f33929d9bef5e308ca3c693e4e34819a5f5acfe3298e7526d53101ca424f",
+    "src/logicguard/benchmark/execution_protocols.py": "1b15eb0275a621796256af215e68930d4db9cd4f62b8c3176ba0de6282f92baa",
+    "src/logicguard/benchmark/readiness.py": "0c23d817c26e593b0252df9ec4e1f4461cf77364fc519a06b0a3d2dfe5719374",
+    "src/logicguard/benchmark/e1_preparation.py": "49152be300c3c363ad360d0252f7f5aa39b5f4f0ef867ee3b075148c132c1231",
+    "src/logicguard/defense/risk_aware_recovery.py": "06c2d1810098f7547f286eaa78a5b635282356014609cb292f74c7ab2d02f742",
+    "src/logicguard/defense/non_oracle_recovery.py": "b258986afb884a3b58e833a72a9bdee466f054397466d992df001b2e86b62a22",
+    "vendor/upstream/LogicPoison/main.py": "9fab36aee694aa50a7f2e3ac9de8a15433f996212793556b8df0dc8806ceb140"
+  },
+  "limits": [
+    "Artifact presence does not establish human inspection, tuning, or causality.",
+    "Absence in scanned scope does not prove a query was never used elsewhere.",
+    "Document-level/topic leakage and external experiment history need separate review.",
+    "Classification is filename-based; per-file evidence and exceptions are retained."
+  ],
+  "new_provider_calls": 0,
+  "new_attack_generations": 0,
+  "new_indexes": 0
+}

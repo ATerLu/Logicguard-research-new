@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d13" for="edge" attr.name="truncate" attr.type="string" />
+  <key id="d12" for="edge" attr.name="created_at" attr.type="long" />
+  <key id="d11" for="edge" attr.name="file_path" attr.type="string" />
+  <key id="d10" for="edge" attr.name="source_id" attr.type="string" />
+  <key id="d9" for="edge" attr.name="keywords" attr.type="string" />
+  <key id="d8" for="edge" attr.name="description" attr.type="string" />
+  <key id="d7" for="edge" attr.name="weight" attr.type="double" />
+  <key id="d6" for="node" attr.name="truncate" attr.type="string" />
+  <key id="d5" for="node" attr.name="created_at" attr.type="long" />
+  <key id="d4" for="node" attr.name="file_path" attr.type="string" />
+  <key id="d3" for="node" attr.name="source_id" attr.type="string" />
+  <key id="d2" for="node" attr.name="description" attr.type="string" />
+  <key id="d1" for="node" attr.name="entity_type" attr.type="string" />
+  <key id="d0" for="node" attr.name="entity_id" attr.type="string" />
+  <graph edgedefault="undirected">
+    <node id="Teutberga">
+      <data key="d0">Teutberga</data>
+      <data key="d1">person</data>
+      <data key="d2">Queen of Lotharingia who died on 11 November 875 and was married to Lothair II.</data>
+      <data key="d3">0-chunk-000</data>
+      <data key="d4">0.txt</data>
+      <data key="d5">1788480872</data>
+      <data key="d6" />
+    </node>
+    <node id="Lotharingia">
+      <data key="d0">Lotharingia</data>
+      <data key="d1">location</data>
+      <data key="d2">The kingdom where Teutberga served as queen.</data>
+      <data key="d3">0-chunk-000</data>
+      <data key="d4">0.txt</data>
+      <data key="d5">1788480872</data>
+      <data key="d6" />
+    </node>
+    <node id="Lothair II">
+      <data key="d0">Lothair II</data>
+      <data key="d1">person</data>
+      <data key="d2">Husband of Teutberga and ruler associated with Lotharingia.</data>
+      <data key="d3">0-chunk-000</data>
+      <data key="d4">0.txt</data>
+      <data key="d5">1788480872</data>
+      <data key="d6" />
+    </node>
+    <node id="Boso the Elder">
+      <data key="d0">Boso the Elder</data>
+      <data key="d1">person</data>
+      <data key="d2">Father of Teutberga and member of the Bosonid family.</data>
+      <data key="d3">0-chunk-000</data>
+      <data key="d4">0.txt</data>
+      <data key="d5">1788480872</data>
+      <data key="d6" />
+    </node>
+    <node id="Hucbert">
+      <data key="d0">Hucbert</data>
+      <data key="d1">person</data>
+      <data key="d2">Brother of Teutberga and lay-abbot of St. Maurice's Abbey.</data>
+      <data key="d3">0-chunk-000</data>
+      <data key="d4">0.txt</data>
+      <data key="d5">1788480872</data>
+      <data key="d6" />
+    </node>
+    <node id="St. Maurice's Abbey">
+      <data key="d0">St. Maurice's Abbey</data>
+      <data key="d1">organization</data>
+      <data key="d2">Religious institution where Hucbert served as lay-abbot.</data>
+      <data key="d3">0-chunk-000</data>
+      <data key="d4">0.txt</data>
+      <data key="d5">1788480872</data>
+      <data key="d6" />
+    </node>
+    <edge source="Teutberga" target="Lotharingia">
+      <data key="d7">1.0</data>
+      <data key="d8">Teutberga held the title of queen of Lotharingia.</data>
+      <data key="d9">royal title,rule</data>
+      <data key="d10">0-chunk-000</data>
+      <data key="d11">0.txt</data>
+      <data key="d12">1788480872</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Teutberga" target="Lothair II">
+      <data key="d7">1.0</data>
+      <data key="d8">Teutberga was married to Lothair II.</data>
+      <data key="d9">marriage,spouse</data>
+      <data key="d10">0-chunk-000</data>
+      <data key="d11">0.txt</data>
+      <data key="d12">1788480872</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Teutberga" target="Boso the Elder">
+      <data key="d7">1.0</data>
+      <data key="d8">Teutberga was the daughter of Boso the Elder.</data>
+      <data key="d9">family,parent-child</data>
+      <data key="d10">0-chunk-000</data>
+      <data key="d11">0.txt</data>
+      <data key="d12">1788480872</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Teutberga" target="Hucbert">
+      <data key="d7">1.0</data>
+      <data key="d8">Teutberga was the sister of Hucbert.</data>
+      <data key="d9">family,sibling</data>
+      <data key="d10">0-chunk-000</data>
+      <data key="d11">0.txt</data>
+      <data key="d12">1788480872</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Hucbert" target="St. Maurice's Abbey">
+      <data key="d7">1.0</data>
+      <data key="d8">Hucbert served as the lay-abbot of St. Maurice's Abbey.</data>
+      <data key="d9">leadership,religious role</data>
+      <data key="d10">0-chunk-000</data>
+      <data key="d11">0.txt</data>
+      <data key="d12">1788480872</data>
+      <data key="d13" />
+    </edge>
+  </graph>
+</graphml>

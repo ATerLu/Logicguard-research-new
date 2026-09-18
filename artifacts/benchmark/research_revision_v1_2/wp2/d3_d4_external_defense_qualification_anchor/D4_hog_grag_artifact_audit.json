@@ -1,0 +1,42 @@
+{
+  "status": "HOG_GRAG_PAPER_NATIVE_UNAVAILABLE_UPSTREAM_ARTIFACT_INCOMPLETE",
+  "paper_native_executable": false,
+  "source_compile_passed": false,
+  "compile_checks": [
+    {
+      "file": "detection.py",
+      "passed": true
+    },
+    {
+      "file": "evaluation.py",
+      "passed": true
+    },
+    {
+      "file": "repairer.py",
+      "passed": false,
+      "error_type": "IndentationError",
+      "line": 304,
+      "message": "unexpected indent (repairer.py, line 304)"
+    },
+    {
+      "file": "trace_analysis.py",
+      "passed": true
+    }
+  ],
+  "required_prompt_files_present": false,
+  "prompt_checks": [
+    {
+      "path": "F:/LogicGuard_project/logicguard/vendor/upstream/HoG-GRAG/get_response.md",
+      "present": false
+    },
+    {
+      "path": "F:/LogicGuard_project/logicguard/vendor/upstream/HoG-GRAG/Prompts/response_subquestion.md",
+      "present": false
+    }
+  ],
+  "provider_model_literal": "gpt-5-mini",
+  "provider_model_literal_present": true,
+  "provider_calls_made": 0,
+  "actual_cost_cny": 0.0,
+  "effect_measured": false
+}

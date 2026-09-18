@@ -1,0 +1,58 @@
+stage_label: Stage48-GateA-fixed50-expansion
+target_evaluation_valid_per_cell: 10
+attack_input_price_per_million_tokens_cny: 2.0
+attack_output_price_per_million_tokens_cny: 8.0
+embedding_price_per_thousand_tokens_cny: 0.0005
+context_query_embedding_count: 100
+context_query_embedding_max_tokens_each: 128
+prior_stage48_exact_logged_cny: 1.209554
+prior_stage48_upper_cny: 1.210900
+
+datasets:
+  - dataset: musique
+    sample_path: data/processed/musique/debug_50.jsonl
+    attempted_queries: 50
+    batches:
+      - label: stage47_first20
+        attack_records_path: outputs/adaptive_attacks/stage47_musique_attack_records.jsonl
+        attacked_context_path: outputs/ms_graphrag_query/stage47_musique_attacked_contexts.jsonl
+        attack_integrity_path: outputs/adaptive_attacks/stage47_musique_attack_integrity.jsonl
+        preflight_rows_path: outputs/ms_graphrag_query/stage47_musique_preflight_rows.jsonl
+      - label: stage48_queries21_50
+        attack_records_path: outputs/adaptive_attacks/stage48_gate_a_musique_attack_expansion_records.jsonl
+        attacked_context_path: outputs/ms_graphrag_query/stage48_gate_a_musique_attack_expansion_contexts.jsonl
+        attack_integrity_path: outputs/adaptive_attacks/stage48_gate_a_musique_attack_expansion_integrity.jsonl
+        preflight_rows_path: outputs/ms_graphrag_query/stage48_gate_a_musique_attack_expansion_preflight.jsonl
+    combined_attack_records_path: outputs/adaptive_attacks/stage48_gate_a_musique_fixed50_attack_records.jsonl
+    combined_attacked_context_path: outputs/ms_graphrag_query/stage48_gate_a_musique_fixed50_attacked_contexts.jsonl
+    combined_attack_integrity_path: outputs/adaptive_attacks/stage48_gate_a_musique_fixed50_attack_integrity.jsonl
+    combined_preflight_rows_path: outputs/ms_graphrag_query/stage48_gate_a_musique_fixed50_preflight.jsonl
+
+  - dataset: hotpotqa
+    sample_path: data/processed/hotpotqa/debug_50.jsonl
+    attempted_queries: 50
+    batches:
+      - label: stage47_first5
+        attack_records_path: outputs/adaptive_attacks/stage47_hotpotqa_attack_records.jsonl
+        attacked_context_path: outputs/ms_graphrag_query/stage47_hotpotqa_attacked_contexts.jsonl
+        attack_integrity_path: outputs/adaptive_attacks/stage47_hotpotqa_attack_integrity.jsonl
+        preflight_rows_path: outputs/ms_graphrag_query/stage47_hotpotqa_preflight_rows.jsonl
+      - label: stage48_queries6_50
+        attack_records_path: outputs/adaptive_attacks/stage48_gate_a_hotpotqa_attack_expansion_records.jsonl
+        attacked_context_path: outputs/ms_graphrag_query/stage48_gate_a_hotpotqa_attack_expansion_contexts.jsonl
+        attack_integrity_path: outputs/adaptive_attacks/stage48_gate_a_hotpotqa_attack_expansion_integrity.jsonl
+        preflight_rows_path: outputs/ms_graphrag_query/stage48_gate_a_hotpotqa_attack_expansion_preflight.jsonl
+    combined_attack_records_path: outputs/adaptive_attacks/stage48_gate_a_hotpotqa_fixed50_attack_records.jsonl
+    combined_attacked_context_path: outputs/ms_graphrag_query/stage48_gate_a_hotpotqa_fixed50_attacked_contexts.jsonl
+    combined_attack_integrity_path: outputs/adaptive_attacks/stage48_gate_a_hotpotqa_fixed50_attack_integrity.jsonl
+    combined_preflight_rows_path: outputs/ms_graphrag_query/stage48_gate_a_hotpotqa_fixed50_preflight.jsonl
+
+attack_generation_run_manifest_paths:
+  - outputs/adaptive_attacks/stage48_gate_a_musique_attack_expansion_records_run_manifest.json
+  - outputs/adaptive_attacks/stage48_gate_a_hotpotqa_attack_expansion_records_run_manifest.json
+
+inventory_rows_output_path: outputs/ms_graphrag_query/stage48_gate_a_fixed50_inventory.jsonl
+summary_output_path: outputs/ms_graphrag_query/stage48_gate_a_fixed50_summary.csv
+cost_ledger_output_path: outputs/manifests/stage48_gate_a_fixed50_cost_ledger.json
+manifest_output_path: outputs/manifests/stage48_gate_a_fixed50_manifest.json
+report_path: outputs/reports/Stage48_GateA_Fixed50_AttackInventory.md

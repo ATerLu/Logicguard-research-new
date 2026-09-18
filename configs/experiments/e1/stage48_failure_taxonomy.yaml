@@ -1,0 +1,22 @@
+inventory_path: outputs/ms_graphrag_query/stage48_gate_a_fixed50_inventory.jsonl
+required_evaluation_valid_per_cell: 10
+prompt_source_limit: 12
+
+exposure_cells:
+  - dataset: musique
+    attack_family: natural_bridge
+    path: outputs/ms_graphrag_query/stage48_gate_a_musique_natural_bridge_evalvalid10_exposure.jsonl
+  - dataset: musique
+    attack_family: low_drift
+    path: outputs/ms_graphrag_query/stage48_gate_a_musique_low_drift_evalvalid10_exposure.jsonl
+  - dataset: hotpotqa
+    attack_family: natural_bridge
+    path: outputs/ms_graphrag_query/stage48_gate_a_hotpotqa_natural_bridge_evalvalid10_exposure.jsonl
+  - dataset: hotpotqa
+    attack_family: low_drift
+    path: outputs/ms_graphrag_query/stage48_gate_a_hotpotqa_low_drift_evalvalid10_exposure.jsonl
+
+rows_output_path: outputs/ms_graphrag_query/stage48_failure_taxonomy_rows.jsonl
+summary_output_path: outputs/ms_graphrag_query/stage48_failure_taxonomy_summary.json
+summary_csv_output_path: outputs/ms_graphrag_query/stage48_failure_taxonomy_summary.csv
+report_path: outputs/reports/Stage48_FailureTaxonomy.md

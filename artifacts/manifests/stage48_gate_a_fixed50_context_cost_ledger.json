@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "price_basis": "Stage48 frozen 2026-08-12 China-Beijing undiscounted catalog snapshot",
+  "fixed50_generation_and_clean_context": {
+    "schema_version": 1,
+    "price_basis": "Stage48 frozen 2026-08-12 China-Beijing undiscounted catalog snapshot",
+    "attack_generation": {
+      "completed_calls": 75,
+      "prompt_tokens": 203754,
+      "completion_tokens": 220204,
+      "catalog_cost_cny": 2.16914
+    },
+    "clean_context_query_embedding_upper_bound": {
+      "query_count": 100,
+      "max_tokens_per_query": 128,
+      "max_tokens": 12800,
+      "catalog_cost_upper_cny": 0.0064
+    },
+    "gate_a_increment_exact_logged_cny": 2.16914,
+    "gate_a_increment_upper_cny": 2.17554,
+    "stage48_cumulative_exact_logged_cny": 3.378694,
+    "stage48_cumulative_upper_cny": 3.38644,
+    "credential_values_recorded": false
+  },
+  "full_corpus_index_catalog_cost_cny": 0.176319,
+  "attacked_context_query_embedding_upper_bound": {
+    "query_count": 40,
+    "max_tokens_per_query": 128,
+    "catalog_cost_upper_cny": 0.00256
+  },
+  "gate_a_increment_exact_logged_cny": 2.345459,
+  "gate_a_increment_upper_cny": 2.354419,
+  "stage48_cumulative_exact_logged_cny": 3.555013,
+  "stage48_cumulative_upper_cny": 3.565319,
+  "credential_values_recorded": false
+}

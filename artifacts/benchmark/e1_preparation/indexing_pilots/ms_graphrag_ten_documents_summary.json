@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "backend": "microsoft_graphrag",
+  "backend_version": "3.1.0",
+  "status": "PASSED",
+  "returncode": 0,
+  "usage": {
+    "chat_calls": 33,
+    "embedding_calls": 8,
+    "prompt_tokens": 40444,
+    "completion_tokens": 14929,
+    "reasoning_tokens": 0,
+    "embedding_tokens": 9474
+  },
+  "generation_controls": {
+    "enable_thinking": false,
+    "output_limit_parameter": "max_completion_tokens",
+    "provider_retries": 0,
+    "max_gleanings": 0,
+    "local_capped_proxy": true
+  },
+  "planned_catalog_cost_cap_cny": 2.064,
+  "hard_cost_cap_cny": 2.07,
+  "actual_catalog_cost_cny": 0.205057,
+  "elapsed_seconds": 315.281,
+  "required_outputs_present": {
+    "documents.parquet": true,
+    "entities.parquet": true,
+    "relationships.parquet": true,
+    "community_reports.parquet": true
+  },
+  "process_error": null,
+  "stdout_tail": "....................\n  80 / 94 ...........................................................................\n  81 / 94 ............................................................................\n  82 / 94 .............................................................................\n  83 / 94 ..............................................................................\n  84 / 94 ...............................................................................\n  85 / 94 ................................................................................\n  86 / 94 .................................................................................\n  87 / 94 ...................................................................................\n  88 / 94 ....................................................................................\n  89 / 94 .....................................................................................\n  90 / 94 ......................................................................................\n  91 / 94 .......................................................................................\n  92 / 94 ........................................................................................\n  93 / 94 .........................................................................................\n  94 / 94 ..........................................................................................\n\nWorkflow complete: extract_graph\nStarting workflow: finalize_graph\n\nWorkflow complete: finalize_graph\nStarting workflow: create_communities\n\nWorkflow complete: create_communities\nStarting workflow: create_final_text_units\n\nWorkflow complete: create_final_text_units\nStarting workflow: create_community_reports\n  1 / 1 ............................................................................................\n  1 / 5 ............\n  2 / 5 ................................\n  3 / 5 ....................................................\n  4 / 5 ........................................................................\n  5 / 5 ............................................................................................\n\nWorkflow complete: create_community_reports\nStarting workflow: generate_text_embeddings\n  1 / 1 ............................................................................................\n  1 / 1 ............................................................................................\n  1 / 1 ............................................................................................\n  1 / 1 ............................................................................................\n  1 / 1 ............................................................................................\n  1 / 1 ............................................................................................\n  1 / 1 ............................................................................................\n\nWorkflow complete: generate_text_embeddings\nPipeline complete\n",
+  "stderr_tail": "\u001b[92m08:27:06 - LiteLLM:WARNING\u001b[0m: common_utils.py:979 - litellm: could not pre-load bedrock-runtime response stream shape — Bedrock event-stream decoding will be unavailable. Error: No module named 'botocore'\n\u001b[92m08:27:06 - LiteLLM:WARNING\u001b[0m: common_utils.py:24 - litellm: could not pre-load sagemaker-runtime response stream shape — SageMaker event-stream decoding will be unavailable. Error: No module named 'botocore'\nF:\\LogicGuard_project\\logicguard\\tools\\ms_graphrag\\.venv\\Lib\\site-packages\\graphrag\\index\\operations\\extract_graph\\extract_graph.py:119: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.\n  all_relationships = pd.concat(relationship_dfs, ignore_index=False)\n[2026-09-04T00:32:08Z WARN  lance::dataset::write::insert] No existing dataset at F:\\LogicGuard_project\\logicguard\\artifacts\\benchmark\\e1_preparation\\indexing_pilots\\ms_graphrag_ten_documents\\output\\lancedb/entity_description.lance, it will be created\n[2026-09-04T00:32:13Z WARN  lance::dataset::write::insert] No existing dataset at F:\\LogicGuard_project\\logicguard\\artifacts\\benchmark\\e1_preparation\\indexing_pilots\\ms_graphrag_ten_documents\\output\\lancedb/community_full_content.lance, it will be created\n[2026-09-04T00:32:14Z WARN  lance::dataset::write::insert] No existing dataset at F:\\LogicGuard_project\\logicguard\\artifacts\\benchmark\\e1_preparation\\indexing_pilots\\ms_graphrag_ten_documents\\output\\lancedb/text_unit_text.lance, it will be created\n"
+}

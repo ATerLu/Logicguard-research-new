@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "experiment": "E1:corpus_reindex_context_only_dry_run",
+  "status": "completed_context_only",
+  "workspace_root": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\hotpotqa\\stage48_gate_a_low_drift_evalvalid10_full_corpus",
+  "community_reports": "intentionally_omitted_query_community_prop_zero",
+  "funnel": {
+    "attempted": 10,
+    "generation_valid": 10,
+    "evaluation_valid": 10,
+    "index_included": 10,
+    "retrieved": 5,
+    "prompt_exposed": 0,
+    "answer_judged": 0,
+    "attack_success": 0
+  },
+  "graphrag_metrics": {
+    "openai/text-embedding-v4": {
+      "attempted_request_count": 1384,
+      "successful_response_count": 1384,
+      "failed_response_count": 0,
+      "requests_with_retries": 0,
+      "retries": 0,
+      "compute_duration_seconds": 797.3476045131683,
+      "streaming_responses": 0,
+      "responses_with_tokens": 1384,
+      "prompt_tokens": 84012,
+      "completion_tokens": 0,
+      "total_tokens": 84012,
+      "incomplete_response_count": 0,
+      "failure_rate": 0.0,
+      "retry_rate": 0.0,
+      "compute_duration_per_response_seconds": 0.5761182113534453,
+      "tokens_per_response": 60.702312138728324
+    },
+    "openai/qwen3.7-plus": {
+      "attempted_request_count": 1,
+      "successful_response_count": 1,
+      "failed_response_count": 0,
+      "requests_with_retries": 0,
+      "retries": 0,
+      "compute_duration_seconds": 10.163694620132446,
+      "streaming_responses": 0,
+      "responses_with_tokens": 1,
+      "prompt_tokens": 21,
+      "completion_tokens": 287,
+      "total_tokens": 308,
+      "incomplete_response_count": 0,
+      "failure_rate": 0.0,
+      "retry_rate": 0.0,
+      "compute_duration_per_response_seconds": 10.163694620132446,
+      "tokens_per_response": 308.0
+    }
+  },
+  "successful_provider_requests": 1385,
+  "reported_tokens": 84320,
+  "credential_values_recorded": false
+}

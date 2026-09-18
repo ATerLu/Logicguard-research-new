@@ -1,0 +1,13 @@
+﻿dataset,attack_family,defense_stage,method,query_count,valid_attack_count,valid_attack_rate,attack_source_exposure_rate,malicious_answer_surface_rate,risk_detection_rate,recovery_rate,candidate_collision_recovery_rate,avg_source_count
+hotpotqa,candidate_collision,unprotected,stage47_candidate_collision__unprotected,45,25,0.5556,1.0000,0.7600,1.0000,0.0000,0.0000,12.0000
+hotpotqa,candidate_collision,stage43_recovery,stage47_candidate_collision__stage43_recovery,45,25,0.5556,0.0000,0.2800,1.0000,1.0000,1.0000,11.3200
+hotpotqa,candidate_collision,stage44_top12,stage47_candidate_collision__stage44_top12,45,25,0.5556,0.0000,0.2000,1.0000,1.0000,1.0000,11.3200
+hotpotqa,candidate_collision,stage45_top14,stage47_candidate_collision__stage45_top14,45,25,0.5556,0.0000,0.2000,1.0000,1.0000,1.0000,13.3200
+hotpotqa,low_drift,unprotected,stage47_low_drift__unprotected,45,20,0.4444,1.0000,0.7500,0.0000,0.0000,0.0000,12.0000
+hotpotqa,low_drift,stage43_recovery,stage47_low_drift__stage43_recovery,45,20,0.4444,1.0000,0.7500,0.0000,0.0000,0.0000,12.0000
+hotpotqa,low_drift,stage44_top12,stage47_low_drift__stage44_top12,45,20,0.4444,1.0000,0.7500,0.0000,0.0000,0.0000,12.0000
+hotpotqa,low_drift,stage45_top14,stage47_low_drift__stage45_top14,45,20,0.4444,1.0000,0.7500,0.0000,0.0000,0.0000,14.0000
+hotpotqa,natural_bridge,unprotected,stage47_natural_bridge__unprotected,45,15,0.3333,1.0000,0.8667,0.0000,0.0000,0.0000,12.0000
+hotpotqa,natural_bridge,stage43_recovery,stage47_natural_bridge__stage43_recovery,45,15,0.3333,1.0000,0.8667,0.0000,0.0000,0.0000,12.0000
+hotpotqa,natural_bridge,stage44_top12,stage47_natural_bridge__stage44_top12,45,15,0.3333,1.0000,0.8667,0.0000,0.0000,0.0000,12.0000
+hotpotqa,natural_bridge,stage45_top14,stage47_natural_bridge__stage45_top14,45,15,0.3333,1.0000,0.8667,0.0000,0.0000,0.0000,14.0000

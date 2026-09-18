@@ -2,9 +2,9 @@
 
 > 盘点对象：`/home/uisee/logicguard/Logicguard-research-new`
 >
-> 盘点日期：2026-08-11
+> 盘点日期：2026-09-02（比较实验文献/资产审计增补）
 >
-> 当前实验状态：Stage47 已完成，Stage48 尚未开始。
+> 当前实验状态：Stage48 Gate A 已以失败结论关闭；失败 taxonomy 已完成。比较实验 v1.0 因文献/资产审计发现的指标和版本问题暂停，当前处于 `PLANNING_HOLD`，等待审核后发布 v1.1。
 
 ## 1. 先用一张图理解项目
 
@@ -41,7 +41,7 @@ LogicGuard 不是单个分类器，而是一条面向 GraphRAG 多跳问答的�
 
 如果目标是重新理解项目，不建议按 Stage1 一直读到 Stage47。更高效的顺序是：
 
-1. `handoff.md`：当前最权威的状态、Stage47 结论和 Stage48 约束。
+1. `handoff.md`：当前最权威的状态、Stage48 结论和下一阶段约束。
 2. `artifacts/reports/Stage47_三类自适应攻击初步实验_中文报告.md`：当前最重要的攻击结果。
 3. `docs/methodology.md`：完整实验方法和各阶段演进。
 4. `docs/results.md`：Stage1–47 汇总结果。
@@ -50,6 +50,9 @@ LogicGuard 不是单个分类器，而是一条面向 GraphRAG 多跳问答的�
 7. `src/logicguard/defense/chain_completion.py`：Stage45 二跳补证。
 8. `src/logicguard/attack/adaptive.py`：Stage47 自适应攻击。
 9. `src/logicguard/evaluation/adaptive_attack_analysis.py`：Stage47 严格统计口径。
+10. `src/logicguard/evaluation/stage48_failure_taxonomy.py`：Stage48 固定分母失败分类与 Prompt 传播诊断。
+11. `docs/comparativeExperimentLiteratureAudit.md`：公开攻击、双后端与防御比较的论文/资产审计及当前待审核计划。
+12. `docs/comparativeExperimentPreregistration.md`：比较实验 v1.0 暂停草案；待审计方案获批后由 v1.1 替换。
 
 注意：根目录 `README.md` 的前半部分仍停留在 Stage28 左右，后面虽然追加了后续记录，但“当前状态/下一步”不如 `handoff.md` 新。判断当前进度时以 `handoff.md` 和 Stage47 报告为准。
 
@@ -238,6 +241,7 @@ Logicguard-research-new/
 | `evaluation/answer_preflight.py` | Stage46 冻结四种 context 变体，渲染实际 prompt，并在调用 LLM 前检查暴露 |
 | `evaluation/cross_dataset_analysis.py` | Stage46 汇总两个数据集的最终回答结果和配对增量 |
 | `evaluation/adaptive_attack_analysis.py` | Stage47 合并攻击、预检、回答、审计和 Judge；计算严格分母、broad/targeted ASR 和错误恢复 |
+| `evaluation/stage48_failure_taxonomy.py` | Stage48 将 generation、evaluation、selection、index、retrieval 与 exact-prompt 失败赋为互斥终止分类 |
 
 ### 6.9 实验编排与报告
 

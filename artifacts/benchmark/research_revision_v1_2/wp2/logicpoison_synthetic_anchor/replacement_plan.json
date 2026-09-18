@@ -1,0 +1,27 @@
+{
+  "mapping": {
+    "Ada": "Bea",
+    "Bea": "Ada"
+  },
+  "typed_mapping": [
+    {
+      "source": "Ada",
+      "target": "Bea",
+      "type": "PERSON",
+      "source_query_ids": [
+        "fixture-q1"
+      ],
+      "source_in_frequency_pool": true
+    },
+    {
+      "source": "Bea",
+      "target": "Ada",
+      "type": "PERSON",
+      "source_query_ids": [
+        "fixture-q2"
+      ],
+      "source_in_frequency_pool": false
+    }
+  ],
+  "excluded_entities": []
+}

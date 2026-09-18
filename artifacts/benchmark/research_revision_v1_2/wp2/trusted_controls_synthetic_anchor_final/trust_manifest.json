@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "protocol_version": "comparison-v1.2",
+  "dataset": "synthetic_multihop",
+  "dataset_revision": "fixture-r1",
+  "assignment_seed": "comparison-v1.2-trust-seed-20260908",
+  "assignment_unit": "source_group",
+  "assignment_uses_gold": false,
+  "coverage_levels": [
+    1.0,
+    0.5,
+    0.2,
+    0.0
+  ],
+  "coverage_group_counts": {
+    "1.0": 5,
+    "0.5": 2,
+    "0.2": 1,
+    "0.0": 0
+  },
+  "source_group_count": 5,
+  "groups": [
+    {
+      "source_group_id": "g5",
+      "assignment_rank": 1,
+      "document_ids": [
+        "d5"
+      ],
+      "clean_group_sha256": "04fae5c29b1ca82a31ace77135766514e49b781f81d615e32a2bd52b50a7f875",
+      "trusted_at_coverages": [
+        1.0,
+        0.5,
+        0.2
+      ]
+    },
+    {
+      "source_group_id": "g3",
+      "assignment_rank": 2,
+      "document_ids": [
+        "d3"
+      ],
+      "clean_group_sha256": "8bcab25610c6e2ba8442203cb5299618695881a1cee95f0efa96b27f5e13b766",
+      "trusted_at_coverages": [
+        1.0,
+        0.5
+      ]
+    },
+    {
+      "source_group_id": "g2",
+      "assignment_rank": 3,
+      "document_ids": [
+        "d2"
+      ],
+      "clean_group_sha256": "f15a1309a9c22e5804c19f812ea3f4ad71752137127a3c494c32cc94f417cd35",
+      "trusted_at_coverages": [
+        1.0
+      ]
+    },
+    {
+      "source_group_id": "g4",
+      "assignment_rank": 4,
+      "document_ids": [
+        "d4"
+      ],
+      "clean_group_sha256": "3561d50053685abd57e8a5d7f6f3d0dc79708e79ecc6fdbc54ad63df33827b15",
+      "trusted_at_coverages": [
+        1.0
+      ]
+    },
+    {
+      "source_group_id": "g1",
+      "assignment_rank": 5,
+      "document_ids": [
+        "d1"
+      ],
+      "clean_group_sha256": "6822567c617000731a4fbc4e9428f1562fcb6791407b80e36a16e59dbbc4c62f",
+      "trusted_at_coverages": [
+        1.0
+      ]
+    }
+  ],
+  "manifest_sha256": "0ddc032b6c8e3715b86cdaeb3f2c3e9d65f2245f536fa593075cb381d2dc68c7"
+}

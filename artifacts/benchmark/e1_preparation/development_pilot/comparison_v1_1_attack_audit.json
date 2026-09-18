@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "status": "PASSED",
+  "unique_attack_attempts": 2,
+  "generation_valid": 2,
+  "provider_calls_made": 4,
+  "token_usage": {
+    "prompt_tokens": 599,
+    "completion_tokens": 7769,
+    "total_tokens": 8368
+  },
+  "actual_catalog_cost_cny": 0.06335,
+  "hard_cost_cap_cny": 0.14,
+  "a1_target_gold_collision_count": 0,
+  "a1_collision_checks": [
+    {
+      "dataset": "hotpotqa",
+      "query_id": "5a774a9855429972597f14ea",
+      "target_answer": "France",
+      "gold_answer": "England",
+      "normalized_exact_collision": false
+    }
+  ],
+  "evaluator_only_files_read": 1,
+  "provider_calls_this_audit": 0,
+  "frozen_no_resample": true,
+  "results_sha256": "0d1fe7eaa1a4e4117e865ff98bbb218be7973cbdd5f74e7987dfa76a439d0770",
+  "summary_sha256": "3bb4ab1497dcc4c0a7601e0add6c433c1f4c9cc94a622cd1f7eaeec88b6ecb20",
+  "fingerprint": "30bcc40cf8921597e641c0cd0ca13cb6587ea69292b53d2b053ab9cf6970fb70"
+}

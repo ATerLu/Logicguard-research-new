@@ -25,6 +25,7 @@ class ChatResponse:
     prompt_tokens: int | None
     completion_tokens: int | None
     total_tokens: int | None
+    reasoning_tokens: int | None = None
 
     def to_json_dict(self) -> dict[str, object]:
         return asdict(self)
@@ -58,6 +59,8 @@ class OpenAICompatibleChatClient:
         temperature: float,
         max_tokens: int,
         timeout_seconds: int,
+        enable_thinking: bool | None = None,
+        max_completion_tokens: int | None = None,
     ) -> ChatResponse:
         """Call `/chat/completions` and normalize the response content."""
 
@@ -65,8 +68,13 @@ class OpenAICompatibleChatClient:
             "model": model,
             "messages": messages,
             "temperature": temperature,
-            "max_tokens": max_tokens,
         }
+        if max_completion_tokens is None:
+            payload["max_tokens"] = max_tokens
+        else:
+            payload["max_completion_tokens"] = max_completion_tokens
+        if enable_thinking is not None:
+            payload["enable_thinking"] = enable_thinking
         headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
@@ -79,12 +87,18 @@ class OpenAICompatibleChatClient:
         )
         content = _extract_content(raw)
         usage = raw.get("usage") if isinstance(raw.get("usage"), dict) else {}
+        completion_details = (
+            usage.get("completion_tokens_details")
+            if isinstance(usage.get("completion_tokens_details"), dict)
+            else {}
+        )
         return ChatResponse(
             content=content,
             raw_json=json.dumps(raw, ensure_ascii=False),
             prompt_tokens=_optional_int(usage.get("prompt_tokens")),
             completion_tokens=_optional_int(usage.get("completion_tokens")),
             total_tokens=_optional_int(usage.get("total_tokens")),
+            reasoning_tokens=_optional_int(completion_details.get("reasoning_tokens")),
         )
 
 

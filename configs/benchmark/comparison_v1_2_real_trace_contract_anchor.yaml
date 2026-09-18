@@ -1,0 +1,22 @@
+schema_version: 1
+protocol_version: comparison-v1.2
+run_mode: real_trace_zero_coverage_contract_anchor
+inputs:
+  ms_trace: outputs/ms_graphrag_query/stage48_gate_a_hotpotqa_clean50_contexts.jsonl
+  ms_clean_corpus: data/logicpoison_official/clean/hotpotqa/corpus.jsonl
+  lightrag_trace: artifacts/benchmark/research_revision_v1_2/wp2/lightrag_real_trace_anchor/normalized_trace.jsonl
+  lightrag_clean_corpus: data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl
+datasets:
+  microsoft: hotpotqa
+  lightrag: 2wikimultihopqa
+dataset_revision: comparison-v1.1-clean-corpus
+assignment_seed: comparison-v1.2-real-trace-contract-anchor
+budget:
+  live_top_k: 10
+  trusted_top_k: 10
+  final_source_limit: 10
+  max_context_tokens: 8000
+  max_retrieval_calls: 2
+  max_model_calls: 1
+  rrf_k: 60
+output_root: artifacts/benchmark/research_revision_v1_2/wp2/real_trace_zero_coverage_contract_anchor

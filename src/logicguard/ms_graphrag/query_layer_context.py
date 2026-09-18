@@ -253,12 +253,11 @@ def _load_official_context_builder(
         config=graph_config,
         output_list=[
             "communities",
-            "community_reports",
             "text_units",
             "relationships",
             "entities",
         ],
-        optional_list=["covariates"],
+        optional_list=["covariates", "community_reports"],
     )
     entity_community_level = resolve_entity_adapter_community_level(
         configured_community_level=config.community_level,
@@ -269,11 +268,18 @@ def _load_official_context_builder(
         frames["communities"],
         entity_community_level,
     )
-    reports = read_indexer_reports(
-        frames["community_reports"],
-        frames["communities"],
-        config.community_level,
-    )
+    if frames["community_reports"] is None:
+        if float(graph_config.local_search.community_prop) > 0:
+            raise RuntimeError(
+                "community_reports.parquet is required when community_prop is positive"
+            )
+        reports = []
+    else:
+        reports = read_indexer_reports(
+            frames["community_reports"],
+            frames["communities"],
+            config.community_level,
+        )
     covariates = (
         read_indexer_covariates(frames["covariates"])
         if frames["covariates"] is not None

@@ -1,0 +1,5 @@
+Considering that Châu Đức is found in the United States, what region of the United States contains the residence of John Phan?
+
+Question: In what region of the country where Châu Đức is found, is the residence of John Phan? Context: Châu Đức is found in the United States, and John Phan has his residence in the United States.
+
+Question: In what region of the country where Châu Đức is found, is the residence of John Phan? Context: Châu Đức is found in the United States, and John Phan has his residence in the United States.

@@ -1,0 +1,2 @@
+{"dataset":"hotpotqa","query_id":"ner-q1","question":"Albert Einstein worked in which city?","stratum":"synthetic","split":"development","purpose":"synthetic_local_NER_anchor_not_dataset_sample"}
+{"dataset":"hotpotqa","query_id":"ner-q2","question":"Where did Isaac Newton work?","stratum":"synthetic","split":"development","purpose":"synthetic_local_NER_anchor_not_dataset_sample"}

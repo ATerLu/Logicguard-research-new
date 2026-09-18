@@ -1,0 +1,34 @@
+{
+  "dataset": "2wikimultihopqa",
+  "sample_path": "F:\\LogicGuard_project\\logicguard\\data\\processed\\2wikimultihopqa\\debug_1_atomised.jsonl",
+  "corpus_path": "F:\\LogicGuard_project\\logicguard\\data\\logicpoison_official\\clean\\2wikimultihopqa\\corpus.jsonl",
+  "workspace_root": "F:\\LogicGuard_project\\logicguard\\artifacts\\benchmark\\e1_preparation\\indexing_pilots\\ms_graphrag_one_document",
+  "doc_scope": "sample_support",
+  "missing_support_policy": "use_embedded",
+  "query_count": 1,
+  "input_doc_count": 1,
+  "max_docs": 1,
+  "input_format": "text",
+  "notes": [
+    "Use tools/ms_graphrag/.venv/Scripts/graphrag.exe index --root <workspace> to run indexing.",
+    "This workflow adds graph-based create_community_reports so official local/global query can run.",
+    "It intentionally avoids create_community_reports_text, which previously stalled in this environment.",
+    "Settings use DASHSCOPE_API_KEY and DASHSCOPE_BASE_URL environment variables; no secret is written to disk."
+  ],
+  "ms_graphrag_workflow": "query_ready",
+  "workflows": [
+    "load_input_documents",
+    "create_base_text_units",
+    "create_final_documents",
+    "extract_graph",
+    "finalize_graph",
+    "create_communities",
+    "create_final_text_units",
+    "create_community_reports",
+    "generate_text_embeddings"
+  ],
+  "completion_model": "qwen3.7-plus",
+  "embedding_model": "text-embedding-v4",
+  "vector_size": 1024,
+  "embedding_batch_size": 10
+}

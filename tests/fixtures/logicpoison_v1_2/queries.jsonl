@@ -1,0 +1,2 @@
+{"dataset":"hotpotqa","query_id":"fixture-q1","question":"Ada worked in which city?","split":"development","stratum":"synthetic"}
+{"dataset":"hotpotqa","query_id":"fixture-q2","question":"Where did Bea work?","split":"development","stratum":"synthetic"}

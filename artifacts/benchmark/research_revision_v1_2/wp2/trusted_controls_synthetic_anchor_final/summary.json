@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "benchmark_version": "comparison-v1.2",
+  "config_sha256": "56226bacc32c20fe38e1e452547f02c460a58e968d5936bb864019a7a57bb2c8",
+  "clean_corpus_sha256": "96d984047e477ea2c803429be9da0bf405efd5dd56d63151a4a457bbf54e9723",
+  "retrieval_fixture_sha256": "a0bd9e1dbba271c681289a9f8f79c4eb59acef6942a4f6060f7d09e3d714c689",
+  "trust_manifest_sha256": "0ddc032b6c8e3715b86cdaeb3f2c3e9d65f2245f536fa593075cb381d2dc68c7",
+  "budget_sha256": "41bbebda608058c0a27eac39f41af48688cb83f7bfca7971bb9aa1460cdb7bec",
+  "run_identity_sha256": "8a208589b7aa0365c095cb6ef329bcf8c4679637506a532e4ebbfe2396b8013d",
+  "status": "LOCAL_ACCEPTANCE_PASSED",
+  "run_mode": "fixture",
+  "evidence_scope": "engineering_acceptance_not_defense_effect",
+  "dataset": "synthetic_multihop",
+  "query_backend_pairs": 4,
+  "coverage_levels": [
+    1.0,
+    0.5,
+    0.2,
+    0.0
+  ],
+  "context_rows": 32,
+  "audit_rows": 16,
+  "audit_failures": 0,
+  "provider_calls_made": 0,
+  "actual_cost_cny": 0.0,
+  "D6_equal_information_integration": "pending",
+  "artifact_hashes": {
+    "contexts.jsonl": "a9a3d8068d463ea603a30e115c2a859a6e9988b3cc10ded5537c3090c6810822",
+    "equal_budget_audit.jsonl": "a3b0370dcfca7549fae0e308e4833891d136ef8448f40ff4f546ca325f4f85bc",
+    "protected_snapshot_0.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "protected_snapshot_0p2.jsonl": "406f4e21cf2b7206593c03ae99bb31648f79809436fcec1f7a926cd028c3e522",
+    "protected_snapshot_0p5.jsonl": "cfc4f857055c4443da6fe98d05c397c6da9a4b0a4f45bba2e42bc98d19cd7acd",
+    "protected_snapshot_1.jsonl": "883bb6424f9572c8c39957a95156d11cf77a9840308427333dda852c8b12407d",
+    "run_identity.json": "c901845a23608defae88619fa5bf5e3a5d80d773a0747de0fb491ad03c8d7d58",
+    "trust_manifest.json": "bed9e8cbff05cf71b6890fb50c225fef5b9e61e3e03b5558cb17e30b47188073"
+  }
+}

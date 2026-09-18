@@ -1,0 +1,16 @@
+schema_version: 1
+benchmark_version: comparison-v1.1
+run_mode: dry_run
+input_manifest: artifacts/benchmark/e1_preparation/comparison_v1_1_attack_inputs.jsonl
+attacks: [A2_logicpoison]
+datasets: [hotpotqa, musique, 2wikimultihopqa]
+split: validation
+model: qwen3.7-plus
+api_key_env: DASHSCOPE_API_KEY
+base_url_env: DASHSCOPE_BASE_URL
+default_base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+timeout_seconds: 120
+matched_documents_per_target: 1
+outputs:
+  request_plan: artifacts/benchmark/e1_preparation/comparison_v1_1_logicpoison_request_plan.jsonl
+  dry_run_summary: artifacts/benchmark/e1_preparation/comparison_v1_1_logicpoison_runner_dryrun.json

@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "protocol_version": "comparison-v1.2",
+  "config_sha256": "e414d980ebbdb4ef3f4dfee4e4eca15fdc246b3017d16994c19fbfa1409d13ba",
+  "implementation_sha256": "17cbe155b4f9b2a3e4f005c9b365e815a964cdd50863bd068fb9591a8f98994e",
+  "source_index_sha256": "2d25646c8122b38affd340f215537a46aea689f0b21d7d51a8d59cc5806a161a",
+  "query_sha256": "92d2f8128e38ee3955e22c22ace29792da55205ab6aca1997cfb59d97534b412",
+  "run_identity_sha256": "26112d28d48f8ea967d5db00bb990fcbdfdcf8aad95dfe5dff93fcacf0aa0747"
+}

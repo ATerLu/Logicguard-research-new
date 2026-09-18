@@ -1,8 +1,157 @@
 # LogicGuard 新会话交接文档
 
-最后更新：2026-08-04
+最后更新：2026-09-18
 项目目录：`F:\LogicGuard_project\logicguard`
-当前状态：**Stage47 已完整完成；Stage48 尚未开始。当前没有后台实验进程。**
+当前状态：**Stage48 Gate A 失败关闭；WP1 完成。WP2 的 A2 本地四阶段、T0/T1 合成控制层、A1/A3 官方资产审计、两样本物化、双后端 0% clean-trace 合同和 D3/D4 外部防御资格均已审计。D3 已分别加载发布工件实际 MiniLM 权重与库文档声明 Stella 权重，执行发布工件原函数与 v0.2 API，2 个 fixture 上双路径均完全一致；MiniLM single-hop 有顺序敏感，Stella 两例 F1=1.0 且反序一致，但样本太小不构成效果结论。发布工件公式仍与论文文字不一致，主标签仅为 `RAGDefender_published_artifact_implementation`。D4 固定官方提交因 `repairer.py` 第 304 行缩进错误及两个核心提示词缺失而 paper-native unavailable，不产生方法无效结论。完整 dev60 A1/A2/A3、真实 trusted-pool 检索、D4 bounded reimplementation、D6、独立确认集和正式排名尚未完成。下一项是冻结完整 dev60 的请求/materialization/费用与停止规则。本轮 D3/D4 provider 调用 0，费用 ¥0。**
+
+### 2026-09-18 工作站迁移与 GitHub 交接
+
+- `F:\LogicGuard_project\logicguard` 继续是当前机器唯一开发事实源；GitHub 仓库 `ATerLu/Logicguard-research-new` 的 `uisee-dev` 分支是精选发布镜像。
+- 新工作站从 `uisee-dev` 克隆后，先完整阅读本文、`WORKSTATION_HANDOFF.md`、`docs/thesisPlan.md`、`docs/results.md`、`docs/methodology.md`、`docs/reproducibility.md` 与 `docs/comparativeExperimentPreregistration_v1.2.md`。
+- Git 镜像包含代码、配置、测试、研究文档、论文调研、Stage48 冻结攻击/汇总以及 WP1/WP2 关键 benchmark artifacts；不包含凭据、虚拟环境、原始/处理数据、全量 GraphRAG 工作区和可再生大输出。
+- 被排除的数据文件由仓库根目录 `EXTERNAL_ASSETS_SHA256.tsv` 记录哈希；不得把缺少本地数据误判成实验资产不存在，也不得未经核验重新生成已冻结攻击。
+- 新工作站完成环境和外部资产恢复后，先运行 `pytest`、`ruff check` 和 `ruff format --check`，再继续完整 dev60 A1/A2/A3 启动清单。
+
+### 2026-09-10 WP2 D3/D4 外部防御资格
+
+- D3 固定上游 `ba2a17e`，实际加载 `sentence-transformers/paraphrase-MiniLM-L6-v2@c9a2bf...` 的 90,868,373-byte 权重；发布工件原函数 AST 与 v0.2 API 在 single-hop/multi-hop 两个官方 fixture 上删除索引完全一致。
+- D3 fixture F1 分别为 0.667 和 0.800；这只是小样本过滤器诊断，不是后端防御效果。single-hop 反序输入改变一个删除文档，正式比较必须冻结原始检索顺序。multi-hop 发布工件仍保留 `OR/shifted-median/result-flip`，不能称论文公式忠实。
+- 库文档声明的 `stella_en_1.5B_v5@781706...` 也已真实加载：最小快照 6,191,135,894 bytes，1024 维；两条 fixture 的工件/API 输出一致、反序一致、F1 均为 1.0。它是模型敏感性锚点，不能取代发布工件实际 MiniLM 配置或外推总体效果。
+- D4 固定上游 `b3197f5` 的 `Src/repairer.py:304` 无法编译，且 `get_response.md`、`prompts/response_subquestion.md` 不存在；前置门失败后 provider 调用 0。D4 单元保持 unavailable，等待作者修正版或另行预注册 bounded reimplementation。
+- 有效产物：`artifacts/benchmark/research_revision_v1_2/wp2/d3_d4_external_defense_qualification_anchor_v5/`；报告 `docs/D3_D4_ExternalDefense_WP2_Qualification.md`。v5 已将两个 runner 自身 hash 纳入 identity；旧 namespace 保留严格顺序门、Stella 依赖失败和 identity 补强过程，不覆盖。
+- 下一项是完整 dev60 启动前冻结：A1/A2/A3 请求、模型 revision、最大调用/token/费用、unknown/in-flight 计账、停止规则及 materialization manifest；随后才执行攻击语料。
+
+### 2026-09-10 WP2 common-dev 物化器与真实双后端 trace 合同
+
+- 新增 `attack_corpus_materializer.py`，对现有 1 个 A1、1 个 A3 generation-valid development pilot 做不可变语料物化。A1 生成 1 个污染文档，占 HotpotQA clean corpus `1/9811=0.0102%`；A3 依上游重叠选择语义产生 8 个出现次数、6 条唯一文本，占 MuSiQue `8/11656=0.0686%`。两者均低于 1% ratio 和 400-word 门，但都未达到 paper-native 数量，只能作为 materializer anchor。
+- A1 严格复现 `question + "." + adversarial_text` 的无额外空格前缀。A3 输出 direct/indirect/enhanced 三个物理文本文件，并记录 query、relation key、source group、occurrence、unique text、word/token 与 corpus hash。
+- 在历史 LightRAG 十文档索引副本上执行 1 条 hybrid `query_data`：返回 6 chunks，1 次 keyword LLM + 1 次 embedding，chat usage 666/37 tokens、embedding 33 tokens，thinking/retry 均为 0；原索引前后 hash 一致。实际目录价 ¥0.001644，低于 ¥0.04 hard cap。
+- Microsoft 首条真实 saved trace 的 42 sources 与 LightRAG 的 6 chunks 均与各自 clean corpus exact-match，并生成 4 条 0%-coverage T0/T1 contexts、2 条审计、0 失败。该锚点只证明 schema admission；`trusted_pool_retrieval_executed=false`。
+- 主要产物：`artifacts/benchmark/research_revision_v1_2/wp2/a1_a3_common_dev_materialization_anchor/`、`lightrag_real_trace_anchor/`、`real_trace_zero_coverage_contract_anchor/`。本轮未重新生成攻击、未重新索引、未生成答案。
+
+### 2026-09-08 WP2 A1/A3 机制预算与后端 trace 资格锚点
+
+- A1 官方 HotpotQA 固定资产通过 100 query × 5 文本结构审计，共 500 条逻辑注入文档；文本 22–34 words，错误目标字面命中 460/500，40 条未命中只记诊断，不作为资产失败条件。上游 `question + "."` 前缀已纳入物化预算语义。
+- A3 官方 MuSiQue artifact 共 74 行，原始 direct/indirect/enhanced 为 750/370/435。忠实复算上游相邻关系复用和 Nα=10、Nβ=5 选择后为 654/370/437 个出现次数，共 1,461；唯一文本为 1,341。存在 16 次相邻复用、1 个非相邻重复关系键未合并、90 个重叠索引出现。最大文本 72 words，低于 400-word 配置，但上游未在生成时硬执行该门，故仅是 post-hoc audit。
+- 新增 Microsoft GraphRAG saved-local-context 与 LightRAG `query_data` 严格适配器，统一输出 document/source-group/rank/text/token。历史 Microsoft clean trace 的 1,870/1,870 sources 与冻结 clean corpus 正文精确一致；这不是新实验。LightRAG 只有 2-hit fixture，严禁写成真实后端运行。
+- 入口 `python -m logicguard.benchmark.wp2_qualification_runner`；配置 `comparison_v1_2_a1_a3_trace_qualification.yaml`；产物位于 `artifacts/benchmark/research_revision_v1_2/wp2/a1_a3_backend_trace_qualification_anchor/`，报告 `docs/A1_A3_BackendTrace_WP2_Qualification.md`。
+- 本锚点只能支持“机制、预算解释和适配契约可执行”，不能支持 ASR、EM/F1、防御优势或三数据集迁移结论。provider 调用 0，费用 ¥0。
+
+### 2026-09-08 WP2 T0/T1 共享可信证据控制层验收
+
+- 新增 `trust_manifest.py`：只接受 `_id/text/title/source_group_id`，递归拒绝 gold/support/answer/攻击与防御结果；按 dataset revision、冻结 seed 和 source group hash 生成严格嵌套的 100/50/20/0% trusted groups。
+- 新增 T0 trusted-only 与 T1 ordinary RRF；统一预算覆盖 live/trusted top-k、最终来源、上下文 token、检索调用和模型调用。T1 冲突时使用 protected clean copy，不执行 LogicGuard 验证。
+- 每个 T1 case 输出 manifest、budget、candidate pool 和 equal-information contract hash；未来 D6 不一致即审计失败。Stage28 candidate missing 新增 `unverifiable`，旧 `is_risky` 保留兼容但不得再解释为 safe。
+- 合成锚点为 2 query × 2 backend labels × 4 coverage × 2 controls，共 32 context、16 audit、0 failure；provider 调用 0、费用 ¥0。它不连接真实后端，不产生 ASR/EM/F1 结论。
+- 入口 `python -m logicguard.benchmark.trusted_control_runner`，配置 `comparison_v1_2_trusted_controls_fixture.yaml`，规范化产物在 `artifacts/benchmark/research_revision_v1_2/wp2/trusted_controls_synthetic_anchor_final/`，报告 `docs/TrustedControls_WP2_LocalVerification.md`。
+- 下一步不是立即做正式大规模回答实验：先核验 A1/A3 机制/预算，并把真实双后端 retrieval traces 接到同一合同；随后完成 D3/D4 anchors、D6 development 与新确认集门。
+
+### 2026-09-08 WP2 A2 本地链路验收
+
+- 恢复中断遗留的 `logicpoison_pipeline.py`、`logicpoison_corpus.py`、fixture 和测试；完成 global/query/logic/corpus 路径、类型映射、最长单遍替换、变更 provenance、预算准入与断点保护。
+- 两个本地锚点均为 4 篇合成文档、2 条合成 query 响应，3 篇变更、7 处替换；真实 NER 锚点使用既有 `en_core_web_trf 3.8.0`，并记录模型文件 hash。不是 HotpotQA 正式样本，不是 dev60 运行结果。
+- 新入口 `python -m logicguard.benchmark.logicpoison_pipeline`；配置 `comparison_v1_2_logicpoison_fixture.yaml` 和 `comparison_v1_2_logicpoison_trf_anchor.yaml`；产物在 `artifacts/benchmark/research_revision_v1_2/wp2/` 的两个独立子目录。
+- `corpus_materialization_valid=true` 不等于真实生成有效：fixture 的 `generation_valid=false`、`evaluation_valid=null`、`attack_effect_measured=false`。当前标签只能是 bounded-port local anchor。
+- 验收 `44 passed, 1 deselected`；ruff 通过、195 文件格式通过；11 个受保护历史文件 hash 未变。未重跑会改写旧 E0/E1 readiness 的测试。
+- 隔离环境仅增加 PyYAML 6.0.3；NER/torch 未升级。真实 provider 调用 0、费用 ¥0，模拟账本金额不得算作真实费用。
+- 报告 `docs/LogicPoison_WP2_LocalVerification.md`。下一步 T0/T1；真实 dev60 攻击资格与三数据集语料、强基线、双后端检索/回答和成本门仍待推进。不得再次把四阶段本地通过写成 WP2 全部完成。
+
+### 2026-09-06 WP1 协议修订与历史审计
+
+- 977 文件扫描、20 排除、0 解析错误；74,349 条文件×问题匹配证据。三个数据集各 100 development / 100 validation / 300 locked test 均有历史执行/分析记录；每数据集的 `naive_bm25_clean_traces.jsonl` 直接覆盖 500 问。
+- 新产物位于 `artifacts/benchmark/research_revision_v1_2/`；旧 v1.1 文档、split、readiness 和已付费结果未改写。正式确认集尚未建立，不可重新洗牌旧 500 问冒充 fresh test。
+- 新机器协议 `configs/benchmark/comparison_v1_2_protocol.yaml` 和 fidelity review 区分适配、部分实现、论文复现。新指标纯函数处理 unknown 边界、clean-correct flip 和防御诱发错误；尚未接入全部旧 runner。
+- 公平对照增加 T0 trusted-only、T1 普通可信补证；与 D6 同池同预算，可信覆盖按来源组为 100/50/20/0%。D7 oracle 不排名。
+- WP2 dev60 仅冻结开发输入，不是攻击执行。执行前补齐攻击、外部模型锚点、完整 trace 与请求预算保护；不再将固定 100 文档计量当科学上的唯一前置门。
+- 下列 2026-09-04 及更早段落保留历史状态；其中 A2 完成度、split 独立性、100 文档门和主指标分母的解释由 v1.2 修正。
+
+### 2026-09-04 Comparative Benchmark E1 preparation
+
+- 新增 `logicguard.benchmark.e1_preparation`、`logicguard.benchmark.attack_runner` 和 gold-free request contracts。A1 改为 question-only 单次 target/evidence 生成，target 与 gold 只在冻结后由 evaluator 碰撞检查；碰撞记 invalid，不重生成。A3 固定为 question-only 的 decompose/select-relation/generate-evidence 三阶段，每阶段最多一次调用，替代上游无界递归/循环。
+- 生成 A1-A3 × 三数据集 × 双后端共 18 个 validation cell，每格 attempted=100；机器输入共 1,800 行。同一 `(dataset, attack, query)` 在两个后端共享 attack seed。攻击生成不读取 evaluator-only；A1 输出冻结后的 audit 读取 1 条 evaluator-only 记录做 target/gold collision 检查。
+- A1/A3 dry-run 对 600 个唯一攻击尝试展开 1,200 个调用槽：A1 300，A3 900。全部请求通过 gold/support 泄漏和单次调用检查；实际 provider call、凭据读取、攻击生成与正式索引均为 0。
+- BadRAG 在三数据集各 20 个 development query 上完成 trigger/no-trigger 词法 mechanism smoke。聚合 trigger retrieval 为 `18/60=30%`，clean false activation 为 `0/60=0%`；未达到 60% retrieval 门且未运行 dense COP/ACOP/MCOP 与 payload 回答，所以 `validation_eligible=false`。
+- A1/A3 两个冻结 development 样本生成有效，共 4 次调用，费用 ¥0.063350；A1 target/gold collision 为 0。A2 首个样本生成有效但因 qwen3.7-plus 默认 thinking 产生 1,713 completion tokens，费用 ¥0.013998 超过 ¥0.0071 门，已冻结为成本失败且未重试。另一独立样本显式 `enable_thinking=false + max_completion_tokens` 后 reasoning tokens 为 0、费用 ¥0.002080，成本控制通过。
+- LightRAG 1/10 文档索引分别为 1/10 次 chat、3/33 次 embedding，费用估计 ¥0.007472/¥0.080994；Microsoft GraphRAG 分别为 4/33 次 chat、4/8 次 embedding，费用估计 ¥0.031002/¥0.205057。四组均无 reasoning tokens 并通过各自 hard cap；历史一次 LightRAG callback deep-copy 初始化失败发生在首次 API 前，费用 ¥0，保留为失败记录。
+- 三语料共 27,586 文档；按每数据集 clean + A1/A2/A3、每后端 12 个独立索引，等价于每后端 110,344 次文档索引暴露。1/10 文档外推的双后端总区间约 ¥2,958.622–¥4,322.297，只是校准信号，不是 hard cap。下一成本门必须先运行冻结的 100 文档分层试验或缩减重复索引设计。
+- 2026-09-03 华北 2 未折扣价格冻结为 qwen3.7-plus 输入/输出 ¥2/¥8 每百万 tokens、text-embedding-v4 ¥0.5 每百万 tokens。A1-A3 validation 的非索引已知组件保守小计为 ¥108.715720；双后端全规模索引和 BadRAG dense/payload 仍无 hard cap，`paid_e1_launch_allowed=false`。
+- LogicPoison 隔离运行时已固定为 Python 3.11.7、spaCy 3.8.14、CPU torch 2.5.1、OpenAI SDK 1.109.1 和 `en_core_web_trf 3.8.0`。模型包已复制到 gitignored `tools/logicpoison/.venv`，按包名加载并在本地句子上正确输出 PERSON/GPE；不得借用 `en_core_web_lg`。
+- 下一项工作是先冻结 100 文档分层索引 gate 的选样、调用上限和停止规则，并判断保留 24-index 设计还是减少 corpus variant 重复；随后才能冻结 A1-A3 validation 总 hard cap。BadRAG dense/payload 保持独立资格轨，不与 wrong-answer ASR 合并。
+- 主要状态：`artifacts/benchmark/e1_preparation/comparison_v1_1_readiness.json`；索引审计：`artifacts/benchmark/e1_preparation/comparison_v1_1_indexing_pilot_audit.json`；报告：`artifacts/reports/ComparativeBenchmark_E1_Preparation.md`。本轮累计 102 次付费请求（6 次攻击生成、48 次索引 chat、48 次 embedding），4 个有效攻击生成、4 个 development 索引；目录价合计估计 ¥0.403953，其中 embedding tokens 为本地 tokenizer 估计。
+
+### 2026-09-03 Comparative Benchmark E0-A
+
+- 新增 `logicguard.benchmark` schema/contracts/readiness 实现和稳定 CLI `logicguard run benchmark-readiness`。漏斗冻结为 attempted 到 threat-native-success 的 10 层，并从类型层阻止 PoisonedRAG targeted ASR、LogicPoison clean-correct flip、GRAGPoison relation endpoint 和 BadRAG trigger endpoint 串线。
+- 官方代码以 detached commit 固定在 `vendor/upstream`：PoisonedRAG `f660d72`、LogicPoison `6699736`、GRAGPoison `316422f`、RAGDefender `ba2a17e`、HoG-GRAG `b3197f5`、LightRAG v1.5.7 `28ff1b0`。现有 dirty `F:\LogicGuard_project\external_repos\logicPoison` 未被修改。
+- 三数据集各 500 问已确定性分为 100 development / 100 validation / 300 locked test，三段交集为 0；attacker-safe 文件不含 gold/support，evaluator-only 文件单独保存标签。MuSiQue 按 2/3/4-hop 分层，2Wiki 按 2/4-support 结构分层。
+- Golden contract 复核为 PoisonedRAG HotpotQA `6/100` overlap、GRAGPoison MuSiQue `14/67` overlap；两者只作字段/预算 smoke，不产生 ASR 结论。
+- LogicPoison 旧污染语料重算出 changed docs：HotpotQA `9658/9811`、MuSiQue `11532/11656`、2Wiki `5109/6119`；query/answer/qrels 未变。因缺原生成 manifest 且 NER 曾改为 `en_core_web_lg`，已强制标为 `legacy_adapted`，不得进入 paper-native anchor。
+- Microsoft GraphRAG 3.1.0 与 LightRAG 1.5.7 隔离 import smoke 均通过；没有运行 LightRAG batch。v1.1 预注册见 `docs/comparativeExperimentPreregistration_v1.1.md`，机器表见 `docs/对比实验预注册表_v1.1.csv`，readiness 报告见 `artifacts/reports/ComparativeBenchmark_E0_Readiness.md`。
+- E0-B 的 four-attack/two-backend/eight-defense 保存 fixture smoke 已通过。RAGDefender/HoG 的模型级 paper-native 锚点、BadRAG development 效果 smoke 和 D6 full dual-track 不属于 E0 效果结论，分别保留为 E1/E2 前置工作；所有 E2 行仍锁定。
+- 最终质量门：项目 `pytest` 为 `265 passed`，`ruff check src tests` 通过，`ruff format --check src tests` 为 181 files already formatted。
+- 本阶段费用为 ¥0；没有付费 API、攻击生成或正式重新索引。
+
+### 2026-09-02 比较实验文献与公开资产审计
+
+- 新增 `docs/comparativeExperimentLiteratureAudit.md`，系统记录 PoisonedRAG、LogicPoison、GraphRAG under Fire/GRAGPoison、BadRAG、HoG-GRAG、RAGDefender、RAGuard、FilterRAG 与 SDAG 的数据、攻击处理、后端、防御、指标和公开资产。
+- 公开资产按原始干净集、论文处理集、攻击实例、完整污染语料/索引分级。PoisonedRAG 官方 HotpotQA 100 条攻击实例与项目 500-query 共同基准只重合 6 条；GRAGPoison 公开 MuSiQue 67 条问题只重合 14 条，均只能作 golden contract cases。
+- LogicPoison 官方 HF revision 只发布攻击生成输入；项目已有三数据集 clean/poisoned 成对语料，但本地上游将 NER 从 `en_core_web_trf` 改为 `en_core_web_lg`，且缺少完整 provenance manifest，必须标为本地适配资产而非官方预制污染集。
+- 推荐结构改为“论文原生锚点复现 + 共同 500-query 可移植性比较 + BadRAG 独立 backdoor 轨”；LogicPoison 主终点改为 clean-correct attack flip，不与 PoisonedRAG targeted ASR 或 BadRAG trigger ASR 混算。
+- 防御第一轮拟定为 D0 无防御、query paraphrase、PPL、RAGDefender、HoG-GRAG、Stage43–45、LogicGuard full 与 oracle 上界；RAGuard/SDAG 为条件性扩展。
+- 下一项拟议开发工作是 E0-A 本地资产冻结、split、参数 diff 与 adapter contract tests，但必须等用户审核并发布 v1.1 后才能开始。本次费用为 ¥0，未调用 API、未生成攻击、未建索引。
+
+### 2026-09-01 Stage48 失败分类与比较实验预注册
+
+- 新增 `stage48_failure_taxonomy` 离线审计，对 300 个 fixed-50 尝试赋予互斥的 generation/evaluation/selection/index/retrieval/prompt/complete 终止分类；不读取回答结果、不补样、不调用 API。
+- candidate collision 的约束失败被进一步拆开：MuSiQue 为 19 条 candidate 落入 gold support、1 条 malicious target 等于 gold；HotpotQA 为 22 条与 1 条。两个单元仍各只有 6 条 evaluation-valid，Stage48 结论不变。
+- low drift 的实际 full-corpus 传播失败明确为：MuSiQue 5 条未检索、2 条 source 已入 Prompt 但 target 被截断、3 条完整暴露；HotpotQA 5 条未检索、1 条 rank 超 top-12、3 条 target 被 450-char 截断、1 条仅 target 字符串在其他来源出现、0 条完整暴露。
+- 修正 fixed-50 inventory 与实际 reindex 选择器的哈希实现不一致：统一使用项目 `fingerprint_json(query_id)`，离线复算后 40/40 selected 与既有 exposure 一一对齐；没有重建索引或重做回答，所有已发布数值不变。
+- 新增攻击边界测试，覆盖 non-scalar/missing malicious target、gold target、gold-support candidate、top-k 丢失、字符截断和 target-only 误归因。
+- 新的对比实验预注册冻结为 HotpotQA/MuSiQue/2WikiMultihopQA × Microsoft GraphRAG/LightRAG × PoisonedRAG/LogicPoison/GraphRAG under Fire/BadRAG，并设置 E0 readiness、E1 attack qualification、E2 locked defense benchmark 三道门。全文见 `docs/comparativeExperimentPreregistration.md`，机器表见 `docs/对比实验预注册表.csv`。
+- 当前质量门：`pytest` 为 `254 passed`；`ruff check` 通过；`ruff format --check` 为 175 files already formatted。
+- 本次新增费用为 ¥0；不得借失败分类之名重跑 Stage48 付费 namespace。
+
+### 2026-08-24 Stage48 Gate A fixed-50 完成状态
+
+- 固定尝试预算为 MuSiQue/HotpotQA 各前 50 个 query，每 query 三类攻击。新增生成 75 次调用、225 条记录；没有因有效性或实验结果补样。generation/evaluation-valid 计数分别为：MuSiQue natural `21/20`、low `13/13`、collision `26/6`；HotpotQA natural `18/17`、low `22/19`、collision `29/6`。
+- 每单元目标为 10 条 evaluation-valid。四个 ready 单元为两个数据集的 natural bridge/low drift；两个 candidate-collision 单元均只有 6 条，未建立小分母索引，也未追加攻击调用。
+- 四个 full-corpus 单元全部完成且 40/40 攻击进入 index。MuSiQue natural/low 的 `retrieved → prompt-exposed` 为 `3/10 → 2/10`、`5/10 → 3/10`；HotpotQA 为 `7/10 → 2/10`、`5/10 → 0/10`。
+- 家族 pooled 结果：natural bridge Prompt 暴露 `4/20=20%`，95% Wilson CI `[8.1%, 41.6%]`；low drift `3/20=15%`，CI `[5.2%, 36.0%]`。只有 natural bridge 达到预注册 context 门。
+- natural bridge 的 4 个暴露 case 已全部回答并全部命中恶意目标；MuSiQue/HotpotQA 各 `2/10`，pooled system targeted ASR 为 `4/20=20%`，95% Wilson CI `[8.1%, 41.6%]`。未暴露 case 仍保留在 attempted 分母。
+- Gate A 要求至少两类攻击达到 Prompt 暴露 20% 且 system ASR 10%；当前只有 natural bridge 满足，所以 `gate_a_passed=false`。有效结论是 natural bridge 的跨数据集完整链稳定存在；low drift 的瓶颈是 top-12 与 450-char 截断使 source/target 不同时暴露；candidate collision 的主要瓶颈是 generation-valid 后的候选落入 gold support 约束（MuSiQue 20/26、HotpotQA 23/29）以及缺失 malicious answer（21/50、19/50）。
+- 本轮 fixed-50 增量精确目录价为 ¥2.367407、保守上界 ¥2.376367；Stage48 累计精确 ¥3.576961、累计上界 ¥3.587267。凭据值未进入配置、产物或日志。
+- 最终质量门：`ruff check` 通过，`ruff format --check` 为 173 files already formatted，`pytest` 为 `247 passed`。四个 run status 均为 `completed_context_only`，当前活动 Stage48 进程为 0。
+- 主要汇总：`outputs/ms_graphrag_query/stage48_gate_a_fixed50_answer_summary.json`；context 汇总：`outputs/ms_graphrag_query/stage48_gate_a_fixed50_context_summary.json`；完整成本：`outputs/manifests/stage48_gate_a_fixed50_answer_cost_ledger.json`。
+- 当前禁止事项：不得追加同一 fixed-50 预算来补足 collision；不得只用 prompt-exposed 的 `4/4` 代替 system `4/20`；不得把单一 natural-bridge 家族写成 Gate A 已通过；不得重跑四个已付费 index/context/answer namespace；不得在 Gate A 未通过时宣称 Stage44 或新防御有效。
+
+### 2026-08-22 Stage48 防御配对完成状态
+
+- 未重新生成攻击，也未修改 Stage43/44/45 detector。四个 frozen attack batch 共 14 个攻击尝试，分别在 attacked 与同批 clean full-corpus index 上运行 `full_query_guard`、Stage43 recovery、Stage44 top-12 与 Stage45 top-14，共完成 `14 × 2 × 4 = 112` 次 `qwen3.7-plus` 回答，API error 为 0。
+- clean index 使用与攻击 index 相同的 local-only settings/prompts：MuSiQue 为 11,656 documents、14,041 entities；HotpotQA 为 9,811 documents、9,813 text units、13,824 entities。community reports 仍省略，只嵌入 `entity_description`。
+- 汇总分母严格分开：无防御在 14 次 attempted 中有 9 次攻击 source 暴露、7 次恶意 target 字符串暴露、5 次 targeted success；即 attempted ASR `5/14=35.7%`，target-exposed ASR `5/7=71.4%`。
+- Stage43 将 targeted success 降为 `3/7`，但 14 次中只直接恢复 1 个攻击 source；clean 对照有 `10/14` 个配对单位至少误判并替换一个正常 source，clean accuracy 从无防御的 `4/14` 降至 `2/14`。因此 Stage43 当前不是可接受的最终防御。
+- Stage44 在 7 个 target-exposed case 上得到 `0/7` targeted success，但 attacked / clean accuracy 仅为 `5/14` 与 `6/14`。这说明 query-BM25 补证有安全信号，但总体可用性仍低，不能宣称方法价值门通过。
+- Stage45 的 targeted success 回升到 `1/7`，来自 HotpotQA natural bridge；增加二跳证据并非单调更安全。Stage45 attacked / clean accuracy 仍为 `5/14` 与 `6/14`。
+- low-drift 的 4 个实际攻击 source 在四个方法中均未被 Stage43 特异检出；本批回答没有命中 malicious target。结论是“存在 detector blind spot，但当前小样本未形成 targeted ASR”，不能把漏检直接写成攻击成功。
+- low-drift 复用原 doc ID。Stage44 可能补回同 ID clean source，因此攻击源暴露必须用 `doc_id + non-clean-reference source_state`，不得只按 doc ID 记账。该修正只重算本地 preflight/summary，没有新增 API 调用。
+- 本次配对增量的精确日志目录价为 ¥0.982251（clean indexes ¥0.088623；112 answers ¥0.893628）；14 次 query embedding 未给独立 token，按每次最多 128 tokens 的上界合计 ¥0.000896，所以本次上界 ¥0.983147。加上 2026-08-21 E1 的精确 ¥0.227303 / 上界 ¥0.227753，当前 Stage48 已记录累计精确成本 ¥1.209554、累计上界 ¥1.210900。
+- 主要汇总：`outputs/ms_graphrag_query/stage48_e1_paired_defense_answer_summary.json`；逐 case：`outputs/ms_graphrag_query/stage48_e1_paired_defense_answer_rows.jsonl`；成本：`outputs/manifests/stage48_e1_paired_defense_cost_ledger.json`；报告：`outputs/reports/Stage48_E1_PairedDefenseAndCleanControl.md`。
+- 当前禁止事项保持不变：不能用 14 个小样本声称稳定总体 ASR、统计显著或跨 GraphRAG global/community 路径成立；不能在扩分母与强基线前继续堆叠局部规则并把 Stage44 的 0/7 当作最终有效性。
+
+### 2026-08-21 Stage48 接续状态
+
+- 攻击和回答运行现已使用逐记录 JSONL checkpoint、五字段稳定 key、运行参数 fingerprint、run manifest 与原子 summary；不同参数不能静默续跑。
+- 新增中断恢复、参数不匹配、截断尾行和漏斗分母测试。模拟第 2 个回答调用前中断后，恢复只补做 1 个未完成 case。
+- Stage48 没有重新生成攻击文本；所有 E1 输入均从 Stage47 既有 records 冻结。除首个 MuSiQue `natural_bridge` existence pilot 外，新增实验使用 `evaluation_valid` 规则，只按 generation-valid、non-oracle、target-wrong 选择，不按 full-corpus retrieval、prompt exposure 或答案成败倒选。
+- MuSiQue `natural_bridge` existence pilot：5 个 Stage47 targeted-success 案例全部入库，3 个被检索，2 个在最终提示同时暴露 source/target；这 2 个回答均精确命中恶意目标。该结果只证明完整攻击链存在，不能估计总体 ASR。
+- MuSiQue `low_drift` 无偏 pilot：5 个同 ID 攻击文档按替换语义进入 11,656-doc corpus，漏斗为 `5 → 5 index → 4 retrieved → 2 prompt-exposed → 2 answered → 0 targeted`。同 ID 不再错误追加成重复文档。
+- MuSiQue `candidate_collision` 无偏 pilot：仅有 2 个 evaluation-valid 冻结样本，漏斗为 `2 → 2 → 1 → 1 → 1 → 1 targeted`；阳性案例的攻击 source rank 为 1，模型输出 `Charles Mingus Sr.`。
+- HotpotQA `natural_bridge` 无偏扩展：9,811 个 clean 文档加 2 个攻击文档，共 9,813 documents/9,815 text units；漏斗为 `2 → 2 → 2 → 2 → 2 answered → 1 targeted`。另一例输出 `28,776`，按 numeric-gold-prefix 离线规则与 gold `28,776 at the 2010 census` 匹配；该修正没有新增 API 调用。
+- 所有新增 full-corpus workspace 均冻结为 local context-only：`community_prop=0.0`、不生成 community reports、只生成 `entity_description` embeddings。结论不能外推到 global search 或 community-summary 路径。
+- 当前增量目录价精确可归因部分为 ¥0.227303；另有 9 个短查询 embedding 的保守上界约 ¥0.00045，因此本轮不超过约 ¥0.227753。实际账单可能因免费额度或活动更低。
+- 早期 117-doc reference 加 5 个攻击文档的 122-doc 可比性 pilot 曾因失效凭据在首次请求阻断，没有生成 index output；失效资产未被当作实验结果。
+- 新 DashScope 凭据已通过 chat 与 embedding 校验，只保存在 Windows 当前用户级环境变量；凭据值未写入仓库、配置、manifest 或日志。
+- 该决策门已于 2026-08-22 完成；结果见上方配对状态。下一决策门是扩大 evaluation-valid 样本并接入至少一个 GraphRAG 专用防御和一个通用 RAG 投毒防御。
 
 ### 2026-08-04 项目规范化状态
 

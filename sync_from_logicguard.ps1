@@ -39,7 +39,7 @@ function Sync-Directory {
         $Source,
         $Destination,
         '/MIR',
-        '/XD', '__pycache__', '.pytest_cache', '.ruff_cache', '.venv', 'tmp',
+        '/XD', '.git', '__pycache__', '.pytest_cache', '.ruff_cache', '.venv', 'tmp',
         '/NFL', '/NDL', '/NJH', '/NJS', '/NP'
     )
     if ($DryRun) {
@@ -66,15 +66,39 @@ function Copy-RootFile {
     Write-Host "root file: $Name"
 }
 
-foreach ($Directory in @('src', 'configs', 'tests', 'docs', 'scripts', 'tools', 'lib')) {
+foreach ($Directory in @(
+    'src',
+    'configs',
+    'tests',
+    'docs',
+    'scripts',
+    'tools',
+    'lib',
+    'papper',
+    'papper2'
+)) {
     Sync-Directory $Directory
 }
 
-foreach ($File in @('README.md', 'handoff.md', 'pyproject.toml', 'uv.lock', '.python-version')) {
+foreach ($File in @(
+    'README.md',
+    'handoff.md',
+    'pyproject.toml',
+    'uv.lock',
+    '.python-version',
+    '.gitignore',
+    'papers_manifest.tsv',
+    'papers_manifest2.tsv',
+    'read_list.md',
+    'read_list2.md',
+    '实验规划.md',
+    'WORKSTATION_HANDOFF.md'
+)) {
     Copy-RootFile $File
 }
 
 Sync-Directory 'outputs\reports' 'artifacts\reports'
+Sync-Directory 'artifacts\benchmark' 'artifacts\benchmark'
 
 $ResultSource = Join-Path $SourceRoot 'outputs\ms_graphrag_query'
 $ResultDestination = Join-Path $MirrorRoot 'artifacts\results'
@@ -83,7 +107,10 @@ New-Item -ItemType Directory -Path $ResultDestination -Force | Out-Null
 $ResultFiles = Get-ChildItem -LiteralPath $ResultSource -File | Where-Object {
     $_.Name -match '^stage40_.*(summary\.csv|examples\.jsonl)$' -or
     $_.Name -match '^stage46_.*(summary\.csv|examples\.jsonl)$' -or
-    $_.Name -match '^stage47_.*(summary\.csv|examples\.jsonl)$'
+    $_.Name -match '^stage47_.*(summary\.csv|examples\.jsonl)$' -or
+    ($_.Name -match '^stage48_' -and
+        $_.Length -le 1MB -and
+        $_.Name -notmatch 'checkpoint')
 }
 foreach ($ResultFile in $ResultFiles) {
     $Destination = Join-Path $ResultDestination $ResultFile.Name
@@ -99,7 +126,9 @@ $AttackDestination = Join-Path $MirrorRoot 'artifacts\attacks'
 Assert-MirrorPath $AttackDestination
 New-Item -ItemType Directory -Path $AttackDestination -Force | Out-Null
 $AttackFiles = Get-ChildItem -LiteralPath $AttackSource -File | Where-Object {
-    $_.Name -match '^stage47_.*_(attack_records|attack_integrity)\.jsonl$'
+    $_.Name -match '^stage47_.*_(attack_records|attack_integrity)\.jsonl$' -or
+    $_.Name -match '^stage48_gate_a_.*_fixed50_attack_(records|integrity)\.jsonl$' -or
+    $_.Name -match '^stage48_gate_a_.*_attack_expansion_records_run_manifest\.json$'
 }
 foreach ($AttackFile in $AttackFiles) {
     $Destination = Join-Path $AttackDestination $AttackFile.Name
@@ -108,6 +137,46 @@ foreach ($AttackFile in $AttackFiles) {
         Copy-Item -LiteralPath $AttackFile.FullName -Destination $Destination -Force
     }
     Write-Host "attack artifact: $($AttackFile.Name)"
+}
+
+$ManifestSource = Join-Path $SourceRoot 'outputs\manifests'
+$ManifestDestination = Join-Path $MirrorRoot 'artifacts\manifests'
+Assert-MirrorPath $ManifestDestination
+New-Item -ItemType Directory -Path $ManifestDestination -Force | Out-Null
+$ManifestFiles = Get-ChildItem -LiteralPath $ManifestSource -File | Where-Object {
+    $_.Name -match '^stage48_.*\.json$'
+}
+foreach ($ManifestFile in $ManifestFiles) {
+    $Destination = Join-Path $ManifestDestination $ManifestFile.Name
+    Assert-MirrorPath $Destination
+    if (-not $DryRun) {
+        Copy-Item -LiteralPath $ManifestFile.FullName -Destination $Destination -Force
+    }
+    Write-Host "run manifest: $($ManifestFile.Name)"
+}
+
+$ExternalAssetManifestPath = Join-Path $MirrorRoot 'EXTERNAL_ASSETS_SHA256.tsv'
+Assert-MirrorPath $ExternalAssetManifestPath
+if (-not $DryRun) {
+    $ExternalAssetRoots = @((Join-Path $SourceRoot 'data'))
+    $ExternalAssetRows = foreach ($AssetRoot in $ExternalAssetRoots) {
+        if (-not (Test-Path -LiteralPath $AssetRoot -PathType Container)) {
+            continue
+        }
+        Get-ChildItem -LiteralPath $AssetRoot -Recurse -File -ErrorAction Stop |
+            Where-Object {
+                $_.FullName -notmatch '(^|\\)\.env$' -and
+                $_.FullName -notmatch '(^|\\)__pycache__(\\|$)'
+            } |
+            ForEach-Object {
+                $RelativePath = $_.FullName.Substring($SourceRoot.Length + 1)
+                $Hash = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+                "$Hash`t$($_.Length)`t$RelativePath"
+            }
+    }
+    @('sha256' + "`t" + 'bytes' + "`t" + 'source_relative_path') +
+        ($ExternalAssetRows | Sort-Object) |
+        Set-Content -LiteralPath $ExternalAssetManifestPath -Encoding utf8
 }
 
 $StatusPath = Join-Path $MirrorRoot 'MIRROR_STATUS.md'
@@ -120,6 +189,8 @@ if (-not $DryRun) {
         "- Synced at: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss K')",
         "- Curated result files: $($ResultFiles.Count)",
         "- Curated attack files: $($AttackFiles.Count)",
+        "- Curated run manifest files: $($ManifestFiles.Count)",
+        '- External data/index files: excluded from Git and recorded in EXTERNAL_ASSETS_SHA256.tsv',
         '- Direction: source worktree to Git mirror only.'
     ) -join [Environment]::NewLine
     Set-Content -LiteralPath $StatusPath -Value $Status -Encoding utf8

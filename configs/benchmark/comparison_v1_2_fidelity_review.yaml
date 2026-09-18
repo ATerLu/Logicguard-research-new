@@ -1,0 +1,68 @@
+schema_version: 1
+review_date: '2026-09-10'
+review_type: manual_source_inspection_not_effect_reproduction
+source_hash_inventory: artifacts/benchmark/research_revision_v1_2/history_summary.json
+reviewed_implementation: src/logicguard/benchmark/attack_runner.py
+methods:
+  A1_poisonedrag:
+    status: paper_asset_anchor_passed_shared_runner_remains_adaptation
+    observed: [single_target_and_evidence_generation_call, official_hotpotqa_100_by_5_asset_and_question_prefix_audited]
+    anchor: artifacts/benchmark/research_revision_v1_2/wp2/a1_a3_backend_trace_qualification_anchor/summary.json
+    materialization_anchor: artifacts/benchmark/research_revision_v1_2/wp2/a1_a3_common_dev_materialization_anchor/summary.json
+    materialization_anchor_scope: one_existing_generation_valid_pilot_attempt_not_full_dev60
+    missing: [full_dev60_generation_and_materialization, backend_end_to_end_qualification]
+    permitted_label: PoisonedRAG_inspired_adaptation
+  A2_logicpoison:
+    status: full_local_pipeline_verified_not_effect_qualified
+    legacy_runner_status: partial_query_stage_only_preserved_for_v1_1
+    implementation: src/logicguard/benchmark/logicpoison_pipeline.py
+    corpus_implementation: src/logicguard/benchmark/logicpoison_corpus.py
+    observed: global_query_logic_corpus_pipeline_passed_two_local_anchors
+    local_anchors:
+      - artifacts/benchmark/research_revision_v1_2/wp2/logicpoison_synthetic_anchor/manifest.json
+      - artifacts/benchmark/research_revision_v1_2/wp2/logicpoison_trf_anchor/manifest.json
+    anchor_query_extraction: synthetic_responses_not_provider_generated
+    mechanism_parity: upstream_mapping_and_text_rewrite_match_on_unambiguous_fixture
+    adaptations: [bounded_JSON_query_prompt, deterministic_query_order, ambiguous_type_rejection, no_evaluator_files_copied]
+    missing: [real_development_query_extraction_and_corpora, backend_end_to_end_qualification, paper_model_query_anchor]
+    upstream_reference: vendor/upstream/LogicPoison/main.py
+    permitted_label: LogicPoison_bounded_port_local_pipeline_anchor
+  A3_gragpoison:
+    status: paper_artifact_anchor_passed_with_caveats_shared_runner_remains_adaptation
+    observed: [decompose_select_relation_generate_evidence, official_74_row_artifact_and_upstream_relation_selection_audited]
+    anchor: artifacts/benchmark/research_revision_v1_2/wp2/a1_a3_backend_trace_qualification_anchor/summary.json
+    caveats: [upstream_merges_only_adjacent_relation_keys, selection_indices_can_overlap, word_budget_is_posthoc_not_generation_enforced]
+    materialization_anchor: artifacts/benchmark/research_revision_v1_2/wp2/a1_a3_common_dev_materialization_anchor/summary.json
+    materialization_anchor_scope: one_existing_generation_valid_pilot_attempt_not_cross_query_evidence
+    missing: [full_dev60_cross_query_materialization, end_to_end_qualification]
+    permitted_label: GRAGPoison_inspired_adaptation
+  A4_badrag:
+    status: lexical_surrogate_only
+    missing: [dense_COP_ACOP_MCOP, payload_answer_evaluation, paper_mechanism_anchor]
+    permitted_label: trigger_retrieval_mechanism_smoke
+  D3_RAGDefender:
+    status: published_artifact_model_anchor_passed_with_order_and_formula_caveats
+    anchor: artifacts/benchmark/research_revision_v1_2/wp2/d3_d4_external_defense_qualification_anchor_v5/summary.json
+    model: sentence-transformers/paraphrase-MiniLM-L6-v2@c9a2bfebc254878aee8c3aca9e6844d5bbb102d1
+    declared_paper_model_sensitivity: dunzhang/stella_en_1.5B_v5@7817065102fd9e1b031fe874e910c01f40b2f001
+    observed: [published_artifact_AST_and_package_v0_2_exact_match_on_two_fixtures_for_both_models, single_hop_passage_order_sensitivity_under_minilm, stella_two_fixture_F1_1_and_order_equivariance]
+    caveats: [published_artifact_model_differs_from_library_paper_model_claim, multi_hop_artifact_formula_differs_from_paper_text, no_backend_effect_measured]
+    permitted_label: RAGDefender_published_artifact_implementation
+    missing: [real_development_backend_defense_execution]
+  D4_HoG_GRAG:
+    status: official_artifact_unavailable_fail_closed
+    anchor: artifacts/benchmark/research_revision_v1_2/wp2/d3_d4_external_defense_qualification_anchor_v5/summary.json
+    observed: [repairer_py_line_304_indentation_error, detection_and_repair_prompt_files_missing, gpt_5_mini_literal_present_but_not_called]
+    permitted_label: unavailable
+    missing: [corrected_official_artifact_or_preregistered_bounded_reimplementation, executable_defense_qualification]
+  D5_legacy_LogicGuard:
+    status: implemented_legacy_control_not_final_method
+    caveats: [clean_candidate_pool_information_advantage, missing_candidate_is_not_proven_safe]
+  D6_LogicGuard:
+    status: four_component_method_not_implemented
+    missing: [claim_check, provenance_check, path_check, recovery_integrity_gate]
+acceptance:
+  import_or_schema_success_is_effect_reproduction: false
+  generation_valid_implies_materialized_poisoned_corpus: false
+  every_adaptation_requires: [explicit_difference_from_paper, threat_model, budget, provenance, qualified_endpoint]
+  failed_fidelity_gate_action: label_adaptation_or_leave_cell_unavailable_never_claim_paper_failure

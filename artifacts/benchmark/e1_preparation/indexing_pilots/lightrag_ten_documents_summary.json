@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "backend": "lightrag",
+  "backend_version": "1.5.7",
+  "status": "PASSED",
+  "document_ids": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10"
+  ],
+  "document_count": 10,
+  "document_chars": 4278,
+  "usage": {
+    "llm_calls": 10,
+    "embedding_calls": 33,
+    "prompt_tokens": 19455,
+    "completion_tokens": 4973,
+    "reasoning_tokens": 0,
+    "embedding_tokens": 4600
+  },
+  "generation_controls": {
+    "enable_thinking": false,
+    "output_limit_parameter": "max_completion_tokens",
+    "provider_retries": 0
+  },
+  "planned_catalog_cost_cap_cny": 2.064,
+  "hard_cost_cap_cny": 2.07,
+  "actual_catalog_cost_cny": 0.080994,
+  "elapsed_seconds": 108.494,
+  "output_file_count": 11,
+  "error": null
+}

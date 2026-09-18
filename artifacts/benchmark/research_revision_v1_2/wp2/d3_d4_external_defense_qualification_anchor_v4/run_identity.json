@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "protocol_version": "comparison-v1.2",
+  "config_sha256": "137dad0e464878fdf418930020ea365a347dbe029ee4fc0fb35cbcae1cacf887",
+  "input_sha256": {
+    "vendor/upstream/RAGDefender/artifacts/main.py": "6f880f338f1458a48d0b88e2af7703c711d936b371cbd1e9e67928586bba6545",
+    "vendor/upstream/RAGDefender/artifacts/src/utils.py": "6cf03e534d6ee249723a04b2f9c8ea7b6737005c2b0eff553e982a1e3c13c735",
+    "vendor/upstream/RAGDefender/ragdefender/defender.py": "1f4253064d11ae262def126a2f4c66c28c604f3d2b9d9f7124e051372fe1f8b1",
+    "vendor/upstream/HoG-GRAG/Src/detection.py": "f0e401b31edff3116c83b2712b751adeaf99cb0d882fe9ba3b26adb32f61c99a",
+    "vendor/upstream/HoG-GRAG/Src/repairer.py": "413c3d14f6b6461dbd9bb3f97028a7b626d3f5372d761441129e0f4200db0fc7",
+    "vendor/upstream/HoG-GRAG/Src/trace_analysis.py": "1d134bd9116b8ee42742ee5227196aab86065ab402d899ffd102f4775eaa5b7f",
+    "vendor/upstream/HoG-GRAG/Src/evaluation.py": "e65da38f3006a985ea66cf203454ef04c77106eac30a6152751b506913010bea",
+    "vendor/upstream/RAGDefender/tests/fixtures/legacy_v011_singlehop.json": "de0ba64c15e7fd0b2a2afe18aa1566539f1d0b9a4ff23eb9638308dbedd6a068",
+    "vendor/upstream/RAGDefender/tests/fixtures/legacy_v011_multihop.json": "fa66e17fc0f4a25c2b0f31f771927a2c40e3f27df6b10ebf3714de8005d0a326"
+  },
+  "upstream_commits": {
+    "D3_RAGDefender": "ba2a17efba165d45409114df2d70b030ade1e1b8",
+    "D4_HoG_GRAG": "b3197f5cb03b161ce4d29365ab73f1b3ed3adb02"
+  },
+  "run_identity_sha256": "608732bf24cac6347cb87aa5d02baeab159c0bdaa04736314f31725ecaa35f79"
+}

@@ -1,0 +1,56 @@
+{
+  "Teutberga": {
+    "chunk_ids": [
+      "0-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1788480872,
+    "update_time": 1788480872,
+    "_id": "Teutberga"
+  },
+  "Lotharingia": {
+    "chunk_ids": [
+      "0-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1788480872,
+    "update_time": 1788480872,
+    "_id": "Lotharingia"
+  },
+  "Lothair II": {
+    "chunk_ids": [
+      "0-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1788480872,
+    "update_time": 1788480872,
+    "_id": "Lothair II"
+  },
+  "Boso the Elder": {
+    "chunk_ids": [
+      "0-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1788480872,
+    "update_time": 1788480872,
+    "_id": "Boso the Elder"
+  },
+  "Hucbert": {
+    "chunk_ids": [
+      "0-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1788480872,
+    "update_time": 1788480872,
+    "_id": "Hucbert"
+  },
+  "St. Maurice's Abbey": {
+    "chunk_ids": [
+      "0-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1788480872,
+    "update_time": 1788480872,
+    "_id": "St. Maurice's Abbey"
+  }
+}

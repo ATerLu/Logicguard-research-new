@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "poisonedrag_hotpotqa": {
+    "official_instance_count": 100,
+    "common_query_overlap_count": 6,
+    "expected_overlap_count": 6,
+    "passed": true
+  },
+  "gragpoison_musique": {
+    "official_question_count": 67,
+    "common_query_overlap_count": 14,
+    "expected_overlap_count": 14,
+    "passed": true
+  },
+  "passed": true,
+  "fingerprint": "145beebf452769c042e9ecb5d1ac06027342e04180c48c9fcf53163049c8d686"
+}

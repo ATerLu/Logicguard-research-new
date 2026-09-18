@@ -6,10 +6,18 @@ LogicGuard 是一个面向 RAG / GraphRAG 逻辑污染防御的科研原型。�
 - LogicPoison 语料：clean/poisoned corpus、多数据集回答层与 recovery 实验。
 - Microsoft GraphRAG：minimal workflow、query-ready workflow、official LocalSearchMixedContext 查询层接入。
 
+## 2026-09-18 接手状态
+
+当前开发主线已推进到 Stage48 Gate A 关闭、WP1 完成、WP2 部分完成。下一项任务不是直接启动大规模正式比较，而是冻结并执行完整 dev60 的 A1/A2/A3 请求与 materialization 启动清单。最新结论、边界、禁止事项和决策门以 `handoff.md` 为准；从另一台工作站接手时还必须阅读 `WORKSTATION_HANDOFF.md`。
+
+GitHub `uisee-dev` 分支保留代码、协议、论文调研和精选实验资产，但不提交密钥、完整数据、上游仓库、索引、虚拟环境或全量输出。克隆后使用 `scripts/bootstrap_upstreams.ps1` 恢复固定版本的上游仓库，并使用 `EXTERNAL_ASSETS_SHA256.tsv` 与 `scripts/verify_external_assets.ps1` 核验另行复制的外部数据。
+
 ## 当前入口
 
 请优先阅读：
 
+- [当前研究交接](handoff.md)
+- [工作站迁移与接手续作](WORKSTATION_HANDOFF.md)
 - [实验方法与路线](docs/methodology.md)
 - [实验结果总报告](docs/results.md)
 - [报告迁移与哈希清单](docs/report_manifest.csv)

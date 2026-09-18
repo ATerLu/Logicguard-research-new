@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "benchmark_version": "comparison-v1.1",
+  "datasets": [
+    {
+      "dataset": "hotpotqa",
+      "classification": "legacy_adapted",
+      "paper_faithful": false,
+      "clean_document_count": 9811,
+      "poisoned_document_count": 9811,
+      "document_id_sets_equal": true,
+      "changed_document_count": 9658,
+      "changed_document_fraction": 0.9844052594027113,
+      "immutable_evaluator_files_equal": {
+        "queries.jsonl": true,
+        "answers.jsonl": true,
+        "qrels/test.tsv": true
+      },
+      "clean_corpus_sha256": "d5af8f641801aced2a16709bdc2ee0b86b80f1ab5f80a4eddcc23df4e1763635",
+      "poisoned_corpus_sha256": "accac19aa0d8217244e8255dbb2373775040732ce05e51d0723d4a31a25b9c13",
+      "poison_stats_sha256": "18aaa49ba5ecc6884e0bd7155a24200a3cb4c67cd349fb0f3abdc9245bf63444",
+      "generation_run_manifest_available": false,
+      "known_local_generator_difference": "en_core_web_lg replaced pinned en_core_web_trf",
+      "eligible_for_paper_native_anchor": false,
+      "eligible_as_legacy_adapted_sensitivity": true
+    },
+    {
+      "dataset": "musique",
+      "classification": "legacy_adapted",
+      "paper_faithful": false,
+      "clean_document_count": 11656,
+      "poisoned_document_count": 11656,
+      "document_id_sets_equal": true,
+      "changed_document_count": 11532,
+      "changed_document_fraction": 0.9893617021276596,
+      "immutable_evaluator_files_equal": {
+        "queries.jsonl": true,
+        "answers.jsonl": true,
+        "qrels/test.tsv": true
+      },
+      "clean_corpus_sha256": "bc0eb1609d457b8d751a7c559d47e146f20868b9a6fba8bfa341fe843f0f1b67",
+      "poisoned_corpus_sha256": "c5bb62b0b2e6d9c92b65646a9cc01450a74c5a6a65d1dc9f79cdfa68ed447f57",
+      "poison_stats_sha256": "3a4aeba8f209d8d7d07599d1795cf306c1635cc53ca4bb637ab19206918a26a5",
+      "generation_run_manifest_available": false,
+      "known_local_generator_difference": "en_core_web_lg replaced pinned en_core_web_trf",
+      "eligible_for_paper_native_anchor": false,
+      "eligible_as_legacy_adapted_sensitivity": true
+    },
+    {
+      "dataset": "2wikimultihopqa",
+      "classification": "legacy_adapted",
+      "paper_faithful": false,
+      "clean_document_count": 6119,
+      "poisoned_document_count": 6119,
+      "document_id_sets_equal": true,
+      "changed_document_count": 5109,
+      "changed_document_fraction": 0.8349403497303481,
+      "immutable_evaluator_files_equal": {
+        "queries.jsonl": true,
+        "answers.jsonl": true,
+        "qrels/test.tsv": true
+      },
+      "clean_corpus_sha256": "a7b9216a4bd0cca67a8b42d256cbcb782c4f64bf2d7dcdf8702b763d63a32194",
+      "poisoned_corpus_sha256": "9e2f4f6b74ecf6f596208180f294f8419ca0a6ba2a5f83a9ed4fe5cc8395d5f0",
+      "poison_stats_sha256": "7fb37d948b90bb7186501df4d08b0278c9251225ce0af096abd7b8ae80be02ca",
+      "generation_run_manifest_available": false,
+      "known_local_generator_difference": "en_core_web_lg replaced pinned en_core_web_trf",
+      "eligible_for_paper_native_anchor": false,
+      "eligible_as_legacy_adapted_sensitivity": true
+    }
+  ],
+  "audit_passed": true,
+  "paper_faithful_anchor_available": false,
+  "decision": "exclude_from_paper_native_anchor_and_retain_as_legacy_adapted_sensitivity",
+  "fingerprint": "005783e8da9d15f1510902f299f8a4accc95e58675c2035b62485a53170477fd"
+}

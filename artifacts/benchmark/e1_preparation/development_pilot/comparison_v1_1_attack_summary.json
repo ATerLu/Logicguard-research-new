@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "benchmark_version": "comparison-v1.1",
+  "run_mode": "execute",
+  "unique_attack_attempts": 2,
+  "planned_provider_calls": 4,
+  "generation_valid": 2,
+  "input_manifest_sha256": "2f511cf92644bb24cdd63f2a30d38bdb888d1255272055b39e0ddcc3e4e7b27f",
+  "request_plan_sha256": "6a8bc5fa8c901da67a0cb4569f47f48f3c525c9368dcbee0d0e9e4d32754676f",
+  "provider_calls_made": 4,
+  "token_usage": {
+    "prompt_tokens": 599,
+    "completion_tokens": 7769,
+    "total_tokens": 8368
+  },
+  "planned_catalog_cost_cap_cny": 0.1376,
+  "hard_cost_cap_cny": 0.14,
+  "actual_catalog_cost_cny": 0.06335,
+  "credentials_read": true,
+  "status": "EXECUTION_COMPLETE",
+  "fingerprint": "f115e80268e0e05414e205f2952cdb5635f25c30dd2e14f16095551d98b2b4f4"
+}

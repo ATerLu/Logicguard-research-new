@@ -1,0 +1,20 @@
+schema_version: 1
+benchmark_version: comparison-v1.1
+backend: microsoft_graphrag
+backend_version: 3.1.0
+workspace: artifacts/benchmark/e1_preparation/indexing_pilots/ms_graphrag_ten_documents
+graphrag_executable: tools/ms_graphrag/.venv/Scripts/graphrag.exe
+api_key_env: DASHSCOPE_API_KEY
+base_url_env: DASHSCOPE_BASE_URL
+chat_call_cap: 80
+chat_input_tokens_per_call_cap: 6000
+chat_output_tokens_per_call_cap: 1600
+embedding_input_tokens_total_cap: 160000
+provider_timeout_seconds: 120
+process_timeout_seconds: 1800
+pricing:
+  chat_input_per_million_cny: 2.0
+  chat_output_per_million_cny: 8.0
+  embedding_input_per_million_cny: 0.5
+  hard_cost_cap_cny: 2.07
+output_summary: artifacts/benchmark/e1_preparation/indexing_pilots/ms_graphrag_ten_documents_summary.json

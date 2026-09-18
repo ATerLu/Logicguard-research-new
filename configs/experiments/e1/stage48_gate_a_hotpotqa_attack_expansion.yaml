@@ -1,0 +1,35 @@
+dataset: hotpotqa
+sample_path: data/processed/hotpotqa/debug_50.jsonl
+clean_context_path: outputs/ms_graphrag_query/stage48_gate_a_hotpotqa_clean50_contexts.jsonl
+clean_reference_output_dir: outputs/ms_graphrag/hotpotqa/stage40_debug50_clean_query_ready/output
+
+attack_records_output_path: outputs/adaptive_attacks/stage48_gate_a_hotpotqa_attack_expansion_records.jsonl
+attack_integrity_output_path: outputs/adaptive_attacks/stage48_gate_a_hotpotqa_attack_expansion_integrity.jsonl
+attacked_context_output_path: outputs/ms_graphrag_query/stage48_gate_a_hotpotqa_attack_expansion_contexts.jsonl
+context_matrix_output_path: outputs/ms_graphrag_query/stage48_gate_a_hotpotqa_attack_expansion_defense_matrix.jsonl
+valid_context_matrix_output_path: outputs/ms_graphrag_query/stage48_gate_a_hotpotqa_attack_expansion_valid_defense_matrix.jsonl
+preflight_rows_output_path: outputs/ms_graphrag_query/stage48_gate_a_hotpotqa_attack_expansion_preflight.jsonl
+preflight_summary_output_path: outputs/ms_graphrag_query/stage48_gate_a_hotpotqa_attack_expansion_preflight_summary.csv
+report_path: outputs/reports/Stage48_GateA_HotpotQA_AttackExpansion.md
+emit_markdown_report: false
+
+model: qwen3.7-plus
+api_key_env: DASHSCOPE_API_KEY
+base_url_env: DASHSCOPE_BASE_URL
+temperature: 0.0
+max_tokens: 1600
+timeout_seconds: 120
+query_offset: 5
+max_queries: 45
+source_prompt_limit: 8
+candidate_prompt_limit: 8
+prompt_chars_per_source: 700
+top_k_candidates: 5
+min_candidate_score: 0.01
+entity_drift_threshold: 0.10
+title_overlap_threshold: 0.80
+baseline_max_sources: 8
+stage44_max_sources: 12
+stage45_max_sources: 14
+max_chars_per_source: 450
+stage_label: Stage48-GateA-HotpotQA-expansion

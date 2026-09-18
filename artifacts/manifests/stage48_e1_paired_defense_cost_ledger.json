@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "price_basis": "Stage48 frozen 2026-08-12 China-Beijing undiscounted catalog snapshot",
+  "answer_layer": {
+    "manifest_count": 8,
+    "completed_calls": 112,
+    "expected_calls": 112,
+    "prompt_tokens": 199058,
+    "completion_tokens": 61939,
+    "catalog_cost_cny": 0.893628
+  },
+  "clean_index_layer": {
+    "workspace_count": 2,
+    "successful_provider_requests": 2792,
+    "chat_prompt_tokens": 42,
+    "chat_completion_tokens": 546,
+    "embedding_tokens": 168342,
+    "catalog_cost_cny": 0.088623
+  },
+  "clean_context_query_embedding_upper_bound": {
+    "query_count": 14,
+    "max_tokens_per_query": 128,
+    "max_tokens": 1792,
+    "catalog_cost_upper_cny": 0.000896,
+    "note": "Provider did not emit per-query usage; this is a conservative bound."
+  },
+  "stage48_paired_increment_exact_logged_cny": 0.982251,
+  "stage48_paired_increment_upper_cny": 0.983147,
+  "credential_values_recorded": false
+}

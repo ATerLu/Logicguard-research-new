@@ -1,0 +1,306 @@
+{
+  "1": {
+    "relation_pairs": [
+      [
+        "Bishop of Elmham",
+        "Elmham"
+      ],
+      [
+        "Bishop of Elmham",
+        "Theodred II"
+      ]
+    ],
+    "count": 2,
+    "create_time": 1788481512,
+    "update_time": 1788481512,
+    "_id": "1"
+  },
+  "10": {
+    "relation_pairs": [
+      [
+        "10 October 2009",
+        "The Wonderful World of Captain Kuhio"
+      ],
+      [
+        "Japan",
+        "The Wonderful World of Captain Kuhio"
+      ]
+    ],
+    "count": 2,
+    "create_time": 1788481517,
+    "update_time": 1788481517,
+    "_id": "10"
+  },
+  "2": {
+    "relation_pairs": [
+      [
+        "Adalbert II of Tuscany",
+        "Lambert"
+      ],
+      [
+        "Bertha",
+        "Lambert"
+      ],
+      [
+        "Bertha",
+        "Lothair II of Lotharingia"
+      ],
+      [
+        "Boso",
+        "Hugh"
+      ],
+      [
+        "Guy",
+        "Hugh"
+      ],
+      [
+        "Guy",
+        "Lambert"
+      ],
+      [
+        "Guy",
+        "Marozia"
+      ],
+      [
+        "Hugh",
+        "Lambert"
+      ],
+      [
+        "Hugh",
+        "Marozia"
+      ]
+    ],
+    "count": 9,
+    "create_time": 1788481532,
+    "update_time": 1788481532,
+    "_id": "2"
+  },
+  "3": {
+    "relation_pairs": [
+      [
+        "California",
+        "Venice"
+      ],
+      [
+        "Etan Boritzer",
+        "How to Get Your Book Published!"
+      ],
+      [
+        "Etan Boritzer",
+        "John F. Kennedy"
+      ],
+      [
+        "Etan Boritzer",
+        "New York City Department of Education"
+      ],
+      [
+        "Etan Boritzer",
+        "The Teachings of the Buddha"
+      ],
+      [
+        "Etan Boritzer",
+        "Venice"
+      ],
+      [
+        "Etan Boritzer",
+        "Wade Junior High School"
+      ],
+      [
+        "Etan Boritzer",
+        "What is God?"
+      ],
+      [
+        "Etan Boritzer",
+        "What is? Series"
+      ],
+      [
+        "New York",
+        "The Bronx"
+      ],
+      [
+        "The Bronx",
+        "Wade Junior High School"
+      ]
+    ],
+    "count": 11,
+    "create_time": 1788481551,
+    "update_time": 1788481551,
+    "_id": "3"
+  },
+  "4": {
+    "relation_pairs": [
+      [
+        "Boso the Elder",
+        "Teutberga"
+      ],
+      [
+        "Ermengarde of Tours",
+        "Lothair II"
+      ],
+      [
+        "Lothair I",
+        "Lothair II"
+      ],
+      [
+        "Lothair II",
+        "Lotharingia"
+      ],
+      [
+        "Lothair II",
+        "Teutberga"
+      ]
+    ],
+    "count": 5,
+    "create_time": 1788481561,
+    "update_time": 1788481561,
+    "_id": "4"
+  },
+  "5": {
+    "relation_pairs": [
+      [
+        "Elsass",
+        "Erstein Abbey"
+      ],
+      [
+        "Ermengarde of Tours",
+        "Erstein Abbey"
+      ],
+      [
+        "Ermengarde of Tours",
+        "Hugh of Tours"
+      ],
+      [
+        "Ermengarde of Tours",
+        "Lothair I"
+      ],
+      [
+        "Etichonen",
+        "Hugh of Tours"
+      ]
+    ],
+    "count": 5,
+    "create_time": 1788481570,
+    "update_time": 1788481570,
+    "_id": "5"
+  },
+  "6": {
+    "relation_pairs": [
+      [
+        "Adalbert II of Tuscany",
+        "Bertha"
+      ],
+      [
+        "Bertha",
+        "Guy of Tuscany"
+      ],
+      [
+        "Bertha",
+        "Lothair II"
+      ],
+      [
+        "Bertha",
+        "Lucca"
+      ],
+      [
+        "Bertha",
+        "Theobald of Arles"
+      ],
+      [
+        "Bertha",
+        "Tuscany"
+      ],
+      [
+        "Bertha",
+        "Waldrada"
+      ],
+      [
+        "Lothair II",
+        "Lotharingia"
+      ]
+    ],
+    "count": 8,
+    "create_time": 1788481584,
+    "update_time": 1788481584,
+    "_id": "6"
+  },
+  "7": {
+    "relation_pairs": [
+      [
+        "Adolf I of Lotharingia",
+        "Deutz"
+      ],
+      [
+        "Adolf I of Lotharingia",
+        "Hermann I Pusillus"
+      ],
+      [
+        "Adolf I of Lotharingia",
+        "Keldachgau"
+      ],
+      [
+        "Hermann I Pusillus",
+        "Lotharingia"
+      ]
+    ],
+    "count": 4,
+    "create_time": 1788481594,
+    "update_time": 1788481594,
+    "_id": "7"
+  },
+  "8": {
+    "relation_pairs": [
+      [
+        "Lothair II Of Lotharingia",
+        "Waldrada Of Lotharingia"
+      ]
+    ],
+    "count": 1,
+    "create_time": 1788481599,
+    "update_time": 1788481599,
+    "_id": "8"
+  },
+  "9": {
+    "relation_pairs": [
+      [
+        "Bertha",
+        "Boso of Tuscany"
+      ],
+      [
+        "Bertha",
+        "Hugh of Italy"
+      ],
+      [
+        "Bertha",
+        "Lothair II"
+      ],
+      [
+        "Bertha",
+        "Theobald of Arles"
+      ],
+      [
+        "Boso of Tuscany",
+        "Theobald of Arles"
+      ],
+      [
+        "Bosonid",
+        "Theobald of Arles"
+      ],
+      [
+        "Hucbert",
+        "Theobald of Arles"
+      ],
+      [
+        "Hugh of Italy",
+        "Theobald of Arles"
+      ],
+      [
+        "Lothair II",
+        "Lotharingia"
+      ]
+    ],
+    "count": 9,
+    "create_time": 1788481611,
+    "update_time": 1788481611,
+    "_id": "9"
+  }
+}

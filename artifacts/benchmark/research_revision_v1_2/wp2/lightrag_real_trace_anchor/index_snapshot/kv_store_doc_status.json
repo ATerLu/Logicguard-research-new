@@ -1,0 +1,272 @@
+{
+  "7": {
+    "status": "processed",
+    "content_summary": "Title: Adolf I of Lotharingia\n\nAdolf I of Lotharingia, count of Keldachgau, Vogt of Deutz from 1008 until 1018, was the son of Hermann I\" Pusillus\"( the Little Pfalzgraf), count palatine of Lotharingia. He left three sons:",
+    "content_length": 222,
+    "created_at": "2026-09-04T00:25:04.630834+00:00",
+    "updated_at": "2026-09-04T00:26:35.589383+00:00",
+    "file_path": "7.txt",
+    "track_id": "insert_20260904_082504_dd69548a",
+    "content_hash": "a8c486cdc023e350fe53fe36fe409c3f",
+    "metadata": {
+      "parse_start_time": 1788481504,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1788481504,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1788481585,
+      "process_end_time": 1788481595,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "7-chunk-000"
+    ]
+  },
+  "3": {
+    "status": "processed",
+    "content_summary": "Title: Etan Boritzer\n\nEtan Boritzer( born 1950) is an American writer of children ’s literature who is best known for his book\" What is God?\" first published in 1989. His best selling\" What is?\" illustrated children's book series on character educati...",
+    "content_length": 1598,
+    "created_at": "2026-09-04T00:25:04.630834+00:00",
+    "updated_at": "2026-09-04T00:25:52.482878+00:00",
+    "file_path": "3.txt",
+    "track_id": "insert_20260904_082504_dd69548a",
+    "content_hash": "ac27e6a20011c2c32ac00e6406fd845e",
+    "metadata": {
+      "parse_start_time": 1788481504,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1788481504,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1788481534,
+      "process_end_time": 1788481552,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "3-chunk-000"
+    ]
+  },
+  "10": {
+    "status": "processed",
+    "content_summary": "Title: The Wonderful World of Captain Kuhio\n\nThe film was released in Japan on 10 October 2009.",
+    "content_length": 95,
+    "created_at": "2026-09-04T00:25:04.630834+00:00",
+    "updated_at": "2026-09-04T00:25:18.201796+00:00",
+    "file_path": "10.txt",
+    "track_id": "insert_20260904_082504_dd69548a",
+    "content_hash": "4267e7a65140b29988e65aaf19547f8c",
+    "metadata": {
+      "parse_start_time": 1788481504,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1788481504,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1788481513,
+      "process_end_time": 1788481518,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "10-chunk-000"
+    ]
+  },
+  "9": {
+    "status": "processed",
+    "content_summary": "Title: Theobald of Arles\n\nTheobald( c. 854-895), count of Arles, was a Frank from the Bosonid- family. He was a son of Hucbert and married Bertha, an illegitimate daughter of Lothair II, King of Lotharingia, who was renowned for her beauty and spirit...",
+    "content_length": 304,
+    "created_at": "2026-09-04T00:25:04.630834+00:00",
+    "updated_at": "2026-09-04T00:26:52.807480+00:00",
+    "file_path": "9.txt",
+    "track_id": "insert_20260904_082504_dd69548a",
+    "content_hash": "ac83f89a5023064da6a60180926a8f88",
+    "metadata": {
+      "parse_start_time": 1788481504,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1788481504,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1788481599,
+      "process_end_time": 1788481612,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "9-chunk-000"
+    ]
+  },
+  "8": {
+    "status": "processed",
+    "content_summary": "Title: Waldrada of Lotharingia\n\nWaldrada was the mistress, and later the wife, of Lothair II of Lotharingia.",
+    "content_length": 108,
+    "created_at": "2026-09-04T00:25:04.630834+00:00",
+    "updated_at": "2026-09-04T00:26:39.763754+00:00",
+    "file_path": "8.txt",
+    "track_id": "insert_20260904_082504_dd69548a",
+    "content_hash": "c71f82b7f763c2d10db875fd5a10a9c4",
+    "metadata": {
+      "parse_start_time": 1788481504,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1788481504,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1788481595,
+      "process_end_time": 1788481599,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "8-chunk-000"
+    ]
+  },
+  "5": {
+    "status": "processed",
+    "content_summary": "Title: Ermengarde of Tours\n\nErmengarde of Tours (d. 20 March 851) was the daughter of Hugh of Tours, a member of the Etichonen family. In October 821 in Thionville, she married the Carolingian Emperor Lothair I of the Franks (795–855). In 849, two ye...",
+    "content_length": 394,
+    "created_at": "2026-09-04T00:25:04.630834+00:00",
+    "updated_at": "2026-09-04T00:26:11.475067+00:00",
+    "file_path": "5.txt",
+    "track_id": "insert_20260904_082504_dd69548a",
+    "content_hash": "fb745bac2d292e96b1adc114b6dd68b8",
+    "metadata": {
+      "parse_start_time": 1788481504,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1788481504,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1788481561,
+      "process_end_time": 1788481571,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "5-chunk-000"
+    ]
+  },
+  "4": {
+    "status": "processed",
+    "content_summary": "Title: Lothair II\n\nLothair II (835 –) was the king of Lotharingia from 855 until his death. He was the second son of Emperor Lothair I and Ermengarde of Tours. He was married to Teutberga (died 875), daughter of Boso the Elder.",
+    "content_length": 227,
+    "created_at": "2026-09-04T00:25:04.630834+00:00",
+    "updated_at": "2026-09-04T00:26:01.763497+00:00",
+    "file_path": "4.txt",
+    "track_id": "insert_20260904_082504_dd69548a",
+    "content_hash": "cf9b11d47d757f10d6e7747ea37ae2ab",
+    "metadata": {
+      "parse_start_time": 1788481504,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1788481504,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1788481552,
+      "process_end_time": 1788481561,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "4-chunk-000"
+    ]
+  },
+  "6": {
+    "status": "processed",
+    "content_summary": "Title: Bertha, daughter of Lothair II\n\nBertha( 863- 8 – March 925 in Lucca) was countess of Arles by marriage to Theobald of Arles, and margravine of Tuccany by marriage to Adalbert II of Tuscany. She served as regent of Lucca and Tuscany from 915 un...",
+    "content_length": 583,
+    "created_at": "2026-09-04T00:25:04.630834+00:00",
+    "updated_at": "2026-09-04T00:26:25.804725+00:00",
+    "file_path": "6.txt",
+    "track_id": "insert_20260904_082504_dd69548a",
+    "content_hash": "c033eafc32ae9db434001eaaba0c2afc",
+    "metadata": {
+      "parse_start_time": 1788481504,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1788481504,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1788481571,
+      "process_end_time": 1788481585,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "6-chunk-000"
+    ]
+  },
+  "1": {
+    "status": "processed",
+    "content_summary": "Title: Theodred II (Bishop of Elmham)\n\nTheodred II was a medieval Bishop of Elmham. The date of Theodred's consecration unknown, but the date of his death was sometime between 995 and 997.",
+    "content_length": 188,
+    "created_at": "2026-09-04T00:25:04.630834+00:00",
+    "updated_at": "2026-09-04T00:25:13.131851+00:00",
+    "file_path": "1.txt",
+    "track_id": "insert_20260904_082504_dd69548a",
+    "content_hash": "887745bb1a539a8454ca7316c9050aff",
+    "metadata": {
+      "parse_start_time": 1788481504,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1788481504,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1788481504,
+      "process_end_time": 1788481513,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "1-chunk-000"
+    ]
+  },
+  "2": {
+    "status": "processed",
+    "content_summary": "Title: Lambert, Margrave of Tuscany\n\nLambert( died after 938) was the second son of Adalbert II of Tuscany and Bertha, daughter of Lothair II of Lotharingia. He succeeded his elder brother, Guy, as count and duke of Lucca and margrave of Tuscany on h...",
+    "content_length": 559,
+    "created_at": "2026-09-04T00:25:04.630834+00:00",
+    "updated_at": "2026-09-04T00:25:34.278790+00:00",
+    "file_path": "2.txt",
+    "track_id": "insert_20260904_082504_dd69548a",
+    "content_hash": "37a88172fee887278291114a53cbf903",
+    "metadata": {
+      "parse_start_time": 1788481504,
+      "parse_stage_skipped": true,
+      "parse_format": "raw",
+      "parse_engine": "legacy",
+      "analyzing_start_time": 1788481504,
+      "analyzing_stage_skipped": true,
+      "kg_write_state": "graph_mutation_started",
+      "process_start_time": 1788481518,
+      "process_end_time": 1788481534,
+      "chunk_method": "legacy_chunking_func",
+      "chunk_opts": "size=1200, split_only=False, overlap=100"
+    },
+    "chunks_count": 1,
+    "chunks_list": [
+      "2-chunk-000"
+    ]
+  }
+}

@@ -27,10 +27,17 @@ import yaml
 from logicguard.core.config import find_project_root, resolve_config_path
 from logicguard.core.io import (
     append_jsonl as _append_jsonl,
+    atomic_write_text as _atomic_write_text,
     load_jsonl as _load_jsonl,
     require_env as _read_required_env,
     write_inferred_csv as _write_csv,
     write_jsonl as _write_jsonl,
+)
+from logicguard.core.run_state import (
+    load_checkpoint_rows,
+    prepare_run_manifest,
+    stable_case_key,
+    update_run_manifest,
 )
 from logicguard.core.metrics import mean as _avg
 from logicguard.core.metrics import ratio as _ratio
@@ -131,6 +138,7 @@ class Stage47AdaptiveAttackConfig:
     temperature: float = 0.0
     max_tokens: int = 1600
     timeout_seconds: int = 120
+    query_offset: int = 0
     max_queries: int = 20
     source_prompt_limit: int = 8
     candidate_prompt_limit: int = 8
@@ -189,6 +197,7 @@ class Stage47AdaptiveAttackConfig:
             temperature=float(payload.get("temperature", 0.0)),
             max_tokens=int(payload.get("max_tokens", 1600)),
             timeout_seconds=int(payload.get("timeout_seconds", 120)),
+            query_offset=int(payload.get("query_offset", 0)),
             max_queries=int(payload.get("max_queries", 20)),
             source_prompt_limit=int(payload.get("source_prompt_limit", 8)),
             candidate_prompt_limit=int(payload.get("candidate_prompt_limit", 8)),
@@ -296,7 +305,19 @@ def run_from_config(
 ) -> tuple[list[Stage47AttackRecord], list[Stage47PreflightRow]]:
     """Generate attacks, run frozen defenses and write Stage47 preflight artifacts."""
 
-    samples = load_normalized_samples(config.sample_path)[: config.max_queries]
+    if config.query_offset < 0:
+        raise ValueError("query_offset must be non-negative")
+    if config.max_queries <= 0:
+        raise ValueError("max_queries must be positive")
+    all_samples = load_normalized_samples(config.sample_path)
+    samples = all_samples[
+        config.query_offset : config.query_offset + config.max_queries
+    ]
+    if not samples:
+        raise ValueError(
+            "No Stage47 samples selected for "
+            f"query_offset={config.query_offset}, max_queries={config.max_queries}"
+        )
     sample_ids = {sample.query_id for sample in samples}
     clean_rows = [
         row
@@ -321,7 +342,40 @@ def run_from_config(
     checkpoint_path = config.attack_records_output_path.with_name(
         f"{config.attack_records_output_path.stem}_checkpoint.jsonl"
     )
-    checkpoints = _load_stage47_checkpoints(checkpoint_path)
+    manifest_path = config.attack_records_output_path.with_name(
+        f"{config.attack_records_output_path.stem}_run_manifest.json"
+    )
+    candidate_inputs = sorted(
+        path
+        for path in config.clean_reference_output_dir.glob("*.parquet")
+        if path.is_file()
+    )
+    manifest = prepare_run_manifest(
+        path=manifest_path,
+        experiment=f"{config.stage_label}:adaptive_attack_generation",
+        config_payload=asdict(config),
+        inputs=[
+            config.sample_path,
+            config.clean_context_path,
+            Path(__file__),
+            *candidate_inputs,
+        ],
+        expected_count=len(samples) * len(ATTACK_FAMILIES),
+        checkpoint_path=checkpoint_path,
+        protected_outputs=[
+            config.attack_records_output_path,
+            config.attack_integrity_output_path,
+            config.attacked_context_output_path,
+            config.context_matrix_output_path,
+            config.valid_context_matrix_output_path,
+            config.preflight_rows_output_path,
+            config.preflight_summary_output_path,
+        ],
+    )
+    run_fingerprint = str(manifest["fingerprint"])
+    checkpoints = _load_stage47_checkpoints(
+        checkpoint_path, fingerprint=run_fingerprint
+    )
     attack_records: list[Stage47AttackRecord] = []
     attacked_rows: list[dict[str, Any]] = []
     integrity_rows: list[dict[str, Any]] = []
@@ -357,6 +411,17 @@ def run_from_config(
             _append_jsonl(
                 checkpoint_path,
                 {
+                    "run_fingerprint": run_fingerprint,
+                    "case_keys": [
+                        stable_case_key(
+                            dataset=config.dataset,
+                            query_id=sample.query_id,
+                            attack_family=family,
+                            defense_stage="generation",
+                            model=config.model,
+                        )
+                        for family in ATTACK_FAMILIES
+                    ],
                     "query_id": sample.query_id,
                     "attack_records": [record.to_json_dict() for record in records],
                     "attacked_rows": rows,
@@ -371,6 +436,11 @@ def run_from_config(
             f"valid={sum(1 for record in records if record.valid)}/{len(records)}, "
             f"status={status}",
             flush=True,
+        )
+        update_run_manifest(
+            manifest_path,
+            completed_count=len(attack_records),
+            token_usage=_attack_token_usage(attack_records),
         )
 
     context_matrix = build_stage47_defense_matrix(
@@ -396,6 +466,12 @@ def run_from_config(
         context_matrix=context_matrix,
         preflight_rows=preflight_rows,
         summaries=summaries,
+    )
+    update_run_manifest(
+        manifest_path,
+        status="complete",
+        completed_count=len(attack_records),
+        token_usage=_attack_token_usage(attack_records),
     )
     return attack_records, preflight_rows
 
@@ -777,8 +853,7 @@ def write_stage47_outputs(
             "",
         ]
     )
-    config.report_path.parent.mkdir(parents=True, exist_ok=True)
-    config.report_path.write_text("\n".join(lines), encoding="utf-8")
+    _atomic_write_text(config.report_path, "\n".join(lines))
 
 
 def _materialize_attack(
@@ -799,10 +874,10 @@ def _materialize_attack(
     candidate_by_id = {
         candidate.logicguard_doc_id: candidate for candidate in candidate_sources
     }
-    target_doc_id = str(payload.get("target_doc_id", ""))
-    malicious_answer = str(payload.get("malicious_answer", "")).strip()
-    attacked_text = str(payload.get("attacked_text", "")).strip()
-    collision_candidate_doc_id = str(payload.get("candidate_doc_id", ""))
+    target_doc_id = _payload_scalar_text(payload, "target_doc_id")
+    malicious_answer = _payload_scalar_text(payload, "malicious_answer")
+    attacked_text = _payload_scalar_text(payload, "attacked_text")
+    collision_candidate_doc_id = _payload_scalar_text(payload, "candidate_doc_id")
     invalid_reason = ""
     original_excerpt = ""
     attacked_excerpt = attacked_text[:500]
@@ -1151,6 +1226,15 @@ def _extract_json_object(text: str) -> dict[str, Any]:
     return payload
 
 
+def _payload_scalar_text(payload: dict[str, Any], key: str) -> str:
+    """Return a trimmed scalar payload field; reject null/container targets."""
+
+    value = payload.get(key)
+    if value is None or isinstance(value, (bool, list, dict)):
+        return ""
+    return str(value).strip()
+
+
 def _entity_drift(left: str, right: str) -> float:
     left_entities = {
         match.group(0).lower()
@@ -1191,15 +1275,32 @@ def _string_list(value: object) -> list[str]:
     return [str(item) for item in value] if isinstance(value, list) else []
 
 
-def _load_stage47_checkpoints(path: Path) -> dict[str, dict[str, Any]]:
+def _load_stage47_checkpoints(
+    path: Path, *, fingerprint: str
+) -> dict[str, dict[str, Any]]:
     if not path.exists():
         return {}
     checkpoints: dict[str, dict[str, Any]] = {}
-    for row in _load_jsonl(path):
+    for row in load_checkpoint_rows(path, fingerprint=fingerprint):
         query_id = str(row.get("query_id", ""))
         if query_id:
             checkpoints[query_id] = row
     return checkpoints
+
+
+def _attack_token_usage(
+    records: list[Stage47AttackRecord],
+) -> dict[str, int]:
+    per_query: dict[str, Stage47AttackRecord] = {}
+    for record in records:
+        per_query.setdefault(record.query_id, record)
+    return {
+        "prompt_tokens": sum(row.prompt_tokens or 0 for row in per_query.values()),
+        "completion_tokens": sum(
+            row.completion_tokens or 0 for row in per_query.values()
+        ),
+        "total_tokens": sum(row.total_tokens or 0 for row in per_query.values()),
+    }
 
 
 def _stringify_row(row: dict[str, object]) -> dict[str, str]:

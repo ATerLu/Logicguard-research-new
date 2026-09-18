@@ -1,11 +1,344 @@
 # LogicGuard 可复现实验命令清单
 
-> 规范化入口（2026-08-04）：本文是环境、命令和冻结审计的唯一维护入口。
+## 📦 WP2 D3/D4 外部防御资格（2026-09-10）
+
+D3 使用隔离的标准 Python 3.10 CPU 环境，避免项目 Anaconda 3.11 环境的 PyTorch DLL 冲突。环境路径已由 `.gitignore` 排除；模型 revision 和权重 SHA-256 已写入不可变结果。首次运行需要下载固定 90,868,373-byte MiniLM，以及 6,191,135,894-byte Stella 最小快照；重放强制 `local_files_only`。Stella 按模型快照自带版本记录固定 `sentence-transformers==3.0.1`、`transformers==4.42.3`。D4 审计只编译固定源码并检查提示词存在性，前置门失败时不读取 key、不调用 provider。
+
+隔离环境的完整解析版本保存在 `tools/ragdefender/requirements-anchor.freeze.txt`；RAGDefender 本体使用项目内固定提交的 editable 安装。CPU PyTorch 须先从官方 CPU wheel index 安装，再按 freeze 文件安装其余依赖，避免解析器将 `transformers` 升到不兼容的 5.x。
+
+```powershell
+cd F:\LogicGuard_project\logicguard
+$env:PYTHONPATH='src'
+.venv\Scripts\python.exe -m logicguard.benchmark.external_defense_qualification `
+  --config configs\benchmark\comparison_v1_2_external_defense_qualification_anchor.yaml
+.venv\Scripts\python.exe -m pytest tests\test_external_defense_qualification.py -q
+```
+
+有效状态为 `D3_PASSED_D4_UPSTREAM_ARTIFACT_UNAVAILABLE`，产物位于 `artifacts/benchmark/research_revision_v1_2/wp2/d3_d4_external_defense_qualification_anchor_v5/`。同配置重放只核验输入和产物 hash，不重复模型推理。无后缀至 `_v4` 的 namespace 分别保留严格排列门、资格语义修正、不兼容依赖失败和 runner identity 补强过程；均不覆盖。v5 将配置、runner、上游源码与 fixture hash 全部纳入运行身份。完整边界见 [D3/D4 资格报告](F:/LogicGuard_project/logicguard/docs/D3_D4_ExternalDefense_WP2_Qualification.md)。
+
+## WP2 T0/T1 共享可信证据控制层（2026-09-08）
+
+以下命令只读取项目内合成 clean corpus 与规范化 retrieval fixture，不读取 API key、不连接真实 Microsoft GraphRAG/LightRAG，也不生成攻击：
+
+```powershell
+cd F:\LogicGuard_project\logicguard
+$env:PYTHONPATH='src'
+.venv\Scripts\python.exe -m logicguard.benchmark.trusted_control_runner --config configs\benchmark\comparison_v1_2_trusted_controls_fixture.yaml
+.venv\Scripts\python.exe -m pytest tests\test_trust_manifest.py tests\test_trusted_controls.py tests\test_trusted_control_runner.py tests\test_ms_graphrag_stage28_risk_non_oracle_recovery.py -q
+.venv\Scripts\ruff.exe check src tests
+.venv\Scripts\ruff.exe format --check src tests
+```
+
+规范化产物位于 `artifacts/benchmark/research_revision_v1_2/wp2/trusted_controls_synthetic_anchor_final/`。相同配置重放会校验运行身份和所有产物 hash；输入、配置或预算变化时拒绝混入该 namespace。验收输出为 32 条 context、16 条 audit、0 失败、0 provider 调用、费用 ¥0。该命令只复现工程合同，不复现攻击或防御效果；详见 [T0/T1 验收报告](F:/LogicGuard_project/logicguard/docs/TrustedControls_WP2_LocalVerification.md)。
+
+## WP2 A2 本地四阶段验收（2026-09-08）
+
+以下两个配置只运行合成 query 响应，不读取 API key。第二个使用已安装的真实 NER 模型；不生成三数据集真实攻击样本。隔离环境本轮新增 `PyYAML==6.0.3`，其他模型依赖保持原版本。
+
+```powershell
+cd F:\LogicGuard_project\logicguard
+$env:PYTHONPATH='src'
+.venv\Scripts\python.exe -m logicguard.benchmark.logicpoison_pipeline --config configs\benchmark\comparison_v1_2_logicpoison_fixture.yaml
+$env:HF_HUB_OFFLINE='1'
+$env:TRANSFORMERS_OFFLINE='1'
+tools\logicpoison\.venv\Scripts\python.exe -m logicguard.benchmark.logicpoison_pipeline --config configs\benchmark\comparison_v1_2_logicpoison_trf_anchor.yaml
+.venv\Scripts\python.exe -m pytest tests\test_logicpoison_pipeline.py tests\test_research_audit.py tests\test_amendment_metrics.py tests\test_comparative_attack_runner.py -k 'not full_validation_dry_run' -q
+.venv\Scripts\python.exe -m ruff check src tests
+.venv\Scripts\python.exe -m ruff format --check src tests
+```
+
+两个锚点分别输出到 `artifacts/benchmark/research_revision_v1_2/wp2/logicpoison_synthetic_anchor/` 和 `logicpoison_trf_anchor/`；完成后相同命令核验身份/hash 并复用结果，不重新发请求。代码、输入、配置或记录的运行环境改变会拒绝续接，需使用新 namespace，不能覆盖旧 checkpoint。硬中断残留的 `run.lock` 必须先检查原进程与费用状态，不能自动抢锁。unknown usage/in-flight 请求保留预留费用且停止，不自动重试。
+
+验收为 `44 passed, 1 deselected`、ruff 通过、195 文件格式通过。跳过会改写旧 namespace 的 dry-run 测试；未重跑 E0/E1 readiness 测试。当前 `generation_valid=false` 是合成模式的预期值，成功标志为 `CORPUS_MATERIALIZED` 与 `corpus_materialization_valid=true`。真实 provider 请求 0，新增费用 ¥0；详见 [验收报告](F:/LogicGuard_project/logicguard/docs/LogicPoison_WP2_LocalVerification.md)。
+
+## 最新入口：WP1 研究审计与 v1.2（2026-09-06）
+
+未来执行协议为 `docs/comparativeExperimentPreregistration_v1.2.md`，机器计划和人工源码保真度表为 `configs/benchmark/comparison_v1_2_protocol.yaml`、`comparison_v1_2_fidelity_review.yaml`。下文 v1.1 命令保留历史用途，可能重写原 readiness，不应为查看状态随意重跑。
+
+本轮本地审计不调用 provider，不读取凭据，不生成攻击或索引；会读取历史产物以匹配 query ID/问题，但只输出路径、类别、hash 和匹配位置，不复制答案。旧 evaluator-only 文件只计算 hash；dev60 选择只读取 attacker-safe 输入。
+
+```powershell
+cd F:\LogicGuard_project\logicguard
+$env:PYTHONPATH='src'
+.venv\Scripts\python.exe -m logicguard.benchmark.research_audit --config configs\benchmark\comparison_v1_2_research_audit.yaml
+.venv\Scripts\python.exe -m pytest tests\test_research_audit.py tests\test_amendment_metrics.py -q
+.venv\Scripts\python.exe -m ruff check src tests
+.venv\Scripts\python.exe -m ruff format --check src tests
+```
+
+输出限定为 `artifacts/benchmark/research_revision_v1_2/` 下五个派生 JSON/JSONL 文件；同一配置与历史输入的重跑会更新这些审计派生文件，不执行付费工作。`history_summary.json` 保存审计配置/实现和已审查源码 SHA-256，以及旧 v1.1 文档、机器表、readiness、split 的前后 hash；`history_files.jsonl` 保存扫描、排除和错误清单。证据分类使用文件名启发式，有记录不能推断人工看过或调参，缺记录不能认证独立性。
+
+WP1 核验结果为 977 扫描、20 排除、0 解析错误、1,500 个问题有历史执行/分析记录；dev60 按原 development 内 stratum 轮转冻结。尚未实施完整 A2/D6，也未将新指标接入所有旧 runner；正式付费 qualification 需通过 v1.2 中的实现、预算与数据门。
+
+本轮测试为新增审计/指标测试 `8 passed`，含临时目录端到端重跑一致性、标签不进入输出、历史文件 hash 保护和解析错误记录；`ruff check src tests` 通过，`ruff format --check src tests` 为 192 files already formatted。真实产物另核验 11 个受保护文件未变、dev60 每数据集 20 问、无非 development 行和额外标签字段。本轮没有重跑可能改写 v1.1 readiness 的旧全量测试，不能把这 8 项测试表述为全项目回归已通过。
+
+> 规范化入口（2026-09-04）：本文是环境、命令和冻结审计的唯一维护入口。
 > 旧配置路径由 `configs/config_aliases.yaml` 映射到新的分层路径。
 
 基础开发环境使用 `uv sync --dev`；需要 dense retrieval、可视化或扩展研究
 依赖时使用 `uv sync --dev --extra research`。Microsoft GraphRAG 继续使用
 `tools/ms_graphrag/.venv` 隔离环境，避免与主项目依赖耦合。
+
+## 0.0 Comparative Benchmark E0（2026-09-03）
+
+E0-A/E0-B 已完成，v1.1 协议见 `docs/comparativeExperimentPreregistration_v1.1.md`。E1 的 execution adapter、生成成本控制和 1/10 文档索引计量已完成，但全规模索引 hard cap 与 BadRAG dense/payload 仍未冻结，因此 validation 尚未启动。E2 locked test 继续受 E1 门限制。v1.0 的 `docs/comparativeExperimentPreregistration.md` 与 `docs/对比实验预注册表.csv` 只保留历史，不再是执行协议。
+
+复建 E0-A：
+
+```powershell
+cd F:\LogicGuard_project\logicguard
+$env:PYTHONPATH='src'
+.venv\Scripts\python.exe -m logicguard.benchmark.readiness `
+  --config configs\benchmark\comparison_v1_1_e0.yaml
+.venv\Scripts\python.exe -m pytest tests\test_comparative_benchmark_e0.py -q
+```
+
+LightRAG 使用隔离环境，固定为官方 v1.5.7 commit `28ff1b05f2ac3f3e6fa14dd2cd33656579bd0c9c`。只允许导入 smoke，不代表已运行 batch：
+
+```powershell
+uv venv tools\lightrag\.venv --python .venv\Scripts\python.exe
+uv pip install --python tools\lightrag\.venv\Scripts\python.exe `
+  --editable vendor\upstream\LightRAG
+tools\lightrag\.venv\Scripts\python.exe -c `
+  "from lightrag import LightRAG, QueryParam; print(QueryParam(mode='hybrid').mode)"
+```
+
+主要产物位于 `artifacts/benchmark/e0`，readiness 报告为 `artifacts/reports/ComparativeBenchmark_E0_Readiness.md`。命令可重复运行并原子覆盖同版本派生产物；不得手工修改 split。E0 的费用与调用均为 0。下一阶段需新建 E1 namespace；不得复用 E0 fixture 伪装攻击效果，也不得在 qualification 门前启动 E2。
+
+## 0.1 Comparative Benchmark E1 preparation（2026-09-04）
+
+以下命令只复算 attacker-safe input、各项冻结 pilot audit、BadRAG lexical smoke、成本表和 request plan，不发起新 provider 调用。为验证零调用，复算时应显式清空 API 环境变量：
+
+```powershell
+cd F:\LogicGuard_project\logicguard
+$env:PYTHONPATH='src'
+$env:DASHSCOPE_API_KEY=''
+$env:OPENAI_API_KEY=''
+$env:ALIYUN_API_KEY=''
+.venv\Scripts\python.exe -m logicguard.cli run benchmark-e1-preparation `
+  --config configs\benchmark\comparison_v1_1_e1_preparation.yaml
+.venv\Scripts\python.exe -m logicguard.cli run benchmark-attack-runner `
+  --config configs\benchmark\comparison_v1_1_attack_runner_dryrun.yaml
+.venv\Scripts\python.exe -m pytest `
+  tests\test_comparative_benchmark_e1_preparation.py `
+  tests\test_comparative_attack_runner.py -q
+```
+
+预期为 18 cells、1,800 input rows、600 unique A1/A3 attempts、1,200 planned A1/A3 calls、300 planned A2 calls；audit 本身 0 provider calls。readiness 中的历史付费数为 102 次（6 次攻击生成、48 次索引 chat、48 次 embedding），不是本命令新产生的调用。主要产物位于 `artifacts/benchmark/e1_preparation`，汇总报告为 `artifacts/reports/ComparativeBenchmark_E1_Preparation.md`。
+
+LogicPoison 使用独立 `tools/logicpoison/.venv`：Python 3.11.7、spaCy 3.8.14、CPU torch 2.5.1、OpenAI SDK 1.109.1、`spacy-curated-transformers 0.3.1` 与 `en_core_web_trf 3.8.0`。官方模型源 wheel SHA-256 为 `272a31e9d8530d1e075351d30a462d7e80e31da23574f1b274e200f3fff35bf5`；运行时已按包名加载模型并正确识别 `Barack Obama/PERSON` 与 `Paris/GPE`。机器记录见 `artifacts/benchmark/e1_preparation/comparison_v1_1_logicpoison_runtime_smoke.json`。该环境只证明依赖就绪，尚未运行 corpus NER 或 query API。
+
+冻结的付费 development 产物不得重复执行。对应配置为 `comparison_v1_1_attack_runner_development_pilot.yaml`、`comparison_v1_1_logicpoison_development_pilot.yaml`、`comparison_v1_1_logicpoison_cost_control_pilot.yaml`，以及四个 `*_indexing_*pilot*.yaml`。索引产物与审计位于 `artifacts/benchmark/e1_preparation/indexing_pilots` 和 `comparison_v1_1_indexing_pilot_audit.json`。历史一次 LightRAG 初始化失败发生于 API 前、费用 ¥0；修复版和其余三次索引通过，不得为清理日志而重跑。
+
+费用配置冻结 qwen3.7-plus 输入/输出 ¥2/¥8 每百万 tokens、text-embedding-v4 ¥0.5 每百万 tokens。攻击生成实际目录价 ¥0.079428；四次索引 chat 加本地估计 embedding token 的目录价为 ¥0.324525，合计 ¥0.403953。¥108.715720 只是非索引已知组件 cap/projection；当前 24-index 设计的 1/10 文档校准区间为 ¥2,958.622–¥4,322.297，`is_hard_cap=false`。全规模 indexing 和 BadRAG dense/payload 未封顶，不能据此直接启动 validation。
+
+## 0. Stage48 E0/E1 当前接续点（2026-09-01）
+
+E0 checkpoint/resume、E1 未防御 full-corpus 基线，以及未修改 Stage43/44/45 + clean full-corpus 配对均已完成。配对阶段完成 112/112 回答，当前没有需要恢复的后台进程。除离线重算外，不要重复索引或回答。
+
+已完成配置如下；除审计复算或建立新命名空间外，不要重复索引：
+
+- `configs/experiments/e1/musique_natural_bridge_dryrun5_full_corpus.yaml`
+- `configs/experiments/e1/musique_low_drift_evalvalid5_full_corpus.yaml`
+- `configs/experiments/e1/musique_candidate_collision_evalvalid2_full_corpus.yaml`
+- `configs/experiments/e1/hotpotqa_natural_bridge_evalvalid2_full_corpus.yaml`
+
+每个 variant 的命令模式如下，把 `<exposure-config>`、`<workspace>`、`<context-config>` 和 `<answer-config>` 替换为同前缀文件：
+
+```powershell
+cd F:\LogicGuard_project\logicguard
+
+.venv\Scripts\python.exe -m logicguard.evaluation.reindex_exposure `
+  --config <exposure-config> `
+  --phase prepare
+
+# settings 已冻结为 community reports omitted、entity_description only。
+tools\ms_graphrag\.venv\Scripts\python.exe -m graphrag index `
+  --root <workspace>
+
+.venv\Scripts\python.exe -m logicguard.ms_graphrag.query_layer_seeding `
+  --config <context-config>
+
+$env:PYTHONPATH='src'
+tools\ms_graphrag\.venv\Scripts\python.exe -m logicguard.ms_graphrag.query_layer_context `
+  --config <context-config>
+
+.venv\Scripts\python.exe -m logicguard.evaluation.reindex_exposure `
+  --config <exposure-config> `
+  --phase audit
+
+# 只调用 source 与 target 均进入冻结最终提示的 case。
+.venv\Scripts\python.exe -m logicguard.evaluation.reindex_answer_gate `
+  --config <answer-config>
+
+# 仅从已保存回答离线重算标签，不产生 API 调用。
+.venv\Scripts\python.exe -m logicguard.evaluation.reindex_answer_gate `
+  --config <answer-config> --reclassify-existing
+```
+
+历史失效凭据的阻断记录仍可用下列命令复算，但不得覆盖当前 completed 状态：
+
+```powershell
+.venv\Scripts\python.exe -m logicguard.evaluation.reindex_exposure `
+  --config configs\experiments\e1\musique_natural_bridge_dryrun5_full_corpus.yaml `
+  --phase record-blocked
+```
+
+E1 的冻结 attack manifest、corpus hash、settings/prompts hash、GraphRAG 请求数、token 和回答成本清单均位于 `outputs/manifests/`。精确可归因的本轮目录价为 ¥0.227303；9 个短查询 embedding 另按约 ¥0.00045 保守封顶。任何费用换算都应保留 provider token 原始计数和价格快照；不能从 GraphRAG 日志中的 `cost_per_response: 0.0` 推断免费。
+
+### 0.1 Stage48 clean/防御配对复现
+
+配对使用两个 clean full-corpus workspace：
+
+- `outputs/ms_graphrag/musique/stage48_clean_full_corpus`
+- `outputs/ms_graphrag/hotpotqa/stage48_clean_full_corpus`
+
+它们已完成且包含付费 embedding 结果，不应原地重跑。若必须在新 namespace 复现，先使用 `prepare_workspace --doc-scope all`，复制对应 E1 attack workspace 的冻结 `settings.yaml` / `prompts`，再执行：
+
+```powershell
+tools\ms_graphrag\.venv\Scripts\python.exe -m graphrag index `
+  --root outputs/ms_graphrag/musique/<new-clean-workspace> --method fast
+tools\ms_graphrag\.venv\Scripts\python.exe -m graphrag index `
+  --root outputs/ms_graphrag/hotpotqa/<new-clean-workspace> --method fast
+```
+
+四组 clean context 配置后缀均为 `_clean_context.yaml`。每组先运行 seed planning，再在 GraphRAG 隔离环境中导出 official contexts：
+
+```powershell
+.venv\Scripts\python.exe -m logicguard.ms_graphrag.query_layer_seeding `
+  --config configs\experiments\e1\musique_natural_bridge_dryrun5_full_corpus_clean_context.yaml
+
+$env:PYTHONPATH='src'
+tools\ms_graphrag\.venv\Scripts\python.exe -m logicguard.ms_graphrag.query_layer_context `
+  --config configs\experiments\e1\musique_natural_bridge_dryrun5_full_corpus_clean_context.yaml
+```
+
+其余三个前缀为：
+
+- `musique_low_drift_evalvalid5_full_corpus`
+- `musique_candidate_collision_evalvalid2_full_corpus`
+- `hotpotqa_natural_bridge_evalvalid2_full_corpus`
+
+对 attacked 与 clean context 分别生成四列防御矩阵。配置后缀为 `_defense_matrix.yaml` 与 `_clean_defense_matrix.yaml`：
+
+```powershell
+.venv\Scripts\python.exe -m logicguard.evaluation.reindex_defense_matrix `
+  --config configs\experiments\e1\musique_natural_bridge_dryrun5_full_corpus_defense_matrix.yaml
+.venv\Scripts\python.exe -m logicguard.evaluation.reindex_defense_matrix `
+  --config configs\experiments\e1\musique_natural_bridge_dryrun5_full_corpus_clean_defense_matrix.yaml
+```
+
+回答配置后缀为 `_defense_answers.yaml` 与 `_clean_defense_answers.yaml`。每个配置单独维护 checkpoint 和 fingerprint manifest；当前 8 个配置均已完成，重新运行只允许匹配 fingerprint 的无新增恢复：
+
+```powershell
+.venv\Scripts\python.exe -m logicguard.evaluation.answer_generation `
+  --config configs\experiments\e1\musique_natural_bridge_dryrun5_full_corpus_defense_answers.yaml
+```
+
+最终汇总完全离线，不增加 API 调用：
+
+```powershell
+.venv\Scripts\python.exe -m logicguard.evaluation.reindex_paired_analysis `
+  --config configs\experiments\e1\stage48_paired_defense_analysis.yaml
+```
+
+预期输出为 `stage48_paired_rows=56, answer_calls=112`。主要产物：
+
+- `outputs/ms_graphrag_query/stage48_e1_paired_defense_answer_rows.jsonl`
+- `outputs/ms_graphrag_query/stage48_e1_paired_defense_answer_summary.json`
+- `outputs/manifests/stage48_e1_paired_defense_cost_ledger.json`
+
+配对阶段精确日志成本为 ¥0.982251；clean context 的 14 次 query embedding 按每次最多 128 tokens 保守封顶 ¥0.000896，因此配对增量上界 ¥0.983147。Stage48 含前一轮 E1 的累计精确成本为 ¥1.209554，累计上界 ¥1.210900。
+
+### 0.2 Stage48 Gate A fixed-50 扩样
+
+Gate A 尝试预算固定为 MuSiQue 与 HotpotQA 各前 50 个 query；以下攻击扩展已经完成并产生付费结果，不应原地重跑：
+
+```powershell
+.venv\Scripts\python.exe -m logicguard.attack.adaptive `
+  --config configs\experiments\e1\stage48_gate_a_musique_attack_expansion.yaml
+.venv\Scripts\python.exe -m logicguard.attack.adaptive `
+  --config configs\experiments\e1\stage48_gate_a_hotpotqa_attack_expansion.yaml
+```
+
+冻结合并、有效性清单、确定性选样和生成成本汇总可以离线复算：
+
+```powershell
+.venv\Scripts\python.exe -m logicguard.evaluation.gate_a_expansion `
+  --config configs\experiments\e1\stage48_gate_a_expansion.yaml
+```
+
+固定 50-query 清单显示四个单元达到 10 条 evaluation-valid：MuSiQue/HotpotQA 的 `natural_bridge` 与 `low_drift`。两个 `candidate_collision` 单元均只有 6 条，必须保留为未 ready，不得追加调用补足。四个 ready 单元分别使用以下 exposure 配置与同前缀 `_context.yaml`：
+
+- `stage48_gate_a_musique_natural_bridge_evalvalid10_full_corpus.yaml`
+- `stage48_gate_a_musique_low_drift_evalvalid10_full_corpus.yaml`
+- `stage48_gate_a_hotpotqa_natural_bridge_evalvalid10_full_corpus.yaml`
+- `stage48_gate_a_hotpotqa_low_drift_evalvalid10_full_corpus.yaml`
+
+单元的执行顺序固定如下。已完成的 workspace 含付费 embedding，禁止原地重跑；若复现必须改用新 namespace 和新 manifest：
+
+```powershell
+.venv\Scripts\python.exe -m logicguard.evaluation.reindex_exposure `
+  --config <exposure-config> --phase prepare
+
+tools\ms_graphrag\.venv\Scripts\python.exe -m graphrag index `
+  --root <workspace> --method fast
+
+.venv\Scripts\python.exe -m logicguard.ms_graphrag.query_layer_seeding `
+  --config <context-config>
+
+$env:PYTHONPATH='src'
+tools\ms_graphrag\.venv\Scripts\python.exe -m logicguard.ms_graphrag.query_layer_context `
+  --config <context-config>
+
+.venv\Scripts\python.exe -m logicguard.evaluation.reindex_exposure `
+  --config <exposure-config> --phase audit
+```
+
+Context Gate 汇总完全离线，使用单元 `10/10` 与家族 pooled `20/20` attempted 分母，并生成 Wilson 95% 区间：
+
+```powershell
+.venv\Scripts\python.exe -m logicguard.evaluation.gate_a_context_analysis `
+  --config configs\experiments\e1\stage48_gate_a_context_analysis.yaml
+```
+
+只有 `stage48_gate_a_fixed50_context_summary.json` 中 `answer_stage_families` 列出的家族才允许运行同前缀 `_answers.yaml`。回答完成后执行：
+
+```powershell
+.venv\Scripts\python.exe -m logicguard.evaluation.gate_a_answer_analysis `
+  --config configs\experiments\e1\stage48_gate_a_answer_analysis.yaml
+```
+
+最终 system-level targeted ASR 使用全部 evaluation-valid attempted 分母，未检索、未暴露的 case 仍计为失败；禁止只按 prompt-exposed 分母宣告 Gate A 通过。
+
+已完成结果为：natural bridge pooled Prompt 暴露与 system targeted ASR 均为 `4/20=20%`；low drift Prompt 暴露 `3/20=15%`；candidate collision 两个单元各只有 6 条 evaluation-valid。Gate A 因只有一个家族通过而判为未通过。主要汇总：
+
+- `outputs/ms_graphrag_query/stage48_gate_a_fixed50_context_summary.json`
+- `outputs/ms_graphrag_query/stage48_gate_a_fixed50_answer_summary.json`
+- `outputs/manifests/stage48_gate_a_fixed50_answer_cost_ledger.json`
+
+本轮 fixed-50 增量精确目录价为 ¥2.367407、保守上界 ¥2.376367；Stage48 累计精确 ¥3.576961、累计上界 ¥3.587267。MuSiQue 两个 index 日志各记录一次 provider 内部 retry、0 失败；HotpotQA 两个 index 为 0 retry、0 失败。HotpotQA context 的 tokenizer 远程握手失败后使用本地备份，两个导出均 exit 0。不得把内部 retry 隐去，也不得因它重新运行已完成 namespace。
+
+### 0.3 Stage48 冻结失败分类
+
+以下命令只复算 inventory 与失败分类，不调用 API、不重建索引、不读取回答结果：
+
+```powershell
+.venv\Scripts\python.exe -m logicguard.evaluation.gate_a_expansion `
+  --config configs\experiments\e1\stage48_gate_a_expansion.yaml
+
+.venv\Scripts\python.exe -m logicguard.evaluation.stage48_failure_taxonomy `
+  --config configs\experiments\e1\stage48_failure_taxonomy.yaml
+```
+
+第一条命令的确定性选择哈希必须与 `reindex_exposure` 同为 `fingerprint_json(query_id)`；测试 `test_gate_a_selection_uses_the_same_fingerprint_as_reindexing` 防止再次分叉。预期第二条命令输出 `stage48_failure_taxonomy_rows=300, paid_api_calls=0`。主要产物：
+
+- `outputs/ms_graphrag_query/stage48_failure_taxonomy_rows.jsonl`
+- `outputs/ms_graphrag_query/stage48_failure_taxonomy_summary.json`
+- `outputs/ms_graphrag_query/stage48_failure_taxonomy_summary.csv`
+- `outputs/reports/Stage48_FailureTaxonomy.md`
+
+新的大规模效果实验尚未执行；文献/资产审计见 `docs/comparativeExperimentLiteratureAudit.md`。v1.0 预注册和机器表已暂停，v1.1 与 E0 已于 2026-09-03 冻结。当前只开放 E1 execution adapter、development smoke 与成本估算的无/低成本准备；正式 validation 调用和所有 E2 cell 仍受预注册门约束。
 
 ## 1. 使用规则
 
@@ -1021,3 +1354,52 @@ tools\ms_graphrag\.venv\Scripts\python.exe -m logicguard.ms_graphrag.query_layer
   --config configs/ms_graphrag_stage40_cross_dataset_audit.yaml
 .venv\Scripts\python.exe -m pytest tests\test_ms_graphrag_query_layer_seeding.py tests\test_ms_graphrag_query_layer_context.py tests\test_ms_graphrag_query_layer_evaluation.py -q
 ```
+
+## WP2 A1/A3 机制预算与后端 trace 资格锚点（2026-09-08）
+
+以下命令只读取项目内冻结的上游资产、历史 Microsoft GraphRAG clean trace、clean corpus 和 LightRAG schema fixture，不生成攻击、不索引、不调用 provider：
+
+```powershell
+cd F:\LogicGuard_project\logicguard
+$env:PYTHONPATH='src'
+uv run python -m logicguard.benchmark.wp2_qualification_runner `
+  --config configs\benchmark\comparison_v1_2_a1_a3_trace_qualification.yaml
+uv run pytest tests\test_attack_qualification.py `
+  tests\test_backend_trace_adapters.py `
+  tests\test_wp2_qualification_runner.py -q
+```
+
+预期状态为 `LOCAL_QUALIFICATION_PASSED_WITH_DECLARED_BOUNDARIES`：A1 为 100 records/500 texts；A3 为 74 records、1,555 raw texts、1,461 selected occurrences、1,341 unique selected texts；Microsoft GraphRAG 为 50 rows/1,870 exact clean sources；LightRAG 为 1 个 2-hit fixture 且 `real_trace_rows=0`。产物位于 `artifacts/benchmark/research_revision_v1_2/wp2/a1_a3_backend_trace_qualification_anchor/`。重放会校验配置、五个输入和所有派生产物 hash；输入或配置改变时拒绝混入该 namespace。provider 调用 0，费用 ¥0。
+
+## 🔄 WP2 common-dev 物化与真实 LightRAG trace（2026-09-10）
+
+物化器只复用已经冻结的两个 generation-valid pilot，不生成新攻击、不读取 API key：
+
+```powershell
+cd F:\LogicGuard_project\logicguard
+$env:PYTHONPATH='src'
+uv run python -m logicguard.benchmark.attack_corpus_materializer `
+  --config configs\benchmark\comparison_v1_2_a1_a3_common_dev_materialization_anchor.yaml
+```
+
+真实 LightRAG trace 使用隔离环境和已有十文档索引的副本。该 namespace 已完成，禁止为了重看结果而重跑付费命令：
+
+```powershell
+$env:PYTHONPATH='src'
+tools\lightrag\.venv\Scripts\python.exe -m logicguard.benchmark.lightrag_trace_capture `
+  --config configs\benchmark\comparison_v1_2_lightrag_real_trace_anchor.yaml
+```
+
+冻结结果为 hybrid 1 query/6 chunks、1 次 LLM、1 次 embedding、666/37 chat tokens、33 embedding tokens，目录价 ¥0.001644；thinking/retry=0，原索引 hash 未变化。输出位于 `artifacts/benchmark/research_revision_v1_2/wp2/lightrag_real_trace_anchor/`。
+
+以下合同命令为纯本地运行，可重复执行时校验不可变 namespace：
+
+```powershell
+uv run python -m logicguard.benchmark.real_trace_contract_runner `
+  --config configs\benchmark\comparison_v1_2_real_trace_contract_anchor.yaml
+uv run pytest tests\test_attack_corpus_materializer.py `
+  tests\test_real_trace_contract_runner.py `
+  tests\test_backend_trace_adapters.py -q
+```
+
+预期为双后端 2 条真实 trace、48 个 exact clean hits、4 条 T0/T1 context、2 条 audit、0 失败。该运行固定为 0% trusted coverage，只验证 native trace 可以进入统一合同；不能把它复述为真实可信池检索或防御效果。

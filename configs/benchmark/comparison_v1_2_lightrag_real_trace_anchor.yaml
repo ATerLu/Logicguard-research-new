@@ -1,0 +1,33 @@
+schema_version: 1
+protocol_version: comparison-v1.2
+run_mode: execute_once_existing_index_copy
+backend: lightrag
+backend_version: 1.5.7
+dataset: 2wikimultihopqa
+query_id: wp2-lightrag-real-trace-001
+question: Who was the mother of Lambert, Margrave of Tuscany?
+query_mode: hybrid
+top_k: 10
+chunk_top_k: 10
+max_entity_tokens: 2000
+max_relation_tokens: 3000
+max_total_tokens: 8000
+source_working_dir: artifacts/benchmark/e1_preparation/indexing_pilots/lightrag_ten_documents
+output_root: artifacts/benchmark/research_revision_v1_2/wp2/lightrag_real_trace_anchor
+completion_model: qwen3.7-plus
+embedding_model: text-embedding-v4
+embedding_dimension: 1024
+embedding_max_tokens_per_text: 8192
+api_key_env: DASHSCOPE_API_KEY
+base_url_env: DASHSCOPE_BASE_URL
+default_base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+timeout_seconds: 120
+llm_call_cap: 2
+llm_input_tokens_per_call_cap: 6000
+llm_output_tokens_per_call_cap: 512
+embedding_input_tokens_total_cap: 4096
+pricing:
+  chat_input_per_million_cny: 2.0
+  chat_output_per_million_cny: 8.0
+  embedding_input_per_million_cny: 0.5
+  hard_cost_cap_cny: 0.04

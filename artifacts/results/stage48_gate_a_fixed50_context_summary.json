@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "experiment": "Stage48_GateA_fixed50_context_exposure",
+  "denominator_policy": "First 50 queries per dataset; exactly 10 preselected evaluation-valid attacks per ready cell; no exposure- or success-conditioned replacement.",
+  "interval_method": "two-sided_95_percent_Wilson_score",
+  "cell_rows": [
+    {
+      "dataset": "musique",
+      "attack_family": "natural_bridge",
+      "attempted": 10,
+      "index_included": 10,
+      "index_inclusion_rate": 1.0,
+      "retrieved": 3,
+      "retrieval_rate": 0.3,
+      "prompt_exposed": 2,
+      "prompt_exposure_rate": 0.2,
+      "prompt_exposure_wilson95_low": 0.05668215145437519,
+      "prompt_exposure_wilson95_high": 0.5098375284633583
+    },
+    {
+      "dataset": "musique",
+      "attack_family": "low_drift",
+      "attempted": 10,
+      "index_included": 10,
+      "index_inclusion_rate": 1.0,
+      "retrieved": 5,
+      "retrieval_rate": 0.5,
+      "prompt_exposed": 3,
+      "prompt_exposure_rate": 0.3,
+      "prompt_exposure_wilson95_low": 0.10779126740630099,
+      "prompt_exposure_wilson95_high": 0.6032218525388546
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "natural_bridge",
+      "attempted": 10,
+      "index_included": 10,
+      "index_inclusion_rate": 1.0,
+      "retrieved": 7,
+      "retrieval_rate": 0.7,
+      "prompt_exposed": 2,
+      "prompt_exposure_rate": 0.2,
+      "prompt_exposure_wilson95_low": 0.05668215145437519,
+      "prompt_exposure_wilson95_high": 0.5098375284633583
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "low_drift",
+      "attempted": 10,
+      "index_included": 10,
+      "index_inclusion_rate": 1.0,
+      "retrieved": 5,
+      "retrieval_rate": 0.5,
+      "prompt_exposed": 0,
+      "prompt_exposure_rate": 0.0,
+      "prompt_exposure_wilson95_low": 0.0,
+      "prompt_exposure_wilson95_high": 0.2775327998628892
+    }
+  ],
+  "family_rows": [
+    {
+      "dataset": "pooled_ready_datasets",
+      "attack_family": "low_drift",
+      "attempted": 20,
+      "index_included": 20,
+      "index_inclusion_rate": 1.0,
+      "retrieved": 10,
+      "retrieval_rate": 0.5,
+      "prompt_exposed": 3,
+      "prompt_exposure_rate": 0.15,
+      "prompt_exposure_wilson95_low": 0.052368745896216595,
+      "prompt_exposure_wilson95_high": 0.36041886474075696,
+      "ready_dataset_count": 2,
+      "eligible_for_family_gate": true,
+      "passes_prompt_exposure_threshold": false
+    },
+    {
+      "dataset": "pooled_ready_datasets",
+      "attack_family": "natural_bridge",
+      "attempted": 20,
+      "index_included": 20,
+      "index_inclusion_rate": 1.0,
+      "retrieved": 10,
+      "retrieval_rate": 0.5,
+      "prompt_exposed": 4,
+      "prompt_exposure_rate": 0.2,
+      "prompt_exposure_wilson95_low": 0.08065766257979806,
+      "prompt_exposure_wilson95_high": 0.41601743225189364,
+      "ready_dataset_count": 2,
+      "eligible_for_family_gate": true,
+      "passes_prompt_exposure_threshold": true
+    }
+  ],
+  "incomplete_inventory_cells": [
+    {
+      "dataset": "musique",
+      "attack_family": "candidate_collision",
+      "attempted": "50",
+      "generation_valid": "26",
+      "evaluation_valid": "6",
+      "selected_for_reindex": "0",
+      "target": "10",
+      "gate_cell_ready": "False"
+    },
+    {
+      "dataset": "hotpotqa",
+      "attack_family": "candidate_collision",
+      "attempted": "50",
+      "generation_valid": "29",
+      "evaluation_valid": "6",
+      "selected_for_reindex": "0",
+      "target": "10",
+      "gate_cell_ready": "False"
+    }
+  ],
+  "gate": {
+    "prompt_exposure_threshold": 0.2,
+    "minimum_ready_datasets_per_family": 2,
+    "minimum_passing_families": 2,
+    "qualifying_attack_families": [
+      "natural_bridge"
+    ],
+    "prompt_exposure_requirement_passed": false,
+    "answer_stage_families": [
+      "natural_bridge"
+    ],
+    "system_level_asr_requirement_evaluated": false,
+    "gate_a_final_status": "pending_answer_stage"
+  },
+  "cost_ledger_path": "F:\\LogicGuard_project\\logicguard\\outputs\\manifests\\stage48_gate_a_fixed50_context_cost_ledger.json"
+}

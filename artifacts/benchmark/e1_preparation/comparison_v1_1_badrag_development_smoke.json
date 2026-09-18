@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "fidelity": "paper_guided_lexical_mechanism_smoke",
+  "paper_components_covered": [
+    "paired_trigger_no_trigger_queries",
+    "limited_malicious_passages",
+    "trigger_retrieval",
+    "clean_false_activation"
+  ],
+  "paper_components_not_covered": [
+    "white_box_dense_retriever",
+    "COP_ACOP_MCOP_gradient_optimization",
+    "AaaA_or_SFaaA_model_generation_effect"
+  ],
+  "datasets": [
+    {
+      "dataset": "hotpotqa",
+      "paired_queries": 20,
+      "trigger_retrieval_hits": 10,
+      "false_activation_hits": 0,
+      "trigger_retrieval_rate": 0.5,
+      "false_activation_rate": 0.0
+    },
+    {
+      "dataset": "musique",
+      "paired_queries": 20,
+      "trigger_retrieval_hits": 2,
+      "false_activation_hits": 0,
+      "trigger_retrieval_rate": 0.1,
+      "false_activation_rate": 0.0
+    },
+    {
+      "dataset": "2wikimultihopqa",
+      "paired_queries": 20,
+      "trigger_retrieval_hits": 6,
+      "false_activation_hits": 0,
+      "trigger_retrieval_rate": 0.3,
+      "false_activation_rate": 0.0
+    }
+  ],
+  "aggregate": {
+    "paired_queries": 60,
+    "trigger_retrieval_rate": 0.3,
+    "false_activation_rate": 0.0,
+    "payload_success_rate": null
+  },
+  "gates": {
+    "trigger_retrieval": false,
+    "false_activation": true,
+    "payload_success": false
+  },
+  "validation_eligible": false,
+  "conclusion": "the lexical surrogate did not reproduce the required trigger-retrieval trend; it cannot substitute for dense COP-family optimization, and BadRAG remains blocked",
+  "paid_api_calls": 0,
+  "fingerprint": "6e407bea0fa701d2bdab7180d33c6d35022a85f9fd212cd565b576620071517d"
+}

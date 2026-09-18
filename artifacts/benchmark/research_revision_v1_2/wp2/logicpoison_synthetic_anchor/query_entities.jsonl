@@ -1,0 +1,2 @@
+{"query_id": "fixture-q1", "entities": [{"hop": 1, "entity": "Ada", "type": "PERSON"}], "status": "complete"}
+{"query_id": "fixture-q2", "entities": [{"hop": 1, "entity": "Bea", "type": "PERSON"}], "status": "complete"}

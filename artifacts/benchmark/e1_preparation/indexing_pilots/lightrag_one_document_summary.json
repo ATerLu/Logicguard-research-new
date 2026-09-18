@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "backend": "lightrag",
+  "backend_version": "1.5.7",
+  "status": "FAILED",
+  "document_id": "0",
+  "document_chars": 211,
+  "usage": {
+    "llm_calls": 0,
+    "embedding_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "reasoning_tokens": 0,
+    "embedding_tokens": 0
+  },
+  "generation_controls": {
+    "enable_thinking": false,
+    "output_limit_parameter": "max_completion_tokens",
+    "provider_retries": 0
+  },
+  "planned_catalog_cost_cap_cny": 0.2064,
+  "hard_cost_cap_cny": 0.21,
+  "actual_catalog_cost_cny": 0.0,
+  "elapsed_seconds": 5.292,
+  "output_file_count": 0,
+  "error": "TypeError: cannot pickle '_thread.RLock' object"
+}

@@ -1,0 +1,34 @@
+schema_version: 1
+run_mode: external_defense_artifact_qualification
+output_root: artifacts/benchmark/research_revision_v1_2/wp2/d3_d4_external_defense_qualification_anchor_v5
+supersedes: artifacts/benchmark/research_revision_v1_2/wp2/d3_d4_external_defense_qualification_anchor_v4
+
+D3:
+  upstream_root: vendor/upstream/RAGDefender
+  upstream_commit: ba2a17efba165d45409114df2d70b030ade1e1b8
+  python_executable: tools/ragdefender/.venv310/Scripts/python.exe
+  timeout_seconds: 1800
+  model_id: sentence-transformers/paraphrase-MiniLM-L6-v2
+  model_revision: c9a2bfebc254878aee8c3aca9e6844d5bbb102d1
+  local_files_only: true
+  p: 2
+  m: 5
+  fixtures:
+    - path: vendor/upstream/RAGDefender/tests/fixtures/legacy_v011_singlehop.json
+      task_type: single_hop
+    - path: vendor/upstream/RAGDefender/tests/fixtures/legacy_v011_multihop.json
+      task_type: multi_hop
+  declared_paper_model:
+    model_id: dunzhang/stella_en_1.5B_v5
+    model_revision: 7817065102fd9e1b031fe874e910c01f40b2f001
+    trust_remote_code: true
+    local_files_only: true
+    timeout_seconds: 1800
+
+D4:
+  upstream_root: vendor/upstream/HoG-GRAG
+  upstream_commit: b3197f5cb03b161ce4d29365ab73f1b3ed3adb02
+  provider_model: gpt-5-mini
+  required_prompt_files:
+    - get_response.md
+    - prompts/response_subquestion.md

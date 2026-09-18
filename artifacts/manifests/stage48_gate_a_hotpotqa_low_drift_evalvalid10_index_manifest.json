@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "workspace_root": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\hotpotqa\\stage48_gate_a_low_drift_evalvalid10_full_corpus",
+  "index_scope": "official_graphrag_context_only",
+  "community_reports": "intentionally_omitted_query_community_prop_zero",
+  "embedding_fields": [
+    "entity_description"
+  ],
+  "settings": {
+    "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\hotpotqa\\stage48_gate_a_low_drift_evalvalid10_full_corpus\\settings.yaml",
+    "size_bytes": 2513,
+    "sha256": "473bb23ce274b9400c8ade2124cb563f7b13bd982485b4b7446801846fe59959"
+  },
+  "prompts_sha256": "51b312589755c10d2f6837ca1fee4b41b6ccb6e54f48893275f65cad89252d2d",
+  "input_sha256": "669777c1449e2002aae7f9f1d52a669ca7a08caa2be1d5d51967fd16a732ed77",
+  "output_artifacts": [
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\hotpotqa\\stage48_gate_a_low_drift_evalvalid10_full_corpus\\output\\communities.parquet",
+      "size_bytes": 13635068,
+      "sha256": "36b18c6b812fc29fe211afd4e0edc805017268d8cb3252fcc8fdb612e2175092"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\hotpotqa\\stage48_gate_a_low_drift_evalvalid10_full_corpus\\output\\documents.parquet",
+      "size_bytes": 6070039,
+      "sha256": "6bc5a993a0a7547ad8b26a8cef734330e1a79352c48beaba638f9a70e4287653"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\hotpotqa\\stage48_gate_a_low_drift_evalvalid10_full_corpus\\output\\entities.parquet",
+      "size_bytes": 6910523,
+      "sha256": "cd4289e12db20431a5b8fe07202850629416c65c22b38c06749e4c602e648359"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\hotpotqa\\stage48_gate_a_low_drift_evalvalid10_full_corpus\\output\\relationships.parquet",
+      "size_bytes": 11052704,
+      "sha256": "114b62440c060ac9fa25e9c37ed782190f4a8742090e75654d3d787d361b5e64"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag\\hotpotqa\\stage48_gate_a_low_drift_evalvalid10_full_corpus\\output\\text_units.parquet",
+      "size_bytes": 13914674,
+      "sha256": "181127771a5c37def29cec90ca437f507eb1b0981346e8dae79cb239ed104711"
+    }
+  ],
+  "output_sha256": "a5216e169418ef9486ced3f2d2bf6b5ccb48ef2dbb67a291991e006a2347982f",
+  "graphrag_metrics": {
+    "openai/text-embedding-v4": {
+      "attempted_request_count": 1384,
+      "successful_response_count": 1384,
+      "failed_response_count": 0,
+      "requests_with_retries": 0,
+      "retries": 0,
+      "compute_duration_seconds": 797.3476045131683,
+      "streaming_responses": 0,
+      "responses_with_tokens": 1384,
+      "prompt_tokens": 84012,
+      "completion_tokens": 0,
+      "total_tokens": 84012,
+      "incomplete_response_count": 0,
+      "failure_rate": 0.0,
+      "retry_rate": 0.0,
+      "compute_duration_per_response_seconds": 0.5761182113534453,
+      "tokens_per_response": 60.702312138728324
+    },
+    "openai/qwen3.7-plus": {
+      "attempted_request_count": 1,
+      "successful_response_count": 1,
+      "failed_response_count": 0,
+      "requests_with_retries": 0,
+      "retries": 0,
+      "compute_duration_seconds": 10.163694620132446,
+      "streaming_responses": 0,
+      "responses_with_tokens": 1,
+      "prompt_tokens": 21,
+      "completion_tokens": 287,
+      "total_tokens": 308,
+      "incomplete_response_count": 0,
+      "failure_rate": 0.0,
+      "retry_rate": 0.0,
+      "compute_duration_per_response_seconds": 10.163694620132446,
+      "tokens_per_response": 308.0
+    }
+  },
+  "manifest_fingerprint": "d09239f5b1d18197f1d8ab017b6aaa76b837d7bffdf6f58b60d9a7196ecd55c2"
+}

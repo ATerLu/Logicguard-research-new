@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "status": "PASSED",
+  "unique_attack_attempts": 1,
+  "generation_valid": 1,
+  "provider_calls_made": 1,
+  "token_usage": {
+    "prompt_tokens": 152,
+    "completion_tokens": 222,
+    "reasoning_tokens": 0,
+    "total_tokens": 374
+  },
+  "actual_catalog_cost_cny": 0.00208,
+  "hard_cost_cap_cny": 0.0071,
+  "generation_controls": {
+    "enable_thinking": false,
+    "output_limit_parameter": "max_completion_tokens"
+  },
+  "provider_calls_this_audit": 0,
+  "distinct_sample_no_retry": true,
+  "results_sha256": "52c24c53e82fe16d077ba9895bbb4a25ff360582a0f7a03497dd12f083e3a05f",
+  "summary_sha256": "ab997a54c9d158f222d9957242b0256c71f376a06c02566d0d31a43e8740f279",
+  "fingerprint": "2fde4230aa5dbf5b690c5ec9ddacc9f7735a607641d370a4140619e619528fb7"
+}

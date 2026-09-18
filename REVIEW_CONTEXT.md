@@ -1,63 +1,38 @@
 # LogicGuard Web Review Context
 
-## What this repository is
+## Repository role
 
-LogicGuard is a research prototype for defending GraphRAG-style multi-hop QA against logical corpus poisoning. The central problem is that simply removing suspicious retrieved evidence can suppress attacks but often leaves the model with too little evidence to answer. LogicGuard therefore uses a chain of source risk detection, trusted-reference recovery, candidate-source enrichment, and selective second-hop supplementation.
+This repository is the curated GitHub handoff mirror of the active LogicGuard research worktree. The checked-out `uisee-dev` branch is intended to let another workstation resume development without treating excluded runtime data, indexes, virtual environments, or credentials as versioned source.
 
-This is a curated mirror for code review and research guidance. The local source worktree has raw datasets and large GraphRAG artifacts; they are intentionally excluded here. Read `README.md`, `docs/项目总览与路线图.md`, `docs/新窗口交接文档_2026-07-01.md`, and the reports in `artifacts/reports/` before drawing conclusions.
+Read these files before reviewing or changing the project:
 
-## Current verified baseline: Stage47
+1. `handoff.md`
+2. `WORKSTATION_HANDOFF.md`
+3. `docs/thesisPlan.md`
+4. `docs/results.md`
+5. `docs/methodology.md`
+6. `docs/reproducibility.md`
+7. `docs/comparativeExperimentPreregistration_v1.2.md`
 
-Stage47 is the latest completed adaptive-attack evaluation. It applies three
-label-blind attack families to clean official GraphRAG retrieval results and
-then runs the frozen Stage43--45 defense and answer pipeline.
+## Current verified status
 
-- Datasets: MuSiQue 20 queries and HotpotQA 5 transfer queries.
-- Attack attempts: 75; generation-valid: 35; strict evaluation-valid: 21;
-  actual malicious-answer prompt exposures: 19.
-- Answer model: `qwen3.7-plus`, temperature 0, `evidence_compare` prompt,
-  450 characters per source.
-- Natural bridge is the clearest gap: MuSiQue Stage43 risk recall is 0 and
-  targeted ASR remains 0.875; Stage44/45 reduce it only to 0.750.
-- Low-entity-drift attacks confirm a detector blind spot, but the strict
-  denominator is too small for a stable aggregate ASR estimate.
-- Candidate-collision attacks are detected, but all 5 strict cases recover to
-  the attacker-induced non-gold candidate. Answer-level ASR falls to 0, while
-  recovery integrity still fails.
+- Stage48 Gate A is closed as failed: only natural bridge passed the family-level context/system gate.
+- WP1 protocol correction and historical-use audit are complete.
+- WP2 is partial: A2 local four-stage materialization, T0/T1 synthetic controls, A1/A3 asset and materialization anchors, real clean trace admission, and D3/D4 external-defense qualification have been audited.
+- RAGDefender is eligible only as `RAGDefender_published_artifact_implementation`; its MiniLM path is order-sensitive and its published multi-hop implementation differs from the paper text.
+- HoG-GRAG's fixed public artifact is paper-native unavailable because of a syntax error and missing prompts. This is not evidence that the defense is ineffective.
+- D6, full dev60 A1/A2/A3 execution, real trusted-pool retrieval, a fresh confirmatory set, and formal external-defense ranking are not complete.
 
-The Stage47 conclusion is bounded: it is a post-retrieval source perturbation
-study. It does not test poisoned-corpus reindexing, graph extraction, embedding,
-community formation, or original retrieval rank changes.
+## Strongest current finding
 
-## Current research priority
+Natural bridge poisoning survived full-corpus insertion, official Microsoft GraphRAG indexing, retrieval, prompt truncation, and answer generation on HotpotQA and MuSiQue, with pooled system targeted success `4/20=20%`. This does not make Gate A pass because only one attack family qualified.
 
-The next planned stage is Stage48 full-corpus poisoning and reindex evaluation:
+The Stage43--45 defense chain remains a legacy internal baseline. Filtering alone removes poisoned exposure but damages answerability; trusted recovery and enrichment restore utility under a strong clean-reference assumption. Adaptive low-drift, candidate-collision, and no-counterpart natural-bridge attacks expose detector and recovery-integrity gaps.
 
-1. Add configuration-fingerprinted checkpoint/resume and per-case incremental
-   answer persistence.
-2. Freeze the successful Stage47 attacks and record clean/poisoned corpus hashes.
-3. Build separate low-drift, candidate-collision, and natural-bridge corpus variants.
-4. Reindex each variant with official GraphRAG and measure index, retrieval,
-   ranking, truncation, and actual-prompt exposure before any answer calls.
-5. Run the unchanged Stage43--45 baseline before implementing detector or
-   recovery enhancements.
+## Next development task
 
-Every adaptive attack must be evaluated locally, must not use gold answers or changed-document labels as generation features, and must pass an actual-prompt poison-exposure preflight before answer-level attack success is reported.
+Freeze the complete dev60 A1/A2/A3 request and materialization launch plan: model revisions, maximum calls/tokens/cost, unknown and in-flight accounting, stop rules, immutable corpus hashes, and fixed denominators. Do not select replacement questions after observing attack success.
 
-## Suggested questions for ChatGPT web review
+## Artifact boundary
 
-- "Read the Stage46 report and identify the strongest remaining threat-model assumptions."
-- "Review the risk recovery detector for threshold-edge bypasses, without proposing changes that rely on gold labels at inference time."
-- "Compare Stage44 and Stage45 and propose a non-oracle gate for second-hop supplementation."
-- "Review the planned adaptive-attack protocol for leakage from offline evaluation labels."
-- "Check whether the reported claims are supported by the tracked code, configs, tests, and artifacts."
-
-## Artifact map
-
-- `handoff.md`: authoritative current-state handoff and Stage48 guardrails.
-- `artifacts/reports/Stage47_三类自适应攻击初步实验_中文报告.md`: main current result report.
-- `artifacts/results/stage47_adaptive_attack_final_summary.csv`: strict final metrics.
-- `artifacts/results/stage47_adaptive_attack_pairwise_summary.csv`: paired defense changes.
-- `artifacts/results/stage47_adaptive_attack_examples.jsonl`: source and answer walkthroughs.
-- `artifacts/attacks/`: frozen Stage47 attack records and no-oracle integrity rows.
-- `docs/论文实验矩阵_阶段冻结版.md`: frozen experiment framing.
+The repository tracks curated Stage40/46/47/48 results, frozen Stage47/48 attacks, Stage48 run manifests, and WP1/WP2 benchmark artifacts. Full datasets, GraphRAG/LightRAG indexes, caches, model snapshots, `.env` files, and full outputs are excluded. Their old-workstation hashes are recorded in `EXTERNAL_ASSETS_SHA256.tsv`.

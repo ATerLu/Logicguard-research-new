@@ -1,0 +1,7 @@
+{
+  "planned_catalog_cost_cap_cny": 0.03424,
+  "hard_cost_cap_cny": 0.04,
+  "llm_call_cap": 2,
+  "embedding_input_tokens_total_cap": 4096,
+  "provider_retries": 0
+}

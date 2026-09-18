@@ -1,9 +1,17 @@
 # LogicGuard 实验方法与路线
 
-> 规范化入口（2026-08-04）：本文合并项目总览、实验阶段和方法边界。
+> 2026-09-10 WP2 进展覆盖：A1/A3 两样本物化、真实 LightRAG clean trace 与双后端 0%-coverage 合同已通过。D3 RAGDefender 已分别加载固定 MiniLM 与 Stella 权重；两个官方 fixture 上发布工件原函数与 v0.2 API 均完全一致。MiniLM single-hop 顺序敏感，Stella 两例 F1=1.0 且反序一致，但发布工件 multi-hop 公式仍不等于论文文字。D4 HoG-GRAG 固定公开工件因核心源码编译错误和两个提示词缺失而不可执行。`trusted_pool_retrieval_executed=false`，因此仍未验证 dev60 或防御效果。见 [外部防御资格报告](F:/LogicGuard_project/logicguard/docs/D3_D4_ExternalDefense_WP2_Qualification.md)。
+
+> 2026-09-08 A2 进展覆盖：新入口 `logicguard.benchmark.logicpoison_pipeline` 已实现并本地验证 global/query/logic/corpus 四阶段；旧 v1.1 runner 仍只实现 query-stage。两个锚点的 query 响应均为 synthetic，未证明真实攻击效果。dev60、强基线、D6 与正式排名仍未完成。详见 [WP2 A2 验收报告](F:/LogicGuard_project/logicguard/docs/LogicPoison_WP2_LocalVerification.md)。
+
+> 最新执行修订（2026-09-06）：[比较实验 v1.2](comparativeExperimentPreregistration_v1.2.md) 优先于下文历史路线。WP1 已完成；现有 1,500 问全部有历史执行/分析记录，不能仅凭 split 互不相交认证独立确认集。A2 本地四阶段已实现但未运行真实开发语料；D3 发布工件模型锚点已通过，D4 官方工件保持 unavailable，D6 待实现。下一步先冻结并执行完整 dev60 攻击语料，再补真实 T0/T1 和 D4 bounded port。已冻结 dev60 选样，不代表已运行实验。
+
+可信覆盖按来源组设置 100/50/20/0%，公开基准上的 protected snapshot 为模拟可信根。候选缺失只能表明不可验证，不等于安全。未来定向 ASR 使用固定 attempted，unknown 报界限，clean-correct flip 与 trigger 指标独立报告；图出现、检索、Prompt 暴露不假设严格嵌套。完整方法门与 WP1–WP5 验收标准见 v1.2。
+
+> 规范化入口（2026-09-04）：本文合并项目总览、实验阶段和方法边界。
 > 结果统一见 `docs/results.md`，执行命令见 `docs/reproducibility.md`。
 
-更新时间：2026-08-04
+更新时间：2026-09-04
 
 ## 阅读入口
 
@@ -13,7 +21,10 @@
 - `docs/results.md`：关键实验指标、数值和解释的集中版报告。
 - `docs/开发记录.md`：完整流水记录，适合追溯每次具体操作，但不再作为主要阅读入口。
 - `docs/reproducibility.md`：需要复现实验时看这里。
-- `docs/实验注册表.csv`：截至 Stage47 的实验里程碑、产物与限制。
+- `docs/实验注册表.csv`：截至 Stage48 Gate A 的实验里程碑、产物与限制。
+- `docs/comparativeExperimentLiteratureAudit.md`：下一阶段论文实验路径、公开资产、数据/攻击/防御选择和修订任务计划；当前优先审核入口。
+- `docs/comparativeExperimentPreregistration_v1.1.md`：已冻结的新比较实验协议；执行仍受 E0-B/E1 门约束。
+- `docs/对比实验预注册表_v1.1.csv`：v1.1 机器表；逐 cell 记录 native/port/blocked/gated。
 
 规范化前的阶段报告已归档，来源路径、内容类型与 SHA-256 见
 `docs/report_manifest.csv`。
@@ -23,6 +34,75 @@
 LogicGuard 当前研究目标是：在 GraphRAG/RAG 系统受到逻辑污染或语料污染时，尽量阻断污染证据进入回答上下文，同时通过 recovery 机制恢复可用的干净证据，避免简单过滤导致模型只能回答 UNKNOWN。
 
 通俗说法：攻击会把“看起来相关但已经被改写的证据”塞进检索结果。LogicGuard 不能只把坏证据删掉，还要尽量找回原来可信的证据，否则系统虽然安全了，但也不会答题。
+
+## Comparative Benchmark E0 方法冻结
+
+E0 使用 `comparison-v1.1` schema，把 query/document、attack instance、retrieval/context trace 和 answer evaluation 分离。攻击端不得读取 evaluator-only gold/support；四类攻击各自绑定 targeted wrong answer、clean-correct flip、relation targeted/untargeted 和 trigger payload endpoint。统一漏斗为 `attempted → generation-valid → evaluation-valid → corpus-modified → index-included → graph-surfaced → retrieved → prompt-exposed → answered → threat-native-success`，任一层计数不得逆增。
+
+split 先按数据可用结构分层，再使用 namespace、dataset、query ID 的 SHA-256 排序；同一 query 在攻击、后端和防御间共享 split。E0-A 只验证资产、字段、hash、终点和可重复性，不产生攻击/防御效果。E0-B 只允许 development/golden fixture 本地 smoke；E1 才在 validation 固定 100 attempted 运行 D0 攻击资格，E2 仅对合格单元解封 300 locked test。
+
+2026-09-03 E0-A/E0-B 均已通过。E0-B 的 `source compile/import + saved fixture normalization` 不能替代 paper-native 效果复现。到 2026-09-04，A1–A3 execution adapter、A1/A3 与 A2 的有界生成 pilot、LogicPoison gold-free staging/NER 以及双后端 1/10 文档 indexing pilot 已完成；BadRAG dense/payload 和全规模成本 hard cap 仍是 E1 前置。D3/D4 模型级锚点和 D6 full dual-track 是 E2 前置。
+
+## Comparative Benchmark E1 前置协议
+
+E1 input manifest 固定为 A1-A3 × 三数据集 × 双后端 18 格、每格 validation attempted=100。同一 `(dataset, attack, query_id)` 在两个后端使用相同 attack seed；后端差异只能来自 indexing/query，不允许重新生成攻击。攻击 runner 只读取 attacker-safe query ID、question 和 stratum，不读取 evaluator-only 文件。
+
+A1 dataset/backend port 不直接调用上游含正确答案的 prompt，而采用 question-only 单次 target/evidence 生成。输出冻结后，evaluator 才连接 gold 检查 target collision；碰撞记 evaluation-invalid 且不补样。A3 black-box port 分为 decompose、select relation、generate evidence 三个 question-only 阶段，每阶段严格一次 provider call；任一 provider/JSON 错误作为该 attempted 的生成失败，不执行上游无界重试。A2 保持 pinned LogicPoison `global → query → logic`、top ratio 0.05 与 `en_core_web_trf`，只能在不含 answers/qrels 的 staging workspace 运行。
+
+BadRAG development smoke 明确分为合同级 lexical surrogate 与后续 faithful dense reimplementation。前者只验证 trigger/no-trigger 配对、limited poison、trigger retrieval 和 false activation，不能代替 COP/ACOP/MCOP，也不能产生 payload success。2026-09-03 的 60-query lexical smoke 只有 30% trigger retrieval、0% false activation，未通过 validation 资格。
+
+成本闸门先冻结 2026-09-03 华北 2 未折扣目录价与每类请求 token/call cap，再用 development indexing pilot 实测 Microsoft GraphRAG/LightRAG 的实体抽取、关系抽取、摘要与 embedding multiplier。2026-09-04 已完成每后端 1/10 文档两档 pilot；所有请求关闭 thinking、禁用 provider retry，并分别受 chat/embedding token 和人民币 hard cap 约束。Microsoft GraphRAG 通过仅在父进程持有真实凭据的本地 capped proxy 执行，子进程只获得占位 key；LightRAG 使用 module-level callback，避免框架深拷贝带锁 client。
+
+索引投影以 27,586 个 clean 文档、每数据集 4 个 corpus variant、每后端 12 个独立索引为当前设计规模。报告 one-document linear、ten-document linear 与 1→10 affine 三种投影，不选择其中任一作为真值；因为实体/关系数量和 community summary 数目非线性增长，1/10 文档结果只构成 calibration range。当前双后端合计校准区间为 ¥2,958.622–¥4,322.297，明确 `is_hard_cap=false`。下一决策门必须预先冻结 100 文档分层样本、调用上限和停止规则，或者先减少 corpus variant/索引重复，再估计总 hard cap。当前 ¥108.715720 仍只是非索引已知组件保守小计；`overall_hard_cap_cny` 为空时不得启动 E1 validation。
+
+## Stage48 E0/E1 方法冻结
+
+Stage48 不再继续堆叠新 detector，先验证攻击是否能从 corpus 传播到 official GraphRAG index、retrieved sources 和真实截断 prompt。任何回答级调用都必须通过以下漏斗：
+
+`attempted → generation-valid → evaluation-valid → index-included → retrieved → prompt-exposed → judged → successful`
+
+各层分母必须单调不增；认证失败、索引失败和生成失败单列，不得并入攻击失败或防御成功。
+
+E0 的运行协议如下：
+
+- 稳定 case key：`(dataset, query_id, attack_family, defense_stage, model)`；
+- 配置、输入 artifact 与实现文件组成运行 fingerprint；
+- checkpoint 逐 query/case append 并 fsync，summary 原子替换；
+- fingerprint 不一致、无 manifest 的 legacy checkpoint 或不完整 case 一律拒绝静默混跑；
+- provider error 作为实验记录保存，不自动重试，也不更换模型或参数。
+
+E1 首轮攻击文本完全复用 Stage47。首个 MuSiQue `natural_bridge` existence pilot 选择 Stage47 targeted-success 样本，只用于证明完整攻击链是否存在。新增 `evaluation_valid` 选择规则只保留 generation-valid、非 oracle、恶意目标不同于 gold，且 candidate collision 不得与 gold 相同；它不查看 full-corpus retrieval、prompt exposure 或答案成败。两种口径必须分表报告。
+
+2026-08-24 的 Gate A 扩样把尝试预算预先冻结为每个数据集前 50 个 query。MuSiQue 复用 Stage47 前 20 个 query，并仅为偏移量 20 后的 30 个 query 生成一次新攻击；HotpotQA 复用前 5 个，并仅为偏移量 5 后的 45 个生成一次新攻击。每个 query 固定生成三类攻击，因此预算为 75 次调用、225 条记录；不得因某个单元未满 10 条 evaluation-valid 而追加调用或替换失败样本。所有 Gate A 后续实验只读取已冻结的 combined artifacts，不再重新生成攻击。
+
+每个 `(dataset, attack_family)` 单元只有在 50 次 attempted 中至少得到 10 条 evaluation-valid 时才进入 full-corpus reindex。选择不查看索引、检索、Prompt 或答案结果：先按 query ID 的 SHA-256 顺序固定，若存在则优先保证 3-hop 与 4-hop 各一条，再补足到 10 条。低于 10 条的单元记录为 generation/evaluation-validity bottleneck，并保留 attempted 分母，不以 6 条小分母替代 10 条门槛。
+
+Context Gate 的统计规则在查看新 full-corpus 暴露结果前固定：单元以 10 条 attempted 为分母，攻击家族合并两个 ready 数据集为 20 条 attempted；点估计同时报告双侧 95% Wilson score interval。一个攻击家族只有在两个数据集均 ready 且 pooled Prompt 暴露率不低于 20% 时，才进入回答级调用；至少两个家族满足该条件，才算 Gate A 的 context 条件通过。回答级 system targeted ASR 仍回填到全部 evaluation-valid attempted 分母，不能只用 prompt-exposed 分母宣告通过。
+
+每个攻击家族建立独立 corpus variant，从 clean corpus 起步，不叠加 Stage40 LogicPoison corpus。MuSiQue `natural_bridge` 与 `candidate_collision` 以新 ID 追加；`low_drift` 沿用原 document ID，必须执行同 ID 替换，禁止同时保留 clean 与 attacked 两份造成重复文档。HotpotQA 扩展同样从完整 9,811-doc clean corpus 追加冻结攻击。
+
+E1 查询协议将 `community_prop` 冻结为 0，community reports 不进入候选、上下文或 prompt。后续 workspace 在索引前即省略 community reports，并把 embedding fields 冻结为 `entity_description`；语料、chunking、NLP graph、cluster 参数和 prompts 不变。执行范围统一记录为 `official_graphrag_context_only`，只能回答攻击是否传播至 official local context，不能回答 community/global search 的传播效果。
+
+回答级门只允许 `prompt_source_exposed && prompt_target_exposed` 的 case 调用回答模型；未检索或被 top-12、450 chars/source 截断的 case 不送入回答模型，也不记作回答级攻击失败。答案先使用透明本地字符串规则分类；对 HotpotQA 的“数值答案 + 来源后缀”格式，若生成答案含数字且是 gold 的 token-bounded 前缀，则视为正确。该规则不会把 gold 后部偶然出现的年份匹配为答案，且任何事后重分类必须保存原生成文本、token 和零新增调用记录。
+
+E1 的未防御攻击基线以及未修改 Stage43/44/45 + clean no-attack 配对已完成。配对实验以 `(dataset, attack_family, query_id, method)` 为单位：同一 attack-family batch 分别在完整 attacked/clean corpus 上独立建索引和 seed plan，再使用相同的 query guard、source 上限、字符截断、Prompt、模型和温度生成回答。由于 seed plan 的 repeated-entity 统计受同批样本影响，clean 对照不能简单合并成唯一 query 集合；重复 query 在不同攻击族中仍作为不同的配对尝试保留。
+
+配对阶段固定四种方法：
+
+1. `full_query_guard`：无回答前 source recovery；
+2. `risk_non_oracle_title_entity_bm25`：Stage43 原阈值；
+3. `stage35_query_bm25_append_top12`：Stage44 query-BM25 top-12；
+4. `stage38_second_hop_append_top14`：Stage45 second-hop top-14。
+
+为了同时测量 clean utility，四个方法的所有 attempted cases 都进入回答层，而不是只回答攻击 target 已暴露的 case。ASR 仍分别按 attempted、exact-prompt attack-source-exposed、exact-prompt target-exposed 三种分母报告。clean utility 使用完全配对的 14 个尝试，不能拿 7 个唯一 MuSiQue query 或 2 个 HotpotQA query 重新加权。
+
+low drift 沿用原 document ID，clean enrichment 也可能加入同 ID clean source。因此 source exposure 的身份规则固定为 `doc_id 匹配 && source_state != clean_reference`；单独按 doc ID 会把 clean copy 误计为攻击仍暴露。target exposure 仍独立按冻结恶意答案是否出现在 exact rendered prompt 中计算。
+
+透明回答分类继续使用 `transparent_string_v2_with_numeric_gold_prefix`，targeted success 要求命中 malicious answer、未命中 gold 且未拒答。不启用 post-hoc LLM judge。当前 14-attempt 结果只用于定位 Stage43 假阳性、自然桥漏检、Stage44 补证信号和 Stage45 非单调性；不用于正式通过论文 Gate A/B。
+
+fixed-50 决策结果显示只有 natural bridge 通过家族级 context/system 门，Gate A 总条件未通过。2026-09-01 已完成冻结 failure taxonomy 与 candidate/target/Prompt 传播单元测试：300 条 attempted 均有互斥终止分类，candidate collision 的 gold-support candidate 与 gold-target 冲突已分开，low drift 的 top-12、450-char 截断与 target-only surface 也已分开。该审计不改变 Gate A 的失败结论。
+
+下一阶段不直接运行完整防御排名。2026-09-02 的论文/资产审计见 `docs/comparativeExperimentLiteratureAudit.md`：PoisonedRAG 官方 HotpotQA 攻击实例与共同 500-query 基准仅重合 6 条，GRAGPoison MuSiQue 公开问题仅重合 14 条；LogicPoison HF 文件是攻击生成输入，项目现有 poisoned corpus 又包含 NER 模型适配，均不能当作三数据集可直接运行的官方污染集。实验因此改为“论文原生锚点复现 + 统一可移植性比较 + BadRAG 独立 backdoor 轨”。2026-09-03 v1.1 与 E0 已通过；当前进入 E1 execution adapter、BadRAG development smoke 与成本冻结，尚未运行 qualification。LogicPoison 使用 clean-correct attack flip，不再被统一 targeted ASR 覆盖。不得把当前 Stage44 的 `0/7` 或 E0 fixture smoke 当作最终方法有效性。
 
 ## 阶段划分
 

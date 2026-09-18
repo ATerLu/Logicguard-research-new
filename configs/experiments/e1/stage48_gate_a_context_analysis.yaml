@@ -1,0 +1,31 @@
+inventory_summary_path: outputs/ms_graphrag_query/stage48_gate_a_fixed50_summary.csv
+fixed50_cost_ledger_path: outputs/manifests/stage48_gate_a_fixed50_cost_ledger.json
+target_per_cell: 10
+minimum_ready_datasets_per_family: 2
+prompt_exposure_threshold: 0.20
+minimum_passing_families: 2
+query_embedding_max_tokens_each: 128
+embedding_price_per_thousand_tokens_cny: 0.0005
+
+cells:
+  - dataset: musique
+    attack_family: natural_bridge
+    exposure_path: outputs/ms_graphrag_query/stage48_gate_a_musique_natural_bridge_evalvalid10_exposure.jsonl
+    summary_path: outputs/ms_graphrag_query/stage48_gate_a_musique_natural_bridge_evalvalid10_summary.json
+  - dataset: musique
+    attack_family: low_drift
+    exposure_path: outputs/ms_graphrag_query/stage48_gate_a_musique_low_drift_evalvalid10_exposure.jsonl
+    summary_path: outputs/ms_graphrag_query/stage48_gate_a_musique_low_drift_evalvalid10_summary.json
+  - dataset: hotpotqa
+    attack_family: natural_bridge
+    exposure_path: outputs/ms_graphrag_query/stage48_gate_a_hotpotqa_natural_bridge_evalvalid10_exposure.jsonl
+    summary_path: outputs/ms_graphrag_query/stage48_gate_a_hotpotqa_natural_bridge_evalvalid10_summary.json
+  - dataset: hotpotqa
+    attack_family: low_drift
+    exposure_path: outputs/ms_graphrag_query/stage48_gate_a_hotpotqa_low_drift_evalvalid10_exposure.jsonl
+    summary_path: outputs/ms_graphrag_query/stage48_gate_a_hotpotqa_low_drift_evalvalid10_summary.json
+
+output_path: outputs/ms_graphrag_query/stage48_gate_a_fixed50_context_summary.json
+csv_output_path: outputs/ms_graphrag_query/stage48_gate_a_fixed50_context_summary.csv
+cost_ledger_output_path: outputs/manifests/stage48_gate_a_fixed50_context_cost_ledger.json
+report_path: outputs/reports/Stage48_GateA_Fixed50_ContextExposure.md

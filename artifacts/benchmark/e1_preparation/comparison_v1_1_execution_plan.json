@@ -1,0 +1,394 @@
+{
+  "schema_version": 1,
+  "benchmark_version": "comparison-v1.1",
+  "source_checks": {
+    "A1_poisonedrag": {
+      "source_root": "vendor\\upstream\\PoisonedRAG",
+      "entrypoint": "vendor\\upstream\\PoisonedRAG\\gen_adv.py",
+      "entrypoint_sha256": "85e3b492302ce0eb42cc76f263aa79b6ec6a5e67e5243cf3524514f3263fc705",
+      "expected_revision": "f660d72174f06b13fae5163ce656e7b235db858f",
+      "actual_revision": "f660d72174f06b13fae5163ce656e7b235db858f",
+      "revision_match": true,
+      "entrypoint_exists": true,
+      "uses_forbidden_external_repo": false
+    },
+    "A2_logicpoison": {
+      "source_root": "vendor\\upstream\\LogicPoison",
+      "entrypoint": "vendor\\upstream\\LogicPoison\\main.py",
+      "entrypoint_sha256": "9fab36aee694aa50a7f2e3ac9de8a15433f996212793556b8df0dc8806ceb140",
+      "expected_revision": "6699736681aa275e33a1d0cc32ef9b47ee17e632",
+      "actual_revision": "6699736681aa275e33a1d0cc32ef9b47ee17e632",
+      "revision_match": true,
+      "entrypoint_exists": true,
+      "uses_forbidden_external_repo": false
+    },
+    "A3_gragpoison": {
+      "source_root": "vendor\\upstream\\GraphRAG_Under_Fire",
+      "entrypoint": "vendor\\upstream\\GraphRAG_Under_Fire\\pipeline.py",
+      "entrypoint_sha256": "0ff32f4db74d78e516a030d89e35856529dc5bd345da8434cab0f0b7e7fe365c",
+      "expected_revision": "316422f315748a903ae8f2e94e2bedbc66f84343",
+      "actual_revision": "316422f315748a903ae8f2e94e2bedbc66f84343",
+      "revision_match": true,
+      "entrypoint_exists": true,
+      "uses_forbidden_external_repo": false
+    }
+  },
+  "environment_checks": {
+    "spacy_version": "3.8.14",
+    "en_core_web_trf_installed": false,
+    "isolated_logicpoison_runtime": {
+      "schema_version": 1,
+      "runtime_python": "tools\\logicpoison\\.venv\\Scripts\\python.exe",
+      "expected": {
+        "python": "3.11.7",
+        "spacy": "3.8.14",
+        "torch": "2.5.1+cpu",
+        "openai": "1.109.1",
+        "model_package": "3.8.0"
+      },
+      "observed": {
+        "python": "3.11.7",
+        "spacy": "3.8.14",
+        "torch": "2.5.1+cpu",
+        "openai": "1.109.1",
+        "model_package": "3.8.0",
+        "entities": [
+          [
+            "Barack Obama",
+            "PERSON"
+          ],
+          [
+            "Paris",
+            "GPE"
+          ]
+        ]
+      },
+      "model_source_wheel_sha256": "272a31e9d8530d1e075351d30a462d7e80e31da23574f1b274e200f3fff35bf5",
+      "model_source_url": "https://github.com/explosion/spacy-models/releases/download/en_core_web_trf-3.8.0/en_core_web_trf-3.8.0-py3-none-any.whl",
+      "paid_api_calls": 0,
+      "passed": true,
+      "stderr_tail": "gicpoison\\.venv\\Lib\\site-packages\\thinc\\shims\\pytorch.py:253: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.\n  model.load_state_dict(torch.load(filelike, map_location=device))\n",
+      "fingerprint": "572bc58e02fb7c74943fcaea68b753091c08065ff1b916604df790a3464cdfb6"
+    }
+  },
+  "cells": [
+    {
+      "cell_id": "E1-hotpotqa-S1_microsoft_graphrag-A1_poisonedrag",
+      "dataset": "hotpotqa",
+      "backend": "S1_microsoft_graphrag",
+      "attack_id": "A1_poisonedrag",
+      "attempted": 100,
+      "execution_mode": "logicguard_question_only_wrapper",
+      "calls_per_query": 1,
+      "direct_upstream_execution_allowed": false,
+      "status": "bounded_runner_implemented__dry_run_passed"
+    },
+    {
+      "cell_id": "E1-hotpotqa-S2_lightrag-A1_poisonedrag",
+      "dataset": "hotpotqa",
+      "backend": "S2_lightrag",
+      "attack_id": "A1_poisonedrag",
+      "attempted": 100,
+      "execution_mode": "logicguard_question_only_wrapper",
+      "calls_per_query": 1,
+      "direct_upstream_execution_allowed": false,
+      "status": "bounded_runner_implemented__dry_run_passed"
+    },
+    {
+      "cell_id": "E1-hotpotqa-S1_microsoft_graphrag-A2_logicpoison",
+      "dataset": "hotpotqa",
+      "backend": "S1_microsoft_graphrag",
+      "attack_id": "A2_logicpoison",
+      "attempted": 100,
+      "execution_mode": "pinned_cli_in_gold_free_staging_workspace",
+      "calls_per_query": 1,
+      "direct_upstream_execution_allowed": true,
+      "status": "gold_free_staging_runner_implemented__dry_run_passed"
+    },
+    {
+      "cell_id": "E1-hotpotqa-S2_lightrag-A2_logicpoison",
+      "dataset": "hotpotqa",
+      "backend": "S2_lightrag",
+      "attack_id": "A2_logicpoison",
+      "attempted": 100,
+      "execution_mode": "pinned_cli_in_gold_free_staging_workspace",
+      "calls_per_query": 1,
+      "direct_upstream_execution_allowed": true,
+      "status": "gold_free_staging_runner_implemented__dry_run_passed"
+    },
+    {
+      "cell_id": "E1-hotpotqa-S1_microsoft_graphrag-A3_gragpoison",
+      "dataset": "hotpotqa",
+      "backend": "S1_microsoft_graphrag",
+      "attack_id": "A3_gragpoison",
+      "attempted": 100,
+      "execution_mode": "logicguard_bounded_blackbox_wrapper",
+      "calls_per_query": 3,
+      "direct_upstream_execution_allowed": false,
+      "status": "bounded_runner_implemented__dry_run_passed"
+    },
+    {
+      "cell_id": "E1-hotpotqa-S2_lightrag-A3_gragpoison",
+      "dataset": "hotpotqa",
+      "backend": "S2_lightrag",
+      "attack_id": "A3_gragpoison",
+      "attempted": 100,
+      "execution_mode": "logicguard_bounded_blackbox_wrapper",
+      "calls_per_query": 3,
+      "direct_upstream_execution_allowed": false,
+      "status": "bounded_runner_implemented__dry_run_passed"
+    },
+    {
+      "cell_id": "E1-musique-S1_microsoft_graphrag-A1_poisonedrag",
+      "dataset": "musique",
+      "backend": "S1_microsoft_graphrag",
+      "attack_id": "A1_poisonedrag",
+      "attempted": 100,
+      "execution_mode": "logicguard_question_only_wrapper",
+      "calls_per_query": 1,
+      "direct_upstream_execution_allowed": false,
+      "status": "bounded_runner_implemented__dry_run_passed"
+    },
+    {
+      "cell_id": "E1-musique-S2_lightrag-A1_poisonedrag",
+      "dataset": "musique",
+      "backend": "S2_lightrag",
+      "attack_id": "A1_poisonedrag",
+      "attempted": 100,
+      "execution_mode": "logicguard_question_only_wrapper",
+      "calls_per_query": 1,
+      "direct_upstream_execution_allowed": false,
+      "status": "bounded_runner_implemented__dry_run_passed"
+    },
+    {
+      "cell_id": "E1-musique-S1_microsoft_graphrag-A2_logicpoison",
+      "dataset": "musique",
+      "backend": "S1_microsoft_graphrag",
+      "attack_id": "A2_logicpoison",
+      "attempted": 100,
+      "execution_mode": "pinned_cli_in_gold_free_staging_workspace",
+      "calls_per_query": 1,
+      "direct_upstream_execution_allowed": true,
+      "status": "gold_free_staging_runner_implemented__dry_run_passed"
+    },
+    {
+      "cell_id": "E1-musique-S2_lightrag-A2_logicpoison",
+      "dataset": "musique",
+      "backend": "S2_lightrag",
+      "attack_id": "A2_logicpoison",
+      "attempted": 100,
+      "execution_mode": "pinned_cli_in_gold_free_staging_workspace",
+      "calls_per_query": 1,
+      "direct_upstream_execution_allowed": true,
+      "status": "gold_free_staging_runner_implemented__dry_run_passed"
+    },
+    {
+      "cell_id": "E1-musique-S1_microsoft_graphrag-A3_gragpoison",
+      "dataset": "musique",
+      "backend": "S1_microsoft_graphrag",
+      "attack_id": "A3_gragpoison",
+      "attempted": 100,
+      "execution_mode": "logicguard_bounded_blackbox_wrapper",
+      "calls_per_query": 3,
+      "direct_upstream_execution_allowed": false,
+      "status": "bounded_runner_implemented__dry_run_passed"
+    },
+    {
+      "cell_id": "E1-musique-S2_lightrag-A3_gragpoison",
+      "dataset": "musique",
+      "backend": "S2_lightrag",
+      "attack_id": "A3_gragpoison",
+      "attempted": 100,
+      "execution_mode": "logicguard_bounded_blackbox_wrapper",
+      "calls_per_query": 3,
+      "direct_upstream_execution_allowed": false,
+      "status": "bounded_runner_implemented__dry_run_passed"
+    },
+    {
+      "cell_id": "E1-2wikimultihopqa-S1_microsoft_graphrag-A1_poisonedrag",
+      "dataset": "2wikimultihopqa",
+      "backend": "S1_microsoft_graphrag",
+      "attack_id": "A1_poisonedrag",
+      "attempted": 100,
+      "execution_mode": "logicguard_question_only_wrapper",
+      "calls_per_query": 1,
+      "direct_upstream_execution_allowed": false,
+      "status": "bounded_runner_implemented__dry_run_passed"
+    },
+    {
+      "cell_id": "E1-2wikimultihopqa-S2_lightrag-A1_poisonedrag",
+      "dataset": "2wikimultihopqa",
+      "backend": "S2_lightrag",
+      "attack_id": "A1_poisonedrag",
+      "attempted": 100,
+      "execution_mode": "logicguard_question_only_wrapper",
+      "calls_per_query": 1,
+      "direct_upstream_execution_allowed": false,
+      "status": "bounded_runner_implemented__dry_run_passed"
+    },
+    {
+      "cell_id": "E1-2wikimultihopqa-S1_microsoft_graphrag-A2_logicpoison",
+      "dataset": "2wikimultihopqa",
+      "backend": "S1_microsoft_graphrag",
+      "attack_id": "A2_logicpoison",
+      "attempted": 100,
+      "execution_mode": "pinned_cli_in_gold_free_staging_workspace",
+      "calls_per_query": 1,
+      "direct_upstream_execution_allowed": true,
+      "status": "gold_free_staging_runner_implemented__dry_run_passed"
+    },
+    {
+      "cell_id": "E1-2wikimultihopqa-S2_lightrag-A2_logicpoison",
+      "dataset": "2wikimultihopqa",
+      "backend": "S2_lightrag",
+      "attack_id": "A2_logicpoison",
+      "attempted": 100,
+      "execution_mode": "pinned_cli_in_gold_free_staging_workspace",
+      "calls_per_query": 1,
+      "direct_upstream_execution_allowed": true,
+      "status": "gold_free_staging_runner_implemented__dry_run_passed"
+    },
+    {
+      "cell_id": "E1-2wikimultihopqa-S1_microsoft_graphrag-A3_gragpoison",
+      "dataset": "2wikimultihopqa",
+      "backend": "S1_microsoft_graphrag",
+      "attack_id": "A3_gragpoison",
+      "attempted": 100,
+      "execution_mode": "logicguard_bounded_blackbox_wrapper",
+      "calls_per_query": 3,
+      "direct_upstream_execution_allowed": false,
+      "status": "bounded_runner_implemented__dry_run_passed"
+    },
+    {
+      "cell_id": "E1-2wikimultihopqa-S2_lightrag-A3_gragpoison",
+      "dataset": "2wikimultihopqa",
+      "backend": "S2_lightrag",
+      "attack_id": "A3_gragpoison",
+      "attempted": 100,
+      "execution_mode": "logicguard_bounded_blackbox_wrapper",
+      "calls_per_query": 3,
+      "direct_upstream_execution_allowed": false,
+      "status": "bounded_runner_implemented__dry_run_passed"
+    }
+  ],
+  "forbidden_external_repo_used": false,
+  "evaluator_only_files_read": 1,
+  "paid_api_calls": 4,
+  "development_generation_pilot": {
+    "schema_version": 1,
+    "status": "PASSED",
+    "unique_attack_attempts": 2,
+    "generation_valid": 2,
+    "provider_calls_made": 4,
+    "token_usage": {
+      "prompt_tokens": 599,
+      "completion_tokens": 7769,
+      "total_tokens": 8368
+    },
+    "actual_catalog_cost_cny": 0.06335,
+    "hard_cost_cap_cny": 0.14,
+    "a1_target_gold_collision_count": 0,
+    "a1_collision_checks": [
+      {
+        "dataset": "hotpotqa",
+        "query_id": "5a774a9855429972597f14ea",
+        "target_answer": "France",
+        "gold_answer": "England",
+        "normalized_exact_collision": false
+      }
+    ],
+    "evaluator_only_files_read": 1,
+    "provider_calls_this_audit": 0,
+    "frozen_no_resample": true,
+    "results_sha256": "0d1fe7eaa1a4e4117e865ff98bbb218be7973cbdd5f74e7987dfa76a439d0770",
+    "summary_sha256": "3bb4ab1497dcc4c0a7601e0add6c433c1f4c9cc94a622cd1f7eaeec88b6ecb20",
+    "fingerprint": "30bcc40cf8921597e641c0cd0ca13cb6587ea69292b53d2b053ab9cf6970fb70"
+  },
+  "logicpoison_development_generation_pilot": {
+    "schema_version": 1,
+    "status": "GENERATION_PASSED__COST_CAP_FAILED",
+    "unique_attack_attempts": 1,
+    "generation_valid": 1,
+    "provider_calls_made": 1,
+    "token_usage": {
+      "prompt_tokens": 147,
+      "completion_tokens": 1713,
+      "total_tokens": 1860
+    },
+    "planned_catalog_cost_cap_cny": 0.007096,
+    "actual_catalog_cost_cny": 0.013998,
+    "hard_cost_cap_cny": 0.0071,
+    "generation_gate_passed": true,
+    "cost_cap_gate_passed": false,
+    "diagnosis": "qwen3.7-plus default thinking tokens were billed outside the legacy max_tokens answer cap; future requests must set enable_thinking=false and use max_completion_tokens",
+    "provider_calls_this_audit": 0,
+    "frozen_no_retry": true,
+    "results_sha256": "d599476732faf3b65c03669d4dfecf778ff46d2370e3bf63bfa389182b1bf262",
+    "summary_sha256": "3d2f2fd32c728e38c1c2f4ee0bb65b495a29143ef245476f71383b9a7edef1dd",
+    "fingerprint": "3f3e713b51f6035a1e81026dd0600d16e4c93dcfd679390e539a4c8d405c51d9"
+  },
+  "logicpoison_cost_control_pilot": {
+    "schema_version": 1,
+    "status": "PASSED",
+    "unique_attack_attempts": 1,
+    "generation_valid": 1,
+    "provider_calls_made": 1,
+    "token_usage": {
+      "prompt_tokens": 152,
+      "completion_tokens": 222,
+      "reasoning_tokens": 0,
+      "total_tokens": 374
+    },
+    "actual_catalog_cost_cny": 0.00208,
+    "hard_cost_cap_cny": 0.0071,
+    "generation_controls": {
+      "enable_thinking": false,
+      "output_limit_parameter": "max_completion_tokens"
+    },
+    "provider_calls_this_audit": 0,
+    "distinct_sample_no_retry": true,
+    "results_sha256": "52c24c53e82fe16d077ba9895bbb4a25ff360582a0f7a03497dd12f083e3a05f",
+    "summary_sha256": "ab997a54c9d158f222d9957242b0256c71f376a06c02566d0d31a43e8740f279",
+    "fingerprint": "2fde4230aa5dbf5b690c5ec9ddacc9f7735a607641d370a4140619e619528fb7"
+  },
+  "bounded_attack_runner_dryrun": {
+    "schema_version": 1,
+    "benchmark_version": "comparison-v1.1",
+    "run_mode": "dry_run",
+    "unique_attack_attempts": 600,
+    "planned_provider_calls": 1200,
+    "calls_by_attack": {
+      "A1_poisonedrag": 300,
+      "A3_gragpoison": 900
+    },
+    "all_requests_single_call": true,
+    "input_manifest_sha256": "ce46d29f3c9d677eff33b8529f037e89d2d43f73f2f457b13971e83a49c3d012",
+    "request_plan_sha256": "ca86eeef684201012c372c5cca8c98be53142353dbbb6fbf403904c20d2d3c72",
+    "provider_calls_made": 0,
+    "credentials_read": false,
+    "generation_controls": {
+      "enable_thinking": false,
+      "output_limit_parameter": "max_completion_tokens"
+    },
+    "status": "DRY_RUN_PASSED",
+    "fingerprint": "fe62b13b99afb7e01964569b41062e216bc5ea32d4ef7d94c6aa684a90c9e52a"
+  },
+  "logicpoison_staging_runner_dryrun": {
+    "schema_version": 1,
+    "benchmark_version": "comparison-v1.1",
+    "run_mode": "dry_run",
+    "unique_attack_attempts": 300,
+    "planned_provider_calls": 300,
+    "calls_by_attack": {
+      "A2_logicpoison": 300
+    },
+    "all_requests_single_call": true,
+    "input_manifest_sha256": "ce46d29f3c9d677eff33b8529f037e89d2d43f73f2f457b13971e83a49c3d012",
+    "request_plan_sha256": "b09d17d48cd29c13926942e2f0411e863a391bf7ec423fe38c7987aa1d789725",
+    "provider_calls_made": 0,
+    "credentials_read": false,
+    "status": "DRY_RUN_PASSED",
+    "fingerprint": "95fe3b14cc8b29cec46532e6d4b672d4b3de67be38d031dad5eca07025aa5128"
+  },
+  "fingerprint": "b17dd5756030e214e43de1dcf84e3169dd8f5ab21365cde245aae25cb14a9299"
+}

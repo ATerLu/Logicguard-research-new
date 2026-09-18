@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "currency": "CNY",
+  "pricing_snapshot": {
+    "snapshot_date": "2026-09-03",
+    "region": "China-Beijing",
+    "basis": "undiscounted_catalog_price",
+    "qwen3.7-plus_input_per_million_tokens_cny": 2.0,
+    "qwen3.7-plus_output_per_million_tokens_cny": 8.0,
+    "text-embedding-v4_per_million_input_tokens_cny": 0.5,
+    "sources": [
+      "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "https://help.aliyun.com/zh/model-studio/text-embedding-v4"
+    ],
+    "answer_calls_per_validation_cell": 100,
+    "answer_input_tokens_per_call_cap": 12000,
+    "answer_output_tokens_per_call_cap": 64,
+    "judge_calls_per_validation_cell_cap": 100,
+    "judge_input_tokens_per_call_cap": 2000,
+    "judge_output_tokens_per_call_cap": 96,
+    "approximate_corpus_token_multiplier_over_whitespace_words": 1.35
+  },
+  "scope": "A1-A3 E1 validation D0 across three datasets and two backends",
+  "attack_generation": {
+    "A1_poisonedrag": {
+      "provider_call_cap": 300,
+      "catalog_cost_cap_cny": 7.44
+    },
+    "A2_logicpoison": {
+      "provider_call_cap": 300,
+      "catalog_cost_cap_cny": 2.1288
+    },
+    "A3_gragpoison": {
+      "provider_call_cap": 900,
+      "catalog_cost_cap_cny": 33.84
+    }
+  },
+  "answer_generation": {
+    "provider_call_cap": 1800,
+    "catalog_cost_cap_cny": 44.1216
+  },
+  "semantic_judge": {
+    "provider_call_cap": 1800,
+    "catalog_cost_cap_cny": 8.5824
+  },
+  "embedding_only_projection": {
+    "corpus_whitespace_words": {
+      "hotpotqa": 914956,
+      "musique": 964203,
+      "2wikimultihopqa": 454715
+    },
+    "estimated_input_tokens": 25205840,
+    "catalog_cost_projection_cny": 12.60292,
+    "is_hard_cap": false
+  },
+  "known_components_conservative_subtotal_cny": 108.71572,
+  "indexing_calibration": {
+    "by_backend": {
+      "lightrag": {
+        "documents_per_backend": 110344,
+        "separate_indices_per_backend": 12,
+        "one_document_linear_cny": 824.49,
+        "ten_document_linear_cny": 893.72,
+        "one_to_ten_affine_cny": 901.412,
+        "calibration_range_cny": [
+          824.49,
+          901.412
+        ],
+        "is_hard_cap": false
+      },
+      "microsoft_graphrag": {
+        "documents_per_backend": 110344,
+        "separate_indices_per_backend": 12,
+        "one_document_linear_cny": 3420.885,
+        "ten_document_linear_cny": 2262.681,
+        "one_to_ten_affine_cny": 2134.132,
+        "calibration_range_cny": [
+          2134.132,
+          3420.885
+        ],
+        "is_hard_cap": false
+      }
+    },
+    "combined_calibration_range_cny": [
+      2958.622,
+      4322.297
+    ],
+    "is_hard_cap": false,
+    "eligible_to_freeze_overall_hard_cap": false,
+    "reason": "one- and ten-document pilots are too small to bound nonlinear entity, relationship, and community-summary growth across three corpora",
+    "next_gate": "run a frozen representative 100-document stratified pilot per backend or reduce the indexed corpus/variant design"
+  },
+  "unbounded_components": [
+    "badrag_dense_COP_ACOP_MCOP_compute_and_payload_evaluation"
+  ],
+  "calibration_only_components": [
+    "microsoft_graphrag_entity_relation_extraction_and_summarization",
+    "lightrag_entity_relation_extraction_and_summarization"
+  ],
+  "overall_hard_cap_cny": null,
+  "price_freeze_complete": true,
+  "paid_e1_launch_allowed": false,
+  "next_cost_gate": "run a frozen representative 100-document stratified indexing pilot per backend or reduce the index design, then freeze full-scale multipliers and the overall hard cap",
+  "fingerprint": "88936e107f35a485144f0edf69ba504d389e70c949cd537ea042df665da62f5a"
+}

@@ -1,0 +1,112 @@
+{
+  "1-chunk-000": {
+    "tokens": 52,
+    "content": "Title: Theodred II (Bishop of Elmham)\n\nTheodred II was a medieval Bishop of Elmham. The date of Theodred's consecration unknown, but the date of his death was sometime between 995 and 997.",
+    "chunk_order_index": 0,
+    "full_doc_id": "1",
+    "file_path": "1.txt",
+    "llm_cache_list": [],
+    "create_time": 1788481504,
+    "update_time": 1788481504,
+    "_id": "1-chunk-000"
+  },
+  "10-chunk-000": {
+    "tokens": 24,
+    "content": "Title: The Wonderful World of Captain Kuhio\n\nThe film was released in Japan on 10 October 2009.",
+    "chunk_order_index": 0,
+    "full_doc_id": "10",
+    "file_path": "10.txt",
+    "llm_cache_list": [],
+    "create_time": 1788481513,
+    "update_time": 1788481513,
+    "_id": "10-chunk-000"
+  },
+  "2-chunk-000": {
+    "tokens": 143,
+    "content": "Title: Lambert, Margrave of Tuscany\n\nLambert( died after 938) was the second son of Adalbert II of Tuscany and Bertha, daughter of Lothair II of Lotharingia. He succeeded his elder brother, Guy, as count and duke of Lucca and margrave of Tuscany on his death in 928 or 929 without heirs. In 931, before 17 October, Hugh, King of Italy, disowned and removed Lambert, giving Tuscany and the familial possession of Lucca to his brother Boso. Hugh was Guy and Lambert's half- brother, as they had the same mother. When Guy died, Hugh married Guy's widow, Marozia.",
+    "chunk_order_index": 0,
+    "full_doc_id": "2",
+    "file_path": "2.txt",
+    "llm_cache_list": [],
+    "create_time": 1788481518,
+    "update_time": 1788481518,
+    "_id": "2-chunk-000"
+  },
+  "3-chunk-000": {
+    "tokens": 333,
+    "content": "Title: Etan Boritzer\n\nEtan Boritzer( born 1950) is an American writer of children ’s literature who is best known for his book\" What is God?\" first published in 1989. His best selling\" What is?\" illustrated children's book series on character education and difficult subjects for children is a popular teaching guide for parents, teachers and child- life professionals. Boritzer gained national critical acclaim after\" What is God?\" was published in 1989 although the book has caused controversy from religious fundamentalists for its universalist views. The other current books in the\" What is?\" series include What is Love?, What is Death?, What is Beautiful?, What is Funny?, What is Right?, What is Peace?, What is Money?, What is Dreaming?, What is a Friend?, What is True?, What is a Family?, What is a Feeling?\" The series is now also translated into 15 languages. Boritzer was first published in 1963 at the age of 13 when he wrote an essay in his English class at Wade Junior High School in the Bronx, New York on the assassination of John F. Kennedy. His essay was included in a special anthology by New York City public school children compiled and published by the New York City Department of Education. Boritzer now lives in Venice, California and maintains his publishing office there also. He has helped numerous other authors to get published through\" How to Get Your Book Published!\" programs. Boritzer is also a yoga teacher who teaches regular classes locally and guest- teaches nationally. He is also recognized nationally as an erudite speaker on\" The Teachings of the Buddha.\"",
+    "chunk_order_index": 0,
+    "full_doc_id": "3",
+    "file_path": "3.txt",
+    "llm_cache_list": [],
+    "create_time": 1788481534,
+    "update_time": 1788481534,
+    "_id": "3-chunk-000"
+  },
+  "4-chunk-000": {
+    "tokens": 69,
+    "content": "Title: Lothair II\n\nLothair II (835 –) was the king of Lotharingia from 855 until his death. He was the second son of Emperor Lothair I and Ermengarde of Tours. He was married to Teutberga (died 875), daughter of Boso the Elder.",
+    "chunk_order_index": 0,
+    "full_doc_id": "4",
+    "file_path": "4.txt",
+    "llm_cache_list": [],
+    "create_time": 1788481552,
+    "update_time": 1788481552,
+    "_id": "4-chunk-000"
+  },
+  "5-chunk-000": {
+    "tokens": 110,
+    "content": "Title: Ermengarde of Tours\n\nErmengarde of Tours (d. 20 March 851) was the daughter of Hugh of Tours, a member of the Etichonen family. In October 821 in Thionville, she married the Carolingian Emperor Lothair I of the Franks (795–855). In 849, two years before her death, she made a donation to the abbey Erstein in the Elsass, in which she is buried. Lothair and Ermengarde had eight children:",
+    "chunk_order_index": 0,
+    "full_doc_id": "5",
+    "file_path": "5.txt",
+    "llm_cache_list": [],
+    "create_time": 1788481561,
+    "update_time": 1788481561,
+    "_id": "5-chunk-000"
+  },
+  "6-chunk-000": {
+    "tokens": 149,
+    "content": "Title: Bertha, daughter of Lothair II\n\nBertha( 863- 8 – March 925 in Lucca) was countess of Arles by marriage to Theobald of Arles, and margravine of Tuccany by marriage to Adalbert II of Tuscany. She served as regent of Lucca and Tuscany from 915 until 916 during the minority of her son Guy of Tuscany. She was described as beautiful, spirited, and courageous, and her influence over her spouse was, coupled with ambition, attributed to have involved her husbands in many wars. She was the second illegitimate daughter of Lothair II, King of Lotharingia, by his concubine Waldrada.",
+    "chunk_order_index": 0,
+    "full_doc_id": "6",
+    "file_path": "6.txt",
+    "llm_cache_list": [],
+    "create_time": 1788481571,
+    "update_time": 1788481571,
+    "_id": "6-chunk-000"
+  },
+  "7-chunk-000": {
+    "tokens": 72,
+    "content": "Title: Adolf I of Lotharingia\n\nAdolf I of Lotharingia, count of Keldachgau, Vogt of Deutz from 1008 until 1018, was the son of Hermann I\" Pusillus\"( the Little Pfalzgraf), count palatine of Lotharingia. He left three sons:",
+    "chunk_order_index": 0,
+    "full_doc_id": "7",
+    "file_path": "7.txt",
+    "llm_cache_list": [],
+    "create_time": 1788481585,
+    "update_time": 1788481585,
+    "_id": "7-chunk-000"
+  },
+  "8-chunk-000": {
+    "tokens": 34,
+    "content": "Title: Waldrada of Lotharingia\n\nWaldrada was the mistress, and later the wife, of Lothair II of Lotharingia.",
+    "chunk_order_index": 0,
+    "full_doc_id": "8",
+    "file_path": "8.txt",
+    "llm_cache_list": [],
+    "create_time": 1788481595,
+    "update_time": 1788481595,
+    "_id": "8-chunk-000"
+  },
+  "9-chunk-000": {
+    "tokens": 86,
+    "content": "Title: Theobald of Arles\n\nTheobald( c. 854-895), count of Arles, was a Frank from the Bosonid- family. He was a son of Hucbert and married Bertha, an illegitimate daughter of Lothair II, King of Lotharingia, who was renowned for her beauty and spirit. They had two sons Hugh of Italy and Boso of Tuscany.",
+    "chunk_order_index": 0,
+    "full_doc_id": "9",
+    "file_path": "9.txt",
+    "llm_cache_list": [],
+    "create_time": 1788481599,
+    "update_time": 1788481599,
+    "_id": "9-chunk-000"
+  }
+}

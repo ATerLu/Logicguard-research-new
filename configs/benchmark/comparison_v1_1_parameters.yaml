@@ -1,0 +1,86 @@
+schema_version: 1
+benchmark_version: comparison-v1.1
+methods:
+  A1_poisonedrag:
+    paper:
+      native_datasets: [nq, hotpotqa, msmarco]
+      target_queries: 100
+      poison_documents_per_target: 5
+      retrieval_top_k: 5
+      endpoint: targeted_wrong_answer
+    pinned_code:
+      hotpotqa_instances: 100
+      adv_texts_per_instance: 5
+      artifact_level: L3
+    adapted:
+      datasets: [hotpotqa, musique, 2wikimultihopqa]
+      matched_budget_documents_per_target: 1
+      native_budget_retained_as_sensitivity: 5
+      endpoint: targeted_wrong_answer_per_attempted
+  A2_logicpoison:
+    paper:
+      top_entity_ratio: 0.05
+      ner_model: en_core_web_trf
+      endpoint: clean_correct_attack_flip
+    pinned_code:
+      cli_top_ratio: 0.05
+      ner_model: en_core_web_trf
+    adapted:
+      common_corpus: logicpoison_processed_clean_500
+      legacy_poisoned_ner_model: en_core_web_lg
+      legacy_status: legacy_adapted_not_paper_faithful
+      new_runs_source: vendor/upstream/LogicPoison
+  A3_gragpoison:
+    paper:
+      native_dataset: musique
+      endpoints: [relation_asr, targeted_or_untargeted_asr, qpp, tpq]
+      adversarial_text_budget: short_paper_setting
+    pinned_code:
+      N_alpha: 10
+      N_beta: 5
+      token_budget_field_interpreted_as_words: 400
+    adapted:
+      matched_budget_documents_per_target: 1
+      paper_and_code_profiles_reported_separately: true
+      hotpotqa_and_2wiki: dataset_port
+  A4_badrag:
+    paper:
+      endpoint: trigger_payload_success
+      paired_clean_control: true
+    pinned_code:
+      availability: no_verified_official_asset
+    adapted:
+      status: blocked_faithful_reimplementation
+      endpoints: [trigger_retrieval, trigger_asr, false_activation]
+  D3_ragdefender:
+    paper:
+      embedder: dunzhang/stella_en_1.5B_v5
+      grouping: clustering_or_concentration_by_task
+    pinned_code:
+      default_embedder: sentence-transformers/all-MiniLM-L6-v2
+      paper_embedder_alias: stella
+      concentration_formula_status: repository_documents_known_difference
+    adapted:
+      embedder: dunzhang/stella_en_1.5B_v5
+      require_explicit_override: true
+      passage_adapter_only: true
+  D4_hog_grag:
+    paper:
+      native_datasets: [hotpotqa, musique]
+      native_backends: [microsoft_graphrag, lightrag]
+      evaluation_pool: clean_correct_and_attack_success_conditioned
+    pinned_code:
+      dataset_assets_published: false
+      query_paraphrase_baseline: true
+      perplexity_baseline: true
+    adapted:
+      report_attempted_denominator_alongside_conditioned_pool: true
+      2wikimultihopqa: decomposition_gate_required
+  D5_logicguard_stage43_45:
+    adapted:
+      status: frozen_existing_baseline
+      threshold_changes_allowed: false
+  D6_logicguard_full:
+    adapted:
+      required_tracks: [provenance, claim_consistency, path_completeness, recovery_integrity]
+      status: interface_only_method_incomplete

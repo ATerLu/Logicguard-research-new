@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "experiment": "Stage48-GateA-fixed50-expansion",
+  "attempt_policy": "fixed first 50 queries per dataset; no success-conditioned retries",
+  "target_evaluation_valid_per_cell": 10,
+  "cell_count": 6,
+  "ready_cell_count": 4,
+  "inventory_row_count": 300,
+  "inputs": [
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\data\\processed\\hotpotqa\\debug_50.jsonl",
+      "size_bytes": 66996,
+      "sha256": "fe2b88fb4988b1fbd571001d75a8302b0f19f75279da373bd26b2ec23695096a"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\data\\processed\\musique\\debug_50.jsonl",
+      "size_bytes": 94188,
+      "sha256": "f358c596d5bd8e920d31a0c6c7b9c85abe8ac4bcc905e545e94e582a86d2dfb0"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\adaptive_attacks\\stage47_hotpotqa_attack_integrity.jsonl",
+      "size_bytes": 3258,
+      "sha256": "7e680d202c6a7381e1ba58068c101ae353a79cef60c9d8112ba0905ddec3c591"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\adaptive_attacks\\stage47_hotpotqa_attack_records.jsonl",
+      "size_bytes": 19958,
+      "sha256": "fc9f7f20776b0cca7931d5833288a89858bc1f49b56535798d35acecbafc22e8"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\adaptive_attacks\\stage47_musique_attack_integrity.jsonl",
+      "size_bytes": 12058,
+      "sha256": "bba31e4824f1db2206009e837254e4cfebc86c17c98599718eb9ba48ea359939"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\adaptive_attacks\\stage47_musique_attack_records.jsonl",
+      "size_bytes": 70923,
+      "sha256": "e8e939f83ae2b0e8796b6a514d26b35fea3d8609567b87758cd7acb0f50e0865"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\adaptive_attacks\\stage48_gate_a_hotpotqa_attack_expansion_integrity.jsonl",
+      "size_bytes": 26627,
+      "sha256": "c5693cd363197d273a858aec4b456ca12e850459c50ff2f48904d2f37337514e"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\adaptive_attacks\\stage48_gate_a_hotpotqa_attack_expansion_records.jsonl",
+      "size_bytes": 159908,
+      "sha256": "42be9a46955eb88b97af98ac5bbb35d63766dea9590bb24314a7bebdb4828ea5"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\adaptive_attacks\\stage48_gate_a_musique_attack_expansion_integrity.jsonl",
+      "size_bytes": 17710,
+      "sha256": "3a60246affbd3a90532e7a70e5fb8f370a4a3ee1449e93a7f0815acd1ab97d6e"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\adaptive_attacks\\stage48_gate_a_musique_attack_expansion_records.jsonl",
+      "size_bytes": 102633,
+      "sha256": "1e18e6af7050efb0b1cb164df92a811cf613cc0bf160281e7b5dda2e177d67ed"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag_query\\stage47_hotpotqa_attacked_contexts.jsonl",
+      "size_bytes": 941288,
+      "sha256": "54c9c63eb73623b23050b487b9ac33928da9d70bd1d51bf0ecccdfa3d6eaa627"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag_query\\stage47_hotpotqa_preflight_rows.jsonl",
+      "size_bytes": 41845,
+      "sha256": "07fc2b4f8174a11b213c84fe52cae8503215c9007ff8ad11a7112c890cc30071"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag_query\\stage47_musique_attacked_contexts.jsonl",
+      "size_bytes": 4301829,
+      "sha256": "fe8b764d4c7eb39571ff1089f0dc0dcd0c6196dedcdf7c4068e48c8280d7fee8"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag_query\\stage47_musique_preflight_rows.jsonl",
+      "size_bytes": 162075,
+      "sha256": "c3d34de138a23a71e004346789dbfc380f82632102144631afb2775f98dab8a0"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag_query\\stage48_gate_a_hotpotqa_attack_expansion_contexts.jsonl",
+      "size_bytes": 8549545,
+      "sha256": "62a6d1220a0fdfd53fca1c0e9b6da8e2df1785ed5c71bd744dca4621d00b4189"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag_query\\stage48_gate_a_hotpotqa_attack_expansion_preflight.jsonl",
+      "size_bytes": 363960,
+      "sha256": "cd10e15512ee8501f006d6279fa98dbea5981a5dc529761c21588d9bc5ca5c10"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag_query\\stage48_gate_a_musique_attack_expansion_contexts.jsonl",
+      "size_bytes": 6441059,
+      "sha256": "592cc4ad648570caa9b353e62a5b21f6ef7d4135ef0634861dc762d9a4838c28"
+    },
+    {
+      "path": "F:\\LogicGuard_project\\logicguard\\outputs\\ms_graphrag_query\\stage48_gate_a_musique_attack_expansion_preflight.jsonl",
+      "size_bytes": 241382,
+      "sha256": "36cca1f4d50c5f802ca309c1cfe6b1acb0a91d8353cff9fdd50681f491495f0c"
+    }
+  ],
+  "credential_values_recorded": false
+}

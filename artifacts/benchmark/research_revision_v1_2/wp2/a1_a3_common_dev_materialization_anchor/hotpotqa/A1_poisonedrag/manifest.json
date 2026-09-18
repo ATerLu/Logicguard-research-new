@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "dataset": "hotpotqa",
+  "attack_id": "A1_poisonedrag",
+  "status": "MATERIALIZED_WITHIN_BUDGET",
+  "query_count": 1,
+  "clean_documents": 9811,
+  "poison_document_occurrences": 1,
+  "unique_poison_texts": 1,
+  "poison_documents_by_family": {
+    "targeted_evidence": 1
+  },
+  "physical_attack_text_files": 1,
+  "physical_attack_text_file_names": [
+    "attack_texts_targeted_evidence.txt"
+  ],
+  "poison_to_clean_document_ratio": 0.000101926409,
+  "max_relative_document_ratio": 0.01,
+  "total_poison_words": 40,
+  "total_comparison_tokens": 46,
+  "max_poison_words": 40,
+  "paper_native_count_ready": false,
+  "shared_runner_label": "PoisonedRAG_inspired_adaptation",
+  "attack_effect_measured": false,
+  "hashes": {
+    "poison_documents.jsonl": "2598c84f07a70bd9719d59d09c80cf20d4a253271a299f866bda126e018c513d",
+    "poisoned_corpus.jsonl": "e140cbb114b220ca5c1ba358dd866a1b5977bf02b7c3af9b2fa81ef0c9168a36",
+    "query_materialization_audit.jsonl": "19b9af5788f996222f4790994f6b064b9d400bbf582188881c1fec8fa836ae52",
+    "attack_texts_targeted_evidence.txt": "4d28621952279258589ea3ed4a36776d3ccca6d6823e33041a199662a92cdd05"
+  }
+}

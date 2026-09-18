@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "benchmark_version": "comparison-v1.1",
+  "seed_namespace": "comparison-v1.1-split",
+  "datasets": [
+    {
+      "dataset": "hotpotqa",
+      "query_count": 500,
+      "counts": {
+        "development": 100,
+        "locked_test": 300,
+        "validation": 100
+      },
+      "stratum_distribution": {
+        "development": {
+          "2hop": 100
+        },
+        "validation": {
+          "2hop": 100
+        },
+        "locked_test": {
+          "2hop": 300
+        }
+      },
+      "overlap": {
+        "development_validation": 0,
+        "development_locked_test": 0,
+        "validation_locked_test": 0
+      },
+      "public_forbidden_field_count": 0,
+      "passed": true
+    },
+    {
+      "dataset": "musique",
+      "query_count": 500,
+      "counts": {
+        "development": 100,
+        "locked_test": 300,
+        "validation": 100
+      },
+      "stratum_distribution": {
+        "development": {
+          "2hop": 49,
+          "3hop": 34,
+          "4hop": 17
+        },
+        "validation": {
+          "2hop": 49,
+          "3hop": 34,
+          "4hop": 17
+        },
+        "locked_test": {
+          "2hop": 149,
+          "3hop": 100,
+          "4hop": 51
+        }
+      },
+      "overlap": {
+        "development_validation": 0,
+        "development_locked_test": 0,
+        "validation_locked_test": 0
+      },
+      "public_forbidden_field_count": 0,
+      "passed": true
+    },
+    {
+      "dataset": "2wikimultihopqa",
+      "query_count": 500,
+      "counts": {
+        "development": 100,
+        "locked_test": 300,
+        "validation": 100
+      },
+      "stratum_distribution": {
+        "development": {
+          "support_2": 79,
+          "support_4": 21
+        },
+        "validation": {
+          "support_2": 79,
+          "support_4": 21
+        },
+        "locked_test": {
+          "support_2": 238,
+          "support_4": 62
+        }
+      },
+      "overlap": {
+        "development_validation": 0,
+        "development_locked_test": 0,
+        "validation_locked_test": 0
+      },
+      "public_forbidden_field_count": 0,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "fingerprint": "c1a9d083035fd7dbeee9634ae9696142c49fd261fcbc5548168867bbf9bc2ed4"
+}

@@ -1,0 +1,15 @@
+# LogicPoison paper-NER runtime, frozen 2026-09-03.
+# Install torch from the official CPU index first:
+# uv pip install --python tools/logicpoison/.venv/Scripts/python.exe \
+#   torch==2.5.1 --index https://download.pytorch.org/whl/cpu
+torch==2.5.1+cpu
+spacy==3.8.14
+spacy-curated-transformers==0.3.1
+openai==1.109.1
+tqdm==4.70.0
+click==8.5.0
+
+# Canonical model artifact:
+# https://github.com/explosion/spacy-models/releases/download/
+# en_core_web_trf-3.8.0/en_core_web_trf-3.8.0-py3-none-any.whl
+# sha256=272a31e9d8530d1e075351d30a462d7e80e31da23574f1b274e200f3fff35bf5

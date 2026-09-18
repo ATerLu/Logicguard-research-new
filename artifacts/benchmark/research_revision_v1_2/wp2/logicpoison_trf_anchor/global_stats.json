@@ -1,0 +1,30 @@
+{
+  "PERSON": [
+    [
+      "Albert Einstein",
+      4
+    ],
+    [
+      "Isaac Newton",
+      3
+    ],
+    [
+      "Marie Curie",
+      1
+    ],
+    [
+      "Albert Einsteinian",
+      1
+    ]
+  ],
+  "GPE": [
+    [
+      "London",
+      2
+    ],
+    [
+      "Paris",
+      1
+    ]
+  ]
+}

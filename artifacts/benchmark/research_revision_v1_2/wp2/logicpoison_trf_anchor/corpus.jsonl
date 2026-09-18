@@ -1,0 +1,4 @@
+{"_id": "ner-d1", "title": "Synthetic meeting one", "text": "Isaac Newton met Albert Einstein in London. Isaac Newton wrote with Albert Einstein."}
+{"_id": "ner-d2", "title": "Synthetic meeting two", "text": "Albert Einstein met Isaac Newton in Paris."}
+{"_id": "ner-d3", "title": "Unaffected control", "text": "Marie Curie visited London."}
+{"_id": "ner-d4", "title": "Boundary control", "text": "Albert Einsteinian is not Isaac Newton."}

@@ -1,0 +1,46 @@
+benchmark_version: comparison-v1.1
+freeze_date: 2026-09-03
+split_seed_namespace: comparison-v1.1-split
+split_sizes:
+  development: 100
+  validation: 100
+  locked_test: 300
+
+datasets:
+  - id: hotpotqa
+    directory: data/logicpoison_official/clean/hotpotqa
+    stratum_rule: fixed_2hop
+  - id: musique
+    directory: data/logicpoison_official/clean/musique
+    stratum_rule: query_id_hop_prefix
+  - id: 2wikimultihopqa
+    directory: data/logicpoison_official/clean/2wikimultihopqa
+    stratum_rule: qrels_support_count
+
+assets_config: configs/benchmark/comparison_v1_1_assets.yaml
+parameters_config: configs/benchmark/comparison_v1_1_parameters.yaml
+
+outputs:
+  root: artifacts/benchmark/e0
+  asset_manifest: artifacts/benchmark/e0/comparison_v1_1_asset_manifest.json
+  split_audit: artifacts/benchmark/e0/comparison_v1_1_split_audit.json
+  overlap_audit: artifacts/benchmark/e0/comparison_v1_1_overlap_audit.json
+  parameter_diff: artifacts/benchmark/e0/comparison_v1_1_parameter_diff.json
+  adapter_contracts: artifacts/benchmark/e0/comparison_v1_1_adapter_contracts.json
+  legacy_logicpoison_audit: artifacts/benchmark/e0/comparison_v1_1_legacy_logicpoison_audit.json
+  fidelity_smoke: artifacts/benchmark/e0/comparison_v1_1_fidelity_smoke.json
+  readiness: artifacts/benchmark/e0/comparison_v1_1_readiness.json
+  cell_matrix: docs/对比实验预注册表_v1.1.csv
+  report: artifacts/reports/ComparativeBenchmark_E0_Readiness.md
+
+golden_assets:
+  poisonedrag_hotpotqa: vendor/upstream/PoisonedRAG/results/adv_targeted_results/hotpotqa.json
+  gragpoison_musique: vendor/upstream/GraphRAG_Under_Fire/datasets/misuque_3_black_shuffle_0601/question_multi_v3.json
+
+prohibitions:
+  - no_paid_api
+  - no_attack_generation
+  - no_formal_reindex
+  - no_lightrag_batch_run
+  - no_gold_or_support_in_attacker_view
+  - no_development_in_logicguard_remote_backup

@@ -1,0 +1,33 @@
+dataset: musique
+sample_path: data/experiments/e1/musique_natural_bridge_dryrun5_full_corpus/samples.jsonl
+workspace_root: outputs/ms_graphrag/musique/e1_natural_bridge_dryrun5_full_corpus
+
+entities_path: outputs/ms_graphrag/musique/e1_natural_bridge_dryrun5_full_corpus/output/entities.parquet
+text_units_path: outputs/ms_graphrag/musique/e1_natural_bridge_dryrun5_full_corpus/output/text_units.parquet
+baseline_context_path: outputs/ms_graphrag_query/stage47_musique_clean20_query_guard_contexts.jsonl
+
+seed_plan_output_path: outputs/ms_graphrag_query/e1_musique_natural_bridge_dryrun5_full_corpus_seed_plan.jsonl
+seed_plan_report_path: outputs/reports/e1_musique_natural_bridge_dryrun5_full_corpus_seed_plan.md
+context_output_path: outputs/ms_graphrag_query/e1_musique_natural_bridge_dryrun5_full_corpus_contexts.jsonl
+context_report_path: outputs/reports/e1_musique_natural_bridge_dryrun5_full_corpus_contexts.md
+emit_markdown_report: false
+
+max_queries: 5
+community_level: 2
+response_type: Single Sentence
+methods:
+  - full_query_guard
+
+seed_settings:
+  top_title_documents: 2
+  entities_per_document: 4
+  top_lexical_entities: 6
+  max_include_entities: 10
+  repeated_entity_min_queries: 2
+
+local_search_overrides:
+  text_unit_prop: 0.5
+  community_prop: 0.0
+  top_k_entities: 10
+  top_k_relationships: 10
+  max_context_tokens: 12000

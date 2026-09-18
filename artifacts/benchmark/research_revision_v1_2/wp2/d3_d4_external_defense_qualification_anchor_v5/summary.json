@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "protocol_version": "comparison-v1.2",
+  "config_sha256": "9f98cc6b18863c3e72c10461f5907f682e527081d3dc00635632fbbe6859d347",
+  "input_sha256": {
+    "src/logicguard/benchmark/external_defense_qualification.py": "901ccc88e38934c7ac4771ff4e98813c3616cf59b246326db512474152289fbc",
+    "src/logicguard/benchmark/ragdefender_anchor_worker.py": "38896f0e3d81f98fcc597d9b43b828c836d5e855e57f16c6c64a8cae3dc5b4db",
+    "vendor/upstream/RAGDefender/artifacts/main.py": "6f880f338f1458a48d0b88e2af7703c711d936b371cbd1e9e67928586bba6545",
+    "vendor/upstream/RAGDefender/artifacts/src/utils.py": "6cf03e534d6ee249723a04b2f9c8ea7b6737005c2b0eff553e982a1e3c13c735",
+    "vendor/upstream/RAGDefender/ragdefender/defender.py": "1f4253064d11ae262def126a2f4c66c28c604f3d2b9d9f7124e051372fe1f8b1",
+    "vendor/upstream/HoG-GRAG/Src/detection.py": "f0e401b31edff3116c83b2712b751adeaf99cb0d882fe9ba3b26adb32f61c99a",
+    "vendor/upstream/HoG-GRAG/Src/repairer.py": "413c3d14f6b6461dbd9bb3f97028a7b626d3f5372d761441129e0f4200db0fc7",
+    "vendor/upstream/HoG-GRAG/Src/trace_analysis.py": "1d134bd9116b8ee42742ee5227196aab86065ab402d899ffd102f4775eaa5b7f",
+    "vendor/upstream/HoG-GRAG/Src/evaluation.py": "e65da38f3006a985ea66cf203454ef04c77106eac30a6152751b506913010bea",
+    "vendor/upstream/RAGDefender/tests/fixtures/legacy_v011_singlehop.json": "de0ba64c15e7fd0b2a2afe18aa1566539f1d0b9a4ff23eb9638308dbedd6a068",
+    "vendor/upstream/RAGDefender/tests/fixtures/legacy_v011_multihop.json": "fa66e17fc0f4a25c2b0f31f771927a2c40e3f27df6b10ebf3714de8005d0a326"
+  },
+  "upstream_commits": {
+    "D3_RAGDefender": "ba2a17efba165d45409114df2d70b030ade1e1b8",
+    "D4_HoG_GRAG": "b3197f5cb03b161ce4d29365ab73f1b3ed3adb02"
+  },
+  "run_identity_sha256": "1aece29118ee3d6e56cb9b20900252bf48a1b994f6c9cdcd9a89b7153fa46031",
+  "status": "D3_PASSED_D4_UPSTREAM_ARTIFACT_UNAVAILABLE",
+  "qualification_task_completed": true,
+  "D3": {
+    "status": "RAGDEFENDER_PUBLISHED_ARTIFACT_MODEL_ANCHOR_PASSED_WITH_ORDER_SENSITIVITY",
+    "published_artifact_model_anchor_passed": true,
+    "paper_text_formula_faithful": false,
+    "fixture_count": 2,
+    "model_id": "sentence-transformers/paraphrase-MiniLM-L6-v2",
+    "model_revision": "c9a2bfebc254878aee8c3aca9e6844d5bbb102d1",
+    "comparison_label": "RAGDefender_published_artifact_implementation",
+    "comparison_eligibility": "available_with_fixed_retrieval_order",
+    "passage_order_equivariant_by_text": false,
+    "declared_paper_model_sensitivity": {
+      "status": "RAGDEFENDER_DECLARED_STELLA_MODEL_ANCHOR_PASSED",
+      "model_id": "dunzhang/stella_en_1.5B_v5",
+      "model_revision": "7817065102fd9e1b031fe874e910c01f40b2f001",
+      "artifact_package_exact_match": true,
+      "effect_measured": false
+    },
+    "effect_measured": false
+  },
+  "D4": {
+    "status": "HOG_GRAG_PAPER_NATIVE_UNAVAILABLE_UPSTREAM_ARTIFACT_INCOMPLETE",
+    "paper_native_model_anchor_passed": false,
+    "comparison_eligibility": "unavailable",
+    "required_action": "obtain corrected official artifact or preregister a bounded reimplementation",
+    "effect_measured": false
+  },
+  "provider_calls_made": 0,
+  "actual_cost_cny": 0.0,
+  "artifact_hashes": {
+    "run_identity.json": "0beca6a2b659756315222b2bc2b31e525e8ef2e158c5148d66af5c76b1b5ad0a",
+    "D3_ragdefender_model_anchor.json": "5908ff992eaed86437cabdc78a9471562e8bdc3d602d99f15f958b4b46f00d6e",
+    "D4_hog_grag_artifact_audit.json": "bfd2770b60d6a3caaa65ce7044a4278bff6ff11e217adf9d26ecfd61a2846c91",
+    "D3_ragdefender_stella_declared_model_anchor.json": "ca968fe764f62fb4523352da8f82165ce0795fc5801363aaec416ed680c8af27"
+  }
+}

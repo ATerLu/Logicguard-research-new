@@ -1,26 +1,26 @@
-# Local tooling and caches
-.venv/
+# Python caches
 __pycache__/
 *.py[cod]
 .pytest_cache/
 .ruff_cache/
-tmp/
 
-# Raw and regenerated research data at the repository root stay only in the
-# source worktree. Keep source packages such as src/logicguard/data tracked.
-/data/
-/outputs/
+# Local uv environment
+.venv/
+tools/*/.venv*/
 
-# The mirror tracks only curated, small review artifacts.
-!artifacts/
-!artifacts/reports/
-!artifacts/reports/**
-!artifacts/results/
-!artifacts/results/**
-
-# Never publish credentials.
+# Credentials and machine-local environment files
 .env
 .env.*
 !.env.example
+!.env.*.example
 *.pem
 *.key
+
+# Local source checkouts, temporary files, and external datasets
+vendor/
+tmp/
+data/
+
+# Generated experiment artifacts. Keep configs and source code under version
+# control; regenerate processed data and reports from raw assets when needed.
+outputs/

@@ -1,0 +1,149 @@
+{
+  "1": {
+    "entity_names": [
+      "Bishop of Elmham",
+      "Elmham",
+      "Theodred II"
+    ],
+    "count": 3,
+    "create_time": 1788481512,
+    "update_time": 1788481512,
+    "_id": "1"
+  },
+  "10": {
+    "entity_names": [
+      "10 October 2009",
+      "Japan",
+      "The Wonderful World of Captain Kuhio"
+    ],
+    "count": 3,
+    "create_time": 1788481517,
+    "update_time": 1788481517,
+    "_id": "10"
+  },
+  "2": {
+    "entity_names": [
+      "Adalbert II of Tuscany",
+      "Bertha",
+      "Boso",
+      "Guy",
+      "Hugh",
+      "Italy",
+      "Lambert",
+      "Lothair II of Lotharingia",
+      "Lucca",
+      "Marozia",
+      "Tuscany"
+    ],
+    "count": 11,
+    "create_time": 1788481532,
+    "update_time": 1788481532,
+    "_id": "2"
+  },
+  "3": {
+    "entity_names": [
+      "California",
+      "Etan Boritzer",
+      "How to Get Your Book Published!",
+      "John F. Kennedy",
+      "New York",
+      "New York City Department of Education",
+      "The Bronx",
+      "The Teachings of the Buddha",
+      "Venice",
+      "Wade Junior High School",
+      "What is God?",
+      "What is? Series"
+    ],
+    "count": 12,
+    "create_time": 1788481551,
+    "update_time": 1788481551,
+    "_id": "3"
+  },
+  "4": {
+    "entity_names": [
+      "Boso the Elder",
+      "Ermengarde of Tours",
+      "Lothair I",
+      "Lothair II",
+      "Lotharingia",
+      "Teutberga"
+    ],
+    "count": 6,
+    "create_time": 1788481561,
+    "update_time": 1788481561,
+    "_id": "4"
+  },
+  "5": {
+    "entity_names": [
+      "Elsass",
+      "Ermengarde of Tours",
+      "Erstein Abbey",
+      "Etichonen",
+      "Hugh of Tours",
+      "Lothair I",
+      "Thionville"
+    ],
+    "count": 7,
+    "create_time": 1788481570,
+    "update_time": 1788481570,
+    "_id": "5"
+  },
+  "6": {
+    "entity_names": [
+      "Adalbert II of Tuscany",
+      "Arles",
+      "Bertha",
+      "Guy of Tuscany",
+      "Lothair II",
+      "Lotharingia",
+      "Lucca",
+      "Theobald of Arles",
+      "Tuscany",
+      "Waldrada"
+    ],
+    "count": 10,
+    "create_time": 1788481584,
+    "update_time": 1788481584,
+    "_id": "6"
+  },
+  "7": {
+    "entity_names": [
+      "Adolf I of Lotharingia",
+      "Deutz",
+      "Hermann I Pusillus",
+      "Keldachgau",
+      "Lotharingia"
+    ],
+    "count": 5,
+    "create_time": 1788481594,
+    "update_time": 1788481594,
+    "_id": "7"
+  },
+  "8": {
+    "entity_names": [
+      "Lothair II Of Lotharingia",
+      "Waldrada Of Lotharingia"
+    ],
+    "count": 2,
+    "create_time": 1788481599,
+    "update_time": 1788481599,
+    "_id": "8"
+  },
+  "9": {
+    "entity_names": [
+      "Bertha",
+      "Boso of Tuscany",
+      "Bosonid",
+      "Hucbert",
+      "Hugh of Italy",
+      "Lothair II",
+      "Lotharingia",
+      "Theobald of Arles"
+    ],
+    "count": 8,
+    "create_time": 1788481611,
+    "update_time": 1788481611,
+    "_id": "9"
+  }
+}

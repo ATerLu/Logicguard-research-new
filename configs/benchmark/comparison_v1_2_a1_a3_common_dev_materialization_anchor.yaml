@@ -1,0 +1,24 @@
+schema_version: 1
+protocol_version: comparison-v1.2
+run_mode: local_materialization_anchor
+inputs:
+  attack_results: artifacts/benchmark/e1_preparation/development_pilot/comparison_v1_1_attack_results.jsonl
+  development_queries: artifacts/benchmark/research_revision_v1_2/wp2_development_queries.jsonl
+  clean_corpora:
+    hotpotqa: data/logicpoison_official/clean/hotpotqa/corpus.jsonl
+    musique: data/logicpoison_official/clean/musique/corpus.jsonl
+budgets:
+  A1_poisonedrag:
+    max_documents_per_query: 5
+    max_words_per_document: 400
+    max_relative_document_ratio: 0.01
+  A3_gragpoison:
+    N_alpha: 10
+    N_beta: 5
+    max_documents_per_query: 30
+    max_words_per_document: 400
+    max_relative_document_ratio: 0.01
+expectations:
+  generation_valid_attempts: 2
+  cells: 2
+output_root: artifacts/benchmark/research_revision_v1_2/wp2/a1_a3_common_dev_materialization_anchor

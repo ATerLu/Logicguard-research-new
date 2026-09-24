@@ -1,8 +1,18 @@
 # LogicGuard 新会话交接文档
 
-最后更新：2026-09-18
+最后更新：2026-09-24
 项目目录：`F:\LogicGuard_project\logicguard`
-当前状态：**Stage48 Gate A 失败关闭；WP1 完成。WP2 的 A2 本地四阶段、T0/T1 合成控制层、A1/A3 官方资产审计、两样本物化、双后端 0% clean-trace 合同和 D3/D4 外部防御资格均已审计。D3 已分别加载发布工件实际 MiniLM 权重与库文档声明 Stella 权重，执行发布工件原函数与 v0.2 API，2 个 fixture 上双路径均完全一致；MiniLM single-hop 有顺序敏感，Stella 两例 F1=1.0 且反序一致，但样本太小不构成效果结论。发布工件公式仍与论文文字不一致，主标签仅为 `RAGDefender_published_artifact_implementation`。D4 固定官方提交因 `repairer.py` 第 304 行缩进错误及两个核心提示词缺失而 paper-native unavailable，不产生方法无效结论。完整 dev60 A1/A2/A3、真实 trusted-pool 检索、D4 bounded reimplementation、D6、独立确认集和正式排名尚未完成。下一项是冻结完整 dev60 的请求/materialization/费用与停止规则。本轮 D3/D4 provider 调用 0，费用 ¥0。**
+当前状态：**Stage48 Gate A 失败关闭；WP1 完成。WP2 已于 2026-09-24 冻结完整 dev60 launch：三数据集各 20 问、180 个 A1/A2/A3 固定攻击尝试、300 个最大 provider 请求槽，攻击生成最坏目录价 hard cap 为 ¥8.681760；clean corpus、上游 commit、代码、Prompt slot、materialization budget、unknown/in-flight 计账与停止规则均进入不可变 manifest。统一 RequestCostGuard 已实现并通过专项测试，但 A1/A2/A3 paid runner 尚未全部绑定 exact launch fingerprint，因此 `paid_dispatch_allowed=false`，本轮 provider 调用 0、费用 ¥0。此前 A2 本地四阶段、T0/T1 合成控制层、A1/A3 资产与两样本物化、双后端 0% clean-trace 合同和 D3/D4 资格结论保持不变。完整 dev60 实际生成/物化、真实 trusted-pool 检索、D4 bounded reimplementation、D6、独立确认集和正式排名尚未完成。下一项是绑定三个 runner 到冻结 launch/guard 并完成 fixture 中断恢复门。**
+
+### 2026-09-24 WP2 dev60 launch 与费用守卫冻结
+
+- 新增配置 `configs/benchmark/comparison_v1_2_dev60_launch.yaml`、离线入口 `python -m logicguard.benchmark.dev60_launch` 与不可变输出 `artifacts/benchmark/research_revision_v1_2/wp2/dev60_launch_v1/`。
+- 冻结 60 个 development 问题、180 个攻击尝试和 300 个请求槽；最大输入/输出分别为 1,530,000/702,720 tokens，攻击生成最坏目录价 hard cap 为 ¥8.681760。
+- 最终 launch fingerprint 为 `c8fa1ced0771501f707e50454c841c7fd82275c67788dcf83d9ae6a1f7a003e6`；相同输入连续重放一致，专项测试 8 项、全量回归 348 项通过，Ruff 与 213 个 `src/tests` 文件格式门通过。
+- `RequestCostGuard` 在调用前持久化预留；unknown、遗留 `in_flight`、provider error、reasoning tokens、usage 缺失或 token/费用越界均 fail closed 且不自动重试。schema-invalid 已付费响应计入实际成本和固定分母，A3 下游只能按预注册原因跳过。
+- 两个后端共享同一攻击 seed；模型固定为 `qwen3.7-plus` 并关闭 thinking。provider 未暴露底层不可变 revision，manifest 明示该限制，不伪造 revision。
+- hard cap 只覆盖 dev60 攻击生成，不覆盖索引、检索、回答或裁判。paid runner 绑定和真实攻击效果均尚未完成，不能据此报告 ASR/EM/F1。
+- 完整报告见 `docs/Dev60_LaunchGuard_WP2_Freeze.md`；本轮 provider 调用 0、费用 ¥0。
 
 ### 2026-09-18 工作站迁移与 GitHub 交接
 

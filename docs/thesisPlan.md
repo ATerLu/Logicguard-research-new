@@ -1,5 +1,7 @@
 # LogicGuard 硕士学位论文研究计划
 
+> 2026-09-24 进展：WP2 已冻结完整 dev60 launch——三数据集各 20 问、180 个 A1/A2/A3 固定攻击尝试、300 个最大 provider 请求槽，攻击生成目录价 hard cap 为 ¥8.681760。不可变 identity 已覆盖 clean corpus、上游 commit、代码/协议/配置、Prompt slot、固定分母、materialization budget 与中断停止规则；统一 RequestCostGuard 已实现并测试。A1/A2/A3 paid runner 尚未全部绑定，因此 `paid_dispatch_allowed=false`，尚无 dev60 攻击/防御效果结论。本轮 provider 调用 0、费用 ¥0。见 [冻结报告](F:/LogicGuard_project/logicguard/docs/Dev60_LaunchGuard_WP2_Freeze.md)。
+
 > 2026-09-10 进展：WP2 已补齐 A1/A3 两样本物化、真实 LightRAG clean trace 与双后端 0%-coverage 合同；D3 RAGDefender 的发布工件 MiniLM 与库文档声明 Stella 均完成固定权重/双路径锚点。2 个 fixture 上工件与包输出一致；MiniLM 有 single-hop 顺序敏感，Stella 两例 F1=1.0，但都不是总体防御效果，发布工件仍有论文公式差异。D4 HoG-GRAG 固定公开工件因核心源码编译错误及提示词缺失保持 unavailable。完整 dev60、真实 trusted-pool 检索、D4 bounded reimplementation、D6、独立确认集及正式排名仍未完成。D3/D4 本轮 provider 调用 0、费用 ¥0。见 [外部防御资格报告](F:/LogicGuard_project/logicguard/docs/D3_D4_ExternalDefense_WP2_Qualification.md)。
 
 _面向 GraphRAG 自适应逻辑投毒的可验证证据恢复研究；版本 1.7，2026-09-06_

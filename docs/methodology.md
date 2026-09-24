@@ -1,5 +1,7 @@
 # LogicGuard 实验方法与路线
 
+> 2026-09-24 WP2 进展覆盖：完整 dev60 launch 已离线冻结为三数据集各 20 问、180 个固定攻击尝试和 300 个最大请求槽；攻击生成 hard cap 为 ¥8.681760。clean corpus、上游 commit、代码/协议/配置、Prompt slot、固定分母、materialization 上限和 fail-closed 中断规则均进入不可变 identity。统一 RequestCostGuard 已实现并专项测试，但三个 paid runner 尚未完成 exact fingerprint 绑定，故尚未执行攻击生成、索引或效果比较。见 [dev60 冻结报告](F:/LogicGuard_project/logicguard/docs/Dev60_LaunchGuard_WP2_Freeze.md)。
+
 > 2026-09-10 WP2 进展覆盖：A1/A3 两样本物化、真实 LightRAG clean trace 与双后端 0%-coverage 合同已通过。D3 RAGDefender 已分别加载固定 MiniLM 与 Stella 权重；两个官方 fixture 上发布工件原函数与 v0.2 API 均完全一致。MiniLM single-hop 顺序敏感，Stella 两例 F1=1.0 且反序一致，但发布工件 multi-hop 公式仍不等于论文文字。D4 HoG-GRAG 固定公开工件因核心源码编译错误和两个提示词缺失而不可执行。`trusted_pool_retrieval_executed=false`，因此仍未验证 dev60 或防御效果。见 [外部防御资格报告](F:/LogicGuard_project/logicguard/docs/D3_D4_ExternalDefense_WP2_Qualification.md)。
 
 > 2026-09-08 A2 进展覆盖：新入口 `logicguard.benchmark.logicpoison_pipeline` 已实现并本地验证 global/query/logic/corpus 四阶段；旧 v1.1 runner 仍只实现 query-stage。两个锚点的 query 响应均为 synthetic，未证明真实攻击效果。dev60、强基线、D6 与正式排名仍未完成。详见 [WP2 A2 验收报告](F:/LogicGuard_project/logicguard/docs/LogicPoison_WP2_LocalVerification.md)。

@@ -1,0 +1,114 @@
+schema_version: 1
+protocol_version: comparison-v1.2
+freeze_date: '2026-09-24'
+run_mode: offline_freeze_no_provider
+launch_id: wp2_dev60_a1_a2_a3_generation_materialization_v1
+protocol_file: configs/benchmark/comparison_v1_2_protocol.yaml
+input_manifest: artifacts/benchmark/research_revision_v1_2/wp2_development_queries.jsonl
+datasets: [hotpotqa, musique, 2wikimultihopqa]
+attacks: [A1_poisonedrag, A2_logicpoison, A3_gragpoison]
+backends: [S1_microsoft_graphrag, S2_lightrag]
+split: development
+expected_queries_per_dataset: 20
+expected_unique_queries: 60
+expected_attack_attempts: 180
+expected_request_slots: 300
+seed_namespace: comparison-v1.2-dev60-attack-generation-v1
+
+model:
+  provider: alibaba_dashscope_openai_compatible
+  model_id: qwen3.7-plus
+  revision: provider_managed_alias_no_immutable_revision_exposed
+  revision_observation_date: '2026-09-24'
+  base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+  region: China-Beijing
+  timeout_seconds: 120
+  enable_thinking: false
+  provider_retry_allowed: false
+  output_limit_parameter: max_completion_tokens
+
+upstreams:
+  A1_poisonedrag:
+    path: vendor/upstream/PoisonedRAG
+    revision: f660d72174f06b13fae5163ce656e7b235db858f
+    fidelity_label: PoisonedRAG_inspired_adaptation
+  A2_logicpoison:
+    path: vendor/upstream/LogicPoison
+    revision: 6699736681aa275e33a1d0cc32ef9b47ee17e632
+    fidelity_label: LogicPoison_bounded_port
+  A3_gragpoison:
+    path: vendor/upstream/GraphRAG_Under_Fire
+    revision: 316422f315748a903ae8f2e94e2bedbc66f84343
+    fidelity_label: GRAGPoison_inspired_adaptation
+
+clean_corpora:
+  hotpotqa: data/logicpoison_official/clean/hotpotqa/corpus.jsonl
+  musique: data/logicpoison_official/clean/musique/corpus.jsonl
+  2wikimultihopqa: data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl
+
+request_limits:
+  max_provider_calls: 300
+  hard_cost_cap_cny: 8.681760
+  pricing:
+    snapshot_date: '2026-09-03'
+    basis: undiscounted_catalog_price
+    input_per_million_tokens_cny: 2.0
+    output_per_million_tokens_cny: 8.0
+  per_attack:
+    A1_poisonedrag:
+      calls_per_attempt: 1
+      input_tokens_per_call: 6000
+      output_tokens_per_call: 1600
+    A2_logicpoison:
+      calls_per_attempt: 1
+      input_tokens_per_call: 1500
+      output_tokens_per_call: 512
+    A3_gragpoison:
+      calls_per_attempt: 3
+      input_tokens_per_call: 6000
+      output_tokens_per_call: 3200
+
+materialization:
+  A1_poisonedrag:
+    matched_documents_per_query: 1
+    native_documents_per_query: 5
+    max_words_per_document: 400
+    question_prefix: question_plus_period_without_inserted_space
+  A2_logicpoison:
+    ner_model: en_core_web_trf
+    ner_model_version: 3.8.0
+    top_entity_ratio: 0.05
+    max_changed_document_fraction: 1.0
+    max_replacement_occurrences_per_clean_document: 8
+    max_poisoned_text_bytes_multiplier: 1.25
+  A3_gragpoison:
+    N_alpha: 10
+    N_beta: 5
+    max_documents_per_query: 30
+    max_words_per_document: 400
+    max_relative_document_ratio: 0.10
+
+stop_rules:
+  reserve_before_dispatch: true
+  unknown_usage: stop_without_retry
+  in_flight_after_interruption: stop_without_replay
+  provider_error: stop_without_retry
+  token_cap_violation: stop_and_open_new_namespace_after_audit
+  cost_cap_violation: stop_and_open_new_namespace_after_audit
+  prompt_or_code_identity_change: refuse_resume
+  generation_invalid: retain_fixed_attempt_and_do_not_replace_query
+  downstream_phase_after_invalid: record_skipped_without_provider_call
+
+denominators:
+  fixed_attempted_by_dataset_attack: 20
+  invalid_generation_retained: true
+  infrastructure_unknown_reported_separately: true
+  replacement_after_observing_attack_success: forbidden
+  cross_backend_attack_seed_shared: true
+
+outputs:
+  root: artifacts/benchmark/research_revision_v1_2/wp2/dev60_launch_v1
+  attack_attempts: dev60_attack_attempts.jsonl
+  request_plan: dev60_request_plan.jsonl
+  launch_manifest: dev60_launch_manifest.json
+  summary: summary.json

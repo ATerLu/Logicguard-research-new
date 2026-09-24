@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "protocol_version": "comparison-v1.2",
+  "launch_id": "wp2_dev60_a1_a2_a3_generation_materialization_v1",
+  "status": "FROZEN_OFFLINE_NO_PROVIDER_CALLS",
+  "launch_fingerprint": "c8fa1ced0771501f707e50454c841c7fd82275c67788dcf83d9ae6a1f7a003e6",
+  "datasets": 3,
+  "unique_queries": 60,
+  "attack_attempts": 180,
+  "request_slots": 300,
+  "calls_by_attack": {
+    "A1_poisonedrag": 60,
+    "A2_logicpoison": 60,
+    "A3_gragpoison": 180
+  },
+  "worst_case_reserved_cost_cny": 8.68176,
+  "hard_cost_cap_cny": 8.68176,
+  "provider_calls_made": 0,
+  "credentials_read": false,
+  "paid_dispatch_allowed": false,
+  "next_gate": "bind_A1_A2_A3_runners_to_exact_launch_fingerprint_and_guard"
+}

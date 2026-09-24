@@ -1,8 +1,8 @@
 schema_version: 1
 protocol_version: comparison-v1.2
 amendment_date: '2026-09-06'
-status: WP1_COMPLETE__WP2_D3_MODEL_ANCHOR_PASSED_D4_OFFICIAL_ARTIFACT_UNAVAILABLE
-progress_date: '2026-09-10'
+status: WP1_COMPLETE__WP2_DEV60_LAUNCH_FROZEN__D3_MODEL_ANCHOR_PASSED__D4_OFFICIAL_ARTIFACT_UNAVAILABLE
+progress_date: '2026-09-24'
 research_question: >-
   Under incomplete trusted evidence coverage, does source/claim/path verification
   reduce wrong recovery and poisoned answers at comparable answer coverage and
@@ -31,11 +31,11 @@ development_pilot:
   evaluation_scope: all_planned_queries_with_errors_separately_recorded
   paid_execution_ready: false
   blockers:
+    - bind_A1_A2_A3_runners_to_frozen_dev60_launch_and_request_cost_guard
     - qualify_A2_on_frozen_development_corpora_with_real_query_extraction
-    - generate_and_materialize_full_A1_A3_dev60_corpora_with_frozen_budget_manifests
+    - execute_and_materialize_full_A1_A2_A3_dev60_corpora
     - preregister_D4_bounded_reimplementation_or_obtain_corrected_official_artifact
     - execute_real_trusted_pool_retrieval_for_both_backends_and_all_coverage_levels
-    - enforce_request_checkpoint_usage_ledger_and_cost_stop
     - freeze_backend_settings_and_materialized_corpus_hashes
 metrics:
   primary_by_attack:
@@ -116,6 +116,11 @@ tasks:
     A1_A3_qualification_entry_point: logicguard.benchmark.wp2_qualification_runner
     A1_A3_common_dev_materializer: passed_on_two_existing_generation_valid_pilot_attempts_not_full_dev60
     A1_A3_materialization_entry_point: logicguard.benchmark.attack_corpus_materializer
+    dev60_launch_manifest: artifacts/benchmark/research_revision_v1_2/wp2/dev60_launch_v1/dev60_launch_manifest.json
+    dev60_launch_status: frozen_offline_60_queries_180_attempts_300_request_slots
+    dev60_launch_hard_cost_cap_cny: 8.68176
+    dev60_request_cost_guard: implemented_and_unit_tested_not_yet_bound_to_paid_runners
+    dev60_paid_dispatch_allowed: false
     real_LightRAG_trace_entry_point: logicguard.benchmark.lightrag_trace_capture
     real_trace_contract_entry_point: logicguard.benchmark.real_trace_contract_runner
     D3_published_artifact_model_anchor: passed_with_single_hop_order_sensitivity_and_paper_formula_caveat
@@ -125,7 +130,7 @@ tasks:
     external_defense_qualification_entry_point: logicguard.benchmark.external_defense_qualification
     latest_turn_provider_calls: 0
     latest_turn_cost_cny: 0.0
-    next_implementation: freeze_full_dev60_attack_requests_materialization_budget_and_stop_rules
+    next_implementation: bind_A1_A2_A3_runners_to_exact_dev60_launch_fingerprint_and_request_cost_guard
   WP3:
     deliverables: [claim_check, provenance_check, path_check, recovery_integrity_gate, development_ablations]
   WP4:

@@ -1,5 +1,21 @@
 # LogicGuard 可复现实验命令清单
 
+## WP2 dev60 launch 与 request/cost guard（2026-09-24）
+
+以下命令只冻结或重验启动清单，不读取 API key、不调用 provider、不生成攻击：
+
+```powershell
+cd F:\LogicGuard_project\logicguard
+$env:PYTHONPATH='src'
+.venv\Scripts\python.exe -m logicguard.benchmark.dev60_launch `
+  --config configs\benchmark\comparison_v1_2_dev60_launch.yaml
+.venv\Scripts\python.exe -m pytest tests\test_dev60_launch_guard.py -q
+```
+
+规范化产物位于 `artifacts/benchmark/research_revision_v1_2/wp2/dev60_launch_v1/`。相同输入重放只核验 launch fingerprint 和全部产物 hash；配置、协议、代码、clean corpus 或上游 commit 漂移时拒绝混入原 namespace。当前 `paid_dispatch_allowed=false`，因为 A1/A2/A3 paid runner 还未全部绑定 exact launch fingerprint 与统一 guard。该阶段 provider 调用 0、费用 ¥0；详见 [冻结报告](F:/LogicGuard_project/logicguard/docs/Dev60_LaunchGuard_WP2_Freeze.md)。
+
+当前冻结 fingerprint 为 `c8fa1ced0771501f707e50454c841c7fd82275c67788dcf83d9ae6a1f7a003e6`。验收结果为专项 `8 passed`、全量 `348 passed`，Ruff 检查和 `src/tests` 的 213 文件格式门均通过。
+
 ## 📦 WP2 D3/D4 外部防御资格（2026-09-10）
 
 D3 使用隔离的标准 Python 3.10 CPU 环境，避免项目 Anaconda 3.11 环境的 PyTorch DLL 冲突。环境路径已由 `.gitignore` 排除；模型 revision 和权重 SHA-256 已写入不可变结果。首次运行需要下载固定 90,868,373-byte MiniLM，以及 6,191,135,894-byte Stella 最小快照；重放强制 `local_files_only`。Stella 按模型快照自带版本记录固定 `sentence-transformers==3.0.1`、`transformers==4.42.3`。D4 审计只编译固定源码并检查提示词存在性，前置门失败时不读取 key、不调用 provider。

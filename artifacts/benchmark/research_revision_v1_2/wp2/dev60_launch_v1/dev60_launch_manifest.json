@@ -1,0 +1,291 @@
+{
+  "schema_version": 1,
+  "protocol_version": "comparison-v1.2",
+  "launch_id": "wp2_dev60_a1_a2_a3_generation_materialization_v1",
+  "freeze_date": "2026-09-24",
+  "status": "FROZEN_OFFLINE_NO_PROVIDER_CALLS",
+  "launch_fingerprint": "c8fa1ced0771501f707e50454c841c7fd82275c67788dcf83d9ae6a1f7a003e6",
+  "identity": {
+    "config_sha256": "bd68c281ae1cf7fb8fb7eea79528bab167291e44d9601c2f453adc92da267962",
+    "protocol_sha256": "e6776a42a02a579642ad7a4de551e17f71a77dcd896ac2c58d6be868333de023",
+    "input_manifest_sha256": "4e68c0529b09a47470f24dfbe8e46a60b0f6d109dfff5507e36aba72f1050985",
+    "clean_corpora": {
+      "hotpotqa": {
+        "path": "data/logicpoison_official/clean/hotpotqa/corpus.jsonl",
+        "sha256": "d5af8f641801aced2a16709bdc2ee0b86b80f1ab5f80a4eddcc23df4e1763635",
+        "document_count": 9811,
+        "clean_text_utf8_bytes": 5416711
+      },
+      "musique": {
+        "path": "data/logicpoison_official/clean/musique/corpus.jsonl",
+        "sha256": "bc0eb1609d457b8d751a7c559d47e146f20868b9a6fba8bfa341fe843f0f1b67",
+        "document_count": 11656,
+        "clean_text_utf8_bytes": 5653891
+      },
+      "2wikimultihopqa": {
+        "path": "data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl",
+        "sha256": "a7b9216a4bd0cca67a8b42d256cbcb782c4f64bf2d7dcdf8702b763d63a32194",
+        "document_count": 6119,
+        "clean_text_utf8_bytes": 2591699
+      }
+    },
+    "upstreams": {
+      "A1_poisonedrag": {
+        "path": "vendor/upstream/PoisonedRAG",
+        "revision": "f660d72174f06b13fae5163ce656e7b235db858f",
+        "worktree_clean": true,
+        "fidelity_label": "PoisonedRAG_inspired_adaptation"
+      },
+      "A2_logicpoison": {
+        "path": "vendor/upstream/LogicPoison",
+        "revision": "6699736681aa275e33a1d0cc32ef9b47ee17e632",
+        "worktree_clean": true,
+        "fidelity_label": "LogicPoison_bounded_port"
+      },
+      "A3_gragpoison": {
+        "path": "vendor/upstream/GraphRAG_Under_Fire",
+        "revision": "316422f315748a903ae8f2e94e2bedbc66f84343",
+        "worktree_clean": true,
+        "fidelity_label": "GRAGPoison_inspired_adaptation"
+      }
+    },
+    "code_sha256": {
+      "dev60_launch": "ae5a0c0b0fca0af4b626a7ba917991593416a567236cab8707a259073915d03d",
+      "request_cost_guard": "1aa4d9ac42970a62a224f429f09de123de2d2b0698bb14541a7107a03ce94000",
+      "attack_runner": "26e7f33929d9bef5e308ca3c693e4e34819a5f5acfe3298e7526d53101ca424f",
+      "execution_protocols": "1b15eb0275a621796256af215e68930d4db9cd4f62b8c3176ba0de6282f92baa",
+      "attack_corpus_materializer": "fa686162344b9de4e5a7864aa3ca5d7a35ca3d10f16a7398b0f34f715598b5e5",
+      "logicpoison_pipeline": "d76a956c9d66482cee3111df7ff4cf3957a01a255b6b83d38b0a4c9f106ffa5f",
+      "logicpoison_corpus": "95aaf64137bc5960b3cc24d8bb93b0a74b7587c14f05782783befc6b8341f82c",
+      "run_state": "14ff3da632de649038fb402628e765143b855de5da7c734f504e51c23a4bc280"
+    },
+    "attack_attempts_fingerprint": "c8ea558764189a3b5708966c7e9c0a3ec9d1d60cb9fa7d1a2b759904f5869b8c",
+    "request_plan_fingerprint": "ffbe6a5ab42a43be1a2fde8e4e6f04b33fbdcaf7f86866b0be20609a1e83a842",
+    "materialization_budgets": {
+      "hotpotqa": {
+        "A1_poisonedrag": {
+          "max_documents": 20,
+          "max_relative_document_ratio": 0.002038528
+        },
+        "A2_logicpoison": {
+          "max_changed_documents": 9811,
+          "max_changed_document_fraction": 1.0,
+          "max_replacement_occurrences": 78488,
+          "max_poisoned_text_utf8_bytes": 6770888
+        },
+        "A3_gragpoison": {
+          "max_documents": 600,
+          "max_relative_document_ratio": 0.1,
+          "derived_max_possible_ratio": 0.061155845
+        }
+      },
+      "musique": {
+        "A1_poisonedrag": {
+          "max_documents": 20,
+          "max_relative_document_ratio": 0.001715854
+        },
+        "A2_logicpoison": {
+          "max_changed_documents": 11656,
+          "max_changed_document_fraction": 1.0,
+          "max_replacement_occurrences": 93248,
+          "max_poisoned_text_utf8_bytes": 7067363
+        },
+        "A3_gragpoison": {
+          "max_documents": 600,
+          "max_relative_document_ratio": 0.1,
+          "derived_max_possible_ratio": 0.051475635
+        }
+      },
+      "2wikimultihopqa": {
+        "A1_poisonedrag": {
+          "max_documents": 20,
+          "max_relative_document_ratio": 0.003268508
+        },
+        "A2_logicpoison": {
+          "max_changed_documents": 6119,
+          "max_changed_document_fraction": 1.0,
+          "max_replacement_occurrences": 48952,
+          "max_poisoned_text_utf8_bytes": 3239623
+        },
+        "A3_gragpoison": {
+          "max_documents": 600,
+          "max_relative_document_ratio": 0.1,
+          "derived_max_possible_ratio": 0.098055238
+        }
+      }
+    }
+  },
+  "model": {
+    "provider": "alibaba_dashscope_openai_compatible",
+    "model_id": "qwen3.7-plus",
+    "revision": "provider_managed_alias_no_immutable_revision_exposed",
+    "revision_observation_date": "2026-09-24",
+    "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+    "region": "China-Beijing",
+    "timeout_seconds": 120,
+    "enable_thinking": false,
+    "provider_retry_allowed": false,
+    "output_limit_parameter": "max_completion_tokens"
+  },
+  "limits": {
+    "max_provider_calls": 300,
+    "hard_cost_cap_cny": 8.68176,
+    "input_token_cap": 1530000,
+    "output_token_cap": 702720
+  },
+  "pricing": {
+    "snapshot_date": "2026-09-03",
+    "basis": "undiscounted_catalog_price",
+    "input_per_million_tokens_cny": 2.0,
+    "output_per_million_tokens_cny": 8.0
+  },
+  "cost_reservations": {
+    "by_attack": {
+      "A1_poisonedrag": {
+        "request_slots": 60,
+        "input_token_cap": 360000,
+        "output_token_cap": 96000,
+        "reserved_cost_cny": 1.488
+      },
+      "A2_logicpoison": {
+        "request_slots": 60,
+        "input_token_cap": 90000,
+        "output_token_cap": 30720,
+        "reserved_cost_cny": 0.42576
+      },
+      "A3_gragpoison": {
+        "request_slots": 180,
+        "input_token_cap": 1080000,
+        "output_token_cap": 576000,
+        "reserved_cost_cny": 6.768
+      }
+    },
+    "total": {
+      "request_slots": 300,
+      "input_token_cap": 1530000,
+      "output_token_cap": 702720,
+      "reserved_cost_cny": 8.68176
+    }
+  },
+  "materialization": {
+    "policy": {
+      "A1_poisonedrag": {
+        "matched_documents_per_query": 1,
+        "native_documents_per_query": 5,
+        "max_words_per_document": 400,
+        "question_prefix": "question_plus_period_without_inserted_space"
+      },
+      "A2_logicpoison": {
+        "ner_model": "en_core_web_trf",
+        "ner_model_version": "3.8.0",
+        "top_entity_ratio": 0.05,
+        "max_changed_document_fraction": 1.0,
+        "max_replacement_occurrences_per_clean_document": 8,
+        "max_poisoned_text_bytes_multiplier": 1.25
+      },
+      "A3_gragpoison": {
+        "N_alpha": 10,
+        "N_beta": 5,
+        "max_documents_per_query": 30,
+        "max_words_per_document": 400,
+        "max_relative_document_ratio": 0.1
+      }
+    },
+    "concrete_caps_by_dataset": {
+      "hotpotqa": {
+        "A1_poisonedrag": {
+          "max_documents": 20,
+          "max_relative_document_ratio": 0.002038528
+        },
+        "A2_logicpoison": {
+          "max_changed_documents": 9811,
+          "max_changed_document_fraction": 1.0,
+          "max_replacement_occurrences": 78488,
+          "max_poisoned_text_utf8_bytes": 6770888
+        },
+        "A3_gragpoison": {
+          "max_documents": 600,
+          "max_relative_document_ratio": 0.1,
+          "derived_max_possible_ratio": 0.061155845
+        }
+      },
+      "musique": {
+        "A1_poisonedrag": {
+          "max_documents": 20,
+          "max_relative_document_ratio": 0.001715854
+        },
+        "A2_logicpoison": {
+          "max_changed_documents": 11656,
+          "max_changed_document_fraction": 1.0,
+          "max_replacement_occurrences": 93248,
+          "max_poisoned_text_utf8_bytes": 7067363
+        },
+        "A3_gragpoison": {
+          "max_documents": 600,
+          "max_relative_document_ratio": 0.1,
+          "derived_max_possible_ratio": 0.051475635
+        }
+      },
+      "2wikimultihopqa": {
+        "A1_poisonedrag": {
+          "max_documents": 20,
+          "max_relative_document_ratio": 0.003268508
+        },
+        "A2_logicpoison": {
+          "max_changed_documents": 6119,
+          "max_changed_document_fraction": 1.0,
+          "max_replacement_occurrences": 48952,
+          "max_poisoned_text_utf8_bytes": 3239623
+        },
+        "A3_gragpoison": {
+          "max_documents": 600,
+          "max_relative_document_ratio": 0.1,
+          "derived_max_possible_ratio": 0.098055238
+        }
+      }
+    }
+  },
+  "stop_rules": {
+    "reserve_before_dispatch": true,
+    "unknown_usage": "stop_without_retry",
+    "in_flight_after_interruption": "stop_without_replay",
+    "provider_error": "stop_without_retry",
+    "token_cap_violation": "stop_and_open_new_namespace_after_audit",
+    "cost_cap_violation": "stop_and_open_new_namespace_after_audit",
+    "prompt_or_code_identity_change": "refuse_resume",
+    "generation_invalid": "retain_fixed_attempt_and_do_not_replace_query",
+    "downstream_phase_after_invalid": "record_skipped_without_provider_call"
+  },
+  "denominators": {
+    "fixed_attempted_by_dataset_attack": 20,
+    "invalid_generation_retained": true,
+    "infrastructure_unknown_reported_separately": true,
+    "replacement_after_observing_attack_success": "forbidden",
+    "cross_backend_attack_seed_shared": true
+  },
+  "artifacts": {
+    "attack_attempts": {
+      "path": "artifacts/benchmark/research_revision_v1_2/wp2/dev60_launch_v1/dev60_attack_attempts.jsonl",
+      "sha256": "ae9c52b4abee2f56a6a0adde8c4ce36a3869cc8fe9e156e141c6f90240ada44f"
+    },
+    "request_plan": {
+      "path": "artifacts/benchmark/research_revision_v1_2/wp2/dev60_launch_v1/dev60_request_plan.jsonl",
+      "sha256": "43fec769ce814837f6bbc54a571260c552e9047001b230f967b7ccad57b13ff0"
+    },
+    "summary": {
+      "path": "artifacts/benchmark/research_revision_v1_2/wp2/dev60_launch_v1/summary.json",
+      "sha256": "d35bf48d189148677b79d873f04840a2b9ad5e522f45c42e0991b6f9476469a5"
+    }
+  },
+  "request_cost_guard": {
+    "implementation": "logicguard.benchmark.request_cost_guard.RequestCostGuard",
+    "reserve_before_dispatch": true,
+    "no_automatic_retry": true,
+    "unknown_and_in_flight_remain_reserved": true,
+    "runner_binding_complete": false
+  },
+  "provider_calls_made": 0,
+  "credentials_read": false,
+  "paid_dispatch_allowed": false,
+  "next_gate": "bind_A1_A2_A3_runners_to_exact_launch_fingerprint_and_guard"
+}

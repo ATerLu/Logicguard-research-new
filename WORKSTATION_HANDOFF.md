@@ -1,6 +1,6 @@
 # LogicGuard 工作站迁移与接手续作说明
 
-更新日期：2026-09-18
+更新日期：2026-09-24
 GitHub：`https://github.com/ATerLu/Logicguard-research-new`
 工作分支：`uisee-dev`
 
@@ -74,6 +74,7 @@ Git 仓库有意不包含：
 - Stage47 和 Stage48 的冻结攻击记录与完整性记录；
 - Stage48 fixed-50 inventory、失败 taxonomy、暴露/回答汇总与费用清单；
 - WP1 v1.2 审计、dev60 清单、split、指标测试产物；
+- WP2 完整 dev60 launch manifest、request plan、攻击尝试表与 request/cost guard；
 - WP2 A1/A2/A3、T0/T1、双后端 trace、RAGDefender/HoG-GRAG 资格产物；
 - 两批论文调研、论文 manifest 和比较实验规划。
 
@@ -91,13 +92,6 @@ Git 仓库有意不包含：
 
 ## 7. 当前续作点
 
-Stage48 已以 Gate A 失败关闭；WP1 已完成，WP2 部分完成。下一项开发任务是冻结并执行完整 dev60 的 A1/A2/A3 请求和 materialization 启动清单，包括：
+Stage48 已以 Gate A 失败关闭；WP1 已完成，WP2 部分完成。完整 dev60 的离线 launch 已冻结为三数据集各 20 问、180 个攻击尝试、300 个最大 provider 请求槽，攻击生成 hard cap 为 ¥8.681760。统一 request/cost guard 已实现并专项测试，但 paid runner 尚未全部绑定，当前 `paid_dispatch_allowed=false`。
 
-- 模型 revision；
-- 最大调用数、token 与费用 hard cap；
-- unknown/in-flight 计账；
-- 停止规则；
-- clean/poisoned corpus hash；
-- 不因攻击成败替换问题的固定分母。
-
-随后才进入真实 trusted-pool retrieval、D6 development 和外部防御效果比较。D4 HoG-GRAG 仍需作者修正版或单独预注册 bounded reimplementation，不能把当前公开工件失败写成方法无效。
+下一项开发任务是把 A1/A2/A3 runner 逐一绑定到 exact launch fingerprint、稳定 request slot 和统一 guard，并用纯 fixture 验证调用前预留、成功对账、schema-invalid、provider error 与硬中断恢复。绑定门通过后，才执行并物化完整 dev60；随后进入真实 trusted-pool retrieval、D6 development 和外部防御效果比较。D4 HoG-GRAG 仍需作者修正版或单独预注册 bounded reimplementation，不能把当前公开工件失败写成方法无效。

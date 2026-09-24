@@ -1,5 +1,13 @@
 # LogicGuard 实验结果总报告
 
+## WP2 dev60 launch 与 request/cost guard 冻结（2026-09-24）
+
+完整 dev60 已离线冻结为 HotpotQA、MuSiQue、2WikiMultihopQA 各 20 问，共 60 问、180 个 A1/A2/A3 固定攻击尝试和 300 个最大 provider 请求槽。两个后端共享攻击 seed；generation-invalid 保留在固定 attempted 分母，不补样。最大输入/输出为 1,530,000/702,720 tokens，攻击生成最坏目录价 hard cap 为 ¥8.681760。
+
+统一 `RequestCostGuard` 已实现调用前持久化预留、实际 usage 对账和 fail-closed 中断恢复。unknown、遗留 `in_flight`、provider error、reasoning tokens、usage 缺失、Prompt 身份不符或 token/费用越界都会停止 namespace，且不自动重试；schema-invalid 已付费响应计入成本与固定分母。clean corpus、上游 commit、代码、协议、配置、Prompt slot 和 materialization cap 均进入 launch identity。
+
+本结果只证明启动清单与成本/停止合同可执行，不证明攻击或防御效果。A1/A2/A3 runner 尚未全部绑定该 guard，故 `paid_dispatch_allowed=false`；本轮 provider 调用 0、费用 ¥0。详见 [dev60 冻结报告](F:/LogicGuard_project/logicguard/docs/Dev60_LaunchGuard_WP2_Freeze.md)。
+
 ## 📊 WP2 D3/D4 外部防御资格（2026-09-10）
 
 D3 RAGDefender 已在固定上游 `ba2a17e` 上加载 `paraphrase-MiniLM-L6-v2@c9a2bf...` 权重。发布工件原函数 AST 与 v0.2 API 在 single-hop/multi-hop 两个官方 fixture 上删除索引完全一致；fixture F1 为 0.667/0.800。single-hop 反序输入改变一个删除文档，且发布工件的 multi-hop 公式与论文文字不一致。因此只允许标为 `RAGDefender_published_artifact_implementation`，正式 development 必须冻结原始检索顺序。库文档声明的 Stella 固定权重也已运行，两例工件/API 一致、反序一致、F1=1.0；这只证明模型敏感性和可执行性，不是总体优势。

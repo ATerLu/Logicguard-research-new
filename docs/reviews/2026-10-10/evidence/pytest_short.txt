@@ -1,0 +1,530 @@
+...............FF..F...........................FFFFFFF...FF.........F.FF [ 20%]
+F.FF.................F........................................F.FFFFF.F. [ 41%]
+...............................F.....FF..F.............................. [ 62%]
+......F.F....F.......................................................... [ 82%]
+..........F..........F.....................................F             [100%]
+=================================== FAILURES ===================================
+__________ test_real_anchor_materializes_and_replays_without_provider __________
+tests/test_attack_corpus_materializer.py:104: in test_real_anchor_materializes_and_replays_without_provider
+    first = run_from_config(config_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/benchmark/attack_corpus_materializer.py:169: in run_from_config
+    clean_paths = {
+src/logicguard/benchmark/attack_corpus_materializer.py:170: in <dictcomp>
+    dataset: _project_input(root, raw)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/benchmark/attack_corpus_materializer.py:469: in _project_input
+    raise ValueError(f"input must be an existing project file: {raw_path}")
+E   ValueError: input must be an existing project file: data/logicpoison_official/clean/hotpotqa/corpus.jsonl
+_________ test_official_a1_asset_has_frozen_100_by_5_mechanism_anchor __________
+tests/test_attack_qualification.py:20: in test_official_a1_asset_has_frozen_100_by_5_mechanism_anchor
+    ).read_text(encoding="utf-8")
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/pathlib.py:1058: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/pathlib.py:1044: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: '/home/uisee/logicguard/Logicguard-research-new/vendor/upstream/PoisonedRAG/results/adv_targeted_results/hotpotqa.json'
+________ test_official_a3_artifact_reproduces_upstream_selection_counts ________
+tests/test_attack_qualification.py:60: in test_official_a3_artifact_reproduces_upstream_selection_counts
+    ).read_text(encoding="utf-8")
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/pathlib.py:1058: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/pathlib.py:1044: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: '/home/uisee/logicguard/Logicguard-research-new/vendor/upstream/GraphRAG_Under_Fire/datasets/misuque_3_black_shuffle_0601/test0_corpus.json'
+________________ test_e0_build_is_deterministic_and_passes_e0_a ________________
+tests/test_comparative_benchmark_e0.py:142: in test_e0_build_is_deterministic_and_passes_e0_a
+    first = run(CONFIG)
+            ^^^^^^^^^^^
+src/logicguard/benchmark/readiness.py:833: in run
+    public_rows, evaluator_rows, audit = _build_split_rows(
+src/logicguard/benchmark/readiness.py:95: in _build_split_rows
+    queries = load_jsonl(directory / "queries.jsonl")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/core/io.py:22: in load_jsonl
+    with path.open("r", encoding="utf-8") as handle:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/pathlib.py:1044: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: '/home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/hotpotqa/queries.jsonl'
+_______ test_frozen_split_is_exact_disjoint_and_attacker_safe[hotpotqa] ________
+tests/test_comparative_benchmark_e0.py:171: in test_frozen_split_is_exact_disjoint_and_attacker_safe
+    run(CONFIG)
+src/logicguard/benchmark/readiness.py:833: in run
+    public_rows, evaluator_rows, audit = _build_split_rows(
+src/logicguard/benchmark/readiness.py:95: in _build_split_rows
+    queries = load_jsonl(directory / "queries.jsonl")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/core/io.py:22: in load_jsonl
+    with path.open("r", encoding="utf-8") as handle:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/pathlib.py:1044: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: '/home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/hotpotqa/queries.jsonl'
+________ test_frozen_split_is_exact_disjoint_and_attacker_safe[musique] ________
+tests/test_comparative_benchmark_e0.py:171: in test_frozen_split_is_exact_disjoint_and_attacker_safe
+    run(CONFIG)
+src/logicguard/benchmark/readiness.py:833: in run
+    public_rows, evaluator_rows, audit = _build_split_rows(
+src/logicguard/benchmark/readiness.py:95: in _build_split_rows
+    queries = load_jsonl(directory / "queries.jsonl")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/core/io.py:22: in load_jsonl
+    with path.open("r", encoding="utf-8") as handle:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/pathlib.py:1044: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: '/home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/hotpotqa/queries.jsonl'
+____ test_frozen_split_is_exact_disjoint_and_attacker_safe[2wikimultihopqa] ____
+tests/test_comparative_benchmark_e0.py:171: in test_frozen_split_is_exact_disjoint_and_attacker_safe
+    run(CONFIG)
+src/logicguard/benchmark/readiness.py:833: in run
+    public_rows, evaluator_rows, audit = _build_split_rows(
+src/logicguard/benchmark/readiness.py:95: in _build_split_rows
+    queries = load_jsonl(directory / "queries.jsonl")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/core/io.py:22: in load_jsonl
+    with path.open("r", encoding="utf-8") as handle:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/pathlib.py:1044: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: '/home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/hotpotqa/queries.jsonl'
+_____ test_official_overlap_fixtures_are_contract_sized_not_result_samples _____
+tests/test_comparative_benchmark_e0.py:188: in test_official_overlap_fixtures_are_contract_sized_not_result_samples
+    run(CONFIG)
+src/logicguard/benchmark/readiness.py:833: in run
+    public_rows, evaluator_rows, audit = _build_split_rows(
+src/logicguard/benchmark/readiness.py:95: in _build_split_rows
+    queries = load_jsonl(directory / "queries.jsonl")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/core/io.py:22: in load_jsonl
+    with path.open("r", encoding="utf-8") as handle:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/pathlib.py:1044: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: '/home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/hotpotqa/queries.jsonl'
+____ test_legacy_logicpoison_is_audited_but_not_promoted_to_official_poison ____
+tests/test_comparative_benchmark_e0.py:207: in test_legacy_logicpoison_is_audited_but_not_promoted_to_official_poison
+    readiness = run(CONFIG)
+                ^^^^^^^^^^^
+src/logicguard/benchmark/readiness.py:833: in run
+    public_rows, evaluator_rows, audit = _build_split_rows(
+src/logicguard/benchmark/readiness.py:95: in _build_split_rows
+    queries = load_jsonl(directory / "queries.jsonl")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/core/io.py:22: in load_jsonl
+    with path.open("r", encoding="utf-8") as handle:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/pathlib.py:1044: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: '/home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/hotpotqa/queries.jsonl'
+_____________ test_cell_matrix_keeps_e2_locked_and_badrag_separate _____________
+tests/test_comparative_benchmark_e0.py:224: in test_cell_matrix_keeps_e2_locked_and_badrag_separate
+    run(CONFIG)
+src/logicguard/benchmark/readiness.py:833: in run
+    public_rows, evaluator_rows, audit = _build_split_rows(
+src/logicguard/benchmark/readiness.py:95: in _build_split_rows
+    queries = load_jsonl(directory / "queries.jsonl")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/core/io.py:22: in load_jsonl
+    with path.open("r", encoding="utf-8") as handle:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/pathlib.py:1044: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: '/home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/hotpotqa/queries.jsonl'
+_____ test_e1_preparation_is_deterministic_paired_and_makes_no_paid_calls ______
+tests/test_comparative_benchmark_e1_preparation.py:74: in test_e1_preparation_is_deterministic_paired_and_makes_no_paid_calls
+    first = run(CONFIG)
+            ^^^^^^^^^^^
+src/logicguard/benchmark/e1_preparation.py:998: in run
+    indexing_audit = _indexing_pilot_audit(root, config)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/benchmark/e1_preparation.py:707: in _indexing_pilot_audit
+    corpus_document_counts = {
+src/logicguard/benchmark/e1_preparation.py:708: in <dictcomp>
+    dataset: _corpus_documents(root, dataset) for dataset in config["datasets"]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/benchmark/e1_preparation.py:638: in _corpus_documents
+    return sum(1 for _ in load_jsonl(path))
+                          ^^^^^^^^^^^^^^^^
+src/logicguard/core/io.py:22: in load_jsonl
+    with path.open("r", encoding="utf-8") as handle:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/pathlib.py:1044: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: '/home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/hotpotqa/corpus.jsonl'
+________________ test_source_and_cost_gates_refuse_overclaiming ________________
+tests/test_comparative_benchmark_e1_preparation.py:152: in test_source_and_cost_gates_refuse_overclaiming
+    run(CONFIG)
+src/logicguard/benchmark/e1_preparation.py:998: in run
+    indexing_audit = _indexing_pilot_audit(root, config)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/benchmark/e1_preparation.py:707: in _indexing_pilot_audit
+    corpus_document_counts = {
+src/logicguard/benchmark/e1_preparation.py:708: in <dictcomp>
+    dataset: _corpus_documents(root, dataset) for dataset in config["datasets"]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/benchmark/e1_preparation.py:638: in _corpus_documents
+    return sum(1 for _ in load_jsonl(path))
+                          ^^^^^^^^^^^^^^^^
+src/logicguard/core/io.py:22: in load_jsonl
+    with path.open("r", encoding="utf-8") as handle:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/pathlib.py:1044: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: '/home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/hotpotqa/corpus.jsonl'
+____________________ test_cli_resolves_legacy_config_alias _____________________
+tests/test_core.py:135: in test_cli_resolves_legacy_config_alias
+    assert (
+E   AssertionError: assert False
+E    +  where False = <built-in method endswith of str object at 0x785e5710edc0>('configs\\experiments\\stage47\\musique\\attack.yaml')
+E    +    where <built-in method endswith of str object at 0x785e5710edc0> = '/home/uisee/logicguard/Logicguard-research-new/configs/experiments/stage47/musique/attack.yaml'.endswith
+E    +      where '/home/uisee/logicguard/Logicguard-research-new/configs/experiments/stage47/musique/attack.yaml' = <built-in method strip of str object at 0x785e5710f000>()
+E    +        where <built-in method strip of str object at 0x785e5710f000> = '/home/uisee/logicguard/Logicguard-research-new/configs/experiments/stage47/musique/attack.yaml\n'.strip
+E    +          where '/home/uisee/logicguard/Logicguard-research-new/configs/experiments/stage47/musique/attack.yaml\n' = CaptureResult(out='/home/uisee/logicguard/Logicguard-research-new/configs/experiments/stage47/musique/attack.yaml\n', err='').out
+E    +            where CaptureResult(out='/home/uisee/logicguard/Logicguard-research-new/configs/experiments/stage47/musique/attack.yaml\n', err='') = readouterr()
+E    +              where readouterr = <_pytest.capture.CaptureFixture object at 0x785e63f9ddd0>.readouterr
+___________________ test_load_raw_dataset_keeps_ids_aligned ____________________
+tests/test_data_pipeline.py:18: in test_load_raw_dataset_keeps_ids_aligned
+    dataset = load_raw_dataset(DatasetPaths.from_root(RAW_DATA_ROOT, "2wikimultihopqa"))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/data/loader.py:70: in load_raw_dataset
+    _ensure_required_files(paths)
+src/logicguard/data/loader.py:89: in _ensure_required_files
+    raise FileNotFoundError("Missing dataset files: " + ", ".join(missing))
+E   FileNotFoundError: Missing dataset files: /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/queries.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/answers.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/qrels/test.tsv
+_________________ test_build_samples_embeds_support_documents __________________
+tests/test_data_pipeline.py:34: in test_build_samples_embeds_support_documents
+    dataset = load_raw_dataset(DatasetPaths.from_root(RAW_DATA_ROOT, "2wikimultihopqa"))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/data/loader.py:70: in load_raw_dataset
+    _ensure_required_files(paths)
+src/logicguard/data/loader.py:89: in _ensure_required_files
+    raise FileNotFoundError("Missing dataset files: " + ", ".join(missing))
+E   FileNotFoundError: Missing dataset files: /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/queries.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/answers.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/qrels/test.tsv
+___________ test_make_debug_subset_is_deterministic_and_size_limited ___________
+tests/test_data_pipeline.py:50: in test_make_debug_subset_is_deterministic_and_size_limited
+    dataset = load_raw_dataset(DatasetPaths.from_root(RAW_DATA_ROOT, "2wikimultihopqa"))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/data/loader.py:70: in load_raw_dataset
+    _ensure_required_files(paths)
+src/logicguard/data/loader.py:89: in _ensure_required_files
+    raise FileNotFoundError("Missing dataset files: " + ", ".join(missing))
+E   FileNotFoundError: Missing dataset files: /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/queries.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/answers.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/qrels/test.tsv
+______________ test_load_normalized_samples_reads_generated_jsonl ______________
+tests/test_data_pipeline.py:77: in test_load_normalized_samples_reads_generated_jsonl
+    samples = load_normalized_samples(path)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/data/prepare.py:126: in load_normalized_samples
+    with path.open("r", encoding="utf-8") as handle:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/pathlib.py:1044: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: '/home/uisee/logicguard/Logicguard-research-new/data/processed/2wikimultihopqa/debug_50.jsonl'
+__________________ test_dev60_launch_is_frozen_and_idempotent __________________
+tests/test_dev60_launch_guard.py:69: in test_dev60_launch_is_frozen_and_idempotent
+    first = freeze(CONFIG)
+            ^^^^^^^^^^^^^^
+src/logicguard/benchmark/dev60_launch.py:396: in freeze
+    corpora, materialization_budgets = _corpus_identity(root, config)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/benchmark/dev60_launch.py:210: in _corpus_identity
+    rows = load_jsonl(path)
+           ^^^^^^^^^^^^^^^^
+src/logicguard/core/io.py:22: in load_jsonl
+    with path.open("r", encoding="utf-8") as handle:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/pathlib.py:1044: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: '/home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/hotpotqa/corpus.jsonl'
+______ test_pinned_hog_grag_artifact_fails_closed_on_actual_core_sources _______
+tests/test_external_defense_qualification.py:18: in test_pinned_hog_grag_artifact_fails_closed_on_actual_core_sources
+    assert result["source_compile_passed"] is False
+E   assert True is False
+_____________ test_run_from_config_writes_small_defense_artifacts ______________
+tests/test_logicpoison_defense_experiment.py:148: in test_run_from_config_writes_small_defense_artifacts
+    rows = run_from_config(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/defense/run_logicpoison_defense.py:154: in run_from_config
+    pair = load_logicpoison_pair(official_config, dataset)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/data/logicpoison_official.py:143: in load_logicpoison_pair
+    clean = load_raw_dataset(
+src/logicguard/data/loader.py:70: in load_raw_dataset
+    _ensure_required_files(paths)
+src/logicguard/data/loader.py:89: in _ensure_required_files
+    raise FileNotFoundError("Missing dataset files: " + ", ".join(missing))
+E   FileNotFoundError: Missing dataset files: /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/queries.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/answers.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/qrels/test.tsv
+_______ test_load_logicpoison_pair_keeps_clean_and_poisoned_ids_aligned ________
+tests/test_logicpoison_official.py:37: in test_load_logicpoison_pair_keeps_clean_and_poisoned_ids_aligned
+    pair = load_logicpoison_pair(config, "2wikimultihopqa")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/data/logicpoison_official.py:143: in load_logicpoison_pair
+    clean = load_raw_dataset(
+src/logicguard/data/loader.py:70: in load_raw_dataset
+    _ensure_required_files(paths)
+src/logicguard/data/loader.py:89: in _ensure_required_files
+    raise FileNotFoundError("Missing dataset files: " + ", ".join(missing))
+E   FileNotFoundError: Missing dataset files: /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/queries.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/answers.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/qrels/test.tsv
+______ test_build_corpus_diff_records_detects_logicpoison_content_changes ______
+tests/test_logicpoison_official.py:52: in test_build_corpus_diff_records_detects_logicpoison_content_changes
+    pair = load_logicpoison_pair(config, "2wikimultihopqa")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/data/logicpoison_official.py:143: in load_logicpoison_pair
+    clean = load_raw_dataset(
+src/logicguard/data/loader.py:70: in load_raw_dataset
+    _ensure_required_files(paths)
+src/logicguard/data/loader.py:89: in _ensure_required_files
+    raise FileNotFoundError("Missing dataset files: " + ", ".join(missing))
+E   FileNotFoundError: Missing dataset files: /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/queries.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/answers.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/qrels/test.tsv
+________ test_build_query_integrity_records_marks_changed_gold_supports ________
+tests/test_logicpoison_official.py:66: in test_build_query_integrity_records_marks_changed_gold_supports
+    pair = load_logicpoison_pair(config, "2wikimultihopqa")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/data/logicpoison_official.py:143: in load_logicpoison_pair
+    clean = load_raw_dataset(
+src/logicguard/data/loader.py:70: in load_raw_dataset
+    _ensure_required_files(paths)
+src/logicguard/data/loader.py:89: in _ensure_required_files
+    raise FileNotFoundError("Missing dataset files: " + ", ".join(missing))
+E   FileNotFoundError: Missing dataset files: /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/queries.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/answers.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/qrels/test.tsv
+_ test_summarize_logicpoison_pair_reports_changed_doc_and_answer_surface_loss __
+tests/test_logicpoison_official.py:86: in test_summarize_logicpoison_pair_reports_changed_doc_and_answer_surface_loss
+    pair = load_logicpoison_pair(config, "2wikimultihopqa")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/data/logicpoison_official.py:143: in load_logicpoison_pair
+    clean = load_raw_dataset(
+src/logicguard/data/loader.py:70: in load_raw_dataset
+    _ensure_required_files(paths)
+src/logicguard/data/loader.py:89: in _ensure_required_files
+    raise FileNotFoundError("Missing dataset files: " + ", ".join(missing))
+E   FileNotFoundError: Missing dataset files: /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/queries.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/answers.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/qrels/test.tsv
+____________ test_run_from_config_writes_stage0_metadata_artifacts _____________
+tests/test_logicpoison_official.py:112: in test_run_from_config_writes_stage0_metadata_artifacts
+    summaries = run_from_config(config)
+                ^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/data/logicpoison_official.py:284: in run_from_config
+    pair = load_logicpoison_pair(config, dataset_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/data/logicpoison_official.py:143: in load_logicpoison_pair
+    clean = load_raw_dataset(
+src/logicguard/data/loader.py:70: in load_raw_dataset
+    _ensure_required_files(paths)
+src/logicguard/data/loader.py:89: in _ensure_required_files
+    raise FileNotFoundError("Missing dataset files: " + ", ".join(missing))
+E   FileNotFoundError: Missing dataset files: /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/queries.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/answers.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/qrels/test.tsv
+__ test_logic_mapping_and_corpus_match_pinned_upstream_on_unambiguous_fixture __
+tests/test_logicpoison_pipeline.py:86: in test_logic_mapping_and_corpus_match_pinned_upstream_on_unambiguous_fixture
+    spec.loader.exec_module(upstream)
+<frozen importlib._bootstrap_external>:936: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:1073: in get_code
+    ???
+<frozen importlib._bootstrap_external>:1130: in get_data
+    ???
+E   FileNotFoundError: [Errno 2] No such file or directory: '/home/uisee/logicguard/Logicguard-research-new/vendor/upstream/LogicPoison/src/logic_poison.py'
+_________ test_run_from_config_writes_small_naive_retrieval_artifacts __________
+tests/test_logicpoison_retrieval_experiment.py:119: in test_run_from_config_writes_small_naive_retrieval_artifacts
+    metrics = run_from_config(config)
+              ^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/experiments/run_logicpoison_retrieval.py:136: in run_from_config
+    pair = load_logicpoison_pair(official_config, dataset_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/data/logicpoison_official.py:143: in load_logicpoison_pair
+    clean = load_raw_dataset(
+src/logicguard/data/loader.py:70: in load_raw_dataset
+    _ensure_required_files(paths)
+src/logicguard/data/loader.py:89: in _ensure_required_files
+    raise FileNotFoundError("Missing dataset files: " + ", ".join(missing))
+E   FileNotFoundError: Missing dataset files: /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/queries.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/answers.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl, /home/uisee/logicguard/Logicguard-research-new/data/logicpoison_official/clean/2wikimultihopqa/qrels/test.tsv
+______ test_load_ms_graphrag_indexed_documents_restores_original_doc_ids _______
+tests/test_ms_graphrag_minimal_experiment.py:41: in test_load_ms_graphrag_indexed_documents_restores_original_doc_ids
+    ).to_parquet(output_dir / "documents.parquet")
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/pandas/core/frame.py:3135: in to_parquet
+    return to_parquet(
+.venv/lib/python3.11/site-packages/pandas/io/parquet.py:486: in to_parquet
+    impl = get_engine(engine)
+           ^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/pandas/io/parquet.py:68: in get_engine
+    raise ImportError(
+E   ImportError: Unable to find a usable engine; tried using: 'pyarrow', 'fastparquet'.
+E   A suitable version of pyarrow or fastparquet is required for parquet support.
+E   Trying to import the above resulted in these errors:
+E    - `Import pyarrow` failed. pyarrow is required for parquet support. Use pip or conda to install the pyarrow package.
+E    - `Import fastparquet` failed. fastparquet is required for parquet support. Use pip or conda to install the fastparquet package.
+_________ test_run_minimal_experiment_writes_trace_metrics_and_report __________
+tests/test_ms_graphrag_minimal_experiment.py:67: in test_run_minimal_experiment_writes_trace_metrics_and_report
+    ).to_parquet(output_dir / "documents.parquet")
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/pandas/core/frame.py:3135: in to_parquet
+    return to_parquet(
+.venv/lib/python3.11/site-packages/pandas/io/parquet.py:486: in to_parquet
+    impl = get_engine(engine)
+           ^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/pandas/io/parquet.py:68: in get_engine
+    raise ImportError(
+E   ImportError: Unable to find a usable engine; tried using: 'pyarrow', 'fastparquet'.
+E   A suitable version of pyarrow or fastparquet is required for parquet support.
+E   Trying to import the above resulted in these errors:
+E    - `Import pyarrow` failed. pyarrow is required for parquet support. Use pip or conda to install the pyarrow package.
+E    - `Import fastparquet` failed. fastparquet is required for parquet support. Use pip or conda to install the fastparquet package.
+_ test_load_candidate_sources_reads_clean_text_units_without_doc_id_lookup_table _
+tests/test_ms_graphrag_non_oracle_source_recovery.py:30: in test_load_candidate_sources_reads_clean_text_units_without_doc_id_lookup_table
+    ).to_parquet(output_dir / "documents.parquet")
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/pandas/core/frame.py:3135: in to_parquet
+    return to_parquet(
+.venv/lib/python3.11/site-packages/pandas/io/parquet.py:486: in to_parquet
+    impl = get_engine(engine)
+           ^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/pandas/io/parquet.py:68: in get_engine
+    raise ImportError(
+E   ImportError: Unable to find a usable engine; tried using: 'pyarrow', 'fastparquet'.
+E   A suitable version of pyarrow or fastparquet is required for parquet support.
+E   Trying to import the above resulted in these errors:
+E    - `Import pyarrow` failed. pyarrow is required for parquet support. Use pip or conda to install the pyarrow package.
+E    - `Import fastparquet` failed. fastparquet is required for parquet support. Use pip or conda to install the fastparquet package.
+_ test_load_text_unit_evidence_maps_official_document_ids_to_logicguard_doc_ids _
+tests/test_ms_graphrag_query_time_defense.py:29: in test_load_text_unit_evidence_maps_official_document_ids_to_logicguard_doc_ids
+    ).to_parquet(output_dir / "documents.parquet")
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/pandas/core/frame.py:3135: in to_parquet
+    return to_parquet(
+.venv/lib/python3.11/site-packages/pandas/io/parquet.py:486: in to_parquet
+    impl = get_engine(engine)
+           ^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/pandas/io/parquet.py:68: in get_engine
+    raise ImportError(
+E   ImportError: Unable to find a usable engine; tried using: 'pyarrow', 'fastparquet'.
+E   A suitable version of pyarrow or fastparquet is required for parquet support.
+E   Trying to import the above resulted in these errors:
+E    - `Import pyarrow` failed. pyarrow is required for parquet support. Use pip or conda to install the pyarrow package.
+E    - `Import fastparquet` failed. fastparquet is required for parquet support. Use pip or conda to install the fastparquet package.
+__ test_load_clean_reference_sources_maps_clean_text_units_to_source_records ___
+tests/test_ms_graphrag_source_recovery.py:31: in test_load_clean_reference_sources_maps_clean_text_units_to_source_records
+    ).to_parquet(output_dir / "documents.parquet")
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/pandas/core/frame.py:3135: in to_parquet
+    return to_parquet(
+.venv/lib/python3.11/site-packages/pandas/io/parquet.py:486: in to_parquet
+    impl = get_engine(engine)
+           ^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/pandas/io/parquet.py:68: in get_engine
+    raise ImportError(
+E   ImportError: Unable to find a usable engine; tried using: 'pyarrow', 'fastparquet'.
+E   A suitable version of pyarrow or fastparquet is required for parquet support.
+E   Trying to import the above resulted in these errors:
+E    - `Import pyarrow` failed. pyarrow is required for parquet support. Use pip or conda to install the pyarrow package.
+E    - `Import fastparquet` failed. fastparquet is required for parquet support. Use pip or conda to install the fastparquet package.
+________ test_load_stage21_text_units_restores_logicguard_doc_metadata _________
+tests/test_ms_graphrag_stage21_medium_diagnostics.py:32: in test_load_stage21_text_units_restores_logicguard_doc_metadata
+    ).to_parquet(output_dir / "documents.parquet")
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/pandas/core/frame.py:3135: in to_parquet
+    return to_parquet(
+.venv/lib/python3.11/site-packages/pandas/io/parquet.py:486: in to_parquet
+    impl = get_engine(engine)
+           ^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/pandas/io/parquet.py:68: in get_engine
+    raise ImportError(
+E   ImportError: Unable to find a usable engine; tried using: 'pyarrow', 'fastparquet'.
+E   A suitable version of pyarrow or fastparquet is required for parquet support.
+E   Trying to import the above resulted in these errors:
+E    - `Import pyarrow` failed. pyarrow is required for parquet support. Use pip or conda to install the pyarrow package.
+E    - `Import fastparquet` failed. fastparquet is required for parquet support. Use pip or conda to install the fastparquet package.
+______ test_real_trace_contract_anchor_runs_and_replays_without_provider _______
+tests/test_real_trace_contract_runner.py:29: in test_real_trace_contract_anchor_runs_and_replays_without_provider
+    first = run_from_config(config_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/benchmark/real_trace_contract_runner.py:37: in run_from_config
+    inputs = {name: _project_input(root, raw) for name, raw in config["inputs"].items()}
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/benchmark/real_trace_contract_runner.py:37: in <dictcomp>
+    inputs = {name: _project_input(root, raw) for name, raw in config["inputs"].items()}
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/benchmark/real_trace_contract_runner.py:211: in _project_input
+    raise ValueError(f"input must be an existing project file: {raw_path}")
+E   ValueError: input must be an existing project file: data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl
+______ test_reindex_audit_accepts_intentionally_omitted_community_reports ______
+tests/test_reindex_exposure.py:174: in test_reindex_audit_accepts_intentionally_omitted_community_reports
+    pd.DataFrame([{"id": name}]).to_parquet(tmp_path / f"{name}.parquet")
+.venv/lib/python3.11/site-packages/pandas/core/frame.py:3135: in to_parquet
+    return to_parquet(
+.venv/lib/python3.11/site-packages/pandas/io/parquet.py:486: in to_parquet
+    impl = get_engine(engine)
+           ^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/pandas/io/parquet.py:68: in get_engine
+    raise ImportError(
+E   ImportError: Unable to find a usable engine; tried using: 'pyarrow', 'fastparquet'.
+E   A suitable version of pyarrow or fastparquet is required for parquet support.
+E   Trying to import the above resulted in these errors:
+E    - `Import pyarrow` failed. pyarrow is required for parquet support. Use pip or conda to install the pyarrow package.
+E    - `Import fastparquet` failed. fastparquet is required for parquet support. Use pip or conda to install the fastparquet package.
+_______ test_wp2_qualification_anchor_runs_and_replays_without_provider ________
+tests/test_wp2_qualification_runner.py:29: in test_wp2_qualification_anchor_runs_and_replays_without_provider
+    first = run_from_config(config_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/benchmark/wp2_qualification_runner.py:33: in run_from_config
+    inputs = {
+src/logicguard/benchmark/wp2_qualification_runner.py:34: in <dictcomp>
+    name: _project_input(root, config["inputs"][name])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/logicguard/benchmark/wp2_qualification_runner.py:182: in _project_input
+    raise ValueError(f"input must be an existing project file: {raw_path}")
+E   ValueError: input must be an existing project file: vendor/upstream/PoisonedRAG/results/adv_targeted_results/hotpotqa.json
+=========================== short test summary info ============================
+FAILED tests/test_attack_corpus_materializer.py::test_real_anchor_materializes_and_replays_without_provider
+FAILED tests/test_attack_qualification.py::test_official_a1_asset_has_frozen_100_by_5_mechanism_anchor
+FAILED tests/test_attack_qualification.py::test_official_a3_artifact_reproduces_upstream_selection_counts
+FAILED tests/test_comparative_benchmark_e0.py::test_e0_build_is_deterministic_and_passes_e0_a
+FAILED tests/test_comparative_benchmark_e0.py::test_frozen_split_is_exact_disjoint_and_attacker_safe[hotpotqa]
+FAILED tests/test_comparative_benchmark_e0.py::test_frozen_split_is_exact_disjoint_and_attacker_safe[musique]
+FAILED tests/test_comparative_benchmark_e0.py::test_frozen_split_is_exact_disjoint_and_attacker_safe[2wikimultihopqa]
+FAILED tests/test_comparative_benchmark_e0.py::test_official_overlap_fixtures_are_contract_sized_not_result_samples
+FAILED tests/test_comparative_benchmark_e0.py::test_legacy_logicpoison_is_audited_but_not_promoted_to_official_poison
+FAILED tests/test_comparative_benchmark_e0.py::test_cell_matrix_keeps_e2_locked_and_badrag_separate
+FAILED tests/test_comparative_benchmark_e1_preparation.py::test_e1_preparation_is_deterministic_paired_and_makes_no_paid_calls
+FAILED tests/test_comparative_benchmark_e1_preparation.py::test_source_and_cost_gates_refuse_overclaiming
+FAILED tests/test_core.py::test_cli_resolves_legacy_config_alias - AssertionE...
+FAILED tests/test_data_pipeline.py::test_load_raw_dataset_keeps_ids_aligned
+FAILED tests/test_data_pipeline.py::test_build_samples_embeds_support_documents
+FAILED tests/test_data_pipeline.py::test_make_debug_subset_is_deterministic_and_size_limited
+FAILED tests/test_data_pipeline.py::test_load_normalized_samples_reads_generated_jsonl
+FAILED tests/test_dev60_launch_guard.py::test_dev60_launch_is_frozen_and_idempotent
+FAILED tests/test_external_defense_qualification.py::test_pinned_hog_grag_artifact_fails_closed_on_actual_core_sources
+FAILED tests/test_logicpoison_defense_experiment.py::test_run_from_config_writes_small_defense_artifacts
+FAILED tests/test_logicpoison_official.py::test_load_logicpoison_pair_keeps_clean_and_poisoned_ids_aligned
+FAILED tests/test_logicpoison_official.py::test_build_corpus_diff_records_detects_logicpoison_content_changes
+FAILED tests/test_logicpoison_official.py::test_build_query_integrity_records_marks_changed_gold_supports
+FAILED tests/test_logicpoison_official.py::test_summarize_logicpoison_pair_reports_changed_doc_and_answer_surface_loss
+FAILED tests/test_logicpoison_official.py::test_run_from_config_writes_stage0_metadata_artifacts
+FAILED tests/test_logicpoison_pipeline.py::test_logic_mapping_and_corpus_match_pinned_upstream_on_unambiguous_fixture
+FAILED tests/test_logicpoison_retrieval_experiment.py::test_run_from_config_writes_small_naive_retrieval_artifacts
+FAILED tests/test_ms_graphrag_minimal_experiment.py::test_load_ms_graphrag_indexed_documents_restores_original_doc_ids
+FAILED tests/test_ms_graphrag_minimal_experiment.py::test_run_minimal_experiment_writes_trace_metrics_and_report
+FAILED tests/test_ms_graphrag_non_oracle_source_recovery.py::test_load_candidate_sources_reads_clean_text_units_without_doc_id_lookup_table
+FAILED tests/test_ms_graphrag_query_time_defense.py::test_load_text_unit_evidence_maps_official_document_ids_to_logicguard_doc_ids
+FAILED tests/test_ms_graphrag_source_recovery.py::test_load_clean_reference_sources_maps_clean_text_units_to_source_records
+FAILED tests/test_ms_graphrag_stage21_medium_diagnostics.py::test_load_stage21_text_units_restores_logicguard_doc_metadata
+FAILED tests/test_real_trace_contract_runner.py::test_real_trace_contract_anchor_runs_and_replays_without_provider
+FAILED tests/test_reindex_exposure.py::test_reindex_audit_accepts_intentionally_omitted_community_reports
+FAILED tests/test_wp2_qualification_runner.py::test_wp2_qualification_anchor_runs_and_replays_without_provider
+36 failed, 312 passed in 9.27s

@@ -1,0 +1,303 @@
+diff --git a/artifacts/benchmark/e0/comparison_v1_1_asset_manifest.json b/artifacts/benchmark/e0/comparison_v1_1_asset_manifest.json
+index b914ab7..db67dc2 100644
+--- a/artifacts/benchmark/e0/comparison_v1_1_asset_manifest.json
++++ b/artifacts/benchmark/e0/comparison_v1_1_asset_manifest.json
+@@ -19,29 +19,8 @@
+       ],
+       "required": true,
+       "note": "Not an official poisoned corpus.",
+-      "materialization_status": "materialized",
+-      "file_hashes": [
+-        {
+-          "path": "queries.jsonl",
+-          "size_bytes": 71640,
+-          "sha256": "654e95423541ed4b3a1eb44452b8a021cd612abe0f9ae37dbf4707d7c547b309"
+-        },
+-        {
+-          "path": "answers.jsonl",
+-          "size_bytes": 32567,
+-          "sha256": "6a348c3d5006bf579e38d71d61e1761809e8aacc7f2d83c402d73a440b744e78"
+-        },
+-        {
+-          "path": "corpus.jsonl",
+-          "size_bytes": 6049381,
+-          "sha256": "d5af8f641801aced2a16709bdc2ee0b86b80f1ab5f80a4eddcc23df4e1763635"
+-        },
+-        {
+-          "path": "qrels/test.tsv",
+-          "size_bytes": 32937,
+-          "sha256": "cf9aae551bebb60fb30b8134c26f60f986c39a78e334499a864811ba18cf70a4"
+-        }
+-      ]
++      "materialization_status": "missing",
++      "file_hashes": []
+     },
+     {
+       "id": "DSET_MUSIQUE_COMMON500",
+@@ -60,29 +39,8 @@
+       ],
+       "required": true,
+       "note": "Not an official poisoned corpus.",
+-      "materialization_status": "materialized",
+-      "file_hashes": [
+-        {
+-          "path": "queries.jsonl",
+-          "size_bytes": 74600,
+-          "sha256": "19d3a3e5c27570bb9cce5d8595beeadb1d3ed45a8ff716c0e55993891429f966"
+-        },
+-        {
+-          "path": "answers.jsonl",
+-          "size_bytes": 32639,
+-          "sha256": "89fefc8bed3da1e07002cb21a1d469a57da14d80964f9aaec2f1067f2da69115"
+-        },
+-        {
+-          "path": "corpus.jsonl",
+-          "size_bytes": 6373742,
+-          "sha256": "bc0eb1609d457b8d751a7c559d47e146f20868b9a6fba8bfa341fe843f0f1b67"
+-        },
+-        {
+-          "path": "qrels/test.tsv",
+-          "size_bytes": 43575,
+-          "sha256": "8475a490f70ca938a593f2666e7c4a91c237e0c04964d8cfdb2423727fd5bde4"
+-        }
+-      ]
++      "materialization_status": "missing",
++      "file_hashes": []
+     },
+     {
+       "id": "DSET_2WIKI_COMMON500",
+@@ -101,29 +59,8 @@
+       ],
+       "required": true,
+       "note": "Not an official poisoned corpus.",
+-      "materialization_status": "materialized",
+-      "file_hashes": [
+-        {
+-          "path": "queries.jsonl",
+-          "size_bytes": 62491,
+-          "sha256": "53a79b253e8713cd2813a5bef8faa4b997b52de97d4c98bd96b666ce90c90697"
+-        },
+-        {
+-          "path": "answers.jsonl",
+-          "size_bytes": 35819,
+-          "sha256": "8031e95da4068f3b4f824623d7be99e6851889a345dc494d2c3174faf58b6298"
+-        },
+-        {
+-          "path": "corpus.jsonl",
+-          "size_bytes": 2985972,
+-          "sha256": "a7b9216a4bd0cca67a8b42d256cbcb782c4f64bf2d7dcdf8702b763d63a32194"
+-        },
+-        {
+-          "path": "qrels/test.tsv",
+-          "size_bytes": 49390,
+-          "sha256": "b1650bb7c0e1cc0c7e12f65c80914ff0644f83fcc375662e00ef4905f941e469"
+-        }
+-      ]
++      "materialization_status": "missing",
++      "file_hashes": []
+     },
+     {
+       "id": "A1_POISONEDRAG",
+@@ -140,19 +77,8 @@
+       ],
+       "required": true,
+       "note": "100 HotpotQA target instances; only the audited overlap is a golden fixture.",
+-      "materialization_status": "materialized",
+-      "file_hashes": [
+-        {
+-          "path": "LICENSE",
+-          "size_bytes": 1090,
+-          "sha256": "20e67dd096f57fa687e38bd900c08918e1ee340807f9709a7c391238337c4038"
+-        },
+-        {
+-          "path": "results/adv_targeted_results/hotpotqa.json",
+-          "size_bytes": 120383,
+-          "sha256": "5119d6f9fd53cb0ecb3f33de939bd940d77cbaf80284b7ccd3d256f63a430537"
+-        }
+-      ]
++      "materialization_status": "missing",
++      "file_hashes": []
+     },
+     {
+       "id": "A2_LOGICPOISON",
+@@ -171,29 +97,8 @@
+       ],
+       "required": true,
+       "note": "Clean pinned mirror; external_repos/logicPoison remains untouched and dirty.",
+-      "materialization_status": "materialized",
+-      "file_hashes": [
+-        {
+-          "path": "LICENSE.txt",
+-          "size_bytes": 1087,
+-          "sha256": "1952bb087bac6c9a17169f7070b8bd59a2acaf0c59dcc64b63ce272a8b967d9f"
+-        },
+-        {
+-          "path": "main.py",
+-          "size_bytes": 5559,
+-          "sha256": "9fab36aee694aa50a7f2e3ac9de8a15433f996212793556b8df0dc8806ceb140"
+-        },
+-        {
+-          "path": "src/global_poison.py",
+-          "size_bytes": 4300,
+-          "sha256": "9ea75ffe77e3957a27a63ce56eca686a6f13b284046b92ac2c3570f84b56b154"
+-        },
+-        {
+-          "path": "src/logic_poison.py",
+-          "size_bytes": 15037,
+-          "sha256": "b9361432129bbdf4dbf9acb5ba755c2eea8addb85c59bd156b75e08894907c9f"
+-        }
+-      ]
++      "materialization_status": "missing",
++      "file_hashes": []
+     },
+     {
+       "id": "A3_GRAGPOISON",
+@@ -212,29 +117,8 @@
+       ],
+       "required": true,
+       "note": "Repository has no declared license; publication use requires clarification.",
+-      "materialization_status": "materialized",
+-      "file_hashes": [
+-        {
+-          "path": "README.md",
+-          "size_bytes": 3418,
+-          "sha256": "03ecf716a85f758d99b44877ca13617b0137d0d718d687eb376dbdb64cf9980b"
+-        },
+-        {
+-          "path": "config.py",
+-          "size_bytes": 1849,
+-          "sha256": "3c8cf04d206c7ff53d52f29017092aeef46bb6407335bdc42a43394d393dfa68"
+-        },
+-        {
+-          "path": "datasets/misuque_3_black_shuffle_0601/question_multi_v3.json",
+-          "size_bytes": 1059110,
+-          "sha256": "4f9dd7aba4b8f6bb4c7ecc82b85928e6a53492beae59a2e23f93130ba503ea40"
+-        },
+-        {
+-          "path": "datasets/misuque_3_black_shuffle_0601/test0_corpus.json",
+-          "size_bytes": 586156,
+-          "sha256": "e3efe87bf6ac864d332afb7aa19e1fd2b4214f05ed5289c1ea0e40034ce96fc4"
+-        }
+-      ]
++      "materialization_status": "missing",
++      "file_hashes": []
+     },
+     {
+       "id": "A4_BADRAG",
+@@ -268,29 +152,8 @@
+       ],
+       "required": true,
+       "note": "Paper-faithful runs must override the package default embedder.",
+-      "materialization_status": "materialized",
+-      "file_hashes": [
+-        {
+-          "path": "LICENSE",
+-          "size_bytes": 1114,
+-          "sha256": "2242ce2d80454d449576d7ac791c22b3ec9d3907877d68a070e4f30a7aaeab41"
+-        },
+-        {
+-          "path": "pyproject.toml",
+-          "size_bytes": 3925,
+-          "sha256": "4e655fd60f913c07b600f9d2bc41e84fddfd507c945ba8fce18725d1ccc779b6"
+-        },
+-        {
+-          "path": "ragdefender/embedders.py",
+-          "size_bytes": 3198,
+-          "sha256": "55c134fcd223075fe949458d8379b1436322e69736e4689055ec18ede27507a1"
+-        },
+-        {
+-          "path": "ragdefender/grouping/concentration.py",
+-          "size_bytes": 3075,
+-          "sha256": "4e9a0f9cb9ece765e0bb56c044dc17c38e0cd3453a83b5507f04add00a37139e"
+-        }
+-      ]
++      "materialization_status": "missing",
++      "file_hashes": []
+     },
+     {
+       "id": "D4_HOG_GRAG",
+@@ -308,24 +171,8 @@
+       ],
+       "required": true,
+       "note": "Repository has no declared license and publishes no experiment dataset.",
+-      "materialization_status": "materialized",
+-      "file_hashes": [
+-        {
+-          "path": "README.md",
+-          "size_bytes": 1918,
+-          "sha256": "96640685e4cd59838edbd11f29d890a8f1c7fc86b7f7c6788acdff119afbe5b6"
+-        },
+-        {
+-          "path": "Baselines/Query_Paraphrasing.py",
+-          "size_bytes": 1966,
+-          "sha256": "ba4da188d9ecba2776a0b02d3a491272c089c078f583ad1931807c97e4e8c5fb"
+-        },
+-        {
+-          "path": "Baselines/Perplexity_based.py",
+-          "size_bytes": 3213,
+-          "sha256": "a174ff222bbc48bef02e29da2e8c46eb90bf864d623096c1ec3582537586fb19"
+-        }
+-      ]
++      "materialization_status": "missing",
++      "file_hashes": []
+     },
+     {
+       "id": "S1_MICROSOFT_GRAPHRAG",
+@@ -339,7 +186,7 @@
+       "hash_files": [],
+       "required": true,
+       "note": "Official Local Search adapter target.",
+-      "materialization_status": "materialized",
++      "materialization_status": "missing",
+       "file_hashes": []
+     },
+     {
+@@ -359,32 +206,22 @@
+       ],
+       "required": true,
+       "note": "Stable v1.5.7 source; isolated tools/lightrag/.venv import smoke only in E0.",
+-      "materialization_status": "materialized",
+-      "file_hashes": [
+-        {
+-          "path": "LICENSE",
+-          "size_bytes": 1091,
+-          "sha256": "24a15ed9538a29044fb3fbb3c645b9ae643bca293fc383e6a5272e81c41968a7"
+-        },
+-        {
+-          "path": "pyproject.toml",
+-          "size_bytes": 8790,
+-          "sha256": "39f45056d715044901fb0c2c8371c7389f4523fef98c553627f130b9dd87d82e"
+-        },
+-        {
+-          "path": "lightrag/base.py",
+-          "size_bytes": 80057,
+-          "sha256": "3019761f6a98493d1c1c0914bdae0c19099f124cf601e59b4132cc83df3a480d"
+-        },
+-        {
+-          "path": "lightrag/lightrag.py",
+-          "size_bytes": 331097,
+-          "sha256": "4f82f69481fe90e8ec3425b1bd364e577dbebe33ed8dd3e7a7467715ddc62f5d"
+-        }
+-      ]
++      "materialization_status": "missing",
++      "file_hashes": []
+     }
+   ],
+-  "required_failures": [],
+-  "passed": true,
+-  "fingerprint": "51754e4bdfd4b749c0ee55d062bb5965283e094e92d41315e15df09f00e3e818"
++  "required_failures": [
++    "DSET_HOTPOTQA_COMMON500",
++    "DSET_MUSIQUE_COMMON500",
++    "DSET_2WIKI_COMMON500",
++    "A1_POISONEDRAG",
++    "A2_LOGICPOISON",
++    "A3_GRAGPOISON",
++    "D3_RAGDEFENDER",
++    "D4_HOG_GRAG",
++    "S1_MICROSOFT_GRAPHRAG",
++    "S2_LIGHTRAG"
++  ],
++  "passed": false,
++  "fingerprint": "f28e653d3be611aa0f8cd2779646d59e1fac32095bb2955466cae3b562455e9a"
+ }

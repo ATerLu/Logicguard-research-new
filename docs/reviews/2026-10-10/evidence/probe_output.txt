@@ -1,0 +1,23 @@
+Review SHA: 1bad5928753a786261d98637094115334eba3fbf
+All client calls are fake. No provider calls.
+
+A1 null accepted: {'target_answer': 'None', 'malicious_texts': ['None']}
+A3 empty accepted: {'generation_valid': True, 'phases_completed': 3, 'provider_calls_made': 3, 'error': None}
+T1 same-group selection: {'text': 'Irrelevant evidence', 'rank': 2, 'best_rank': 1}
+Altered sources/budget audit: {'checks': {'same_case': True, 'same_budget': True, 'same_trust_manifest': True, 'same_candidate_pool': True, 'same_information_contract': True}, 'passed': True}
+Two empty rows pass audit: True
+Changed trusted text accepted: [{'_id': 'd1', 'title': 'Fixture', 'text': 'Poisoned', 'source_group_id': 'g1'}]
+
+rows_before_append [{'run_fingerprint': 'fp', 'case': 'done'}]
+raw_after_append '{"run_fingerprint":"fp","case":"done"}\n{"run_fingerprint":"fp"{"run_fingerprint": "fp", "case": "resumed"}\n'
+reload_error JSONDecodeError Expecting ',' delimiter: line 1 column 24 (char 23)
+
+Additional inline fixtures, as recorded by code_review:
+after interrupt calls: 1 files: ['config.yaml', 'input.jsonl', 'plan.jsonl', 'pyproject.toml']
+rerun: EXECUTION_COMPLETE actual client calls: 2
+
+Cost guard: status=STOPPED_COST_VIOLATION
+actual_cost_cny=0.0002
+reserved_cost_cny=0.0001
+known_catalog_cost_cny=0
+reserved_or_charged_cny=0.0001

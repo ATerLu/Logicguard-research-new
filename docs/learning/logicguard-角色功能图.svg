@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="1040" viewBox="0 0 960 1040" role="img" aria-labelledby="title description">
+  <title id="title">LogicGuard 角色与已有功能</title>
+  <desc id="description">研究者负责数据配置、攻击和 D5 实验、协议与审计。检索后端负责索引、上下文和 trace。模型服务负责文本生成及可选评分。该图不表示 D6 或完整 dev60 实验已经完成。</desc>
+  <rect width="960" height="1040" fill="white"/>
+  <g font-family="Noto Sans SC, Microsoft YaHei, sans-serif" text-anchor="middle">
+    <text x="480" y="43" font-size="22" font-weight="bold" fill="#111">LogicGuard — 角色与功能</text>
+    <!-- Child medians: (180+260)/2=220; 580; (820+900)/2=860. -->
+    <g stroke="#cccccc" stroke-width="1" fill="none">
+      <path d="M78 220 H100 M300 220 L360 100 M300 220 L360 180 M300 220 L360 260 M300 220 L360 340"/>
+      <path d="M78 580 H100 M300 580 L360 500 M300 580 L360 580 M300 580 L360 660"/>
+      <path d="M78 860 H100 M300 860 L360 820 M300 860 L360 900"/>
+    </g>
+    <g stroke="#333" stroke-width="2" fill="none">
+      <circle cx="60" cy="202" r="18"/>
+      <path d="M60 220 V260 M35 238 H85 M60 260 L38 290 M60 260 L82 290"/>
+      <circle cx="60" cy="562" r="18"/>
+      <path d="M60 580 V620 M35 598 H85 M60 620 L38 650 M60 620 L82 650"/>
+      <circle cx="60" cy="842" r="18"/>
+      <path d="M60 860 V900 M35 878 H85 M60 900 L38 930 M60 900 L82 930"/>
+    </g>
+    <g font-size="14" fill="#222">
+      <text x="60" y="310">研究者</text>
+      <text x="60" y="670">检索后端</text>
+      <text x="60" y="950">模型服务</text>
+    </g>
+    <ellipse cx="200" cy="220" rx="100" ry="28" fill="#7b5ea7" stroke="#7b5ea7"/>
+    <ellipse cx="200" cy="580" rx="100" ry="28" fill="#3a7bd5" stroke="#3a7bd5"/>
+    <ellipse cx="200" cy="860" rx="100" ry="28" fill="#2e8b57" stroke="#2e8b57"/>
+    <g font-size="14" fill="white">
+      <text x="200" y="225">实验与治理</text>
+      <text x="200" y="585">检索与证据</text>
+      <text x="200" y="865">生成与判定</text>
+    </g>
+    <g fill="#f8f8f8" stroke="#bbbbbb" stroke-width="1.5">
+      <ellipse cx="460" cy="100" rx="100" ry="28"/>
+      <ellipse cx="460" cy="180" rx="100" ry="28"/>
+      <ellipse cx="460" cy="260" rx="100" ry="28"/>
+      <ellipse cx="460" cy="340" rx="100" ry="28"/>
+      <ellipse cx="460" cy="500" rx="100" ry="28"/>
+      <ellipse cx="460" cy="580" rx="100" ry="28"/>
+      <ellipse cx="460" cy="660" rx="100" ry="28"/>
+      <ellipse cx="460" cy="820" rx="100" ry="28"/>
+      <ellipse cx="460" cy="900" rx="100" ry="28"/>
+    </g>
+    <g font-size="14" fill="#222">
+      <text x="460" y="105">准备数据与 YAML 配置</text>
+      <text x="460" y="185">运行攻击与 D5 模块</text>
+      <text x="460" y="265">冻结协议、预算与资产</text>
+      <text x="460" y="345">审计结果与配对指标</text>
+      <text x="460" y="505">构建 clean/attacked 索引</text>
+      <text x="460" y="585">导出 sources 与上下文</text>
+      <text x="460" y="665">适配检索 trace 契约</text>
+      <text x="460" y="825">生成攻击文本或回答</text>
+      <text x="460" y="905">按配置提供可选 judge</text>
+    </g>
+    <rect x="630" y="80" width="280" height="280" rx="8" fill="white" stroke="#cccccc"/>
+    <text x="770" y="110" font-size="15" font-weight="bold" fill="#222">图例</text>
+    <ellipse cx="770" cy="150" rx="100" ry="22" fill="#f8f8f8" stroke="#bbbbbb"/>
+    <text x="770" y="155" font-size="13" fill="#222">已有接口或模块</text>
+    <ellipse cx="770" cy="205" rx="100" ry="22" fill="#7b5ea7"/>
+    <text x="770" y="210" font-size="13" fill="white">实验与治理域</text>
+    <ellipse cx="770" cy="260" rx="100" ry="22" fill="#3a7bd5"/>
+    <text x="770" y="265" font-size="13" fill="white">检索与证据域</text>
+    <ellipse cx="770" cy="315" rx="100" ry="22" fill="#2e8b57"/>
+    <text x="770" y="320" font-size="13" fill="white">生成与判定域</text>
+    <g text-anchor="start" fill="#555" font-size="14">
+      <text x="630" y="420">阅读边界</text>
+      <text x="630" y="454">• 这是职责图，不是执行顺序图。</text>
+      <text x="630" y="486">• 已有模块不等于全链路已就绪。</text>
+      <text x="630" y="518">• D6 四组件仍属待实现设计。</text>
+      <text x="630" y="550">• dev60 付费派发当前仍关闭。</text>
+      <text x="630" y="582">• 调用模型需要单独实验授权。</text>
+    </g>
+    <text x="480" y="1010" font-size="13" fill="#666">源码基准：uisee-dev / 1bad592 · 学习导读，不修改研究协议或源码</text>
+  </g>
+</svg>

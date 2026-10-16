@@ -1,4 +1,4 @@
-# 可信证据_防御与恢复（26 篇）
+# 可信证据_防御与恢复（36 篇）
 
 [打开本类全部论文解读](./分类解读.md) · [返回资料库入口](../README.md) · [查看全部论文](../00_总索引与阅读路线/论文总目录.md)
 
@@ -81,3 +81,38 @@
 
 - **26 · LG078** [RAGSentinel: Certifiable Geometric Consensus for Robust Retrieval-Augmented Generation](./26_2608.23965_RAGSentinel_Certifiable_Geometric_Consensus_for_Robust_Retrieval_Augmented_Generation.pdf) · [解读](./分类解读.md#lg078)
   - 原清单日期：2026-08-25；批次：B2 / 原编号 2608.23965；[原文链接](https://arxiv.org/abs/2608.23965)。
+
+
+## 第三批新增（2026-10-16）
+
+以下日期为官方版本历史中的首次提交日；详情与限制见对应解读。
+
+- **27 · LG093** [Bounded Provisional Visibility: Controlling Poisoning Exposure in Continuously Ingested RAG Vector Stores](./27_LG093_2610.05826_Bounded_Provisional_Visibility_Controlling_Poisoning_Exposure_in_Continuousl.pdf) · [解读](./分类解读.md#lg093)
+  - 首次提交：2026-10-05；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2610.05826)。
+
+- **28 · LG094** [Socrates-RAG: Premise-Directed Inquiry against Coordinated Evidence Poisoning](./28_LG094_2609.35773_Socrates_RAG_Premise_Directed_Inquiry_against_Coordinated_Evidence_Poisoning.pdf) · [解读](./分类解读.md#lg094)
+  - 首次提交：2026-07-29；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2609.35773)。
+
+- **29 · LG095** [RAGSieve: Self-Referenced Local Contrast for Knowledge-Poison Detection in Retrieval-Augmented Generation](./29_LG095_2608.13010_RAGSieve_Self_Referenced_Local_Contrast_for_Knowledge_Poison_Detection_in_Re.pdf) · [解读](./分类解读.md#lg095)
+  - 首次提交：2026-08-13；批次：B3；版本：v2；[官方论文页](https://arxiv.org/abs/2608.13010)。
+
+- **30 · LG096** [Conformal Factuality Control for Multi-Hop Retrieval-Augmented Generation](./30_LG096_2609.38222_Conformal_Factuality_Control_for_Multi_Hop_Retrieval_Augmented_Generation.pdf) · [解读](./分类解读.md#lg096)
+  - 首次提交：2026-09-27；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2609.38222)。
+
+- **31 · LG097** [Guaranteeing Faithful Evidence Extraction in Speculative Retrieval-Augmented Generation](./31_LG097_2609.10046_Guaranteeing_Faithful_Evidence_Extraction_in_Speculative_Retrieval_Augmented.pdf) · [解读](./分类解读.md#lg097)
+  - 首次提交：2026-09-09；批次：B3；版本：v2；[官方论文页](https://arxiv.org/abs/2609.10046)。
+
+- **32 · LG098** [MIRAGE: Defending Long-Form RAG Against Misinformation Pollution](./32_LG098_2607.05069_MIRAGE_Defending_Long_Form_RAG_Against_Misinformation_Pollution.pdf) · [解读](./分类解读.md#lg098)
+  - 首次提交：2026-07-06；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2607.05069)。
+
+- **33 · LG099** [Origin Is All You Need: Provenance-Aware Transformers for Structural Trust-Boundary Separation](./33_LG099_2609.21088_Origin_Is_All_You_Need_Provenance_Aware_Transformers_for_Structural_Trust_Bo.pdf) · [解读](./分类解读.md#lg099)
+  - 首次提交：2026-09-17；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2609.21088)。
+
+- **34 · LG100** [EvLink: Source-Grounded Evidence Linking for Graph RAG](./34_LG100_2609.29695_EvLink_Source_Grounded_Evidence_Linking_for_Graph_RAG.pdf) · [解读](./分类解读.md#lg100)
+  - 首次提交：2026-08-31；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2609.29695)。
+
+- **35 · LG101** [LineageRAG: Harnessing GraphRAG by Constructing Evidence Lineages with Source Grounding](./35_LG101_2608.16004_LineageRAG_Harnessing_GraphRAG_by_Constructing_Evidence_Lineages_with_Source.pdf) · [解读](./分类解读.md#lg101)
+  - 首次提交：2026-08-17；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2608.16004)。
+
+- **36 · LG102** [Jev-as-a-Judge for RAG Claim Verification: Confidence-Gated Cascading Between a Non-Generative Verifier and a Frontier LLM](./36_LG102_2610.20634_Jev_as_a_Judge_for_RAG_Claim_Verification_Confidence_Gated_Cascading_Between.pdf) · [解读](./分类解读.md#lg102)
+  - 首次提交：2026-09-30；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2610.20634)。

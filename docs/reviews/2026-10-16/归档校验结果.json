@@ -1,0 +1,27 @@
+{
+  "checked_on": "2026-10-16",
+  "base_commit": "a015c28fcdb2f7a838443f3674ca9c80c9aaa187",
+  "destination_branch": "uisee-dev",
+  "library_pdf_count": 120,
+  "new_pdf_count": 40,
+  "new_pdf_bytes": 53121092,
+  "local_link_targets_checked": 1016,
+  "checks": {
+    "catalog_120": true,
+    "old_80_catalog_records_unchanged": true,
+    "physical_pdf_count_120": true,
+    "all_catalog_pdf_hashes_match": true,
+    "old_80_pdf_hashes_unchanged": true,
+    "unique_pdf_hashes_120": true,
+    "new_40_note_anchors_once": true,
+    "sha256sum_all_120_pass": true,
+    "all_local_markdown_link_targets_exist": true,
+    "evidence_hashes_match": true,
+    "evidence_python_parse": true,
+    "tracked_changes_only_readme_and_papers": true,
+    "original_papper_directories_unchanged": true
+  },
+  "missing_links": [],
+  "status": "passed",
+  "scope": "Archive integrity and local links only; literature claims and audit results retain their original verification scopes."
+}

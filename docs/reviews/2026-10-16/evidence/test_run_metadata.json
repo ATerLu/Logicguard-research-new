@@ -1,0 +1,26 @@
+{
+  "head": "a015c28fcdb2f7a838443f3674ca9c80c9aaa187",
+  "original_repository": "/home/uisee/logicguard/Logicguard-research-new",
+  "snapshot_repository": "/tmp/logicguard_review_20261016/isolated_repo",
+  "tracked_files_copied": 1039,
+  "excluded_entry_count": 137,
+  "python": "/home/uisee/logicguard/Logicguard-research-new/.venv/bin/python",
+  "import_probe": "/tmp/logicguard_review_20261016/isolated_repo/src/logicguard/__init__.py",
+  "environment_keys": [
+    "HOME",
+    "LANG",
+    "LC_ALL",
+    "PATH",
+    "PYTHONDONTWRITEBYTECODE",
+    "PYTHONPATH",
+    "PYTHONUNBUFFERED"
+  ],
+  "command": [
+    "/home/uisee/logicguard/Logicguard-research-new/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short"
+  ],
+  "pytest_exit_code": 1
+}

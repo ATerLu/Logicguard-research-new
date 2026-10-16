@@ -1,4 +1,4 @@
-# GraphRAG与知识图谱攻击防御（6 篇）
+# GraphRAG与知识图谱攻击防御（8 篇）
 
 [打开本类全部论文解读](./分类解读.md) · [返回资料库入口](../README.md) · [查看全部论文](../00_总索引与阅读路线/论文总目录.md)
 
@@ -21,3 +21,14 @@ GraphRAG/知识图谱的投毒、关系攻击与专用防御。下方题名、�
 
 - **06 · LG039** [Exploring knowledge poisoning attacks to retrieval-augmented generation](./06_KG_RAG_Poisoning_Information_Fusion2025.pdf) · [解读](./分类解读.md#lg039)
   - 原清单日期：2026-03-01；批次：B1 / 原编号 39；[原文链接](https://arxiv.org/abs/2507.08862)。
+
+
+## 第三批新增（2026-10-16）
+
+以下日期为官方版本历史中的首次提交日；详情与限制见对应解读。
+
+- **07 · LG081** [GraphRAG-LTM: A Layered Threat Modeling Framework for Attacks on Graph Retrieval-Augmented Generation](./07_LG081_2610.19549_GraphRAG_LTM_A_Layered_Threat_Modeling_Framework_for_Attacks_on_Graph_Retrie.pdf) · [解读](./分类解读.md#lg081)
+  - 首次提交：2026-10-14；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2610.19549)。
+
+- **08 · LG082** [Hop-Decayed Influence: New Vulnerabilities of Structural Auxiliary Indexing in GraphRAG Pipelines with LLM](./08_LG082_2610.02373_Hop_Decayed_Influence_New_Vulnerabilities_of_Structural_Auxiliary_Indexing_i.pdf) · [解读](./分类解读.md#lg082)
+  - 首次提交：2026-10-01；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2610.02373)。

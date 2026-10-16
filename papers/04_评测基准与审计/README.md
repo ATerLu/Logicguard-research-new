@@ -1,4 +1,4 @@
-# 评测基准与审计（13 篇）
+# 评测基准与审计（21 篇）
 
 [打开本类全部论文解读](./分类解读.md) · [返回资料库入口](../README.md) · [查看全部论文](../00_总索引与阅读路线/论文总目录.md)
 
@@ -42,3 +42,32 @@
 
 - **13 · LG077** [When RAG Fails to Equalize: Geo-bias in Factual Question Answering over Public Companies](./13_2608.25717_When_RAG_Fails_to_Equalize_Geo_bias_in_Factual_Question_Answering_over_Public_Companies.pdf) · [解读](./分类解读.md#lg077)
   - 原清单日期：2026-08-26；批次：B2 / 原编号 2608.25717；[原文链接](https://arxiv.org/abs/2608.25717)。
+
+
+## 第三批新增（2026-10-16）
+
+以下日期为官方版本历史中的首次提交日；详情与限制见对应解读。
+
+- **14 · LG103** [RAGStress: A controlled benchmark for evaluating retrieval-augmented generation under knowledge-base degradation](./14_LG103_2610.04691_RAGStress_A_controlled_benchmark_for_evaluating_retrieval_augmented_generati.pdf) · [解读](./分类解读.md#lg103)
+  - 首次提交：2026-10-03；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2610.04691)。
+
+- **15 · LG104** [When Detection Does Not Guarantee Resistance: Reasoning and Poisoned Context in RAG](./15_LG104_2608.17153_When_Detection_Does_Not_Guarantee_Resistance_Reasoning_and_Poisoned_Context.pdf) · [解读](./分类解读.md#lg104)
+  - 首次提交：2026-08-17；批次：B3；版本：v4；[官方论文页](https://arxiv.org/abs/2608.17153)。
+
+- **16 · LG105** [When Poison Fails After Retrieval: Revisiting Corpus Poisoning under Chunking and Reranking Pipelines](./16_LG105_2606.11265_When_Poison_Fails_After_Retrieval_Revisiting_Corpus_Poisoning_under_Chunking.pdf) · [解读](./分类解读.md#lg105)
+  - 首次提交：2026-06-09；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2606.11265)。
+
+- **17 · LG106** [Tracing Target Answers in Poisoned Retrieval Corpora via Token Influence Attribution](./17_LG106_2606.25721_Tracing_Target_Answers_in_Poisoned_Retrieval_Corpora_via_Token_Influence_Att.pdf) · [解读](./分类解读.md#lg106)
+  - 首次提交：2026-06-24；批次：B3；版本：v2；[官方论文页](https://arxiv.org/abs/2606.25721)。
+
+- **18 · LG107** [Beyond Retrieval Failure: Understanding Why LLMs Miss Evidence in Multi-Hop RAG](./18_LG107_2610.21184_Beyond_Retrieval_Failure_Understanding_Why_LLMs_Miss_Evidence_in_Multi_Hop_R.pdf) · [解读](./分类解读.md#lg107)
+  - 首次提交：2026-10-15；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2610.21184)。
+
+- **19 · LG108** [RAGScope: A Leakage-Controlled, Cost-Aware Evidence-Gating Protocol for RAG Hallucination Triage](./19_LG108_2609.39075_RAGScope_A_Leakage_Controlled_Cost_Aware_Evidence_Gating_Protocol_for_RAG_Ha.pdf) · [解读](./分类解读.md#lg108)
+  - 首次提交：2026-09-30；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2609.39075)。
+
+- **20 · LG109** [RAG-PIBench: A Leakage-Aware Benchmark for Prompt-Injection Detection in Trustworthy RAG Systems](./20_LG109_2610.08571_RAG_PIBench_A_Leakage_Aware_Benchmark_for_Prompt_Injection_Detection_in_Trus.pdf) · [解读](./分类解读.md#lg109)
+  - 首次提交：2026-10-06；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2610.08571)。
+
+- **21 · LG110** [RAG-Stress: Probing the Limits of Evidence Reliance in Retrieval-Augmented Generation](./21_LG110_2610.11183_RAG_Stress_Probing_the_Limits_of_Evidence_Reliance_in_Retrieval_Augmented_Ge.pdf) · [解读](./分类解读.md#lg110)
+  - 首次提交：2026-10-08；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2610.11183)。

@@ -1,0 +1,173 @@
+{
+  "date": "2026-10-16",
+  "provider_calls_made": 0,
+  "repository_files_written": 0,
+  "cases": [
+    {
+      "id": "a1_null_schema",
+      "reproduced": true,
+      "actual": {
+        "target_answer": "None",
+        "malicious_texts": [
+          "None"
+        ]
+      },
+      "source": "src/logicguard/benchmark/execution_protocols.py:80-90"
+    },
+    {
+      "id": "a3_empty_schema",
+      "reproduced": true,
+      "actual": {
+        "generation_valid": true,
+        "phases_completed": 3,
+        "provider_calls_made": 3,
+        "error": null
+      },
+      "source": "src/logicguard/benchmark/execution_protocols.py:209-229"
+    },
+    {
+      "id": "t1_lower_rank_overwrite",
+      "reproduced": true,
+      "actual": {
+        "text": "Irrelevant evidence",
+        "rank": 2,
+        "best_rank": 1
+      },
+      "source": "src/logicguard/benchmark/trusted_controls.py:142-152"
+    },
+    {
+      "id": "equal_information_unbound_content",
+      "reproduced": true,
+      "actual": {
+        "altered_row": {
+          "checks": {
+            "same_case": true,
+            "same_budget": true,
+            "same_trust_manifest": true,
+            "same_candidate_pool": true,
+            "same_information_contract": true
+          },
+          "passed": true
+        },
+        "two_empty_rows": {
+          "checks": {
+            "same_case": true,
+            "same_budget": true,
+            "same_trust_manifest": true,
+            "same_candidate_pool": true,
+            "same_information_contract": true
+          },
+          "passed": true
+        }
+      },
+      "source": "src/logicguard/benchmark/trusted_controls.py:227-248"
+    },
+    {
+      "id": "protected_snapshot_hash_unchecked",
+      "reproduced": true,
+      "actual": [
+        {
+          "_id": "d1",
+          "title": "Fixture",
+          "text": "Poisoned",
+          "source_group_id": "g1"
+        }
+      ],
+      "source": "src/logicguard/benchmark/trust_manifest.py:175-181"
+    },
+    {
+      "id": "defense_trace_hash_reused_after_prompt_filter",
+      "reproduced": true,
+      "actual": {
+        "before_prompt_ids": [
+          "a",
+          "b"
+        ],
+        "after_prompt_ids": [
+          "a"
+        ],
+        "before_hash": "fea4c5ce720c1d6a1cbc47c1607cc4ea172a69de8948e76d67910120597950fc",
+        "after_hash": "fea4c5ce720c1d6a1cbc47c1607cc4ea172a69de8948e76d67910120597950fc"
+      },
+      "source": "src/logicguard/benchmark/adapters.py:271-307",
+      "applicability": "Trace normalization/readiness fixture and any callers of normalize_defense_trace; not evidence of real defense effect.",
+      "call_sites": [
+        "src/logicguard/benchmark/readiness.py:637; current E0 fixture preserves prompt_document_ids, so this counterexample is latent when a future caller filters them"
+      ]
+    },
+    {
+      "id": "guard_known_overbudget_cost_underreported",
+      "reproduced": true,
+      "actual": {
+        "status": "STOPPED_COST_VIOLATION",
+        "known_catalog_cost_cny": 0,
+        "reserved_or_charged_cny": 0.0001,
+        "state_recorded_actual_cost_cny": 0.0002
+      },
+      "source": "src/logicguard/benchmark/request_cost_guard.py:157-180,257-270,314-323",
+      "applicability": "RequestCostGuard summary/audit accounting; stop state itself still fails closed.",
+      "call_sites": [
+        "RequestCostGuard is currently imported by tests/test_dev60_launch_guard.py only; dev60_launch.py:374 records future runner binding, not an executed integration"
+      ]
+    },
+    {
+      "id": "partial_jsonl_append_breaks_resume",
+      "reproduced": true,
+      "actual": {
+        "rows_before_append": [],
+        "raw_after_append": "{\"run_fingerprint\":\"fp\",\"case\":\"partial\"{\"run_fingerprint\": \"fp\", \"case\": \"resumed\"}\n",
+        "reload_error": "JSONDecodeError: Expecting ',' delimiter: line 1 column 41 (char 40)"
+      },
+      "source": "src/logicguard/core/io.py:16-45,64-71; src/logicguard/core/run_state.py:174-186",
+      "applicability": "Any checkpoint caller using tolerate_trailing_partial then append_jsonl; answer_generation call site answer_generation.py:457-505.",
+      "call_sites": [
+        "src/logicguard/evaluation/answer_generation.py:458,493",
+        "src/logicguard/evaluation/reindex_answer_gate.py:202,215",
+        "src/logicguard/attack/adaptive.py:1284,411"
+      ]
+    },
+    {
+      "id": "runner_interruption_replays_requests",
+      "reproduced": true,
+      "actual": {
+        "interrupted": {
+          "provider_calls": 2,
+          "persisted_results": false,
+          "persisted_summary": false,
+          "files": [
+            "config.yaml",
+            "inputs.jsonl",
+            "plan.jsonl",
+            "pyproject.toml"
+          ]
+        },
+        "rerun_calls": 2,
+        "rerun_status": "EXECUTION_COMPLETE"
+      },
+      "source": "src/logicguard/benchmark/attack_runner.py:268-278,319-329"
+    },
+    {
+      "id": "runner_unknown_usage_is_zero_cost",
+      "reproduced": true,
+      "actual": {
+        "status": "EXECUTION_COMPLETE",
+        "generation_valid": 2,
+        "provider_calls_made": 2,
+        "actual_catalog_cost_cny": 0.0
+      },
+      "source": "src/logicguard/benchmark/attack_runner.py:165-173,330-368"
+    },
+    {
+      "id": "runner_cost_violation_checked_after_all_calls",
+      "reproduced": true,
+      "actual": {
+        "status": "EXECUTION_COST_CAP_VIOLATION",
+        "provider_calls_made": 2,
+        "hard_cost_cap_cny": 0.1,
+        "actual_catalog_cost_cny": 20.0
+      },
+      "source": "src/logicguard/benchmark/attack_runner.py:319-368"
+    }
+  ],
+  "limitations": "Synthetic offline probes; no defense effectiveness or paid provider behavior measured."
+}

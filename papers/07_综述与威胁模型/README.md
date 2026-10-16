@@ -1,4 +1,4 @@
-# 综述与威胁模型（5 篇）
+# 综述与威胁模型（7 篇）
 
 [打开本类全部论文解读](./分类解读.md) · [返回资料库入口](../README.md) · [查看全部论文](../00_总索引与阅读路线/论文总目录.md)
 
@@ -18,3 +18,14 @@
 
 - **05 · LG023** [A Systematic Literature Review of Retrieval-Augmented Generation: Techniques, Metrics, and Challenges](./05_RAG_Systematic_Review_2025.pdf) · [解读](./分类解读.md#lg023)
   - 原清单日期：2025-12-12；批次：B1 / 原编号 23；[原文链接](https://www.mdpi.com/2504-2289/9/12/320/pdf)。
+
+
+## 第三批新增（2026-10-16）
+
+以下日期为官方版本历史中的首次提交日；详情与限制见对应解读。
+
+- **06 · LG119** [A Security Meta-Model for Retrieval-Augmented Generation Systems](./06_LG119_2610.11893_A_Security_Meta_Model_for_Retrieval_Augmented_Generation_Systems.pdf) · [解读](./分类解读.md#lg119)
+  - 首次提交：2026-10-08；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2610.11893)。
+
+- **07 · LG120** [From One Query to Many: A Critical Survey of Privacy Accounting in RAG](./07_LG120_2610.21245_From_One_Query_to_Many_A_Critical_Survey_of_Privacy_Accounting_in_RAG.pdf) · [解读](./分类解读.md#lg120)
+  - 首次提交：2026-10-15；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2610.21245)。

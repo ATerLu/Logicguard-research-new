@@ -1,4 +1,4 @@
-# 检索架构与推理方法（11 篇）
+# 检索架构与推理方法（16 篇）
 
 [打开本类全部论文解读](./分类解读.md) · [返回资料库入口](../README.md) · [查看全部论文](../00_总索引与阅读路线/论文总目录.md)
 
@@ -36,3 +36,23 @@
 
 - **11 · LG080** [A Storage-Retrieval Gap in Parametric Knowledge Graph Memory](./11_2608.25489_A_Storage_Retrieval_Gap_in_Parametric_Knowledge_Graph_Memory.pdf) · [解读](./分类解读.md#lg080)
   - 原清单日期：2026-08-26；批次：B2 / 原编号 2608.25489；[原文链接](https://arxiv.org/abs/2608.25489)。
+
+
+## 第三批新增（2026-10-16）
+
+以下日期为官方版本历史中的首次提交日；详情与限制见对应解读。
+
+- **12 · LG114** [CARA: Causally Guided Retrieval Agent for Question Answering](./12_LG114_2610.22017_CARA_Causally_Guided_Retrieval_Agent_for_Question_Answering.pdf) · [解读](./分类解读.md#lg114)
+  - 首次提交：2026-10-15；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2610.22017)。
+
+- **13 · LG115** [Retrieving Complementary Evidence for Multi-Hop RAG with Semantic Gain Graphs](./13_LG115_2610.15285_Retrieving_Complementary_Evidence_for_Multi_Hop_RAG_with_Semantic_Gain_Graph.pdf) · [解读](./分类解读.md#lg115)
+  - 首次提交：2026-10-11；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2610.15285)。
+
+- **14 · LG116** [RIT-RAG: Navigating Document Corpora with Retrieval-Induced Trees](./14_LG116_2610.11370_RIT_RAG_Navigating_Document_Corpora_with_Retrieval_Induced_Trees.pdf) · [解读](./分类解读.md#lg116)
+  - 首次提交：2026-10-08；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2610.11370)。
+
+- **15 · LG117** [RCER: Reconstructing Cross-Evidence Relations for Iterative Retrieval-Augmented Generation](./15_LG117_2610.19398_RCER_Reconstructing_Cross_Evidence_Relations_for_Iterative_Retrieval_Augment.pdf) · [解读](./分类解读.md#lg117)
+  - 首次提交：2026-10-14；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2610.19398)。
+
+- **16 · LG118** [Dual-Hypergraph Indexing: Bridging Knowledge Islands for Multi-Hop Reasoning in Retrieval-Augmented Generation](./16_LG118_2609.28108_Dual_Hypergraph_Indexing_Bridging_Knowledge_Islands_for_Multi_Hop_Reasoning.pdf) · [解读](./分类解读.md#lg118)
+  - 首次提交：2026-09-23；批次：B3；版本：v2；[官方论文页](https://arxiv.org/abs/2609.28108)。

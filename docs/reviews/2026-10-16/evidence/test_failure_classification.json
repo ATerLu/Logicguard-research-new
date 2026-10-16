@@ -1,0 +1,308 @@
+{
+  "pytest_failed": 36,
+  "pytest_passed": 312,
+  "elapsed_seconds": 9.11,
+  "classified_failure_count": 36,
+  "failure_categories": {
+    "missing_external_dataset_or_vendor_assets": 28,
+    "missing_parquet_dependency": 7,
+    "windows_path_assertion_on_linux": 1
+  },
+  "original_repository_git_status": "",
+  "tracked_snapshot_files_modified_by_tests": [
+    {
+      "file": "artifacts/benchmark/e0/comparison_v1_1_asset_manifest.json",
+      "original_sha256": "d57eb07dea4d1c937945eab192d235433fa31f675f706d7fc2f17f1a621540b3",
+      "after_test_snapshot_sha256": "a9262073e34d36c1190fee371041d99d952d7150a512c95851c33592e831ca85"
+    }
+  ],
+  "failures": [
+    {
+      "test_name": "test_real_anchor_materializes_and_replays_without_provider",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   ValueError: input must be an existing project file: data/logicpoison_official/clean/hotpotqa/corpus.jsonl"
+      ]
+    },
+    {
+      "test_name": "test_official_a1_asset_has_frozen_100_by_5_mechanism_anchor",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: [Errno 2] No such file or directory: '/tmp/logicguard_review_20261016/isolated_repo/vendor/upstream/PoisonedRAG/results/adv_targeted_results/hotpotqa.json'"
+      ]
+    },
+    {
+      "test_name": "test_official_a3_artifact_reproduces_upstream_selection_counts",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: [Errno 2] No such file or directory: '/tmp/logicguard_review_20261016/isolated_repo/vendor/upstream/GraphRAG_Under_Fire/datasets/misuque_3_black_shuffle_0601/test0_corpus.json'"
+      ]
+    },
+    {
+      "test_name": "test_e0_build_is_deterministic_and_passes_e0_a",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: [Errno 2] No such file or directory: '/tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/hotpotqa/queries.jsonl'"
+      ]
+    },
+    {
+      "test_name": "test_frozen_split_is_exact_disjoint_and_attacker_safe[hotpotqa]",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: [Errno 2] No such file or directory: '/tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/hotpotqa/queries.jsonl'"
+      ]
+    },
+    {
+      "test_name": "test_frozen_split_is_exact_disjoint_and_attacker_safe[musique]",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: [Errno 2] No such file or directory: '/tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/hotpotqa/queries.jsonl'"
+      ]
+    },
+    {
+      "test_name": "test_frozen_split_is_exact_disjoint_and_attacker_safe[2wikimultihopqa]",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: [Errno 2] No such file or directory: '/tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/hotpotqa/queries.jsonl'"
+      ]
+    },
+    {
+      "test_name": "test_official_overlap_fixtures_are_contract_sized_not_result_samples",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: [Errno 2] No such file or directory: '/tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/hotpotqa/queries.jsonl'"
+      ]
+    },
+    {
+      "test_name": "test_legacy_logicpoison_is_audited_but_not_promoted_to_official_poison",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: [Errno 2] No such file or directory: '/tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/hotpotqa/queries.jsonl'"
+      ]
+    },
+    {
+      "test_name": "test_cell_matrix_keeps_e2_locked_and_badrag_separate",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: [Errno 2] No such file or directory: '/tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/hotpotqa/queries.jsonl'"
+      ]
+    },
+    {
+      "test_name": "test_e1_preparation_is_deterministic_paired_and_makes_no_paid_calls",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: [Errno 2] No such file or directory: '/tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/hotpotqa/corpus.jsonl'"
+      ]
+    },
+    {
+      "test_name": "test_source_and_cost_gates_refuse_overclaiming",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: [Errno 2] No such file or directory: '/tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/hotpotqa/corpus.jsonl'"
+      ]
+    },
+    {
+      "test_name": "test_cli_resolves_legacy_config_alias",
+      "category": "windows_path_assertion_on_linux",
+      "errors": [
+        "E   AssertionError: assert False",
+        "E    +  where False = <built-in method endswith of str object at 0x7788ad4da790>('configs\\\\experiments\\\\stage47\\\\musique\\\\attack.yaml')",
+        "E    +    where <built-in method endswith of str object at 0x7788ad4da790> = '/tmp/logicguard_review_20261016/isolated_repo/configs/experiments/stage47/musique/attack.yaml'.endswith",
+        "E    +      where '/tmp/logicguard_review_20261016/isolated_repo/configs/experiments/stage47/musique/attack.yaml' = <built-in method strip of str object at 0x7788ad4daee0>()",
+        "E    +        where <built-in method strip of str object at 0x7788ad4daee0> = '/tmp/logicguard_review_20261016/isolated_repo/configs/experiments/stage47/musique/attack.yaml\\n'.strip",
+        "E    +          where '/tmp/logicguard_review_20261016/isolated_repo/configs/experiments/stage47/musique/attack.yaml\\n' = CaptureResult(out='/tmp/logicguard_review_20261016/isolated_repo/configs/experiments/stage47/musique/attack.yaml\\n', err='').out",
+        "E    +            where CaptureResult(out='/tmp/logicguard_review_20261016/isolated_repo/configs/experiments/stage47/musique/attack.yaml\\n', err='') = readouterr()",
+        "E    +              where readouterr = <_pytest.capture.CaptureFixture object at 0x7788ad5f2f10>.readouterr"
+      ]
+    },
+    {
+      "test_name": "test_load_raw_dataset_keeps_ids_aligned",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: Missing dataset files: /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/queries.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/answers.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/qrels/test.tsv"
+      ]
+    },
+    {
+      "test_name": "test_build_samples_embeds_support_documents",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: Missing dataset files: /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/queries.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/answers.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/qrels/test.tsv"
+      ]
+    },
+    {
+      "test_name": "test_make_debug_subset_is_deterministic_and_size_limited",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: Missing dataset files: /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/queries.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/answers.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/qrels/test.tsv"
+      ]
+    },
+    {
+      "test_name": "test_load_normalized_samples_reads_generated_jsonl",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: [Errno 2] No such file or directory: '/tmp/logicguard_review_20261016/isolated_repo/data/processed/2wikimultihopqa/debug_50.jsonl'"
+      ]
+    },
+    {
+      "test_name": "test_dev60_launch_is_frozen_and_idempotent",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: [Errno 2] No such file or directory: '/tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/hotpotqa/corpus.jsonl'"
+      ]
+    },
+    {
+      "test_name": "test_pinned_hog_grag_artifact_fails_closed_on_actual_core_sources",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   assert True is False"
+      ]
+    },
+    {
+      "test_name": "test_run_from_config_writes_small_defense_artifacts",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: Missing dataset files: /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/queries.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/answers.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/qrels/test.tsv"
+      ]
+    },
+    {
+      "test_name": "test_load_logicpoison_pair_keeps_clean_and_poisoned_ids_aligned",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: Missing dataset files: /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/queries.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/answers.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/qrels/test.tsv"
+      ]
+    },
+    {
+      "test_name": "test_build_corpus_diff_records_detects_logicpoison_content_changes",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: Missing dataset files: /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/queries.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/answers.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/qrels/test.tsv"
+      ]
+    },
+    {
+      "test_name": "test_build_query_integrity_records_marks_changed_gold_supports",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: Missing dataset files: /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/queries.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/answers.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/qrels/test.tsv"
+      ]
+    },
+    {
+      "test_name": "test_summarize_logicpoison_pair_reports_changed_doc_and_answer_surface_loss",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: Missing dataset files: /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/queries.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/answers.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/qrels/test.tsv"
+      ]
+    },
+    {
+      "test_name": "test_run_from_config_writes_stage0_metadata_artifacts",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: Missing dataset files: /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/queries.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/answers.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/qrels/test.tsv"
+      ]
+    },
+    {
+      "test_name": "test_logic_mapping_and_corpus_match_pinned_upstream_on_unambiguous_fixture",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: [Errno 2] No such file or directory: '/tmp/logicguard_review_20261016/isolated_repo/vendor/upstream/LogicPoison/src/logic_poison.py'"
+      ]
+    },
+    {
+      "test_name": "test_run_from_config_writes_small_naive_retrieval_artifacts",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   FileNotFoundError: Missing dataset files: /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/queries.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/answers.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl, /tmp/logicguard_review_20261016/isolated_repo/data/logicpoison_official/clean/2wikimultihopqa/qrels/test.tsv"
+      ]
+    },
+    {
+      "test_name": "test_load_ms_graphrag_indexed_documents_restores_original_doc_ids",
+      "category": "missing_parquet_dependency",
+      "errors": [
+        "E   ImportError: Unable to find a usable engine; tried using: 'pyarrow', 'fastparquet'.",
+        "E   A suitable version of pyarrow or fastparquet is required for parquet support.",
+        "E   Trying to import the above resulted in these errors:",
+        "E    - `Import pyarrow` failed. pyarrow is required for parquet support. Use pip or conda to install the pyarrow package.",
+        "E    - `Import fastparquet` failed. fastparquet is required for parquet support. Use pip or conda to install the fastparquet package."
+      ]
+    },
+    {
+      "test_name": "test_run_minimal_experiment_writes_trace_metrics_and_report",
+      "category": "missing_parquet_dependency",
+      "errors": [
+        "E   ImportError: Unable to find a usable engine; tried using: 'pyarrow', 'fastparquet'.",
+        "E   A suitable version of pyarrow or fastparquet is required for parquet support.",
+        "E   Trying to import the above resulted in these errors:",
+        "E    - `Import pyarrow` failed. pyarrow is required for parquet support. Use pip or conda to install the pyarrow package.",
+        "E    - `Import fastparquet` failed. fastparquet is required for parquet support. Use pip or conda to install the fastparquet package."
+      ]
+    },
+    {
+      "test_name": "test_load_candidate_sources_reads_clean_text_units_without_doc_id_lookup_table",
+      "category": "missing_parquet_dependency",
+      "errors": [
+        "E   ImportError: Unable to find a usable engine; tried using: 'pyarrow', 'fastparquet'.",
+        "E   A suitable version of pyarrow or fastparquet is required for parquet support.",
+        "E   Trying to import the above resulted in these errors:",
+        "E    - `Import pyarrow` failed. pyarrow is required for parquet support. Use pip or conda to install the pyarrow package.",
+        "E    - `Import fastparquet` failed. fastparquet is required for parquet support. Use pip or conda to install the fastparquet package."
+      ]
+    },
+    {
+      "test_name": "test_load_text_unit_evidence_maps_official_document_ids_to_logicguard_doc_ids",
+      "category": "missing_parquet_dependency",
+      "errors": [
+        "E   ImportError: Unable to find a usable engine; tried using: 'pyarrow', 'fastparquet'.",
+        "E   A suitable version of pyarrow or fastparquet is required for parquet support.",
+        "E   Trying to import the above resulted in these errors:",
+        "E    - `Import pyarrow` failed. pyarrow is required for parquet support. Use pip or conda to install the pyarrow package.",
+        "E    - `Import fastparquet` failed. fastparquet is required for parquet support. Use pip or conda to install the fastparquet package."
+      ]
+    },
+    {
+      "test_name": "test_load_clean_reference_sources_maps_clean_text_units_to_source_records",
+      "category": "missing_parquet_dependency",
+      "errors": [
+        "E   ImportError: Unable to find a usable engine; tried using: 'pyarrow', 'fastparquet'.",
+        "E   A suitable version of pyarrow or fastparquet is required for parquet support.",
+        "E   Trying to import the above resulted in these errors:",
+        "E    - `Import pyarrow` failed. pyarrow is required for parquet support. Use pip or conda to install the pyarrow package.",
+        "E    - `Import fastparquet` failed. fastparquet is required for parquet support. Use pip or conda to install the fastparquet package."
+      ]
+    },
+    {
+      "test_name": "test_load_stage21_text_units_restores_logicguard_doc_metadata",
+      "category": "missing_parquet_dependency",
+      "errors": [
+        "E   ImportError: Unable to find a usable engine; tried using: 'pyarrow', 'fastparquet'.",
+        "E   A suitable version of pyarrow or fastparquet is required for parquet support.",
+        "E   Trying to import the above resulted in these errors:",
+        "E    - `Import pyarrow` failed. pyarrow is required for parquet support. Use pip or conda to install the pyarrow package.",
+        "E    - `Import fastparquet` failed. fastparquet is required for parquet support. Use pip or conda to install the fastparquet package."
+      ]
+    },
+    {
+      "test_name": "test_real_trace_contract_anchor_runs_and_replays_without_provider",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   ValueError: input must be an existing project file: data/logicpoison_official/clean/2wikimultihopqa/corpus.jsonl"
+      ]
+    },
+    {
+      "test_name": "test_reindex_audit_accepts_intentionally_omitted_community_reports",
+      "category": "missing_parquet_dependency",
+      "errors": [
+        "E   ImportError: Unable to find a usable engine; tried using: 'pyarrow', 'fastparquet'.",
+        "E   A suitable version of pyarrow or fastparquet is required for parquet support.",
+        "E   Trying to import the above resulted in these errors:",
+        "E    - `Import pyarrow` failed. pyarrow is required for parquet support. Use pip or conda to install the pyarrow package.",
+        "E    - `Import fastparquet` failed. fastparquet is required for parquet support. Use pip or conda to install the fastparquet package."
+      ]
+    },
+    {
+      "test_name": "test_wp2_qualification_anchor_runs_and_replays_without_provider",
+      "category": "missing_external_dataset_or_vendor_assets",
+      "errors": [
+        "E   ValueError: input must be an existing project file: vendor/upstream/PoisonedRAG/results/adv_targeted_results/hotpotqa.json"
+      ]
+    }
+  ]
+}

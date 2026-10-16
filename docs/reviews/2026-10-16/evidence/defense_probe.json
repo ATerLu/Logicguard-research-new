@@ -1,0 +1,100 @@
+{
+  "year_flip": {
+    "is_risky": false,
+    "status": "verified_safe",
+    "entity_drift": 0.0,
+    "title_overlap": 1.0,
+    "text_jaccard": 0.714286,
+    "reasons": [],
+    "candidate_doc_id": "d1"
+  },
+  "negation_flip": {
+    "is_risky": false,
+    "status": "verified_safe",
+    "entity_drift": 0.0,
+    "title_overlap": 1.0,
+    "text_jaccard": 0.857143,
+    "reasons": [],
+    "candidate_doc_id": "d1"
+  },
+  "relation_direction_flip": {
+    "is_risky": false,
+    "status": "verified_safe",
+    "entity_drift": 0.0,
+    "title_overlap": 1.0,
+    "text_jaccard": 1.0,
+    "reasons": [],
+    "candidate_doc_id": "d1"
+  },
+  "missing_candidate": [
+    {
+      "method": "full_query_guard",
+      "source_count": 1,
+      "status": "unverifiable"
+    },
+    {
+      "method": "risk_non_oracle_guarded_sources",
+      "source_count": 1,
+      "status": "unverifiable"
+    },
+    {
+      "method": "risk_non_oracle_title_entity_bm25",
+      "source_count": 1,
+      "status": "unverifiable"
+    }
+  ],
+  "stage38_complete_context": [
+    {
+      "chain_complete": true,
+      "targeted_chain_complete": true,
+      "base_ids": [
+        "d1"
+      ],
+      "targeted_ids": [
+        "d1",
+        "d2"
+      ],
+      "added": [
+        "d2"
+      ],
+      "added_score": 0.0
+    }
+  ],
+  "stage38_wrong_fact_marked_complete": {
+    "chain_complete": true,
+    "context_has_gold_answer": false,
+    "diagnosis": "complete_support_without_answer_surface"
+  },
+  "stage38_unchanged_source_marked_unsafe": {
+    "chain_complete": false,
+    "context_has_gold_answer": true,
+    "diagnosis": "unsafe_context",
+    "unrecovered_changed_doc_ids": [
+      "d1"
+    ]
+  },
+  "same_title_recovery": {
+    "recovered_doc": "d2",
+    "recovered_text": "Document ID: d2\nTitle: Alice\n\nMallory hired Dave.",
+    "state": "clean_reference",
+    "risk_status": "verified_risky"
+  },
+  "legacy_mvp_changed_bridge_retained": [
+    {
+      "doc": "d1",
+      "risk": 0.8,
+      "reasons": [
+        "reference_content_mismatch",
+        "bridge_entity_support"
+      ]
+    }
+  ],
+  "stage28_fpr_above_one": {
+    "risk_false_positive_rate": 2.0,
+    "false_positive": [
+      "d1",
+      "d2"
+    ],
+    "source_count": 0
+  }
+}

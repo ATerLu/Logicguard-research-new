@@ -1,4 +1,4 @@
-# RAG投毒与对抗攻击（13 篇）
+# RAG投毒与对抗攻击（23 篇）
 
 [打开本类全部论文解读](./分类解读.md) · [返回资料库入口](../README.md) · [查看全部论文](../00_总索引与阅读路线/论文总目录.md)
 
@@ -42,3 +42,38 @@
 
 - **13 · LG070** [CamoDocs: A Poisoning Attack Against Retrieval-Augmented Language Models Using Camouflaged Documents](./13_2608.28389_CamoDocs_A_Poisoning_Attack_Against_Retrieval_Augmented_Language_Models_Using_Camouflaged_.pdf) · [解读](./分类解读.md#lg070)
   - 原清单日期：2026-08-28；批次：B2 / 原编号 2608.28389；[原文链接](https://arxiv.org/abs/2608.28389)。
+
+
+## 第三批新增（2026-10-16）
+
+以下日期为官方版本历史中的首次提交日；详情与限制见对应解读。
+
+- **14 · LG083** [Poisoning the Neighborhood: A Topology-Aware Topic-Level Attack on Large-Scale HNSW-based RAG Systems](./14_LG083_2610.21464_Poisoning_the_Neighborhood_A_Topology_Aware_Topic_Level_Attack_on_Large_Scal.pdf) · [解读](./分类解读.md#lg083)
+  - 首次提交：2026-10-15；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2610.21464)。
+
+- **15 · LG084** [LENS: The Sum Is Worse Than the Parts for Set-Level Poisoning in Retrieval-Augmented Generation](./15_LG084_2609.35155_LENS_The_Sum_Is_Worse_Than_the_Parts_for_Set_Level_Poisoning_in_Retrieval_Au.pdf) · [解读](./分类解读.md#lg084)
+  - 首次提交：2026-09-28；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2609.35155)。
+
+- **16 · LG085** [InceptionRAG: Stealthy Poisoning Attack Against Retrieval-Augmented Generation](./16_LG085_2609.16818_InceptionRAG_Stealthy_Poisoning_Attack_Against_Retrieval_Augmented_Generatio.pdf) · [解读](./分类解读.md#lg085)
+  - 首次提交：2026-09-15；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2609.16818)。
+
+- **17 · LG086** [Stale-Document Poisoning: When Outdated Retrieval Overrides Correct Model Answers](./17_LG086_2609.31342_Stale_Document_Poisoning_When_Outdated_Retrieval_Overrides_Correct_Model_Ans.pdf) · [解读](./分类解读.md#lg086)
+  - 首次提交：2026-09-25；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2609.31342)。
+
+- **18 · LG087** [Divide and Doubt: Diverse Distributed Poisoning for Retrieval-Augmented Generation](./18_LG087_2609.27090_Divide_and_Doubt_Diverse_Distributed_Poisoning_for_Retrieval_Augmented_Gener.pdf) · [解读](./分类解读.md#lg087)
+  - 首次提交：2026-09-22；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2609.27090)。
+
+- **19 · LG088** [RAG-NAROK: Retrieval-Aware Knowledge Corpus Poisoning in RAG with Source-specific Refutation](./19_LG088_2609.25469_RAG_NAROK_Retrieval_Aware_Knowledge_Corpus_Poisoning_in_RAG_with_Source_spec.pdf) · [解读](./分类解读.md#lg088)
+  - 首次提交：2026-09-21；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2609.25469)。
+
+- **20 · LG089** [Micro-Collaborative Poisoning: A Distributed Attack on RAG Systems](./20_LG089_2609.21573_Micro_Collaborative_Poisoning_A_Distributed_Attack_on_RAG_Systems.pdf) · [解读](./分类解读.md#lg089)
+  - 首次提交：2026-09-18；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2609.21573)。
+
+- **21 · LG090** [CiteShade: Citation Laundering in Multi-Source Retrieval-Augmented Generation and Its Counterfactual Defense](./21_LG090_2609.15660_CiteShade_Citation_Laundering_in_Multi_Source_Retrieval_Augmented_Generation.pdf) · [解读](./分类解读.md#lg090)
+  - 首次提交：2026-09-14；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2609.15660)。
+
+- **22 · LG091** [PURPOSE: Poisoning Conflict Resolution in RAG via Proxy-Fact-Grounded Updates](./22_LG091_2608.04756_PURPOSE_Poisoning_Conflict_Resolution_in_RAG_via_Proxy_Fact_Grounded_Updates.pdf) · [解读](./分类解读.md#lg091)
+  - 首次提交：2026-08-05；批次：B3；版本：v1；[官方论文页](https://arxiv.org/abs/2608.04756)。
+
+- **23 · LG092** [KidnapRAG: A Black-Box Attack for Hijacking Reasoning in Agentic Retrieval-Augmented Generation Systems](./23_LG092_2607.00422_KidnapRAG_A_Black_Box_Attack_for_Hijacking_Reasoning_in_Agentic_Retrieval_Au.pdf) · [解读](./分类解读.md#lg092)
+  - 首次提交：2026-07-01；批次：B3；版本：v2；[官方论文页](https://arxiv.org/abs/2607.00422)。

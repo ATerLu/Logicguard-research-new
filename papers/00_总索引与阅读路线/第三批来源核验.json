@@ -1,0 +1,1305 @@
+{
+  "checked_on": "2026-10-16",
+  "time_window": [
+    "2025-10-16",
+    "2026-10-16"
+  ],
+  "date_basis": "arXiv submission history in UTC; not search-card date or conference date",
+  "papers": [
+    {
+      "library_id": "LG081",
+      "arxiv_id": "2610.19549",
+      "title": "GraphRAG-LTM: A Layered Threat Modeling Framework for Attacks on Graph Retrieval-Augmented Generation",
+      "authors_as_official_citation_metadata": [
+        "Tang, Yining",
+        "Zhang, Junyu",
+        "Qiu, Haomiao",
+        "Liu, Yongchao",
+        "Zheng, Jiajun",
+        "Wang, Zhao",
+        "Qiao, Ziyue",
+        "Wu, Chao"
+      ],
+      "official_url": "https://arxiv.org/abs/2610.19549",
+      "version_pdf_url": "https://arxiv.org/pdf/2610.19549v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2610.19549.pdf",
+      "first_submitted_at_utc": "2026-10-14T04:04:34Z",
+      "version_submitted_at_utc": "2026-10-14T04:04:34Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-10-14T04:04:34Z"
+        }
+      ],
+      "search_date_text": "Submitted 14 October, 2026; originally announced October 2026.",
+      "arxiv_comments_author_claim_only": "14 pages, 7 figures",
+      "abstract": "Graph retrieval-augmented generation (GraphRAG) uses document-derived knowledge graphs to assemble evidence for large language model (LLM) answers. Its security depends on both the seed chunks retrieved for a query and the graph evidence assembled from them, yet attacks on this evidence path remain underexplored. We introduce GraphRAG-LTM, a Layered Threat Modeling framework that tests three nested levels of attacker access. BB Query uses ranking feedback to make query edits under a semantic-similarity constraint and demote relevant seed chunks. WB Query uses retriever gradients for the same objective. Graph-aware WB keeps the white-box adversarial query and deletes bridge triplets from the query-specific evidence graph, disrupting multi-hop evidence propagation through localized graph edits. Across datasets, retrievers, and LLM backbones, rank feedback alone reduces answer quality, gradient access strengthens query attacks, and bridge-triplet deletion further impairs supporting-fact retrieval. Further analyses show how seed retrieval and graph evidence jointly contribute to these failures.",
+      "verified_pdf_marker": "2610.19549v1",
+      "pdf_sha256": "5787fa9b1490b9cee0c0c99efe4db669e376fd141903df69813471afdb6e891d",
+      "bytes": 2437080,
+      "local_pdf": "01_GraphRAG与知识图谱攻击防御/07_LG081_2610.19549_GraphRAG_LTM_A_Layered_Threat_Modeling_Framework_for_Attacks_on_Graph_Retrie.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG082",
+      "arxiv_id": "2610.02373",
+      "title": "Hop-Decayed Influence: New Vulnerabilities of Structural Auxiliary Indexing in GraphRAG Pipelines with LLM",
+      "authors_as_official_citation_metadata": [
+        "Park, Jisung",
+        "Le, John",
+        "Cooper, Heath"
+      ],
+      "official_url": "https://arxiv.org/abs/2610.02373",
+      "version_pdf_url": "https://arxiv.org/pdf/2610.02373v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2610.02373v1",
+      "first_submitted_at_utc": "2026-10-01T18:52:10Z",
+      "version_submitted_at_utc": "2026-10-01T18:52:10Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-10-01T18:52:10Z"
+        }
+      ],
+      "search_date_text": "Submitted 1 October, 2026; originally announced October 2026.",
+      "arxiv_comments_author_claim_only": "14 pages. Published in IFIP SEC 2026. Best Paper Award",
+      "abstract": "GraphRAG pipelines construct auxiliary structures during offline indexing--semantic summaries, hierarchical edges, and pre-computed scores--that determine how retrieval is prioritised at query time. Prior attacks target only instance-level components (nodes, edges, triples), overlooking these schema-level structures. We formalise Auxiliary Schema-Level Entity as a novel attack surface and propose the 3S Framework (Semantics, Structure, Scoring) for its systematic exploitation. Our Hop-Decayed Influence (HDI) attack identifies high-impact targets through query-aware influence propagation and corrupts their auxiliary structures post-indexing. Across two benchmarks (HotpotQA, 2WikiMultiHopQA) and two architectures (Microsoft GraphRAG, HippoRAG2), HDI achieves 88-94% attack success rate while modifying as few as 0.016% of auxiliary structures. Each modification affects up to 6.00 queries (Schema Leverage Ratio), demonstrating 1:N amplification unavailable to instance-level attacks. Manipulated structures evade perplexity and paraphrase defenses with over 99% evasion rate, as they remain linguistically coherent system-generated artifacts. These results reveal that auxiliary schema-level entities receive implicit trust without runtime validation, constituting a structural blind spot in current GraphRAG defenses. https://github.com/Jisung-Pacific/HDI-GraphRAG-Attack.",
+      "verified_pdf_marker": "2610.02373v1",
+      "pdf_sha256": "ad61250266b8f3c0d164bf5ce9f9d45f8f9997ed16bfac494e69ad7ea1b37108",
+      "bytes": 509478,
+      "local_pdf": "01_GraphRAG与知识图谱攻击防御/08_LG082_2610.02373_Hop_Decayed_Influence_New_Vulnerabilities_of_Structural_Auxiliary_Indexing_i.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG083",
+      "arxiv_id": "2610.21464",
+      "title": "Poisoning the Neighborhood: A Topology-Aware Topic-Level Attack on Large-Scale HNSW-based RAG Systems",
+      "authors_as_official_citation_metadata": [
+        "Chen, Yufei",
+        "Wang, Yao",
+        "Zhang, Haibin"
+      ],
+      "official_url": "https://arxiv.org/abs/2610.21464",
+      "version_pdf_url": "https://arxiv.org/pdf/2610.21464v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2610.21464.pdf",
+      "first_submitted_at_utc": "2026-10-15T08:06:48Z",
+      "version_submitted_at_utc": "2026-10-15T08:06:48Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-10-15T08:06:48Z"
+        }
+      ],
+      "search_date_text": "Submitted 15 October, 2026; originally announced October 2026.",
+      "arxiv_comments_author_claim_only": "",
+      "abstract": "Retrieval-augmented generation (RAG) mitigates hallucinations and knowledge staleness in large language models using external knowledge. However, ingestion from public and third-party sources exposes RAG systems to poisoning attacks. Existing attacks are designed and evaluated under exact retrieval, where poisoned documents participate in global ranking. Deployment-scale systems instead rely on approximate nearest-neighbor (ANN) indexes such as hierarchical navigable small world (HNSW), where limited search budgets, graph-search reachability, and local benign-document competition invalidate this assumption and degrade existing attacks. We present a topology-aware topic-level poisoning attack against large-scale HNSW-RAG that generalizes to unseen topic queries. We organize poisoned documents into a Hub-Satellite structure: Satellites provide competitive entry points across semantic regions, while Hubs strengthen local cohesion and facilitate cascading retrieval. For generation, we propose an entity-claim promotion attack combining evidence anchoring and entity-claim coupling to promote the target entity via a target claim across different query regions. On 2M-document Wikipedia, our attack maintains over 72% retrieval success and reaches 31.29% attack success, substantially outperforming baselines; domain-specific experiments further support its effectiveness. Structural analyses show that the Hub-Satellite topology forms in HNSW, indicating that graph structure contributes to improved poisoned-document retrieval. Existing poisoning defenses cannot mitigate the attack, exposing graph-structural risks in HNSW-RAG systems.",
+      "verified_pdf_marker": "2610.21464v1",
+      "pdf_sha256": "c1853686ea9de3fb2ad55a6b11c13dca0f507c3f700172e551ea5a84bbbf37c0",
+      "bytes": 3576251,
+      "local_pdf": "02_RAG投毒与对抗攻击/14_LG083_2610.21464_Poisoning_the_Neighborhood_A_Topology_Aware_Topic_Level_Attack_on_Large_Scal.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG084",
+      "arxiv_id": "2609.35155",
+      "title": "LENS: The Sum Is Worse Than the Parts for Set-Level Poisoning in Retrieval-Augmented Generation",
+      "authors_as_official_citation_metadata": [
+        "Fan, Kaisheng",
+        "Gao, Yishu",
+        "Tang, Xunzhu",
+        "Bissyand'e, Tegawend'e F.",
+        "Zhang, Weizhe"
+      ],
+      "official_url": "https://arxiv.org/abs/2609.35155",
+      "version_pdf_url": "https://arxiv.org/pdf/2609.35155v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2609.35155.pdf",
+      "first_submitted_at_utc": "2026-09-28T13:33:32Z",
+      "version_submitted_at_utc": "2026-09-28T13:33:32Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-09-28T13:33:32Z"
+        }
+      ],
+      "search_date_text": "Submitted 28 September, 2026; originally announced September 2026.",
+      "arxiv_comments_author_claim_only": "",
+      "abstract": "Retrieval-augmented generation (RAG) aggregates evidence from multiple external documents, yet this joint integration creates an underexamined vulnerability: attack effects absent in individual documents can emerge through set-level composition. Existing coordinated attacks do not explicitly enforce that every proper subset remains insufficient in frozen single-round RAG. We formalize set-level compositional poisoning, where documents designed to remain individually plausible jointly redirect RAG outputs to a target answer, while proper subsets fail to induce the target on their own. To construct such attacks, we propose LENS, a generator-black-box multi-agent framework that casts construction as constrained evidence composition. LENS factorizes target inference into a query-conditioned interpretation lens and complementary facts, then uses a nested dual-loop workflow to concentrate steering in the full set while suppressing subset leakage. The outer loop plans the interpretation lens and semantic roles; the inner loop synthesizes documents and applies counterexample-guided repair. Across four benchmarks and three generators, returned packets achieve 0.852 full-set ASR and 0.784 post-retrieval ASR@5, while their strongest proper subsets reach only 0.069. Against construction baselines evaluated on the same frozen manifest, LENS improves all-attempt E2E-Strict@5 from 0.244 to 0.363, a 48.8% relative gain. A blinded human audit finds that 68.3% of returned packets combine an incorrect target, a definite answer-criterion shift, and no target entailment under the original semantics. Across four published defenses, LENS attains the highest defended all-attempt ASR@5, exceeding the strongest baseline by 0.141 on average. Together, these results establish evidence composition as a distinct RAG security boundary and position LENS as a stress test for defenses that reason over document sets.",
+      "verified_pdf_marker": "2609.35155v1",
+      "pdf_sha256": "e40002e185ac0a7c6bf779b0abf636108e70ce320ca2169f0e5562749103b634",
+      "bytes": 851280,
+      "local_pdf": "02_RAG投毒与对抗攻击/15_LG084_2609.35155_LENS_The_Sum_Is_Worse_Than_the_Parts_for_Set_Level_Poisoning_in_Retrieval_Au.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG085",
+      "arxiv_id": "2609.16818",
+      "title": "InceptionRAG: Stealthy Poisoning Attack Against Retrieval-Augmented Generation",
+      "authors_as_official_citation_metadata": [
+        "Zhang, Jiachang",
+        "Chen, Min",
+        "Ren, Xiao",
+        "Zhang, Zhenyong",
+        "Shu, Yuanchao",
+        "Gao, Yunjun",
+        "Zhang, Zhikun"
+      ],
+      "official_url": "https://arxiv.org/abs/2609.16818",
+      "version_pdf_url": "https://arxiv.org/pdf/2609.16818v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2609.16818.pdf",
+      "first_submitted_at_utc": "2026-09-15T08:22:10Z",
+      "version_submitted_at_utc": "2026-09-15T08:22:10Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-09-15T08:22:10Z"
+        }
+      ],
+      "search_date_text": "Submitted 15 September, 2026; originally announced September 2026.",
+      "arxiv_comments_author_claim_only": "20 pages, 5 figures. Accepted to appear in the Proceedings of the 2026 ACM SIGSAC Conference on Computer and Communications Security (CCS '26)",
+      "abstract": "Retrieval-augmented generation (RAG) systems enhance large language models (LLMs) with external knowledge but have been demonstrated to be vulnerable to corpus poisoning. Existing poisoning attacks against RAG largely focus on single-point explicit injection, where the malicious payload is fully encapsulated within a single document. Consequently, recent mitigation mechanisms have evolved to identify and diminish these threats effectively. In this paper, we first verify that existing mitigation mechanisms are insufficient for a new class of threats: indirect logic induction. Motivated by this observation, we introduce InceptionRAG, a stealthy attack mechanism that subverts the standard attack paradigm. Instead of injecting explicit malicious payloads, InceptionRAG fragments it into a chain of dormant passages. These passages appear harmless and can bypass existing mitigation mechanisms when examined separately. However, when retrieved together, they trigger LLMs to self-deduce target misinformation via multi-hop reasoning. To further improve the applicability of InceptionRAG in black-box settings, we propose zeroth-order suffix optimization (ZOSO) to automate the generation of authoritative suffixes. Extensive evaluations across three datasets and three LLMs demonstrate that InceptionRAG achieves an attack success rate exceeding 80% even under rigorous adversarial constraints. In particular, InceptionRAG shows superior evasion capabilities, effectively bypassing established defenses that mitigate traditional single-document injections. Our findings expose a concerning paradox: the stronger reasoning capabilities of LLMs increase their vulnerability to reasoning-based poisoning attacks. To mitigate potential misuse, we propose a document isolation-based defense, HODOR, which decouples adversarial logical dependencies.",
+      "verified_pdf_marker": "2609.16818v1",
+      "pdf_sha256": "f5e201500be36a0778258ca028487347bbb206b4f910cb29ddaf5d95a44ff00f",
+      "bytes": 3486771,
+      "local_pdf": "02_RAG投毒与对抗攻击/16_LG085_2609.16818_InceptionRAG_Stealthy_Poisoning_Attack_Against_Retrieval_Augmented_Generatio.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG086",
+      "arxiv_id": "2609.31342",
+      "title": "Stale-Document Poisoning: When Outdated Retrieval Overrides Correct Model Answers",
+      "authors_as_official_citation_metadata": [
+        "Ahmed, Md Shamim",
+        "Poech, Lukas Galke",
+        "Röttger, Richard"
+      ],
+      "official_url": "https://arxiv.org/abs/2609.31342",
+      "version_pdf_url": "https://arxiv.org/pdf/2609.31342v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2609.31342.pdf",
+      "first_submitted_at_utc": "2026-09-25T14:43:43Z",
+      "version_submitted_at_utc": "2026-09-25T14:43:43Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-09-25T14:43:43Z"
+        }
+      ],
+      "search_date_text": "Submitted 25 September, 2026; originally announced September 2026.",
+      "arxiv_comments_author_claim_only": "17 pages, 3 figures",
+      "abstract": "Retrieval-augmented generation (RAG) is often used to address outdated knowledge by providing external evidence. But retrieval helps only when that evidence is still valid. We identify a temporal alignment failure, stale-document poisoning, in which outdated evidence makes a model wrong despite answering correctly without retrieval. We construct a benchmark of 317 verified knowledge reversals across medicine, law, software, and platform policy, grounded in dated official sources. Across 12 models, recent medical reversals are harder than long-established ones. More importantly, outdated retrieval flips 30% of Llama and 37% of Qwen answers even without instructions to trust the document; explicit follow instructions raise these rates to 66% and 75%. Across four open models and four domains, poisoning ranges from 17-91%, while matched up-to-date evidence is followed in 97-100% of trials. To isolate temporal applicability, we keep the historical evidence unchanged across 50 reversals and vary only the evaluation date. A clear pattern emerges: dates alone produce only modest adaptation, but when models are explicitly told when the old evidence stops applying, the larger models switch to the appropriate answer almost perfectly. Causal interventions confirm that this validity information directly shapes the final decision. The same internal components also support broader comparison tasks, suggesting that temporal applicability can recruit a general reasoning mechanism used for other comparisons. Finally, a fixed recency-aware hybrid re-ranker reduces poisoning by 4.6-10.0 points when dates are accurate, with gains that depend on reliable temporal metadata. Reliable RAG therefore requires selective trust: models must determine not only what retrieved evidence says, but whether it still applies.",
+      "verified_pdf_marker": "2609.31342v1",
+      "pdf_sha256": "46adf59a3c0b06eaeae9c3e92b30da36f1c8be1f4af0061409c25d1634b5f5ce",
+      "bytes": 789252,
+      "local_pdf": "02_RAG投毒与对抗攻击/17_LG086_2609.31342_Stale_Document_Poisoning_When_Outdated_Retrieval_Overrides_Correct_Model_Ans.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG087",
+      "arxiv_id": "2609.27090",
+      "title": "Divide and Doubt: Diverse Distributed Poisoning for Retrieval-Augmented Generation",
+      "authors_as_official_citation_metadata": [
+        "Chen, Tianhao",
+        "Wei, Yuhan",
+        "Jin, Weifei",
+        "Jiang, Zhengyuan",
+        "Hu, Yuepeng",
+        "Gong, Neil Zhenqiang"
+      ],
+      "official_url": "https://arxiv.org/abs/2609.27090",
+      "version_pdf_url": "https://arxiv.org/pdf/2609.27090v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2609.27090.pdf",
+      "first_submitted_at_utc": "2026-09-22T21:42:19Z",
+      "version_submitted_at_utc": "2026-09-22T21:42:19Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-09-22T21:42:19Z"
+        }
+      ],
+      "search_date_text": "Submitted 22 September, 2026; originally announced September 2026.",
+      "arxiv_comments_author_claim_only": "",
+      "abstract": "Multi-passage corpus poisoning often repeats one target claim across similar documents, creating correlated lexical and semantic patterns that similarity- and conflict-aware defenses can suppress jointly. We introduce DnD (Divide and Doubt), a targeted attack based on two principles: distributing support for the target answer across stylistically diverse passages, and including a passage that casts doubt on evidence for the reference answer. The first disperses poison-passage representations in embedding space, while the second strengthens target adoption when multiple poisoned passages are retrieved. We evaluate DnD on two open-domain QA datasets across three LLMs and nine RAG configurations, under both black-box and white-box access to the retriever. Across these settings, DnD matches or outperforms prior attacks in most configurations, with its largest gains against clustering- and conflict-aware defenses.",
+      "verified_pdf_marker": "2609.27090v1",
+      "pdf_sha256": "26330e6db8fd0054f568fb95b1f439fcd73842d56f8b8edcd097c9f7352d3e44",
+      "bytes": 783923,
+      "local_pdf": "02_RAG投毒与对抗攻击/18_LG087_2609.27090_Divide_and_Doubt_Diverse_Distributed_Poisoning_for_Retrieval_Augmented_Gener.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG088",
+      "arxiv_id": "2609.25469",
+      "title": "RAG-NAROK: Retrieval-Aware Knowledge Corpus Poisoning in RAG with Source-specific Refutation",
+      "authors_as_official_citation_metadata": [
+        "Kafi, Abdullahil",
+        "Khalil, Alvi Ataur"
+      ],
+      "official_url": "https://arxiv.org/abs/2609.25469",
+      "version_pdf_url": "https://arxiv.org/pdf/2609.25469v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2609.25469.pdf",
+      "first_submitted_at_utc": "2026-09-21T22:53:04Z",
+      "version_submitted_at_utc": "2026-09-21T22:53:04Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-09-21T22:53:04Z"
+        }
+      ],
+      "search_date_text": "Submitted 21 September, 2026; originally announced September 2026.",
+      "arxiv_comments_author_claim_only": "",
+      "abstract": "Retrieval augmented generation (RAG) systems have emerged as the dominant architecture for grounding large language model (LLM) outputs in verifiable external knowledge, yet their structural reliance on a dynamic retrieval pipeline introduces a largely unexplored class of adversarial vulnerability. Existing knowledge-base poisoning attacks are fundamentally static. Adversarial documents are pre-computed and injected without any awareness of what the victim system will actually retrieve for a given query, leaving the attack blind to the competitive documentary landscape that surrounds its payload in the generator's context window. Unlike traditional static poisoning attacks that are blind to the retrieved context, we introduce RAG-NAROK (Retrieval-Anchored Generation Negation And Response Quality Collapse), a RAG attack framework that adapts to the query text. RAG-NAROK exploits the transparency inherent in RAG pipeline to first extract the legitimate source identities, then generate Anchor-Specific Refutation documents that explicitly name and devalue retrieved sources while leveraging recency and authority biases to steer the text generation toward a target answer. Our results demonstrate that RAG-NAROK significantly outperforms static baselines across diverse domains, revealing a fundamental tension between RAG transparency and AI security.",
+      "verified_pdf_marker": "2609.25469v1",
+      "pdf_sha256": "c0e3cdf9e48e8e25fbb8738e30de9bd37ff26bcc0618447e83e32a2458e218c9",
+      "bytes": 485693,
+      "local_pdf": "02_RAG投毒与对抗攻击/19_LG088_2609.25469_RAG_NAROK_Retrieval_Aware_Knowledge_Corpus_Poisoning_in_RAG_with_Source_spec.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG089",
+      "arxiv_id": "2609.21573",
+      "title": "Micro-Collaborative Poisoning: A Distributed Attack on RAG Systems",
+      "authors_as_official_citation_metadata": [
+        "Pereira, Pedro",
+        "Maia, Eva",
+        "Praça, Isabel"
+      ],
+      "official_url": "https://arxiv.org/abs/2609.21573",
+      "version_pdf_url": "https://arxiv.org/pdf/2609.21573v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2609.21573.pdf",
+      "first_submitted_at_utc": "2026-09-18T10:03:33Z",
+      "version_submitted_at_utc": "2026-09-18T10:03:33Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-09-18T10:03:33Z"
+        }
+      ],
+      "search_date_text": "Submitted 18 September, 2026; originally announced September 2026.",
+      "arxiv_comments_author_claim_only": "19 pages, 3 images, 4 tables, conference: 31st European Symposium on Research in Computer Security (ESORICS) 2026, Workshop: 2nd Workshop on the Use of Large Language Models for Cybersecurity",
+      "abstract": "Retrieval-Augmented Generation (RAG) improves large language models by grounding outputs in external knowledge sources, but this dependency also creates a surface for poisoning attacks. This paper introduces Micro-Collaborative Poisoning, a distributed attack in which a false target claim is divided across multiple locally plausible documents instead of being concentrated in a single malicious passage. We evaluate the attack across 108 RAG configurations by varying dataset, retriever architecture, retrieval depth, database composition, number of poisoned databases, and generator model. The results indicate that Micro-Collaborative Poisoning is not driven by a single dominant poisoned passage, but by the accumulation of weak adversarial signals across retrieved sources. Increasing top-$k$ and poisoning multiple databases make it more likely that these signals will appear together in the retrieved context, while clean database diversity and stronger retrievers can reduce their influence. The document-level poisoning visibility analysis further shows that this threat is difficult to expose through isolated document inspection, since Micro-Collaborative Poisoning achieves downstream influence while leaving a weaker explicit poisoning signature than direct poisoning.",
+      "verified_pdf_marker": "2609.21573v1",
+      "pdf_sha256": "d41868beba34603bb1592fe005cdd8bc0085e7cbe8cfbd1704dab7d471b24f36",
+      "bytes": 791441,
+      "local_pdf": "02_RAG投毒与对抗攻击/20_LG089_2609.21573_Micro_Collaborative_Poisoning_A_Distributed_Attack_on_RAG_Systems.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG090",
+      "arxiv_id": "2609.15660",
+      "title": "CiteShade: Citation Laundering in Multi-Source Retrieval-Augmented Generation and Its Counterfactual Defense",
+      "authors_as_official_citation_metadata": [
+        "Fuzheng, Guo"
+      ],
+      "official_url": "https://arxiv.org/abs/2609.15660",
+      "version_pdf_url": "https://arxiv.org/pdf/2609.15660v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2609.15660v1",
+      "first_submitted_at_utc": "2026-09-14T14:41:37Z",
+      "version_submitted_at_utc": "2026-09-14T14:41:37Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-09-14T14:41:37Z"
+        }
+      ],
+      "search_date_text": "Submitted 14 September, 2026; originally announced September 2026.",
+      "arxiv_comments_author_claim_only": "17 pages, 4 figures, 18 tables",
+      "abstract": "Retrieval-augmented generation (RAG) grounds a language model's answers on retrieved external knowledge and returns each answer with citations that identify its sources. Those citations are the user's audit trail: they let a reader verify a claim without trusting the model. Prior security work on RAG asks whether an attacker can corrupt the answer, leaving the citation channel unexplored. We show that this channel is a new and practical attack surface. We propose CiteShade, the first citation laundering attack to RAG, in which an attacker controlling a single source induces a model to produce an attacker-chosen wrong answer and to attribute it to a trusted source that does not support it, while the evidence for the correct answer remains in context. We formulate the attack as an optimization problem, derive three necessary conditions (retrieval, generation, and citation) and construct sources satisfying them without any instruction. On multi-source multi-hop question answering the attack raises the wrong-answer rate from 0.01 to 0.68, and source deletion confirms the malicious source is the causal driver in every measured case. Vulnerability tracks a model's propensity to cite rather than its scale, reaching CLR 0.84 under explicit instruction and 0.64 with no instruction at all on the most citation-prone model tested. We then show that perplexity filtering and citation-support checking are each insufficient, and propose a counterfactual defense that verifies which source actually drove the answer.",
+      "verified_pdf_marker": "2609.15660v1",
+      "pdf_sha256": "4cd41aa63c4ade890b9ccf3c7c5d6d1dcba7d8136b8825a26ddb265dd076909d",
+      "bytes": 675775,
+      "local_pdf": "02_RAG投毒与对抗攻击/21_LG090_2609.15660_CiteShade_Citation_Laundering_in_Multi_Source_Retrieval_Augmented_Generation.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG091",
+      "arxiv_id": "2608.04756",
+      "title": "PURPOSE: Poisoning Conflict Resolution in RAG via Proxy-Fact-Grounded Updates",
+      "authors_as_official_citation_metadata": [
+        "Wang, Zijian",
+        "Zhu, Yubo",
+        "Dong, Muzhi",
+        "Lou, Yanjun",
+        "Li, Yisheng",
+        "Zhang, ZiLiang",
+        "Tong, Wei",
+        "Zhang, Yuan",
+        "Hua, Jingyu",
+        "Zhong, Sheng"
+      ],
+      "official_url": "https://arxiv.org/abs/2608.04756",
+      "version_pdf_url": "https://arxiv.org/pdf/2608.04756v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2608.04756.pdf",
+      "first_submitted_at_utc": "2026-08-05T12:23:24Z",
+      "version_submitted_at_utc": "2026-08-05T12:23:24Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-08-05T12:23:24Z"
+        }
+      ],
+      "search_date_text": "Submitted 5 August, 2026; originally announced August 2026.",
+      "arxiv_comments_author_claim_only": "",
+      "abstract": "In Retrieval-Augmented Generation (RAG), post-retrieval conflict resolution arbitrates among noisy or contradictory retrieved passages. However, the robustness of this safeguard against knowledge poisoning has not been adequately studied. Existing black-box poisoning methods all assert the target answer in frontal contradiction with what the resolver treats as settled, the very signal these methods are built to detect. We propose PURPOSE, a strict black-box poisoning attack that reframes the injection as an update that minimizes conflict, rather than as a counter-claim. PURPOSE extracts query-related facts approximating the resolver's possible reference, then grounds a pivot event in them to keep the injection consistent with what the resolver might verify while steering the generator toward the target answer. Across three QA benchmarks, five generators, and three conflict-resolution methods, PURPOSE attains the highest attack success rate (ASR) in 35 of 45 settings and exceeds the strongest prior attack with +9.7 mean ASR points. These results show that our poisoning method is effective against conflict resolution in RAG and identify non-contradicting injection as a practical mode to enhance poisoning attack.",
+      "verified_pdf_marker": "2608.04756v1",
+      "pdf_sha256": "d3ec9a4b06d373253285d3df2247363817609725f8508c4743ec24664fe52767",
+      "bytes": 950605,
+      "local_pdf": "02_RAG投毒与对抗攻击/22_LG091_2608.04756_PURPOSE_Poisoning_Conflict_Resolution_in_RAG_via_Proxy_Fact_Grounded_Updates.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG092",
+      "arxiv_id": "2607.00422",
+      "title": "KidnapRAG: A Black-Box Attack for Hijacking Reasoning in Agentic Retrieval-Augmented Generation Systems",
+      "authors_as_official_citation_metadata": [
+        "Choi, Chanwoo",
+        "Kim, Euntae",
+        "Lee, Kyuho",
+        "Chun, Youngsam",
+        "Jeong, Jinhee",
+        "Kim, Eunmi",
+        "Oh, Myunggyo",
+        "Jang, Junseo",
+        "Chang, Buru"
+      ],
+      "official_url": "https://arxiv.org/abs/2607.00422",
+      "version_pdf_url": "https://arxiv.org/pdf/2607.00422v2",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2607.00422.pdf",
+      "first_submitted_at_utc": "2026-07-01T04:32:17Z",
+      "version_submitted_at_utc": "2026-08-28T04:35:25Z",
+      "version": "v2",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-07-01T04:32:17Z"
+        },
+        {
+          "version": "v2",
+          "submitted_at_utc": "2026-08-28T04:35:25Z"
+        }
+      ],
+      "search_date_text": "Submitted 28 August, 2026; v1 submitted 1 July, 2026; originally announced July 2026.",
+      "arxiv_comments_author_claim_only": "Accepted to the Main Conference of EMNLP 2026",
+      "abstract": "Retrieval-Augmented Generation (RAG) systems are vulnerable to poisoning attacks that inject malicious documents into the retrieval process to manipulate model outputs. Recent Agentic RAG systems are more robust to such attacks because they iteratively perform retrieval and reasoning, allowing them to ignore weakly relevant poisoned documents and preserve the reasoning chain induced by the user query. However, existing attacks on Agentic RAG systems often assume white-box access to system prompts, reasoning traces, retrievers, or model parameters, limiting their applicability in realistic settings. In this paper, we study black-box poisoning attacks against Agentic RAG systems, where the attacker can only publish externally retrievable poisoned documents. We propose KidnapRAG, a sequential poisoning attack that hijacks the agent's multi-step reasoning chain using three role-specific documents: Bait, Chain-Link, and Mal-Ins, which attract initial retrieval, induce query reformulation, and provide attacker-controlled evidence, respectively. Experiments across multiple Agentic RAG frameworks, LLM backbones, and benchmarks show that KidnapRAG consistently outperforms existing poisoning baselines under black-box conditions. Further analyses show that KidnapRAG progressively weakens the original retrieval intent, redirects retrieval behavior, and increases reliance on attacker-controlled evidence. Our code is publicly available at https://github.com/chanwoochoi316/KidnapRAG.",
+      "verified_pdf_marker": "2607.00422v2",
+      "pdf_sha256": "b3fcf795224c993d14118197bf6cca03d6cafc33580203892f5f63147bc2fa4f",
+      "bytes": 2208179,
+      "local_pdf": "02_RAG投毒与对抗攻击/23_LG092_2607.00422_KidnapRAG_A_Black_Box_Attack_for_Hijacking_Reasoning_in_Agentic_Retrieval_Au.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG093",
+      "arxiv_id": "2610.05826",
+      "title": "Bounded Provisional Visibility: Controlling Poisoning Exposure in Continuously Ingested RAG Vector Stores",
+      "authors_as_official_citation_metadata": [
+        "Xu, Chuhong",
+        "Yi, Lu",
+        "Qian, Gangzhen",
+        "Zhou, Kainan",
+        "Li, Zhaoyi",
+        "Xiao, Hang"
+      ],
+      "official_url": "https://arxiv.org/abs/2610.05826",
+      "version_pdf_url": "https://arxiv.org/pdf/2610.05826v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2610.05826.pdf",
+      "first_submitted_at_utc": "2026-10-05T05:28:57Z",
+      "version_submitted_at_utc": "2026-10-05T05:28:57Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-10-05T05:28:57Z"
+        }
+      ],
+      "search_date_text": "Submitted 5 October, 2026; originally announced October 2026.",
+      "arxiv_comments_author_claim_only": "8 pages, 2 figures, 1 table. Accepted at IEEE CBDCom 2026. Author accepted manuscript. Reproducibility artifact: this https URL",
+      "abstract": "Continuous ingestion can expose new retrieval-augmented generation (RAG) content to retrieval before vetting completes, creating a temporal attack surface that conventional admission decisions do not capture. We present a fail-closed provisional-visibility protocol that admits new content under a deadline, hides items whose verification has not committed in time, and supports lineage-scoped containment. The protocol bounds unvetted exposure by the configured visibility budget plus query-path enforcement delay; poisoning exposure remains conditional on verifier correctness. We evaluate the design on five workloads of encoded natural-language documents using an exact backend and Milvus. Under verifier backlog, the deadline reduced median poisoned retrievals from 34 (29--34) to 7 (6--7) relative to asynchronous admission without a deadline, with the same reduction in displaced clean results. Verify-before-visible avoided provisional exposure but delayed clean first visibility to 6.3 s, whereas provisional admission made content visible within 3 ms; expired clean items could nevertheless experience temporary availability gaps. Replaying decisions from a recipe-specific detector illustrated the protocol boundary: false promotions left poison visible, while false refusals excluded clean content from retrieval. Standalone Milvus tests characterized enforcement delay and concurrent HNSW retrieval on one node. These results clarify which guarantees come from the protocol and which outcomes depend on detector quality, while quantifying the freshness and availability trade-offs.",
+      "verified_pdf_marker": "2610.05826v1",
+      "pdf_sha256": "6253ca8c7021802a222622bfb479f9afcc88071143677f5cc37636664fe82189",
+      "bytes": 89400,
+      "local_pdf": "03_可信证据_防御与恢复/27_LG093_2610.05826_Bounded_Provisional_Visibility_Controlling_Poisoning_Exposure_in_Continuousl.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG094",
+      "arxiv_id": "2609.35773",
+      "title": "Socrates-RAG: Premise-Directed Inquiry against Coordinated Evidence Poisoning",
+      "authors_as_official_citation_metadata": [
+        "Zhao, Renyu",
+        "Zou, Xinyuan",
+        "Liu, Lanbin"
+      ],
+      "official_url": "https://arxiv.org/abs/2609.35773",
+      "version_pdf_url": "https://arxiv.org/pdf/2609.35773v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2609.35773.pdf",
+      "first_submitted_at_utc": "2026-07-29T06:03:52Z",
+      "version_submitted_at_utc": "2026-07-29T06:03:52Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-07-29T06:03:52Z"
+        }
+      ],
+      "search_date_text": "Submitted 29 July, 2026; originally announced September 2026.",
+      "arxiv_comments_author_claim_only": "",
+      "abstract": "Retrieval-augmented generation (RAG) defenses typically decide how to filter or aggregate a fixed retrieved set. In open-corpus question answering, however, decisive evidence may be absent from the initial context but retrievable, making the next query part of the reliability problem. We introduce Socrates-RAG, a premise-directed active retrieval policy that represents competing answers, selects an unresolved premise whose resolution would discriminate them, and uses newly acquired evidence to refine a subsequent query before answering or abstaining. We formalize the resulting finite-budget evidence state and give a conditional rescue guarantee relative to repeated or topical-query policies. We evaluate Socrates-RAG against a matched control in which the same backbone generates ordinary relevance-oriented search queries; both policies share the initial evidence, deterministic retriever, two-query/top-three budget, answer prompt, and label-free evidence-chain release rule. On a disjoint 48-world counterfactual evaluation, premise-directed inquiry raises safe accuracy from 79.2% to 93.8%, with 8 wins, 1 loss, and 39 ties (two-sided exact p=.0391). Decisive-evidence recall improves by the same margin, while unsafe answers fall from one to zero. Both policies solve all 24 one-hop cases; the gain is concentrated in two-hop cases, where Socrates-RAG substitutes a newly resolved premise into its second query. This controlled study isolates a specific benefit of premise-directed acquisition without claiming general robustness on the open Web.",
+      "verified_pdf_marker": "2609.35773v1",
+      "pdf_sha256": "6d4f1cdf02c0527d78b6edb946ad88e74865c8cae7254f826e3f724f741f3083",
+      "bytes": 292684,
+      "local_pdf": "03_可信证据_防御与恢复/28_LG094_2609.35773_Socrates_RAG_Premise_Directed_Inquiry_against_Coordinated_Evidence_Poisoning.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG095",
+      "arxiv_id": "2608.13010",
+      "title": "RAGSieve: Self-Referenced Local Contrast for Knowledge-Poison Detection in Retrieval-Augmented Generation",
+      "authors_as_official_citation_metadata": [
+        "Xu, Xinlong",
+        "Li, Yoshua Y."
+      ],
+      "official_url": "https://arxiv.org/abs/2608.13010",
+      "version_pdf_url": "https://arxiv.org/pdf/2608.13010v2",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2608.13010.pdf",
+      "first_submitted_at_utc": "2026-08-13T09:29:48Z",
+      "version_submitted_at_utc": "2026-09-08T06:10:17Z",
+      "version": "v2",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-08-13T09:29:48Z"
+        },
+        {
+          "version": "v2",
+          "submitted_at_utc": "2026-09-08T06:10:17Z"
+        }
+      ],
+      "search_date_text": "Submitted 8 September, 2026; v1 submitted 13 August, 2026; originally announced August 2026.",
+      "arxiv_comments_author_claim_only": "",
+      "abstract": "Retrieval-augmented generation uses an external corpus as inference-time evidence, allowing an attacker to promote a false answer by injecting a handful of documents. Detection must distinguish this manipulation from ordinary relevance without knowing which queries or documents are targeted. Existing detectors use text irregularity, candidate consensus, or corpus-level graph structure, whose reliability varies with the attack and local context. We present RAGSieve, which constructs a reference matched to each detection scope. At query time, RAGSieve-Query (RSQ) compares generation candidates with the lower-ranked tail of the same retrieval, exposing answer-token concentration and carrier-payload seams. At corpus time, RAGSieve-Graph (RSG) compares each document's strongest semantic relations with its own neighborhood floor to measure coordinated density. Neither requires poison labels, a trusted corpus, or training. Across three QA datasets, three dense retrievers, and six poisoning constructions, RSQ reaches 95.2% AUROC and detects 82.2% of poison at a 5% clean-removal budget, against 81.1% and 52.5% for the strongest query-time baseline; RSG reaches 93.3% and 79.8% against 79.4% and 37.6% for the strongest corpus-time baseline, with a 79.6% versus 1.4% detection rate on camouflaged injections. Joint deployment cuts attack success from 67.4% to 16.1% while retaining unpoisoned-retrieval F1 at 41.0%, compared with 42.1% without filtering. Source code is available at https://github.com/XrazyMee/RAGSieve.",
+      "verified_pdf_marker": "2608.13010v2",
+      "pdf_sha256": "856f6e753e0f4ea004670caf4fe6985b475444d8c6788153e9dbf2aa532696d7",
+      "bytes": 737297,
+      "local_pdf": "03_可信证据_防御与恢复/29_LG095_2608.13010_RAGSieve_Self_Referenced_Local_Contrast_for_Knowledge_Poison_Detection_in_Re.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG096",
+      "arxiv_id": "2609.38222",
+      "title": "Conformal Factuality Control for Multi-Hop Retrieval-Augmented Generation",
+      "authors_as_official_citation_metadata": [
+        "Rehman, Muhammad Aimal",
+        "Yeh, Chi-Kuang"
+      ],
+      "official_url": "https://arxiv.org/abs/2609.38222",
+      "version_pdf_url": "https://arxiv.org/pdf/2609.38222v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2609.38222.pdf",
+      "first_submitted_at_utc": "2026-09-27T23:55:03Z",
+      "version_submitted_at_utc": "2026-09-27T23:55:03Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-09-27T23:55:03Z"
+        }
+      ],
+      "search_date_text": "Submitted 27 September, 2026; originally announced September 2026.",
+      "arxiv_comments_author_claim_only": "15 pages, 2 figures. Code available at this https URL",
+      "abstract": "Retrieval-augmented generation (RAG) can ground large language models in external evidence, but retrieved context does not guarantee that generated claims are factually supported. This problem is especially relevant in multi-hop RAG, where retrieval and reasoning proceed through multiple dependent stages. We study whether claim-level conformal factuality control, previously developed for RAG, remains effective in this setting. We apply split-conformal claim filtering to multi-hop RAG and evaluate it on HotpotQA, Natural Questions, and TriviaQA using Llama 3.1 8B and GPT-4o-mini, together with a single-hop reference experiment. Across all six multi-hop model-dataset configurations, increasingly stringent conformal targets consistently increase the fraction of responses whose retained claims are fully supported. At the 95% target, this rate ranges from 95.80% to 97.20%, compared with 55.60%-76.03% without filtering. However, the improvement is strongly selective: only 4.41%-31.09% of generated claims are retained and 9.70%-51.40% of responses remain non-empty at the 95% target. These results show that conformal factuality extends to multi-hop RAG, while demonstrating that nominal reliability must be interpreted jointly with claim retention and abstention.",
+      "verified_pdf_marker": "2609.38222v1",
+      "pdf_sha256": "7514145e082fcae5df906d0535868443a4ce2757d9465b881c00d7fde9aa561e",
+      "bytes": 835605,
+      "local_pdf": "03_可信证据_防御与恢复/30_LG096_2609.38222_Conformal_Factuality_Control_for_Multi_Hop_Retrieval_Augmented_Generation.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG097",
+      "arxiv_id": "2609.10046",
+      "title": "Guaranteeing Faithful Evidence Extraction in Speculative Retrieval-Augmented Generation",
+      "authors_as_official_citation_metadata": [
+        "Signé, Quentin",
+        "Boughanem, Mohand",
+        "Moreno, Jose",
+        "Belkacem, Thiziri"
+      ],
+      "official_url": "https://arxiv.org/abs/2609.10046",
+      "version_pdf_url": "https://arxiv.org/pdf/2609.10046v2",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2609.10046.pdf",
+      "first_submitted_at_utc": "2026-09-09T11:21:07Z",
+      "version_submitted_at_utc": "2026-09-11T14:57:49Z",
+      "version": "v2",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-09-09T11:21:07Z"
+        },
+        {
+          "version": "v2",
+          "submitted_at_utc": "2026-09-11T14:57:49Z"
+        }
+      ],
+      "search_date_text": "Submitted 11 September, 2026; v1 submitted 9 September, 2026; originally announced September 2026.",
+      "arxiv_comments_author_claim_only": "",
+      "abstract": "Large Language Models (LLMs) are increasingly used as interfaces for information retrieval, but they remain prone to hallucinations and faithfulness errors, in which the generated answers diverge from the retrieved evidence. While Retrieval-Augmented Generation (RAG) and recent hybrid or semi-extractive approaches mitigate this issue, they do not guarantee that quoted or extracted spans are verbatim from the retrieved context. This limitation can have severe consequences in safety-critical domains, where answers must exactly match certified documentation. We introduce Constrained Hybrid Decoding (CHyD), a novel faithfulness-first paradigm for speculative RAG. While traditional speculative decoding is optimized for inference speed, CHyD repurposes this architecture to ensure faithful verbatim evidence extraction when the extraction mode is correctly triggered. Our approach enforces hard decoding constraints that restrict generation to continuous spans present in the retrieved documents. This design provides a robust but straightforward guarantee: any explicitly quoted span in the output appears verbatim in the provided context. We evaluate our method across state-of-the-art LLMs on diverse abstractive, extractive, and semi-extractive QA benchmarks, including technical datasets motivated by aircraft maintenance. Results show that existing hybrid methods frequently hallucinate quoted spans, with exact extraction accuracy dropping below 40% in technical domains. In contrast, our approach achieves near-perfect extraction faithfulness regardless of the model used. Although enforcing hard constraints introduces a trade-off with fluency-oriented metrics, our method improves exact answer correctness and remains competitive overall, highlighting its suitability for safety-critical information retrieval applications.",
+      "verified_pdf_marker": "2609.10046v2",
+      "pdf_sha256": "db6c2ce4bd6f9c3e1e3453bdc9ade8dcbf3e376b693e1ea9be388990a0082dd0",
+      "bytes": 3482703,
+      "local_pdf": "03_可信证据_防御与恢复/31_LG097_2609.10046_Guaranteeing_Faithful_Evidence_Extraction_in_Speculative_Retrieval_Augmented.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG098",
+      "arxiv_id": "2607.05069",
+      "title": "MIRAGE: Defending Long-Form RAG Against Misinformation Pollution",
+      "authors_as_official_citation_metadata": [
+        "Eletter, Saadeldine",
+        "Zeng, Ruihong",
+        "Wang, Yuxia",
+        "Panov, Maxim",
+        "Rubashevskii, Aleksandr",
+        "Nakov, Preslav"
+      ],
+      "official_url": "https://arxiv.org/abs/2607.05069",
+      "version_pdf_url": "https://arxiv.org/pdf/2607.05069v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2607.05069.pdf",
+      "first_submitted_at_utc": "2026-07-06T13:36:12Z",
+      "version_submitted_at_utc": "2026-07-06T13:36:12Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-07-06T13:36:12Z"
+        }
+      ],
+      "search_date_text": "Submitted 6 July, 2026; originally announced July 2026.",
+      "arxiv_comments_author_claim_only": "ACL-style preprint. 19 pages, 5 figures, 16 tables",
+      "abstract": "Retrieval-Augmented Generation (RAG) improves factuality by grounding LLMs in external evidence, but real-world retrieval is often polluted: semantically relevant passages may contain subtle misinformation, misleading framings, or fabrications. We introduce MIRAGE, a training-free, model-agnostic defense for long-form RAG. MIRAGE builds an NLI-based cross-document claim graph and applies a Defended-Claims Gate to either condition generation on a consistent, multi-source supported subset or to block retrieval and answer parametrically. We also release a minimal-edit pollution protocol spanning four perturbation families (Unambiguous, Conflicting, Misleading, Fabricated) to construct matched clean, mixed, and fully polluted evaluation regimes. Across four long-form QA benchmarks and multiple commercial and open-weight LLMs, pollution severely degrades vanilla RAG, while MIRAGE consistently restores factuality under mixed and fully polluted evidence and outperforms prior robust-RAG methods. Our implementation and datasets are available at https://github.com/SaadElDine/MIRAGE.",
+      "verified_pdf_marker": "2607.05069v1",
+      "pdf_sha256": "589c51b7e1c2f502e16511d97e2941c5daad6c3b624a0f15e31af225e5936dfa",
+      "bytes": 2428864,
+      "local_pdf": "03_可信证据_防御与恢复/32_LG098_2607.05069_MIRAGE_Defending_Long_Form_RAG_Against_Misinformation_Pollution.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG099",
+      "arxiv_id": "2609.21088",
+      "title": "Origin Is All You Need: Provenance-Aware Transformers for Structural Trust-Boundary Separation",
+      "authors_as_official_citation_metadata": [
+        "Zhang, Yuxuan",
+        "Huang, Jeff",
+        "Gu, Guofei"
+      ],
+      "official_url": "https://arxiv.org/abs/2609.21088",
+      "version_pdf_url": "https://arxiv.org/pdf/2609.21088v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2609.21088v1",
+      "first_submitted_at_utc": "2026-09-17T21:04:01Z",
+      "version_submitted_at_utc": "2026-09-17T21:04:01Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-09-17T21:04:01Z"
+        }
+      ],
+      "search_date_text": "Submitted 17 September, 2026; originally announced September 2026.",
+      "arxiv_comments_author_claim_only": "",
+      "abstract": "Indirect prompt injection (IPI) remains a central safety and security challenge for large language model (LLM) systems because standard transformers lack architectural notion of source authority. Retrieved documents, user inputs, and system instructions are all processed through the same undifferentiated attention mechanism, forcing the model to infer from wording alone what should be obeyed and what should be treated as data. We propose Provenance-Aware Transformers, a provenance-aware defense that makes application-supplied source labels actionable inside the model. Each input token is assigned a ring ID encoding its origin, and the model is augmented with origin embeddings, a learnable origin attention bias, and a learnable origin scale that preserves provenance under normalization. The resulting architecture enforces a structural boundary between authoritative and non-authoritative sources during generation. To instantiate this architecture on released pretrained models, we propose a two-stage fine-tuning pipeline to teach the model origin semantics and task behavior under ring constraints. Evaluation shows that Provenance-Aware Transformers maintain robust resistance to IPI both in-distribution and out-of-distribution while preserving utility comparable to the base pretrained model. More broadly, our work shows that exposing provenance as a first-class architectural signal can shift LLM safety alignment from brittle pattern matching toward explicit trust separation.",
+      "verified_pdf_marker": "2609.21088v1",
+      "pdf_sha256": "7f52aa1439f605c6c7f640acdac54716ad9cfbeffc89ee313cce37233f5a7922",
+      "bytes": 619865,
+      "local_pdf": "03_可信证据_防御与恢复/33_LG099_2609.21088_Origin_Is_All_You_Need_Provenance_Aware_Transformers_for_Structural_Trust_Bo.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG100",
+      "arxiv_id": "2609.29695",
+      "title": "EvLink: Source-Grounded Evidence Linking for Graph RAG",
+      "authors_as_official_citation_metadata": [
+        "Zheng, Linyao",
+        "Shi, Xuhang",
+        "Mao, Zhifang",
+        "Zhou, Sai",
+        "An, Shuaixian",
+        "Hou, Xiuquan"
+      ],
+      "official_url": "https://arxiv.org/abs/2609.29695",
+      "version_pdf_url": "https://arxiv.org/pdf/2609.29695v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2609.29695v1",
+      "first_submitted_at_utc": "2026-08-31T08:35:23Z",
+      "version_submitted_at_utc": "2026-08-31T08:35:23Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-08-31T08:35:23Z"
+        }
+      ],
+      "search_date_text": "Submitted 31 August, 2026; originally announced September 2026.",
+      "arxiv_comments_author_claim_only": "Accepted to EMNLP2026 MainConference",
+      "abstract": "Graph-based Retrieval-Augmented Generation (GraphRAG) supports multi-hop reasoning by organizing corpora into structured graphs. However, graph reachability often captures semantic association rather than evidence support, so a reachable passage may still fail to justify a required cross-passage transition. We propose EvLink, an evidence-linking retriever that preserves passages as retrievable evidence units and builds evidence-supported transitions between them. EvLink constructs two types of reliable links: relation-grounded evidence links justified by explicit source relations, and endpoint-alignment links serving as sourcebounded fallbacks. For retrieval, we introduce a two-stage retrieval strategy. First, bounded breadth-first search over source-grounded evidence links recovers bridge passages missed by similarity-based methods. Then, evidenceneed mining with noisy-OR coverage refinement selects a compact, non-redundant evidence set satisfying distinct question facets. Experiments on three multi-hop and two simple QA benchmarks show EvLink consistently outperforms leading GraphRAG baselines with average gains of 2.4 R@5, 1.9 EM, and 2.4 F1",
+      "verified_pdf_marker": "2609.29695v1",
+      "pdf_sha256": "4897b6af5df755cbddd68c3c586e701016c6fc20c2d29a84a783d70754445580",
+      "bytes": 1290697,
+      "local_pdf": "03_可信证据_防御与恢复/34_LG100_2609.29695_EvLink_Source_Grounded_Evidence_Linking_for_Graph_RAG.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG101",
+      "arxiv_id": "2608.16004",
+      "title": "LineageRAG: Harnessing GraphRAG by Constructing Evidence Lineages with Source Grounding",
+      "authors_as_official_citation_metadata": [
+        "Zheng, Linyao",
+        "Shi, Xuhang",
+        "Mao, Zhifang",
+        "Zhou, Sai",
+        "An, Shuaixian",
+        "Hou, Xiuquan",
+        "Li, Jinze"
+      ],
+      "official_url": "https://arxiv.org/abs/2608.16004",
+      "version_pdf_url": "https://arxiv.org/pdf/2608.16004v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2608.16004v1",
+      "first_submitted_at_utc": "2026-08-17T01:42:55Z",
+      "version_submitted_at_utc": "2026-08-17T01:42:55Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-08-17T01:42:55Z"
+        }
+      ],
+      "search_date_text": "Submitted 16 August, 2026; originally announced August 2026.",
+      "arxiv_comments_author_claim_only": "",
+      "abstract": "Graph-based Retrieval-Augmented Generation (GraphRAG) retrieves evidence for multi-hop questions over structured cor- pus graphs. Existing GraphRAG methods leave the connection between evidence discovery and source grounding implicit. We propose LineageRAG, which constructs one evidence lin- eage for each query-derived evidence demand and completes it with a verbatim source span when the selected evidence supports that demand. LineageRAG first initializes the evi- dence demands. It then expands each lineage through demand- conditioned retrieval over the corpus graph while retaining the demand associated with every candidate. Lineage completion uses this provenance to select complementary passages and grounds supported demands in verbatim source text. Experi- ments on HotpotQA, 2WikiMultiHopQA, and MuSiQue show that LineageRAG improves R@5, EM, and F1 by 3.51, 5.96, and 5.22 points on average over leading GraphRAG baselines.",
+      "verified_pdf_marker": "2608.16004v1",
+      "pdf_sha256": "198c88a9783913efb5fa9d5140b7e866f4734fe6e740b4b0453a78e2ad3fa82a",
+      "bytes": 1159932,
+      "local_pdf": "03_可信证据_防御与恢复/35_LG101_2608.16004_LineageRAG_Harnessing_GraphRAG_by_Constructing_Evidence_Lineages_with_Source.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG102",
+      "arxiv_id": "2610.20634",
+      "title": "Jev-as-a-Judge for RAG Claim Verification: Confidence-Gated Cascading Between a Non-Generative Verifier and a Frontier LLM",
+      "authors_as_official_citation_metadata": [
+        "Rosario, Alden Do",
+        "Atef, Kirollos"
+      ],
+      "official_url": "https://arxiv.org/abs/2610.20634",
+      "version_pdf_url": "https://arxiv.org/pdf/2610.20634v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2610.20634.pdf",
+      "first_submitted_at_utc": "2026-09-30T15:32:51Z",
+      "version_submitted_at_utc": "2026-09-30T15:32:51Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-09-30T15:32:51Z"
+        }
+      ],
+      "search_date_text": "Submitted 30 September, 2026; originally announced October 2026.",
+      "arxiv_comments_author_claim_only": "31 pages, 6 figures. Code and data: this https URL",
+      "abstract": "Retrieval-augmented generation asks one question at volume: does this evidence support this claim? The answer is one bit, yet most pipelines obtain it from a text generator and pay generation prices for the prose wrapped around it. We compare a non-generative decision model, which returns a typed value from a declared enumeration together with a native probability and no text, against a frontier LLM configured as an engineer would deploy it for binary classification. Both answer the same 495 human-labelled claims from LLM-AggreFact, so every comparison is within-item. We report three things. First, the two systems are statistically indistinguishable on the metric this task is conventionally scored by, a paired difference of -0.56 points, Jev minus Astra, at a 187-fold cost difference. Second, that tie carries almost no information about deployment: the systems disagree on 15.2% of claims, and the cheaper one admits 23.2% of the claims annotators marked unsupported against the frontier model's 14.1%. A component whose job is to catch unsupported claims should be judged on that rate, and the conventional headline hides it. Third, because the errors differ they compose: routing the claims the cheap model is confident about and escalating the rest reaches 74.10 at USD 2.92 per thousand claims against 73.83 at USD 8.93, with the threshold chosen out of fold. But a matched random-escalation control at in-sample thresholds, spending the same budget by coin flip, does as well, so what buys the saving is the escalation share and not the probability that picks what to escalate. Measured against the cheap model it is built from, the cascade costs 61-fold more for 0.83 points, 95% CI [-3.36, 4.86], and it is the more permissive guard of the two. Equal accuracy conceals unequal errors. All predictions, prompts, pricing and code are released.",
+      "verified_pdf_marker": "2610.20634v1",
+      "pdf_sha256": "bb012bacb183fc17aa239b3d4c5996353b665c07143492f8551de777ea960507",
+      "bytes": 690766,
+      "local_pdf": "03_可信证据_防御与恢复/36_LG102_2610.20634_Jev_as_a_Judge_for_RAG_Claim_Verification_Confidence_Gated_Cascading_Between.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG103",
+      "arxiv_id": "2610.04691",
+      "title": "RAGStress: A controlled benchmark for evaluating retrieval-augmented generation under knowledge-base degradation",
+      "authors_as_official_citation_metadata": [
+        "Yang, Shiqi",
+        "Ma, Jiekai",
+        "Du, Gaoyuan"
+      ],
+      "official_url": "https://arxiv.org/abs/2610.04691",
+      "version_pdf_url": "https://arxiv.org/pdf/2610.04691v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2610.04691.pdf",
+      "first_submitted_at_utc": "2026-10-03T18:07:17Z",
+      "version_submitted_at_utc": "2026-10-03T18:07:17Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-10-03T18:07:17Z"
+        }
+      ],
+      "search_date_text": "Submitted 3 October, 2026; originally announced October 2026.",
+      "arxiv_comments_author_claim_only": "",
+      "abstract": "Retrieval-Augmented Generation (RAG) is typically evaluated under the implicit assumption that the underlying knowledge base (KB) is clean, leaving the behaviour of RAG systems under realistic KB degradation poorly characterised. We introduce RAGStress, a controlled evaluation benchmark for stress-testing RAG systems under systematic KB corruption. The benchmark pairs four naturalistic corruption types (factual corruption, numeric typo, relevance poisoning, and contradiction injection) with three severity levels (subtle, moderate, and obvious) over a single-KB, metadata-filtered experimental design built from 57 MMLU subjects and 182,546 documents. Across 52,500 model-question-condition evaluations, RAGStress reveals that clean retrieval can mask robustness differences, semantic-fidelity corruptions are substantially more harmful than signal-utility perturbations, no-retrieval accuracy does not predict corrupted-retrieval robustness, and mixed-KB accuracy should not be treated as worst-case robustness. We document the benchmark's intended use, supported claims, and limitations, and provide an artifact bundle including generation scripts, corruption prompts, metadata schema, and evaluation code. RAGStress is intended as a controlled stress test for RAG robustness under KB corruption, not as a general model leaderboard.",
+      "verified_pdf_marker": "2610.04691v1",
+      "pdf_sha256": "137294d07c62e40baa496bf02f0be21e36d7981f71b068e2b9086d196dd7e192",
+      "bytes": 479032,
+      "local_pdf": "04_评测基准与审计/14_LG103_2610.04691_RAGStress_A_controlled_benchmark_for_evaluating_retrieval_augmented_generati.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG104",
+      "arxiv_id": "2608.17153",
+      "title": "When Detection Does Not Guarantee Resistance: Reasoning and Poisoned Context in RAG",
+      "authors_as_official_citation_metadata": [
+        "Ghassabi, Mehrdad",
+        "Ebrahimi, Audrina",
+        "Hakim, Sadra",
+        "Kashani, Hamidreza Baradaran",
+        "Zojaji, Zahra",
+        "Fard, Amin Milani"
+      ],
+      "official_url": "https://arxiv.org/abs/2608.17153",
+      "version_pdf_url": "https://arxiv.org/pdf/2608.17153v4",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2608.17153.pdf",
+      "first_submitted_at_utc": "2026-08-17T21:37:20Z",
+      "version_submitted_at_utc": "2026-09-30T23:12:12Z",
+      "version": "v4",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-08-17T21:37:20Z"
+        },
+        {
+          "version": "v2",
+          "submitted_at_utc": "2026-09-16T22:08:55Z"
+        },
+        {
+          "version": "v3",
+          "submitted_at_utc": "2026-09-19T16:12:50Z"
+        },
+        {
+          "version": "v4",
+          "submitted_at_utc": "2026-09-30T23:12:12Z"
+        }
+      ],
+      "search_date_text": "Submitted 30 September, 2026; v1 submitted 17 August, 2026; originally announced August 2026.",
+      "arxiv_comments_author_claim_only": "7 pages",
+      "abstract": "Retrieval-Augmented Generation (RAG) exposes large language models to knowledge-poisoning attacks, where misinformation injected into retrieved documents can influence model outputs. Prior work has shown that models may detect contradictory evidence yet still allow it to influence their responses, revealing a gap between monitoring and control. We investigate whether deliberative reasoning changes this relationship. Because attack success and poison detection alone do not reveal whether detected poison continues to influence the final answer, we use two complementary measures: Cordon Rate, the probability that a model detects poison and nevertheless produces a poison-aligned answer, conditioned on a non-poison-aligned no-RAG response; and Leakage Rate, the probability that poisoned context influences the answer despite an explicit instruction to ignore retrieved documents. Across 200 SciFact questions, we compare reasoning-disabled and reasoning-enabled configurations of DeepSeek-V4-Flash and Qwen3.6-Plus. For DeepSeek-V4-Flash, reasoning reduces Cordon Rate from 0.205 to 0.075 and Leakage Rate from 0.235 to 0.140, despite increasing Attack Success Rate from 0.233 to 0.298 and decreasing Poison Detection Rate from 0.965 to 0.665. Qwen3.6-Plus shows the same qualitative pattern. These results demonstrate that poison detection and downstream influence capture distinct aspects of poisoning behavior.",
+      "verified_pdf_marker": "2608.17153v4",
+      "pdf_sha256": "747743e46320d8b1b50d361030e6211020001ae5dc8909567e96af55a3a44c8e",
+      "bytes": 194312,
+      "local_pdf": "04_评测基准与审计/15_LG104_2608.17153_When_Detection_Does_Not_Guarantee_Resistance_Reasoning_and_Poisoned_Context.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG105",
+      "arxiv_id": "2606.11265",
+      "title": "When Poison Fails After Retrieval: Revisiting Corpus Poisoning under Chunking and Reranking Pipelines",
+      "authors_as_official_citation_metadata": [
+        "Nie, Xi",
+        "Li, Hongwei",
+        "Wu, Shenghao",
+        "Li, Mingxuan",
+        "Li, Jiachen",
+        "Jiang, Wenbo"
+      ],
+      "official_url": "https://arxiv.org/abs/2606.11265",
+      "version_pdf_url": "https://arxiv.org/pdf/2606.11265v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2606.11265.pdf",
+      "first_submitted_at_utc": "2026-06-09T04:45:28Z",
+      "version_submitted_at_utc": "2026-06-09T04:45:28Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-06-09T04:45:28Z"
+        }
+      ],
+      "search_date_text": "Submitted 9 June, 2026; originally announced June 2026.",
+      "arxiv_comments_author_claim_only": "",
+      "abstract": "Retrieval-Augmented Generation (RAG) systems are vulnerable to corpus poisoning attacks that manipulate downstream model outputs through malicious knowledge injection. Existing studies mainly evaluate poisoning under simplified retrieval settings, overlooking practical RAG pipelines involving document chunking, dense retrieval, reranking, and grounded generation. In this paper, we revisit corpus poisoning under realistic multi-stage retrieval pipelines and show that many existing attacks substantially degrade after reranking despite achieving high retrieval-stage relevance. We identify retrieval granularity mismatch as a key reason for this failure: document-level adversarial signals are often fragmented during chunking, while rerankers favor locally coherent and answer-bearing passages rather than globally optimized semantic similarity. Based on this observation, we propose Chunk-aware and Rerank-Consistent Poisoning (CRCP), a poisoning framework that jointly optimizes retrieval relevance, reranker consistency, and chunk-boundary robustness. CRCP explicitly models chunking transformations during optimization to generate locally self-contained adversarial passages that remain effective under varying chunking configurations. Experiments on standard RAG benchmarks with multiple retrievers and rerankers show that existing poisoning methods are highly sensitive to chunk size and reranking strategies, whereas CRCP achieves substantially higher attack success rates and stronger robustness across realistic retrieval pipelines. Our findings highlight an important realism gap in current RAG security evaluation and suggest that poisoning in modern RAG systems should be studied as a multi-stage retrieval consistency problem rather than a retrieval-only problem.",
+      "verified_pdf_marker": "2606.11265v1",
+      "pdf_sha256": "be2f8c71d1f368e2714cdef9211790f501a4d8ae8eda05014ed9e9ffd00ed9e6",
+      "bytes": 1207010,
+      "local_pdf": "04_评测基准与审计/16_LG105_2606.11265_When_Poison_Fails_After_Retrieval_Revisiting_Corpus_Poisoning_under_Chunking.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG106",
+      "arxiv_id": "2606.25721",
+      "title": "Tracing Target Answers in Poisoned Retrieval Corpora via Token Influence Attribution",
+      "authors_as_official_citation_metadata": [
+        "Chen, Yan-Lun",
+        "Chen, Pin-Yu",
+        "Yu, Chia-Mu",
+        "Lin, Ying-Dar",
+        "Wu, Yu-Sung",
+        "Lee, Wei-Bin"
+      ],
+      "official_url": "https://arxiv.org/abs/2606.25721",
+      "version_pdf_url": "https://arxiv.org/pdf/2606.25721v2",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2606.25721.pdf",
+      "first_submitted_at_utc": "2026-06-24T11:39:26Z",
+      "version_submitted_at_utc": "2026-08-26T12:46:46Z",
+      "version": "v2",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-06-24T11:39:26Z"
+        },
+        {
+          "version": "v2",
+          "submitted_at_utc": "2026-08-26T12:46:46Z"
+        }
+      ],
+      "search_date_text": "Submitted 26 August, 2026; v1 submitted 24 June, 2026; originally announced June 2026.",
+      "arxiv_comments_author_claim_only": "This paper has been accepted to EMNLP 2026 Industry Track",
+      "abstract": "Retrieval-Augmented Generation (RAG) systems are vulnerable to corpus poisoning attacks that manipulate model outputs through malicious retrieved documents. Existing detection methods typically rely on auxiliary classifiers or additional LLM-based verification, introducing substantial computational overhead. We present TRACE, a lightweight detection framework that identifies poisoning attacks by tracing answer-related tokens through token influence attribution. TRACE first discovers recurrent high-influence keywords across retrieved documents and then performs a secondary verification to confirm their influence on model predictions. Experiments on three QA benchmarks and six LLMs demonstrate strong detection performance while simultaneously uncovering attacker-specified target answers.",
+      "verified_pdf_marker": "2606.25721v2",
+      "pdf_sha256": "153e49f641bbed17853663a6b82c063f5c41ce5776f58317dac5d524fc9b952d",
+      "bytes": 3094392,
+      "local_pdf": "04_评测基准与审计/17_LG106_2606.25721_Tracing_Target_Answers_in_Poisoned_Retrieval_Corpora_via_Token_Influence_Att.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG107",
+      "arxiv_id": "2610.21184",
+      "title": "Beyond Retrieval Failure: Understanding Why LLMs Miss Evidence in Multi-Hop RAG",
+      "authors_as_official_citation_metadata": [
+        "Wei, Jiaqi",
+        "Huang, Wenxuan",
+        "Xu, Chengdong",
+        "Zhang, Xiang",
+        "Ouyang, Wanli"
+      ],
+      "official_url": "https://arxiv.org/abs/2610.21184",
+      "version_pdf_url": "https://arxiv.org/pdf/2610.21184v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2610.21184.pdf",
+      "first_submitted_at_utc": "2026-10-15T03:39:25Z",
+      "version_submitted_at_utc": "2026-10-15T03:39:25Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-10-15T03:39:25Z"
+        }
+      ],
+      "search_date_text": "Submitted 14 October, 2026; originally announced October 2026.",
+      "arxiv_comments_author_claim_only": "Accepted by DAI 2026 Oral",
+      "abstract": "Multi-hop retrieval-augmented generation (RAG) requires an agent to retrieve evidence for a sequence of dependent sub-questions. When a wrong answer lacks a required passage, the passage may be inaccessible to the retriever, or the agent may have failed to issue a query that would retrieve it. Standard retrieval evaluations conflate these two causes. We study how much apparent retrieval failure is instead caused by search drift: the search no longer tracks an unanswered sub-question. Holding the retriever, corpus, and generation model fixed, we introduce ExecutionRAG, a training-free requirement register that records open sub-questions and their supporting evidence. The register changes search guidance but not evidence access, so each gold passage it recovers certifies that the passage was reachable by the original retriever. On 1,000 MuSiQue questions, the number of wrong answers with unretrieved required evidence falls from 382 to 234 with all-MiniLM-L6-v2 and from 383 to 274 with Qwen3-Embedding-0.6B. These counts correspond to 69% to 44% and 66% to 48% of each system's wrong answers, respectively. Crucially, evidence recovery does not produce a proportional reduction in total error: premature resolutions and abstentions increase as missing-evidence failures decrease. The central finding is therefore a shift in the remaining bottleneck, from guiding search toward required evidence to verifying that the retrieved evidence is sufficient.",
+      "verified_pdf_marker": "2610.21184v1",
+      "pdf_sha256": "2459ab0d3ea87e643d091c958224437bb068a948b547465f7de965d48dff4f2e",
+      "bytes": 1150798,
+      "local_pdf": "04_评测基准与审计/18_LG107_2610.21184_Beyond_Retrieval_Failure_Understanding_Why_LLMs_Miss_Evidence_in_Multi_Hop_R.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG108",
+      "arxiv_id": "2609.39075",
+      "title": "RAGScope: A Leakage-Controlled, Cost-Aware Evidence-Gating Protocol for RAG Hallucination Triage",
+      "authors_as_official_citation_metadata": [
+        "Liu, Zeming",
+        "Chen, Qibai",
+        "Zhang, Jingtao",
+        "Lyu, Hang"
+      ],
+      "official_url": "https://arxiv.org/abs/2609.39075",
+      "version_pdf_url": "https://arxiv.org/pdf/2609.39075v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2609.39075.pdf",
+      "first_submitted_at_utc": "2026-09-30T06:13:17Z",
+      "version_submitted_at_utc": "2026-09-30T06:13:17Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-09-30T06:13:17Z"
+        }
+      ],
+      "search_date_text": "Submitted 30 September, 2026; originally announced September 2026.",
+      "arxiv_comments_author_claim_only": "8 pages, 5 figures, 8 tables. Accepted at the 2026 IEEE International Conference on Tools with Artificial Intelligence (ICTAI 2026)",
+      "abstract": "Retrieval-augmented generation (RAG) systems need inexpensive ways to route generated answers: accept low-risk outputs, review uncertain ones, and reserve strong verifiers for the expensive tail. We present RAGScope, a leakage-controlled protocol for evaluating local evidence gates that use only the task input, retrieved context, and answer text. The protocol combines context-grouped splits, fold-scoped preprocessing, group bootstrap intervals, deployment operating points, end-to-end runtime, and explicit source-shift stress tests. On three RAGTruth tasks, the enhanced gate RAGScope-E reaches 0.798 AUROC and 0.660 average precision (AP) in pooled grouped cross-validation. Its pooled AP exceeds ROUGE-L by 0.034 with a 95% context-group interval of [0.002, 0.064], although the AUROC gain is not significant and ROUGE-L remains stronger on data-to-text. At a top-10% review budget, RAGScope-E attains 0.748 precision; accepting the lowest-risk 50% yields 0.141 residual unfaithfulness. RAGScope-E runs in 6.22 ms/example on CPU, versus 145.75 and 223.07 ms/example for the tested DeBERTa-NLI and HHEM settings. A 14,900-example HaluBench stress test exposes the deployment boundary: an in-domain calibrated gate reaches 0.879 AUROC, but leave-source-out calibration averages only 0.466. Target-only calibration recovers to 0.675 AUROC with 100 labels per source and 0.685 with 200. Cheap evidence gates are therefore useful routing components, but learned calibration must be validated and adapted within the target domain.",
+      "verified_pdf_marker": "2609.39075v1",
+      "pdf_sha256": "d09846fc811ba5ba496f16d906199041224fbdcdc2172b03e67c33118194ce1f",
+      "bytes": 267372,
+      "local_pdf": "04_评测基准与审计/19_LG108_2609.39075_RAGScope_A_Leakage_Controlled_Cost_Aware_Evidence_Gating_Protocol_for_RAG_Ha.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG109",
+      "arxiv_id": "2610.08571",
+      "title": "RAG-PIBench: A Leakage-Aware Benchmark for Prompt-Injection Detection in Trustworthy RAG Systems",
+      "authors_as_official_citation_metadata": [
+        "Jaffal, Niveen O.",
+        "Yuksel, Ahmet",
+        "Mohaisen, David"
+      ],
+      "official_url": "https://arxiv.org/abs/2610.08571",
+      "version_pdf_url": "https://arxiv.org/pdf/2610.08571v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2610.08571.pdf",
+      "first_submitted_at_utc": "2026-10-06T15:47:47Z",
+      "version_submitted_at_utc": "2026-10-06T15:47:47Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-10-06T15:47:47Z"
+        }
+      ],
+      "search_date_text": "Submitted 6 October, 2026; originally announced October 2026.",
+      "arxiv_comments_author_claim_only": "19 pages, 3 figures, 8 tables",
+      "abstract": "Retrieval-Augmented Generation (RAG) systems are vulnerable to prompt-injection attacks embedded in retrieved content. We introduce RAG-PIBench, a benchmark for RAG-style prompt-injection detection containing 4,876 contextual examples across frozen train, validation, and protected-test splits. Using a leakage-aware construction pipeline and strict evaluation protocol, we compare keyword-based, semantic-reference, TF-IDF, and transformer-based detectors. DistilBERT achieves the best protected-test performance (F1 = 0.896, PR-AUC = 0.968), while TF-IDF SVM and logistic regression remain competitive. Our results demonstrate the value of leakage-aware benchmark design and strong sparse baselines for reliable prompt-injection detection in RAG systems.",
+      "verified_pdf_marker": "2610.08571v1",
+      "pdf_sha256": "7bea9d946ee5700a65fe39cbea3232939395c8420f4ee8f716994454f47685de",
+      "bytes": 385319,
+      "local_pdf": "04_评测基准与审计/20_LG109_2610.08571_RAG_PIBench_A_Leakage_Aware_Benchmark_for_Prompt_Injection_Detection_in_Trus.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG110",
+      "arxiv_id": "2610.11183",
+      "title": "RAG-Stress: Probing the Limits of Evidence Reliance in Retrieval-Augmented Generation",
+      "authors_as_official_citation_metadata": [
+        "Zhou, Shunyuan",
+        "Chen, Hao",
+        "Wang, Tianyu",
+        "Lin, Goose",
+        "Wang, Zaiyuan",
+        "Zhao, Haiying"
+      ],
+      "official_url": "https://arxiv.org/abs/2610.11183",
+      "version_pdf_url": "https://arxiv.org/pdf/2610.11183v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2610.11183v1",
+      "first_submitted_at_utc": "2026-10-08T03:40:48Z",
+      "version_submitted_at_utc": "2026-10-08T03:40:48Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-10-08T03:40:48Z"
+        }
+      ],
+      "search_date_text": "Submitted 7 October, 2026; originally announced October 2026.",
+      "arxiv_comments_author_claim_only": "",
+      "abstract": "Following retrieved evidence does not guarantee factual correctness: misleading evidence can induce a model to replace an answer it previously gave correctly. Standard accuracy measures obscure this behavior by combining answer replacement with preexisting errors. We introduce RAG-Stress, a controlled diagnostic protocol for examining the limits of evidence reliance in retrieval-augmented generation. The protocol holds the question and reference answer fixed, edits one assertion to support a designated incorrect answer, and crosses two source priority policies with three positions of the answer span within the evidence text. We measure misleading rate (MR) on each model's subset of questions answered correctly without retrieval, alongside clean accuracy on the full evaluation set. We evaluate fifteen systems spanning API models, open models, and search agents trained with reinforcement learning on TriviaQA-RC, HotpotQA, and SearchQA, with additional English and Chinese MedQA evaluations. Instructions that prioritize documents consistently produce higher MR than those permitting reliance on prior knowledge. Averaged over models and positions, the gap ranges from 10.9 to 13.5 percentage points across the three QA datasets. Mean MR follows End $>$ Beginning $>$ Middle under both policies, although individual models do not uniformly follow this ordering. A separate paired audit of 500 questions and two checkpoints supports increased harmful override without establishing a corresponding improvement in beneficial correction. These findings distinguish evidence adherence from factual reliability and motivate evaluating whether retrieved evidence preserves, replaces, or corrects a model's answers.",
+      "verified_pdf_marker": "2610.11183v1",
+      "pdf_sha256": "e93559c6e4682570bd3ccc6f7db5e369a2e7fb9fa7879042d1fce4c1433974ce",
+      "bytes": 4052424,
+      "local_pdf": "04_评测基准与审计/21_LG110_2610.11183_RAG_Stress_Probing_the_Limits_of_Evidence_Reliance_in_Retrieval_Augmented_Ge.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG111",
+      "arxiv_id": "2605.28645",
+      "title": "GraphSteal: Structural Knowledge Stealing from Graph RAG via Traversal Reconstruction",
+      "authors_as_official_citation_metadata": [
+        "Gu, Jinze",
+        "Mao, Qinghua",
+        "Lin, Xi",
+        "Wu, Jun"
+      ],
+      "official_url": "https://arxiv.org/abs/2605.28645",
+      "version_pdf_url": "https://arxiv.org/pdf/2605.28645v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2605.28645.pdf",
+      "first_submitted_at_utc": "2026-05-27T15:50:14Z",
+      "version_submitted_at_utc": "2026-05-27T15:50:14Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-05-27T15:50:14Z"
+        }
+      ],
+      "search_date_text": "Submitted 27 May, 2026; originally announced May 2026.",
+      "arxiv_comments_author_claim_only": "",
+      "abstract": "Retrieval-Augmented Generation (RAG) enhances LLMs by grounding generation in query-relevant external evidence. Beyond unstructured text corpora, Graph RAG integrates knowledge graphs into the retrieval pipeline, enabling LLMs to access entities, relations, and multi-hop dependencies encoded in structured knowledge. However, the same structured knowledge that empowers Graph RAG also creates a new privacy attack surface. We demonstrate that Graph RAG systems can be turned into structural oracles: through adaptive black-box interactions, an adversary can elicit sufficient relational evidence to reconstruct substantial portions of the hidden knowledge graph. We propose a structure-oriented reconstruction framework that recovers targeted graphs from both local and global perspectives. Specifically, Depth-Wise Heuristic Search extracts fine-grained node attributes by recursively expanding entity-centered evidence, while Breadth-Wise Diffusion Search infers graph topology by propagating across relation-induced neighborhoods. Experiments on generic and healthcare scenarios demonstrate that our method can recover over 90\\% of the original knowledge graph from representative Graph RAG systems, revealing sensitive entities, relations, and structural dependencies with high fidelity. Existing guradrails provide limited defense against our attack, highlighting the inherent difficulty of safeguarding structural privacy in Graph RAG pipelines.",
+      "verified_pdf_marker": "2605.28645v1",
+      "pdf_sha256": "366b24b69eca139d0bcecfe305be043f5a86659348adbd5d35f0df2012b03183",
+      "bytes": 767268,
+      "local_pdf": "05_隐私保护与数据治理/07_LG111_2605.28645_GraphSteal_Structural_Knowledge_Stealing_from_Graph_RAG_via_Traversal_Recons.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG112",
+      "arxiv_id": "2610.22297",
+      "title": "Private Retrieval Augmented Generation via Random Projection",
+      "authors_as_official_citation_metadata": [
+        "Yao, Dixi",
+        "Rabbani, Tahseen",
+        "Li, Tian"
+      ],
+      "official_url": "https://arxiv.org/abs/2610.22297",
+      "version_pdf_url": "https://arxiv.org/pdf/2610.22297v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2610.22297.pdf",
+      "first_submitted_at_utc": "2026-10-15T17:45:51Z",
+      "version_submitted_at_utc": "2026-10-15T17:45:51Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-10-15T17:45:51Z"
+        }
+      ],
+      "search_date_text": "Submitted 15 October, 2026; originally announced October 2026.",
+      "arxiv_comments_author_claim_only": "",
+      "abstract": "Retrieval-Augmented Generation (RAG) enhances the capabilities of large language models (LLMs) by querying external structured knowledge. However, it can also introduce privacy risks by leaking sensitive information from the retrieval datastore. We propose a simple method to preserve datastore privacy in RAG systems via random projection. By applying the same projection to both datastore embeddings and query embeddings, our method provably preserves semantic similarity between queries and retrieved items while substantially mitigating data extraction attacks. Across multiple RAG architectures and datasets, we show that this lightweight approach achieves superior retrieval and generation performance compared to prior methods which leverage formal differential privacy (DP) guarantees, while exhibiting comparable empirical privacy under strong attack models. Our results for the first time suggest that random projection can serve as a competitive and practical baseline for privacy-preserving RAG systems.",
+      "verified_pdf_marker": "2610.22297v1",
+      "pdf_sha256": "5855b6da991b2f79247397a10c3c79bc4d643f8e6da8e445c5d77e8affd1eb83",
+      "bytes": 598430,
+      "local_pdf": "05_隐私保护与数据治理/08_LG112_2610.22297_Private_Retrieval_Augmented_Generation_via_Random_Projection.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG113",
+      "arxiv_id": "2609.14649",
+      "title": "CIG-MIA: Context-Induced Information Gain Membership Inference Attacks against Retrieval-Augmented Generation",
+      "authors_as_official_citation_metadata": [
+        "Xue, Tan",
+        "Chang, Huo",
+        "Changhui, Wang",
+        "Sanrui, Yang",
+        "Heng, Li",
+        "Ping, Chen",
+        "Xiapu, Luo"
+      ],
+      "official_url": "https://arxiv.org/abs/2609.14649",
+      "version_pdf_url": "https://arxiv.org/pdf/2609.14649v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2609.14649.pdf",
+      "first_submitted_at_utc": "2026-09-13T16:34:57Z",
+      "version_submitted_at_utc": "2026-09-13T16:34:57Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-09-13T16:34:57Z"
+        }
+      ],
+      "search_date_text": "Submitted 13 September, 2026; originally announced September 2026.",
+      "arxiv_comments_author_claim_only": "",
+      "abstract": "Retrieval-augmented generation (RAG) systems ground large language models on external knowledge bases, enabling access to private, domain-specific, and up-to-date knowledge without retraining. However, the same retrieval interface can expose whether a candidate document is contained in the knowledge base. This paper studies knowledge base membership inference against RAG systems under both gray-box and text-only black-box access. Existing RAG membership inference attacks rely on signals such as direct membership prompts, response similarity, mask recovery, or query perturbation, which can be sensitive to prompt defenses, semantically related retrieved documents, and the generator's parametric knowledge. We introduce CIG-MIA, a membership inference attack based on context-induced information gain. The key insight is that explicit candidate-document injection affects members and non-members differently: if a document is already available through retrieval, injection provides little additional support for document-derived answers; if it is absent, injection introduces new evidence and yields a larger likelihood gain. In the gray-box setting, CIG-MIA computes this gain directly from token-level likelihoods. In the black-box setting, it estimates the same gain from generated text by scoring selected answer tokens with a lightweight surrogate-based estimator using semantic similarity and exact-match features. We evaluate CIG-MIA on Natural Questions, MS-MARCO, and HealthCareMagic against recent RAG membership inference baselines. On Natural Questions, CIG-MIA achieves an AUC of 0.99 in the gray-box setting and 0.93 in the black-box setting. We further analyze the information-gain signal, RAG configuration effects, ablations, and robustness to paraphrasing and generation randomness.",
+      "verified_pdf_marker": "2609.14649v1",
+      "pdf_sha256": "f10360ab5432894412b9a310491be53d797318ea681b16e65eada03e9397c699",
+      "bytes": 1118544,
+      "local_pdf": "05_隐私保护与数据治理/09_LG113_2609.14649_CIG_MIA_Context_Induced_Information_Gain_Membership_Inference_Attacks_agains.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG114",
+      "arxiv_id": "2610.22017",
+      "title": "CARA: Causally Guided Retrieval Agent for Question Answering",
+      "authors_as_official_citation_metadata": [
+        "Liu, Weicheng",
+        "Wu, Xiangcheng",
+        "Xu, Depeng",
+        "Zhang, Haopeng",
+        "Niu, Xi"
+      ],
+      "official_url": "https://arxiv.org/abs/2610.22017",
+      "version_pdf_url": "https://arxiv.org/pdf/2610.22017v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2610.22017.pdf",
+      "first_submitted_at_utc": "2026-10-15T14:57:14Z",
+      "version_submitted_at_utc": "2026-10-15T14:57:14Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-10-15T14:57:14Z"
+        }
+      ],
+      "search_date_text": "Submitted 15 October, 2026; originally announced October 2026.",
+      "arxiv_comments_author_claim_only": "16 pages, 2 figures, 5 tables",
+      "abstract": "Retrieval-augmented generation over text-rich knowledge graphs requires identifying evidence that contributes to answering a question, rather than merely matching its textual content. Existing agentic retrievers adaptively balance global search and multi-hop exploration but primarily rely on textual similarity to guide retrieval. We propose CARA, a training-free, CAusally guided Retrieval Agent that explicitly evaluates the causal relevance of retrieved evidence through two complementary criteria: consequentiality, measuring whether adding evidence improves answerability, and essentiality, assessing whether removing evidence weakens answerability. CARA integrates these assessments with path consistency to guide graph exploration and employs reciprocal rank fusion to aggregate evidence from multiple agents. We evaluate CARA on three STaRK datasets and augment STaRK with ground-truth answers to enable downstream question answering evaluation. Experimental results demonstrate that CARA consistently outperforms existing retrievers. CARA also improves answer quality and faithfulness while examining fewer graph nodes and requiring fewer retrieval operations. These findings demonstrate that causal relevance assessment enables more focused and effective agentic graph retrieval, improving both retrieval performance and downstream question answering.",
+      "verified_pdf_marker": "2610.22017v1",
+      "pdf_sha256": "3dea2cd3c6179912e5860b6a4f094c771a64b5be7061be05b4cc16ecfd5a527b",
+      "bytes": 404197,
+      "local_pdf": "06_检索架构与推理方法/12_LG114_2610.22017_CARA_Causally_Guided_Retrieval_Agent_for_Question_Answering.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG115",
+      "arxiv_id": "2610.15285",
+      "title": "Retrieving Complementary Evidence for Multi-Hop RAG with Semantic Gain Graphs",
+      "authors_as_official_citation_metadata": [
+        "Li, Zeliang",
+        "Xing, Xiaofen",
+        "Guo, Kailing",
+        "Xu, Xiangmin"
+      ],
+      "official_url": "https://arxiv.org/abs/2610.15285",
+      "version_pdf_url": "https://arxiv.org/pdf/2610.15285v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2610.15285.pdf",
+      "first_submitted_at_utc": "2026-10-11T02:30:20Z",
+      "version_submitted_at_utc": "2026-10-11T02:30:20Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-10-11T02:30:20Z"
+        }
+      ],
+      "search_date_text": "Submitted 10 October, 2026; originally announced October 2026.",
+      "arxiv_comments_author_claim_only": "",
+      "abstract": "Multi-hop retrieval-augmented generation (RAG) requires finding documents whose evidence is useful in combination. Query relevance and graph connectivity help locate related content, but neither directly measures the additional information one document contributes given another. We introduce SG$^2$RAG, a framework that represents this complementarity through semantic gain. Offline, a large language model assesses the relevant and nonredundant information contributed by one chunk given another within neighborhoods proposed by semantic similarity. These ordered assessments are aggregated into symmetric edge weights to construct a reusable Semantic Gain Graph. Online, controlled Personalized PageRank starts from query-relevant seeds and ranks complementary evidence beyond the initial retrieval set. Experiments on MuSiQue, 2Wiki, and HotpotQA with two language model backbones show that SG$^2$RAG achieves the best average EM, F1, and Recall@10 among the evaluated single-retrieval methods. Under identical candidate support and propagation, semantic gain improves average F1 and Recall@10 over similarity weighting by 4.08 and 4.31 points. Analyses of supporting documents and improvements in three iterative retrieval frameworks further support its effectiveness as a reusable retrieval component.",
+      "verified_pdf_marker": "2610.15285v1",
+      "pdf_sha256": "1bbcede0cafbe21df7244bdf1df9f65a66a2ac433b4146a1d80e9f789be2a6d8",
+      "bytes": 992081,
+      "local_pdf": "06_检索架构与推理方法/13_LG115_2610.15285_Retrieving_Complementary_Evidence_for_Multi_Hop_RAG_with_Semantic_Gain_Graph.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG116",
+      "arxiv_id": "2610.11370",
+      "title": "RIT-RAG: Navigating Document Corpora with Retrieval-Induced Trees",
+      "authors_as_official_citation_metadata": [
+        "Pulivarthi, Meghanadh",
+        "Biswal, Swaraj Kumar",
+        "Bhushan, Kushagra",
+        "Nandwani, Yatin",
+        "Joshi, Sachindra",
+        "Raghu, Dinesh"
+      ],
+      "official_url": "https://arxiv.org/abs/2610.11370",
+      "version_pdf_url": "https://arxiv.org/pdf/2610.11370v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2610.11370.pdf",
+      "first_submitted_at_utc": "2026-10-08T07:03:17Z",
+      "version_submitted_at_utc": "2026-10-08T07:03:17Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-10-08T07:03:17Z"
+        }
+      ],
+      "search_date_text": "Submitted 8 October, 2026; originally announced October 2026.",
+      "arxiv_comments_author_claim_only": "24 pages (main text through Limitations ends on page 9, followed by references and appendix), 9 figures, 16 tables",
+      "abstract": "Retrieval-augmented generation (RAG) grounds language models in external corpora. Agentic RAG enables iterative search, yet exposes the model to isolated chunks without document structure, making it difficult to distinguish relevant evidence from chunks that merely resemble the query. Structure-aware methods such as PageIndex navigate document structure but cannot scale to the structures of large corpora, which do not fit in the LLM context. Hence, they first commit to a single document using a document retriever and cannot recover from a wrong choice. We propose RIT-RAG (Retrieval-Induced Tree RAG), which combines content retrieval with structural navigation. Offline, RIT-RAG builds a tree for each document from its table of contents or sitemap. At query time, it retrieves a broad set of chunks and uses their positions to induce manageable sub-trees, potentially across multiple documents. An LLM agent navigates these sub-trees, selectively reads promising nodes, and reformulates queries when needed. Thus, retrieval proposes where to look, while the agent decides what to read. Across financial, scientific, and customer-support benchmarks, RIT-RAG achieves the highest answer accuracy among vanilla, graph-based, and agentic baselines. On EntQABench, our new benchmark of 2.84 million technical-documentation webpages, it improves accuracy by 6.8 to 11.4 points over the strongest baseline across three LLMs.",
+      "verified_pdf_marker": "2610.11370v1",
+      "pdf_sha256": "9a7adecdd53a743c6b48958c3b0b3f8a59be29522634d29b49342669d842c337",
+      "bytes": 481030,
+      "local_pdf": "06_检索架构与推理方法/14_LG116_2610.11370_RIT_RAG_Navigating_Document_Corpora_with_Retrieval_Induced_Trees.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG117",
+      "arxiv_id": "2610.19398",
+      "title": "RCER: Reconstructing Cross-Evidence Relations for Iterative Retrieval-Augmented Generation",
+      "authors_as_official_citation_metadata": [
+        "Zheng, Linyao",
+        "Shi, Xuhang",
+        "Mao, Zhifang",
+        "Hou, Xiuquan",
+        "Zhou, Sai"
+      ],
+      "official_url": "https://arxiv.org/abs/2610.19398",
+      "version_pdf_url": "https://arxiv.org/pdf/2610.19398v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2610.19398v1",
+      "first_submitted_at_utc": "2026-10-14T01:47:17Z",
+      "version_submitted_at_utc": "2026-10-14T01:47:17Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-10-14T01:47:17Z"
+        }
+      ],
+      "search_date_text": "Submitted 13 October, 2026; originally announced October 2026.",
+      "arxiv_comments_author_claim_only": "submitted to ARR October",
+      "abstract": "Iterative retrieval-augmented generation (RAG) accumulates knowledge from retrieved evidence to answer complex questions, but existing methods struggle to reconstruct entity correspondences and inferential dependencies across retrieved passages as new information emerges. We propose RCER, an iterative RAG method that reconstructs these cross-evidence relations directly from accumulated source passages. Inter-round relational evidence acquisition identifies entity correspondences and relational dependencies to drive dynamic problem decomposition and iterative retrieval. Reasoning context reconstruction independently constructs a coherent reasoning context through joint selection of complementary passages and derivation of cross-evidence inferences. Cross-evidence compositional reasoning leverages these inferences to establish entity correspondences and compose relations across selected passages for answer derivation. Experiments show that RCER outperforms the best baselines by 2.83 EM and 3.06 F1 points on average across three multi-hop QA benchmarks and achieves superior performance on narrative and implicit reasoning tasks.",
+      "verified_pdf_marker": "2610.19398v1",
+      "pdf_sha256": "bbd29e710cda3569416d44e0a863a90d587f198640a9d84312e31ef586ff0df7",
+      "bytes": 2760754,
+      "local_pdf": "06_检索架构与推理方法/15_LG117_2610.19398_RCER_Reconstructing_Cross_Evidence_Relations_for_Iterative_Retrieval_Augment.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG118",
+      "arxiv_id": "2609.28108",
+      "title": "Dual-Hypergraph Indexing: Bridging Knowledge Islands for Multi-Hop Reasoning in Retrieval-Augmented Generation",
+      "authors_as_official_citation_metadata": [
+        "Sun, Qi",
+        "Li, Caibo",
+        "Zhang, Yijia",
+        "Li, Qiang",
+        "Guo, Yu"
+      ],
+      "official_url": "https://arxiv.org/abs/2609.28108",
+      "version_pdf_url": "https://arxiv.org/pdf/2609.28108v2",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2609.28108v2",
+      "first_submitted_at_utc": "2026-09-23T13:39:19Z",
+      "version_submitted_at_utc": "2026-10-04T03:07:14Z",
+      "version": "v2",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-09-23T13:39:19Z"
+        },
+        {
+          "version": "v2",
+          "submitted_at_utc": "2026-10-04T03:07:14Z"
+        }
+      ],
+      "search_date_text": "Submitted 3 October, 2026; v1 submitted 23 September, 2026; originally announced September 2026.",
+      "arxiv_comments_author_claim_only": "5 pages, 1 figures. Preprint",
+      "abstract": "While hypergraph-based Retrieval-Augmented Generation (RAG) effectively captures higher-order multi-entity correlations, existing paradigms treat extracted hyperedges as isolated factual assertions. This structural fragmentation engenders rigid \"knowledge islands\" that bottleneck multi-hop causal inference, temporal tracking, and narrative synthesis. To systematically address these challenges, we introduce Dual-Hypergraph Indexing (DHI), a hierarchical representation framework that elevates discrete facts into structured analytical insights. DHI couples a foundational entity-relation factual hypergraph ($H_K$) with an elevated deep-insight hypergraph ($H_D$) via a dual-pathway aggregation algorithm. Specifically, DHI employs: (1) importance-driven hub aggregation via 5-metric topological profiling and adaptive thresholding to capture spatial semantic clusters; and (2) temporal chunk-chain progressive aggregation via sliding-window greedy exploration to track chronological evolutions. Across five benchmarks, DHI achieves state-of-the-art performance, boosting logical coherence by +1.53 on the multidisciplinary Mix benchmark and scoring 85.78\\% on complex medical pathology reasoning tasks. DHI provides a robust architecture for next-generation multi-hop RAG.",
+      "verified_pdf_marker": "2609.28108v2",
+      "pdf_sha256": "1a1e9ec0c3509f093dfbf8adfa2865063ac6cef094757295e3a669f4a178f6e0",
+      "bytes": 382048,
+      "local_pdf": "06_检索架构与推理方法/16_LG118_2609.28108_Dual_Hypergraph_Indexing_Bridging_Knowledge_Islands_for_Multi_Hop_Reasoning.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG119",
+      "arxiv_id": "2610.11893",
+      "title": "A Security Meta-Model for Retrieval-Augmented Generation Systems",
+      "authors_as_official_citation_metadata": [
+        "Nouyep, Steve",
+        "Salva, Sébastien",
+        "Puys, Maxime"
+      ],
+      "official_url": "https://arxiv.org/abs/2610.11893",
+      "version_pdf_url": "https://arxiv.org/pdf/2610.11893v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2610.11893v1",
+      "first_submitted_at_utc": "2026-10-08T13:03:42Z",
+      "version_submitted_at_utc": "2026-10-08T13:03:42Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-10-08T13:03:42Z"
+        }
+      ],
+      "search_date_text": "Submitted 8 October, 2026; originally announced October 2026.",
+      "arxiv_comments_author_claim_only": "",
+      "abstract": "Retrieval-Augmented Generation (RAG) systems extend large language models (LLMs) with external knowledge through a multi-stage pipeline. While this architecture can improve the factual grounding of generated answers, it introduces structural attack surfaces that extend beyond those of standalone LLMs. In this paper, we introduce a security meta-model that captures explicit causal relationships between RAG surfaces, attacks, weaknesses, risks, and CIA impact (Confidentiality, Integrity, Availability). Its purpose is to provide security engineers with a structured and user-friendly framework for gathering and assessing the risks, weaknesses, and mitigations relevant to their RAG deployment. We designed the meta-model through an iterative, structured analysis of 43~publications (2023--2026) and instantiated it as a catalog populated with the security threats and remediations reported in the literature. Filtering the catalog according to a deployment configuration produces a risk profile containing the risks applicable to that deployment. An interactive web visualizer lets users navigate the catalog as a graph, follow causal chains, and explore stakeholder-specific views. Analysis of the catalog revealed a persistent imbalance between attack-focused and defense-focused research, a concentration of threats at ingestion, and coverage gaps affecting output integrity. Coverage is assessed against the OWASP LLM Top~10, and operational applicability is illustrated across textual, graph-based, and multimodal RAG configurations.",
+      "verified_pdf_marker": "2610.11893v1",
+      "pdf_sha256": "dbee2833c0c93948d88b874d0de210643bb260c06f430434551ba5582c5cb3eb",
+      "bytes": 5362142,
+      "local_pdf": "07_综述与威胁模型/06_LG119_2610.11893_A_Security_Meta_Model_for_Retrieval_Augmented_Generation_Systems.pdf",
+      "retrieved_on": "2026-10-16"
+    },
+    {
+      "library_id": "LG120",
+      "arxiv_id": "2610.21245",
+      "title": "From One Query to Many: A Critical Survey of Privacy Accounting in RAG",
+      "authors_as_official_citation_metadata": [
+        "Zhang, Zhiyuan"
+      ],
+      "official_url": "https://arxiv.org/abs/2610.21245",
+      "version_pdf_url": "https://arxiv.org/pdf/2610.21245v1",
+      "initial_pdf_request_url": "https://arxiv.org/pdf/2610.21245v1",
+      "first_submitted_at_utc": "2026-10-15T04:41:03Z",
+      "version_submitted_at_utc": "2026-10-15T04:41:03Z",
+      "version": "v1",
+      "official_versions": [
+        {
+          "version": "v1",
+          "submitted_at_utc": "2026-10-15T04:41:03Z"
+        }
+      ],
+      "search_date_text": "Submitted 15 October, 2026; originally announced October 2026.",
+      "arxiv_comments_author_claim_only": "",
+      "abstract": "Retrieval-augmented generation (RAG) enables large language models to leverage external knowledge but introduces privacy risks when the retrieved corpus contains sensitive information. Differential privacy (DP) offers formal protection, yet interpreting and comparing privacy guarantees across existing DP-RAG methods remains challenging. In particular, a privacy budget reported for a single response does not directly characterize privacy loss over repeated queries, and even identical values of $\\varepsilon$ may represent different guarantees depending on the protected data unit, accounting horizon, and observable outputs. This survey critically examines how privacy accounting evolves from single-query generation to multi-query RAG systems. We categorize existing approaches into query-time privatization, multi-query accounting, and one-time corpus privatization. We analyze their underlying assumptions and privacy--utility trade-offs. Rather than ranking methods by $\\varepsilon$ alone, we propose a framework that interprets a DP-RAG guarantee along three dimensions: privacy granularity, accounting scope, and release boundaries. We conclude that an $\\eps$ is a claim only together with the three slots: the protected unit, the accounting scope, and the release boundary.",
+      "verified_pdf_marker": "2610.21245v1",
+      "pdf_sha256": "283ee129c2454c77e0eaa28d3a7ea65744da1b43e27b81adc683e135c115d0b1",
+      "bytes": 250398,
+      "local_pdf": "07_综述与威胁模型/07_LG120_2610.21245_From_One_Query_to_Many_A_Critical_Survey_of_Privacy_Accounting_in_RAG.pdf",
+      "retrieved_on": "2026-10-16"
+    }
+  ]
+}
